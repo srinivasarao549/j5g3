@@ -1,0 +1,99 @@
+<html>
+<head>
+	<title>JSGE - Bubble Example</title>
+	<script src="../src/jsge.js"></script>
+	<style>
+		canvas { width: 640px; height: 480px; }
+	</style>
+	<script>
+	
+		var game;
+
+		/**
+		 * Ball Object
+		 */
+		function Ball()
+		{
+			jsge.Image.apply(this, [{ source: 'soccer-ball.gif' }]);	
+
+			this.max_speed = 5;
+
+			this.diameter = this.width();
+			this.x(Math.random() * (game.canvas.width-this.diameter));
+			this.y(Math.random() * (game.canvas.height-this.diameter));
+
+			this.velocity = { x: Math.random() * this.max_speed, y: Math.random() * this.max_speed };
+			this.radius = this.diameter / 2;
+
+			/**
+			 * Update position and paint
+			 */
+			this.paint = function(context)
+			{
+				this.x(this.x() + this.velocity.x);
+				this.y(this.y() + this.velocity.y);
+
+				// wall collission
+				if (this.x() < 0 || this.x() > (game.canvas.width - this.diameter)) this.velocity.x = -this.velocity.x;
+				if (this.y() < 0 || this.y() > (game.canvas.height - this.diameter)) this.velocity.y = -this.velocity.y;
+				
+				jsge.Engine.algorithms.drawImage.apply(this, [context]);
+			};
+
+			this.collide = function(obj)
+			{
+				var dx = this.x() - obj.x();
+				var dy = this.y() - obj.y();
+				var dvx = this.velocity.x - obj.velocity.x;
+				var dvy = this.velocity.y - obj.velocity.y;
+
+				var mag = dvx * dx + dvy * dy;
+				if (mag > 0)
+					return;
+
+				var d2 = dx*dx + dy*dy;
+
+				mag /= d2;
+
+				dvx = dx * mag;
+				dvy = dy * mag;
+
+				this.velocity.x -= dvx;
+				this.velocity.y -= dvy;
+
+				obj.velocity.x += dvx;
+				obj.velocity.y += dvy;
+			};
+		};
+
+		function update()
+		{
+			var objs = game.root.frame();
+
+			for (var i = 0; i < window.max_balls; i++)
+				for (var j = i+1; j < window.max_balls; j++)
+					if (objs[i].collidesWith(objs[j]))
+						objs[i].collide(objs[j]);
+		};
+
+		function initialize()
+		{
+			game = jsge.Engine.initialize( { fps: 1000/60 } );
+			window.max_balls = 64;
+
+			for (var i = 0; i < window.max_balls; i++)
+			{
+				game.root.add(new Ball());
+			}
+
+			game.root.add(update);
+
+			game.run();
+		}
+	</script>
+</head>
+<body onload="initialize()">
+	<canvas id="screen">
+
+	</canvas>
+</body>

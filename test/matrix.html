@@ -1,0 +1,97 @@
+<html>
+<head>
+	<title>jsge.Matrix Test</title>
+	<script src="../jsge.js"></script>
+	<script src="../matrix.js"></script>
+	<script src="http://hackerhosting.com/ph-jquery/js/test.js"></script>
+</head>
+<body>
+	<script>
+
+		test( {
+			Initialization: function()
+			{
+				var m1 = new jsge.Matrix([[8, 3, 9], [2, 0, 7], [1, 9, 3]]);
+				var m2 = new jsge.Matrix(3, 2, 5);
+				assert_equal(m1.cols(), m1.rows());
+				assert_equal(3, m1.rows());
+				assert_equal(m2.rows(), 1);
+				assert_equal(3, m2.cols());
+			},
+
+			Diagonal: function()
+			{
+				var m1 = new jsge.Matrix.Diagonal(4, 3, 7, 1);
+				assert_equal(m1.e(0,0), 4);
+				assert_equal(m1.e(1,1), 3);
+				assert_equal(m1.e(2,2), 7);
+				assert_equal(m1.e(3,3), 1);
+			},
+
+			I: function()
+			{
+				var m1 = new jsge.Matrix.Diagonal(1, 1, 1, 1);
+				var m2 = new jsge.Matrix.I(4);
+				
+				for (x = 0; x < 4; x++)
+					assert_equal(m1.e(x,x), m2.e(x,x));
+				assert(m1.eq(m2));
+			},
+
+			Random: function()
+			{
+				var m1 = new jsge.Matrix.Random(2, 5);
+				var m2 = new jsge.Matrix.Random(2);
+				assert_equal(m1.cols(), 5);
+				assert_equal(m1.rows(), 2);
+				assert_equal(m2.rows(), 2);
+				assert_equal(m2.cols(), 2);
+			},
+
+			add: function()
+			{
+				var m1 = new jsge.Matrix([[1, 2, 3, 4], [1, 2, 3, 4]]);
+				var m2 = new jsge.Matrix([[2, 4, 6, 8], [2, 4, 6, 8]]);
+				var m3 = m1.add(m1);
+				assert(m3.eq(m2));
+			},
+
+			augment: function()
+			{
+				var m1 = new jsge.Matrix([[1, 2],[1,2]]);
+				var m2 = new jsge.Matrix([[3, 4],[3,4]]);
+				var m3 = m1.augment(m2);
+				var m4 = new jsge.Matrix([[1, 2, 3, 4], [1, 2, 3, 4]]);
+
+				assert(m3.eq(m4));
+			},
+
+			col: function()
+			{
+				var m1 = new jsge.Matrix([[1, 2, 3, 4], [1, 2, 3, 4]]);
+				var m2 = m1.col(1);
+				assert_equal(m2.e(0,0), 2);
+				assert_equal(m2.e(0,1), 2);
+			},
+
+			gaussian: function()
+			{
+				var m1 = new jsge.Matrix([[2, 1, -1],[-3, -1, 2], [-2, 1, 2]]);
+				var m2 = new jsge.Matrix([[8], [-11], [-3]]);
+				var m3 = m1.augment(m2);
+
+				pre(m3.gaussian().to_str());
+
+				//m1.inverse();
+			},
+
+			inverse: function()
+			{
+				var m1 = new jsge.Matrix([[4, 3],[3, 2]]);
+				pre(m1.inverse().to_str());
+			}
+		});
+
+	</script>
+</body>
+</html>

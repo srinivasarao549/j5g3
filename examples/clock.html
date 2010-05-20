@@ -1,0 +1,47 @@
+<html>
+<head>
+	<title> jsge - Clock Example</title>
+	<script src="../src/jsge.js"></script>
+	<script>
+		var game;
+
+		function update()
+		{
+			var objs = game.root.frame();
+
+			var t = new Date;
+
+			var secs = t.getSeconds() + t.getMilliseconds() / 1000;
+			var mins = t.getMinutes() + secs / 60;
+			var hours= t.getHours() + mins / 60;
+
+			objs[1].rotation(Math.PI + Math.PI / 6 * hours);
+			objs[2].rotation(Math.PI + Math.PI / 30 * mins);
+			objs[3].rotation(Math.PI + Math.PI / 30 * secs);
+		}
+
+		function initialize()
+		{
+			game = jsge.Engine.initialize({ fps: 1000/60 });
+
+			var clock = new jsge.Clip( { frames: [[ new jsge.Image({ source: 'clock.jpg', x: -175, y: -175 }) ]] } );
+			var hour = new jsge.Clip( { frames: [[ new jsge.Image({ source: 'HourHand.png', x: -10, y: 210, scaleY: -1}) ]] } );
+			var mins = new jsge.Clip( { frames: [[ new jsge.Image({ source: 'MinuteHand.png', x: -10, y: 220, scaleY: -1}) ]] } );
+			var secs = new jsge.Clip( { frames: [[ new jsge.Image({ source: 'SecondHand.png', x: -10, y: 190, scaleY: -1}) ]] } );
+
+			game.root.add([ clock, hour, mins, secs, update ])
+			         .alignChildren('center')
+			         .alignChildren('middle')
+			;
+
+			game.background.fillStyle('white');
+			
+			game.run();
+		}
+	</script>
+</head>
+<body onload="initialize()">
+	<canvas id="screen">
+
+	</canvas>
+</body>

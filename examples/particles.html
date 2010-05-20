@@ -1,0 +1,83 @@
+<html>
+<head>
+	<title>JSGE - Bubble Example</title>
+	<script src="../jsge.js"></script>
+	<style>
+		canvas { width: 640px; height: 480px; }
+	</style>
+	<script>
+		
+		var particles;
+		var mouse = { x: 0, y: 0 };
+		var lastX = 0, lastY = 0;
+		var PI2 = Math.PI * 2;
+		var sprites = null;
+
+		function onclick(evt)
+		{
+			mouse.x = evt.clientX;
+			mouse.y = evt.clientY;			
+		}
+
+		function update()
+		{
+			var dist = Math.sqrt((lastX - mouse.x) * (lastX - mouse.x) + (lastY - mouse.y) * (lastY - mouse.y));
+			
+			for (var i = 0; i < dist; i++)
+			{
+				var size = 4 + Math.random() * 44;
+				var duration = (200-size) * 3;
+				var moveDistance = 4 + Math.random() * (80-size);
+				var moveDirection = Math.random() * PI2;
+				
+				var startX = lastX + i * (mouse.x - lastX) / dist;
+				var startY = lastY + i * (mouse.y - lastY) / dist;
+				var goalX  = startX + (moveDistance * Math.cos(moveDirection));
+				var goalY  = startY + (moveDistance * Math.sin(moveDirection));
+				var startAngle = Math.random() * PI2;
+				var endAngle = startAngle + (-PI2 + Math.random() * PI2);
+
+				var image = new jsge.Clip({ frames: [[ sprites[Math.random() * 5] ]], x: startX, y:startY });
+				image.scaleX(size).scaleY(size);
+
+				game.root.add(image);
+				
+				image.animateTo('x', goalX, duration, jsge.Easing.RegularOut);
+				image.animateTo('y', goalY, duration, jsge.Easing.RegularOut);
+				//image.animate(
+				image.frames().push(jsge.Actions.Destroy);
+			}
+
+			lastX = mouse.x;
+			lastY = mouse.y;
+		}
+
+		function initialize()
+		{
+			particles = new Image();
+			particles.src = 'particles.png';
+
+			var p = new jsge.Clip();
+
+			sprites = [
+				new jsge.Sprite({source: { image: particles, x: 0}}),
+				new jsge.Sprite({source: { image: particles, x: 32}}),
+				new jsge.Sprite({source: { image: particles, x: 64}}),
+				new jsge.Sprite({source: { image: particles, x: 96}}),
+				new jsge.Sprite({source: { image: particles, x: 128}}),
+				new jsge.Sprite({source: { image: particles, x: 160}})
+			];
+
+			game = jsge.Engine.initialize();
+			game.root.add(p).add(update);
+
+			game.run();						
+		}
+	
+	</script>
+</head>
+<body onload="initialize()">
+	<canvas id="screen" onmouseover="onclick(event)">
+	</canvas>
+</body>
+</html>
