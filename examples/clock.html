@@ -1,7 +1,7 @@
 <html>
 <head>
-	<title> jsge - Clock Example</title>
-	<script src="../src/jsge.js"></script>
+	<title> j5g3 - Clock Example</title>
+	<script src="../src/j5g3.js"></script>
 	<script>
 		var game;
 
@@ -22,12 +22,12 @@
 
 		function initialize()
 		{
-			game = jsge.Engine.initialize({ fps: 1000/60 });
+			game = j5g3.Engine.initialize({ fps: 1000/60 });
 
-			var clock = new jsge.Clip( { frames: [[ new jsge.Image({ source: 'clock.jpg', x: -175, y: -175 }) ]] } );
-			var hour = new jsge.Clip( { frames: [[ new jsge.Image({ source: 'HourHand.png', x: -10, y: 210, scaleY: -1}) ]] } );
-			var mins = new jsge.Clip( { frames: [[ new jsge.Image({ source: 'MinuteHand.png', x: -10, y: 220, scaleY: -1}) ]] } );
-			var secs = new jsge.Clip( { frames: [[ new jsge.Image({ source: 'SecondHand.png', x: -10, y: 190, scaleY: -1}) ]] } );
+			var clock = new j5g3.Clip( { frames: [[ new j5g3.Image({ source: 'clock.jpg', x: -175, y: -175 }) ]] } );
+			var hour = new j5g3.Clip( { frames: [[ new j5g3.Image({ source: 'HourHand.png', x: -10, y: 210, scaleY: -1}) ]] } );
+			var mins = new j5g3.Clip( { frames: [[ new j5g3.Image({ source: 'MinuteHand.png', x: -10, y: 220, scaleY: -1}) ]] } );
+			var secs = new j5g3.Clip( { frames: [[ new j5g3.Image({ source: 'SecondHand.png', x: -10, y: 190, scaleY: -1}) ]] } );
 
 			game.root.add([ clock, hour, mins, secs, update ])
 			         .alignChildren('center')

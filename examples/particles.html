@@ -1,7 +1,7 @@
 <html>
 <head>
 	<title>JSGE - Bubble Example</title>
-	<script src="../jsge.js"></script>
+	<script src="../src/j5g3.js"></script>
 	<style>
 		canvas { width: 640px; height: 480px; }
 	</style>
@@ -13,7 +13,7 @@
 		var PI2 = Math.PI * 2;
 		var sprites = null;
 
-		function onclick(evt)
+		function onclickevt(evt)
 		{
 			mouse.x = evt.clientX;
 			mouse.y = evt.clientY;			
@@ -37,15 +37,15 @@
 				var startAngle = Math.random() * PI2;
 				var endAngle = startAngle + (-PI2 + Math.random() * PI2);
 
-				var image = new jsge.Clip({ frames: [[ sprites[Math.random() * 5] ]], x: startX, y:startY });
+				var image = new j5g3.Clip({ frames: [[ sprites[Math.random() * 5] ]], x: startX, y:startY });
 				image.scaleX(size).scaleY(size);
 
 				game.root.add(image);
 				
-				image.animateTo('x', goalX, duration, jsge.Easing.RegularOut);
-				image.animateTo('y', goalY, duration, jsge.Easing.RegularOut);
+				image.animateTo('x', goalX, duration, j5g3.Easing.RegularOut);
+				image.animateTo('y', goalY, duration, j5g3.Easing.RegularOut);
 				//image.animate(
-				image.frames().push(jsge.Actions.Destroy);
+				image.frames().push(j5g3.Actions.Destroy);
 			}
 
 			lastX = mouse.x;
@@ -57,18 +57,18 @@
 			particles = new Image();
 			particles.src = 'particles.png';
 
-			var p = new jsge.Clip();
+			var p = new j5g3.Clip();
 
 			sprites = [
-				new jsge.Sprite({source: { image: particles, x: 0}}),
-				new jsge.Sprite({source: { image: particles, x: 32}}),
-				new jsge.Sprite({source: { image: particles, x: 64}}),
-				new jsge.Sprite({source: { image: particles, x: 96}}),
-				new jsge.Sprite({source: { image: particles, x: 128}}),
-				new jsge.Sprite({source: { image: particles, x: 160}})
+				new j5g3.Sprite({source: { image: particles, x: 0}}),
+				new j5g3.Sprite({source: { image: particles, x: 32}}),
+				new j5g3.Sprite({source: { image: particles, x: 64}}),
+				new j5g3.Sprite({source: { image: particles, x: 96}}),
+				new j5g3.Sprite({source: { image: particles, x: 128}}),
+				new j5g3.Sprite({source: { image: particles, x: 160}})
 			];
 
-			game = jsge.Engine.initialize();
+			game = j5g3.Engine.initialize();
 			game.root.add(p).add(update);
 
 			game.run();						
@@ -77,7 +77,7 @@
 	</script>
 </head>
 <body onload="initialize()">
-	<canvas id="screen" onmouseover="onclick(event)">
+	<canvas id="screen" onclick="onclickevt(event)">
 	</canvas>
 </body>
 </html>

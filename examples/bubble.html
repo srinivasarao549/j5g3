@@ -1,7 +1,7 @@
 <html>
 <head>
 	<title>JSGE - Bubble Example</title>
-	<script src="../src/jsge.js"></script>
+	<script src="../src/j5g3.js"></script>
 	<style>
 		canvas { width: 640px; height: 480px; }
 	</style>
@@ -14,7 +14,7 @@
 		 */
 		function Ball()
 		{
-			jsge.Image.apply(this, [{ source: 'soccer-ball.gif' }]);	
+			j5g3.Image.apply(this, [{ source: 'soccer-ball.gif' }]);	
 
 			this.max_speed = 5;
 
@@ -37,7 +37,7 @@
 				if (this.x() < 0 || this.x() > (game.canvas.width - this.diameter)) this.velocity.x = -this.velocity.x;
 				if (this.y() < 0 || this.y() > (game.canvas.height - this.diameter)) this.velocity.y = -this.velocity.y;
 				
-				jsge.Engine.algorithms.drawImage.apply(this, [context]);
+				j5g3.Engine.algorithms.drawImage.apply(this, [context]);
 			};
 
 			this.collide = function(obj)
@@ -78,7 +78,7 @@
 
 		function initialize()
 		{
-			game = jsge.Engine.initialize( { fps: 1000/60 } );
+			game = j5g3.Engine.initialize( { fps: 1000/60 } );
 			window.max_balls = 64;
 
 			for (var i = 0; i < window.max_balls; i++)
