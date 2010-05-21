@@ -3,7 +3,11 @@
 #
 require 'rake/packagetask'
 
-SRC = 'src/core.js'
+# We have to make sure src/core.js is included first.
+sources = Dir.glob("src/**/*.js")
+sources.delete('src/core.js')
+
+SRC = 'src/core.js ' + sources.join(' ')
 OUTPUT = 'build/j5g3.js'
 MINOUTPUT = 'build/j5g3-min.js'
 JAVA = 'java'
@@ -23,6 +27,16 @@ end
 desc "Lint"
 task :lint do
 	puts `#{JS} tools/jslint.js #{SRC}`
+end
+
+desc "Syntax Check"
+task :syntax do
+	puts `#{JS} #{SRC}`
+end
+
+desc "Test"
+task :test do
+	puts `#{JS} test/*.js`
 end
 
 desc "Default Action"

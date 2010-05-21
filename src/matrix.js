@@ -5,10 +5,10 @@
 /**
  * Matrix class
  * Constructor takes elements as:
- * new jsge.Matrix([1, 3, 4]) => Creates a 1x3 Matrix
- * new jsge.Matrix([[1, 3, 4], [1,3,4]]) => Creates a 2x3 Matrix
+ * new j5g3.Matrix([1, 3, 4]) => Creates a 1x3 Matrix
+ * new j5g3.Matrix([[1, 3, 4], [1,3,4]]) => Creates a 2x3 Matrix
  */
-jsge.Matrix = function(elements)
+j5g3.Matrix = function(elements)
 {
 	this._elements = (arguments.length > 1) ? [ arguments ] : elements;
 
@@ -27,7 +27,7 @@ jsge.Matrix = function(elements)
 	this.augment = function(B)
 	{
 		var A = this;
-		return jsge.Matrix.Func(this.rows(), this.cols() + B.cols(), function(r, c) {
+		return j5g3.Matrix.Func(this.rows(), this.cols() + B.cols(), function(r, c) {
 			return (c >= A.cols()) ? B.e(r, c-A.cols()) : A.e(r, c);
 		});
 	}
@@ -41,7 +41,7 @@ jsge.Matrix = function(elements)
 		for (var i = 0; i < this.rows(); i++)
 			a.push(this.e(i, n));
 
-		return new jsge.Matrix([ a ]);
+		return new j5g3.Matrix([ a ]);
 	};
 
 	/**
@@ -72,7 +72,7 @@ jsge.Matrix = function(elements)
 		a = [];
 		for (var i = 0; i < this.rows(); i++)
 			a.push(this.e(i, i));
-		return new jsge.Matrix([ a ]);
+		return new j5g3.Matrix([ a ]);
 	};
 
 	/**
@@ -80,7 +80,7 @@ jsge.Matrix = function(elements)
 	 */
 	this.duplicate = function()
 	{
-		return new jsge.Matrix(this._elements.slice(0));
+		return new j5g3.Matrix(this._elements.slice(0));
 	};
 
 	/**
@@ -137,7 +137,7 @@ jsge.Matrix = function(elements)
 			arr[i][i] = 1;
 		}
 
-		return new jsge.Matrix(arr);
+		return new j5g3.Matrix(arr);
 	};
 
 	/**
@@ -145,7 +145,7 @@ jsge.Matrix = function(elements)
 	 */
 	this.inverse = function()
 	{
-		var m = this.augment(new jsge.Matrix.I(this.rows()));
+		var m = this.augment(new j5g3.Matrix.I(this.rows()));
 		m = m.gaussian();		
 
 	//	m.slice(0, this.rows());
@@ -180,7 +180,7 @@ jsge.Matrix = function(elements)
 			result[r][c] = func(v, r, c);
 		});
 
-		return new jsge.Matrix(result);
+		return new j5g3.Matrix(result);
 	};
 
 	/**
@@ -221,7 +221,7 @@ jsge.Matrix = function(elements)
 	 */
 	this.row = function(n)
 	{
-		return new jsge.Matrix([this._elements[n]]);
+		return new j5g3.Matrix([this._elements[n]]);
 	};
 
 	/**
@@ -293,7 +293,7 @@ jsge.Matrix = function(elements)
  * Constructor.
  * Returns a n * m matrix where all the elements are calculated by function func.
  */
-jsge.Matrix.Func = function(n, m, func)
+j5g3.Matrix.Func = function(n, m, func)
 {
 	var a = [];
 	for (var y = 0; y < n; y++)
@@ -303,26 +303,26 @@ jsge.Matrix.Func = function(n, m, func)
 			a[y].push(func(y,x));
 	}
 
-	return new jsge.Matrix(a);
+	return new j5g3.Matrix(a);
 }
 
 /**
  * Constructor.
  * Returns a square matrix whose leading-diagonal elements are the values in the array elements and whose off diagonal elements are zero.
  */
-jsge.Matrix.Diagonal = function()
+j5g3.Matrix.Diagonal = function()
 {
 	var elems = arguments;
-	return jsge.Matrix.Func(arguments.length, arguments.length, function(x,y) { return x == y ? elems[y] : 0; });
+	return j5g3.Matrix.Func(arguments.length, arguments.length, function(x,y) { return x == y ? elems[y] : 0; });
 }
 
 /**
  * Constructor
  * Returns the n*n identity matrix.
  */
-jsge.Matrix.I = function(n)
+j5g3.Matrix.I = function(n)
 {
-	return jsge.Matrix.Func(n, n, function(x,y) { return x == y ? 1 : 0 });
+	return j5g3.Matrix.Func(n, n, function(x,y) { return x == y ? 1 : 0 });
 };
 
 /**
@@ -330,16 +330,16 @@ jsge.Matrix.I = function(n)
  * Returns a matrix with n rows and m columns where all the elements are random numbers between 0 and 1.
  * If m is undefined it will create a n*n matrix.
  */
-jsge.Matrix.Random = function(n, m)
+j5g3.Matrix.Random = function(n, m)
 {
-	return jsge.Matrix.Func(n, m === undefined ? n : m, function() { return Math.random(); });
+	return j5g3.Matrix.Func(n, m === undefined ? n : m, function() { return Math.random(); });
 }
 
 /**
  * Constructor
  * Returns a matrix with n rows and m columns where all the elements are zero.
  */
-jsge.Matrix.Zero = function(n, m)
+j5g3.Matrix.Zero = function(n, m)
 {
-	return jsge.Matrix.Func(n, m, function() { return 0; });
+	return j5g3.Matrix.Func(n, m, function() { return 0; });
 }

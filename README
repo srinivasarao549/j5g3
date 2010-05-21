@@ -1,2 +1,19 @@
 J5G3 - Javascript Game Engine
 
+Tasks:
+
+rake - Will build  to 'build/j5g3.js'
+rake minify - Will build and minify to 'build/j5g3-min.js'. Requires java command line utility.
+rake lint - Will run jslint on source files. Requires a js interpreter (js).
+rake syntax - Will do a syntax check. Requires a js interpreter(js).
+rake test - Will execute tests in test folder
+
+Dependencies:
+
+Rake - To build the library.
+
+Optional:
+
+A command line JS interpreter like Rhino( sudo apt-get rhino ) for lint and syntax check.
+Java for YUI Compressor
+
