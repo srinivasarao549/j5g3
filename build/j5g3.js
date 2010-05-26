@@ -32,7 +32,7 @@ var j5g3 = {
 	property: function(caller, prop)
 	{
 		caller[prop] = function(val) { 
-			if (val)
+			if (val!==undefined)
 			{
 				caller.invalidate();
 				caller._p[prop] = val;
