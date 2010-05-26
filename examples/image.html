@@ -28,10 +28,7 @@ function initialize()
 		]]
 	});
 
-	var update = new j5g3.Action(function() {
-		var r = rotate.rotation();
-		rotate.rotation(r < 6.1 ? r+0.1 : 0);
-	});
+	var update = j5g3.Action.rotate(rotate);
 
 	game.root.add([original, inverse, rotate, update]);
 	game.run();
