@@ -1,0 +1,44 @@
+<html>
+<head>
+	<title>JSGE - Bubble Example</title>
+	<script src="../build/j5g3.js"></script>
+	<style>
+		canvas { width: 640px; height: 480px; }
+	</style>
+	<script>
+
+var game;	
+
+function initialize()
+{
+	game = j5g3.init();
+
+	game.background.fillStyle('white');
+
+	var original = new j5g3.Image({source: 'j5g3.png'});
+	var inverse  = new j5g3.Image({source: 'j5g3.png', y:200, scaleY:-1});
+
+	var rotate = new j5g3.Clip({ 
+		x: 300,
+		y: 100,
+		scaleX: 0.5,
+		scaleY: 0.5,
+		frames: [[
+			new j5g3.Image({source: 'j5g3.png', x:-125, y: -50})
+		]]
+	});
+
+	var update = new j5g3.Action(function() {
+		var r = rotate.rotation();
+		rotate.rotation(r < 6.1 ? r+0.1 : 0);
+	});
+
+	game.root.add([original, inverse, rotate, update]);
+	game.run();
+}
+
+	</script>
+</head>
+<body onload="initialize()">
+	<canvas id="screen"></canvas>
+</body>
