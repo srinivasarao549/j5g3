@@ -4,9 +4,11 @@
  */
 j5g3.DisplayObject = function(properties)
 {
-	this._p = j5g3.Util.extend({
+	this._p = {
 		x: 0, y:0, width: null, height: null, rotation: 0, scaleX: 1, scaleY: 1, alpha: 1
-	}, properties);
+	};
+
+	j5g3.extend(this._p, properties);
 
 	this._dirty = false;
 
@@ -47,16 +49,14 @@ j5g3.DisplayObject = function(properties)
 	this.invalidate = function()  { this._dirty = true; }
 	this.isDirty = function()  { return this._dirty; };
 
-	this.alpha  = function(value) { return value ? (this.invalidate(), (this._p.alpha  = value), this) : this._p.alpha;  };
-	this.width  = function(value) { return value ? (this.invalidate(), (this._p.width  = value), this) : this._p.width;  };
-	this.height = function(value) { return value ? (this.invalidate(), (this._p.height = value), this) : this._p.height; };
-	this.x      = function(value) { return value ? (this.invalidate(), (this._p.x      = value), this) : this._p.x;      };
-	this.y      = function(value) { return value ? (this.invalidate(), (this._p.y      = value), this) : this._p.y;      };
-	this.scaleX = function(value) { return value ? (this.invalidate(), (this._p.scaleX = value), this) : this._p.scaleX; };
-	this.scaleY = function(value) { return value ? (this.invalidate(), (this._p.scaleY = value), this) : this._p.scaleY; };
+	/**
+	 * Define Basic Properties.
+	 */
+	j5g3.properties(this, ['alpha', 'width', 'height', 'x', 'y', 'scaleX', 'scaleY', 'rotation']);
 
-	this.rotation = function(value) { return value ? (this.invalidate(), (this._p.rotation = value), this) : this._p.rotation; };
-
+	/**
+	 * Sets position of the object according to alignment and container.
+	 */
 	this.align = function(alignment, container) 
 	{
 		switch (alignment) {

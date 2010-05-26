@@ -31,7 +31,7 @@ end
 
 desc "Syntax Check"
 task :syntax do
-	puts `#{JS} #{SRC}`
+	puts `#{JS} -f #{SRC}`
 end
 
 desc "Test"

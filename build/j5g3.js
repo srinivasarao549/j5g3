@@ -6,6 +6,60 @@
 
 var j5g3 = {
 
+
+	/**
+	 * j5g3
+	 * Core Utility functions
+	 *
+	 */
+
+	/**
+	 * Extends object a with b
+	 */
+	extend: function(a, b)
+	{
+		for (var i in b)
+			a[i] = b[i];
+		return a;
+	},
+
+	/**
+	 * Extends Caller with b
+	 * @param b is the class to extend
+	 */
+	inherits: function(obj, klass, args)
+	{
+		klass.apply(obj, args);
+	},
+
+	/**
+	 * Declares a j5g3 Property.
+	 * @param prop       Property name
+	 */
+	property: function(caller, prop)
+	{
+		caller[prop] = function(val) { 
+			if (val)
+			{
+				caller.invalidate();
+				caller._p[prop] = val;
+				return caller;
+			}
+			return caller._p[prop];
+		};
+		return caller[prop];
+	},
+
+	/**
+	 * Defines multiple properties for a j5g3 class
+	 */
+	properties: function(obj, prop_array)
+	{
+		var i;
+		for (i in prop_array)
+			j5g3.property(obj, prop_array[i]);
+	},
+
 	Engine:
 	{
 		canvas: null,
@@ -102,21 +156,17 @@ j5g3.Action = function(properties)
 	this.draw = properties.code;
 };
 
+
 j5g3.Easing =
 {
 	RegularOut: function()
 	{
 		return 0;	
 	}
-},
+};
 
 j5g3.Util = {
 
-	extend: function(a, b) {
-		for (var i in b)
-			a[i] = b[i];
-		return a;
-	},
 
 	getType: function(obj)
 	{
@@ -131,16 +181,19 @@ j5g3.Util = {
 		return result;
 	}
 
-}
+};
+
 
 /**
  * Base for all classes
  */
 j5g3.DisplayObject = function(properties)
 {
-	this._p = j5g3.Util.extend({
+	this._p = {
 		x: 0, y:0, width: null, height: null, rotation: 0, scaleX: 1, scaleY: 1, alpha: 1
-	}, properties);
+	};
+
+	j5g3.extend(this._p, properties);
 
 	this._dirty = false;
 
@@ -181,16 +234,14 @@ j5g3.DisplayObject = function(properties)
 	this.invalidate = function()  { this._dirty = true; }
 	this.isDirty = function()  { return this._dirty; };
 
-	this.alpha  = function(value) { return value ? (this.invalidate(), (this._p.alpha  = value), this) : this._p.alpha;  };
-	this.width  = function(value) { return value ? (this.invalidate(), (this._p.width  = value), this) : this._p.width;  };
-	this.height = function(value) { return value ? (this.invalidate(), (this._p.height = value), this) : this._p.height; };
-	this.x      = function(value) { return value ? (this.invalidate(), (this._p.x      = value), this) : this._p.x;      };
-	this.y      = function(value) { return value ? (this.invalidate(), (this._p.y      = value), this) : this._p.y;      };
-	this.scaleX = function(value) { return value ? (this.invalidate(), (this._p.scaleX = value), this) : this._p.scaleX; };
-	this.scaleY = function(value) { return value ? (this.invalidate(), (this._p.scaleY = value), this) : this._p.scaleY; };
+	/**
+	 * Define Basic Properties.
+	 */
+	j5g3.properties(this, ['alpha', 'width', 'height', 'x', 'y', 'scaleX', 'scaleY', 'rotation']);
 
-	this.rotation = function(value) { return value ? (this.invalidate(), (this._p.rotation = value), this) : this._p.rotation; };
-
+	/**
+	 * Sets position of the object according to alignment and container.
+	 */
 	this.align = function(alignment, container) 
 	{
 		switch (alignment) {
@@ -233,16 +284,34 @@ j5g3.Image = function(properties)
 {
 	j5g3.DisplayObject.apply(this, [ properties ]);
 
-	if (typeof(this._p.source)=='string')
+	this.paint = j5g3.Engine.algorithms.drawImage;
+
+	/**
+	 * Sets the source. If src is a string it will create an Image object.
+	 */
+	this.source = function(src)
 	{
-		this._p.source = new Image;
-		this._p.source.src = properties.source;
+		if (src)
+		{
+			if (typeof(src)=='string')
+			{
+				this._p.source = new Image;
+				this._p.source.src = src;
+			} else
+				// TODO we assume its an image...
+				this._p.source = src;
+			
+			if (this._p.width === null)  this._p.width  = this._p.source.width;
+			if (this._p.height === null) this._p.height = this._p.source.height;
+
+			this.invalidate();
+			return this;
+		}
+		return this._p.source;
 	}
 
-	if (this._p.width === null)  this._p.width  = this._p.source.width;
-	if (this._p.height === null) this._p.height = this._p.source.height;
-	
-	this.paint = j5g3.Engine.algorithms.drawImage;
+	if (this._p.source)
+		this.source(this._p.source);
 }
 
 j5g3.Rect = function(properties)

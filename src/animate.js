@@ -5,4 +5,4 @@ j5g3.Easing =
 	{
 		return 0;	
 	}
-},
+};

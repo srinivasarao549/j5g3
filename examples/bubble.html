@@ -1,7 +1,7 @@
 <html>
 <head>
 	<title>JSGE - Bubble Example</title>
-	<script src="../build/j5g3-min.js"></script>
+	<script src="../build/j5g3.js"></script>
 	<style>
 		canvas { width: 640px; height: 480px; }
 	</style>
@@ -14,8 +14,9 @@
 		 */
 		function Ball()
 		{
-			j5g3.Image.apply(this, [{ source: 'soccer-ball.gif' }]);	
+			j5g3.inherits(this, j5g3.Image);
 
+			this.source('soccer-ball.gif');
 			this.max_speed = 5;
 
 			this.diameter = this.width();
@@ -93,7 +94,5 @@
 	</script>
 </head>
 <body onload="initialize()">
-	<canvas id="screen">
-
-	</canvas>
+	<canvas id="screen"></canvas>
 </body>
