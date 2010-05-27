@@ -7,16 +7,14 @@
 	</style>
 	<script>
 
-var game;	
+var game;
+var rotate;
 
 function initialize()
 {
 	game = j5g3.init();
 
 	game.background.fillStyle('white');
-
-	var original = new j5g3.Image({source: 'j5g3.png'});
-	var inverse  = new j5g3.Image({source: 'j5g3.png', y:200, scaleY:-1});
 
 	var rotate = new j5g3.Clip({ 
 		x: 300,
@@ -30,7 +28,7 @@ function initialize()
 
 	var update = j5g3.Action.rotate(rotate);
 
-	game.root.add([original, inverse, rotate, update]);
+	game.root.add(['j5g3.png', {source: 'j5g3.png', y:200, scaleY:-1}, rotate, update]);
 	game.run();
 }
 

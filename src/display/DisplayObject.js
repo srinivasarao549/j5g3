@@ -4,6 +4,7 @@
  */
 j5g3.DisplayObject = function(properties)
 {
+	this._j5g3 = true;
 	this._p = {
 		x: 0, y:0, width: null, height: null, rotation: 0, scaleX: 1, scaleY: 1, alpha: 1
 	};

@@ -195,6 +195,8 @@ j5g3.Util = {
 		{
 			if (obj instanceof Array)
 				result = 'array';
+			else if (obj._j5g3===true)
+				result = 'j5g3';
 		}
 
 		return result;
@@ -208,6 +210,7 @@ j5g3.Util = {
  */
 j5g3.DisplayObject = function(properties)
 {
+	this._j5g3 = true;
 	this._p = {
 		x: 0, y:0, width: null, height: null, rotation: 0, scaleX: 1, scaleY: 1, alpha: 1
 	};
@@ -398,11 +401,15 @@ j5g3.Clip = function(properties)
 	{
 		switch (j5g3.Util.getType(display_object)) {
 		case 'function':
-			display_object = new j5g3.Action({ code: display_object });
+			display_object = new j5g3.Action(display_object);
 			break;
 		case 'string':
 			display_object = new j5g3.Image({ source: display_object });
 			break;
+		/* NOTE j5g3 Objects return j5g3 and not object */
+		case 'object':
+			display_object = new j5g3.Image(display_object);
+			break;			
 		case 'array':
 			for (var i in display_object)
 				this.add(display_object[i]);
