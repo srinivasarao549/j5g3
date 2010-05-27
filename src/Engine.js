@@ -67,6 +67,8 @@ j5g3.Engine =
 		this._p.canvas.height = this._p.height;
 		this._p.canvas.addEventListener('click', this.onClick, false);
 
+		j5g3.property.get(this, 'canvas');
+		
 		return this;
 	},
 

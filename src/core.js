@@ -56,10 +56,15 @@ var j5g3 = {
 	/**
 	 * You should always call this method first.
 	 */
-	init: function(properties)
+	init: function(initfunc)
 	{
-		return j5g3.Engine.initialize(properties);
+		initfunc.apply(j5g3.Engine);
 	}
 	
+};
+
+j5g3.property.get = function(caller, prop) {
+	caller[prop] = function () { return caller._p[prop]; }; 
+	return caller[prop]; 
 };
 

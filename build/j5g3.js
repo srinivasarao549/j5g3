@@ -56,11 +56,16 @@ var j5g3 = {
 	/**
 	 * You should always call this method first.
 	 */
-	init: function(properties)
+	init: function(initfunc)
 	{
-		return j5g3.Engine.initialize(properties);
+		initfunc.apply(j5g3.Engine);
 	}
 	
+};
+
+j5g3.property.get = function(caller, prop) {
+	caller[prop] = function () { return caller._p[prop]; }; 
+	return caller[prop]; 
 };
 
 
@@ -157,6 +162,8 @@ j5g3.Engine =
 		this._p.canvas.height = this._p.height;
 		this._p.canvas.addEventListener('click', this.onClick, false);
 
+		j5g3.property.get(this, 'canvas');
+		
 		return this;
 	},
 
@@ -345,9 +352,14 @@ j5g3.Rect = function(properties)
 
 j5g3.Text = function(properties)
 {
-	j5g3.DisplayObject.apply(this, [ properties ]);
+	if (typeof properties == 'string')
+		properties = { text: properties };
 
-	this.text = function() { return this._p.text; };
+	properties = j5g3.extend({ fillStyle: 'white' }, properties);
+
+	j5g3.DisplayObject.apply(this, [ properties ]);
+	j5g3.properties(this, ['text', 'fillStyle']);
+
 	this.paint = function(context)
 	{
 		if (this._p.fillStyle) context.fillStyle = this._p.fillStyle;

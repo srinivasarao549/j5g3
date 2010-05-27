@@ -6,32 +6,33 @@
 		canvas { width: 640px; height: 480px; }
 	</style>
 	<script>
+/*
+ * Here we show another way to initialize the application.
+ * We demonstrate:
+ * - Scaling
+ * - Image Initialization
+ * - Rotation
+ * - Actions
+ */
 
-var game;
-var rotate;
-
-function initialize()
+function init()
 {
-	game = j5g3.init({ backgroundStyle: 'white' });
+	this.initialize({ backgroundStyle: 'white' });
 
 	var rotate = new j5g3.Clip({ 
-		x: 300,
-		y: 100,
-		scaleX: 0.5,
-		scaleY: 0.5,
-		frames: [[
-			new j5g3.Image({source: 'j5g3.png', x:-125, y: -50})
-		]]
+		x: 300, y: 100,
+		scaleX: 0.5, scaleY: 0.5,
+		frames: [[ new j5g3.Image({source: 'j5g3.png', x:-125, y: -50}) ]]
 	});
 
 	var update = j5g3.Action.rotate(rotate);
 
-	game.root.add(['j5g3.png', {source: 'j5g3.png', y:200, scaleY:-1}, rotate, update]);
-	game.run();
+	this.root.add(['j5g3.png', {source: 'j5g3.png', y:200, scaleY:-1}, rotate, update]);
+	this.run();
 }
 
 	</script>
 </head>
-<body onload="initialize()">
+<body onload="j5g3.init(init)">
 	<canvas id="screen"></canvas>
 </body>

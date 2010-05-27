@@ -1,0 +1,25 @@
+<html>
+<head>
+	<title>JSGE - Bubble Example</title>
+	<script src="../build/j5g3.js"></script>
+	<style>
+		canvas { width: 640px; height: 480px; border: 1px solid #ccc; }
+	</style>
+	<script>
+
+function initialize()
+{
+	this.initialize();
+
+	this.root.add([
+		new j5g3.Text({ text: "Hello World", x: 100, y: 100 })
+	]);
+	
+	this.run();
+}
+
+	</script>
+</head>
+<body onload="j5g3.init(initialize);">
+	<canvas id="screen"></canvas>
+</body>
