@@ -5,7 +5,7 @@ j5g3.Action = function(properties)
 };
 
 /**
- * Rotates object forever.
+ * Rotates object forever. Clockwise by default.
  */
 j5g3.Action.rotate = function(obj)
 {

@@ -12,9 +12,7 @@ var rotate;
 
 function initialize()
 {
-	game = j5g3.init();
-
-	game.background.fillStyle('white');
+	game = j5g3.init({ backgroundStyle: 'white' });
 
 	var rotate = new j5g3.Clip({ 
 		x: 300,

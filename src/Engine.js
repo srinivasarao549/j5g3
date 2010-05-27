@@ -7,7 +7,6 @@
 
 j5g3.Engine =
 {
-	canvas: null,
 	root: null, /** Root Node **/
 
 	algorithms: {
@@ -52,32 +51,28 @@ j5g3.Engine =
 	 */
 	initialize: function(properties)
 	{
-		if (properties)
-		{
-			this.canvas = properties.canvas;
-			this.fps = properties.fps;
-		}
+		this._p = j5g3.extend({
+			canvas: document.getElementById('screen'),
+			fps: 100,
+			backgroundStyle: 'black',
+			width: 640,
+			height: 480
+		}, properties);
 
-		if (!this.canvas)
-			this.canvas = document.getElementById('screen');
-
-		this.canvas.width  = 640;
-		this.canvas.height = 480;
-
-		if (!this.fps) this.fps = 100;
-
-		this.background = new j5g3.Rect({ width: 640, height: 480 });
+		this.background = new j5g3.Rect({ fillStyle: this._p.backgroundStyle, width: this._p.width, height: this._p.height });
 		
-		this.root = new j5g3.Clip({ width: 640, height: 480 });
+		this.root = new j5g3.Clip({ width: this._p.width, height: this._p.height });
 
-		this.canvas.addEventListener('click', this.onClick, false);
+		this._p.canvas.width = this._p.width;
+		this._p.canvas.height = this._p.height;
+		this._p.canvas.addEventListener('click', this.onClick, false);
 
 		return this;
 	},
 
 	getContext: function()
 	{
-		return this.canvas.getContext('2d');
+		return this._p.canvas.getContext('2d');
 	},
 
 	gameLoop: function()
@@ -90,6 +85,6 @@ j5g3.Engine =
 
 	run: function()
 	{
-		setInterval('j5g3.Engine.gameLoop()', this.fps);
+		setInterval('j5g3.Engine.gameLoop()', this._p.fps);
 	}
 }
