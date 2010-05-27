@@ -26,6 +26,19 @@
 			this.velocity = { x: Math.random() * this.max_speed, y: Math.random() * this.max_speed };
 			this.radius = this.diameter / 2;
 
+			this.checkCollision = function(coord, limit)
+			{
+				var v = this[coord]();
+				if (v < 0) 
+				{ 
+					this[coord](0); 
+					this.velocity[coord]=-this.velocity[coord]; 
+				} else if (v > limit-this.diameter) 
+				{ 
+					this[coord](limit-this.diameter);
+					this.velocity[coord]=-this.velocity[coord];
+				}
+			};
 			/**
 			 * Update position and paint
 			 */
@@ -34,9 +47,10 @@
 				this.x(this.x() + this.velocity.x);
 				this.y(this.y() + this.velocity.y);
 
+
 				// wall collission
-				if (this.x() < 0 || this.x() > (game.canvas.width - this.diameter)) this.velocity.x = -this.velocity.x;
-				if (this.y() < 0 || this.y() > (game.canvas.height - this.diameter)) this.velocity.y = -this.velocity.y;
+				this.checkCollision('x', game.canvas.width);
+				this.checkCollision('y', game.canvas.height);
 				
 				j5g3.Engine.algorithms.drawImage.apply(this, [context]);
 			};
