@@ -66,6 +66,7 @@ j5g3.DisplayObject = function(properties)
 		case 'right':   this.x(container.width() - this.width()); break;
 		case 'middle':  this.y(container.height() / 2); break;
 		}
+		return this;
 	};
 
 	/**
@@ -86,5 +87,16 @@ j5g3.DisplayObject = function(properties)
 			return false;
 
 		return true;
+	}
+
+	/**
+	 * Sets x and y
+	 */
+	this.pos = function(x, y)
+	{
+		this._p.x = x;
+		this._p.y = y;
+		this.invalidate();
+		return this;
 	}
 };
