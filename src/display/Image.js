@@ -1,6 +1,9 @@
 
 j5g3.Image = function(properties)
 {
+	if (typeof properties == 'string')
+		properties = { source: properties };
+
 	j5g3.DisplayObject.apply(this, [ properties ]);
 
 	this.paint = j5g3.Engine.algorithms.drawImage;

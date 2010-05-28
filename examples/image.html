@@ -19,6 +19,8 @@ function init()
 {
 	this.initialize({ backgroundStyle: 'white' });
 
+	var img = new j5g3.Image({ source: 'j5g3.png', x: 0, y: 200});
+
 	var rotate = new j5g3.Clip({ 
 		x: 300, y: 100,
 		scaleX: 0.5, scaleY: 0.5,
@@ -27,7 +29,7 @@ function init()
 
 	var update = j5g3.Action.rotate(rotate);
 
-	this.root.add(['j5g3.png', {source: 'j5g3.png', y:200, scaleY:-1}, rotate, update]);
+	this.root.add(['j5g3.png', {source: 'j5g3.png', y:200, scaleY:-1}, rotate, update, img]);
 	this.run();
 }
 
