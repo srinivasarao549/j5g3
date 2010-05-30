@@ -206,6 +206,68 @@ j5g3.Util = {
 
 };
 
+/**
+ * j5g3
+ *
+ * display.Spritesheet
+ *
+ * Properties:
+ *
+ * source	Image of the spritesheet. If a string passed it will be converted to a j5g3.Image
+ *
+ */
+j5g3.Spritesheet = function(properties)
+{
+	if (typeof properties == 'string')
+		properties = { source: new j5g3.Image(properties) };
+
+	if (typeof properties.source == 'string')
+		properties.source = new j5g3.Image(properties.source);
+	
+	if (properties.width === undefined && properties.source)
+		properties.width = properties.source.width();
+	
+	if (properties.height === undefined && properties.source)
+		properties.height = properties.source.height();
+	
+	this._p = j5g3.extend({ cols: 1, rows: 1, type: 'grid' }, properties);
+
+	j5g3.properties(this, ['width', 'height', 'source', 'sprites']);
+	
+	/**
+	 * Creates clip from spritesheet indexes.
+	 */
+	this.clip = function()
+	{
+		var s = this.sprites(),
+		    frames = []
+		;
+
+		for (i = 0; i < arguments.length; i++)
+			frames.push([ s[arguments[i]] ]);
+
+		return new j5g3.Clip({ 'frames': frames });
+	};
+
+	/**
+	 * Divides spritesheet into a grid of x rows and y columns.
+	 */
+	this.grid = function(x, y)
+	{
+		var s = [],
+		    w = this.width() / x,
+		    h = this.height() / y
+		;
+
+		for (var r = 0; r < x; r++)
+			for (var c = 0; c < x; c++)
+				s.push(new j5g3.Sprite({ source: { image: this.source().source(), 'x': c * w, 'y': r * h, 'w': w, 'h': h }}));
+
+		this._p.sprites = s;
+
+		return this;
+	};
+}
 
 /**
  * Base for all classes
@@ -308,7 +370,12 @@ j5g3.DisplayObject = function(properties)
 		return this;
 	}
 };
-
+/*
+ * j5g3 Sprite
+ *
+ * properties
+ *
+ */
 j5g3.Sprite = function(properties)
 {
 	j5g3.DisplayObject.apply(this, [ properties ]);
@@ -327,6 +394,8 @@ j5g3.Image = function(properties)
 
 	/**
 	 * Sets the source. If src is a string it will create an Image object.
+	 * NOTE: Chrome and Safari (webkit) loads images and css parallely. So we have to wait for the image to load in order
+	 * to get the correct width and height. 
 	 */
 	this.source = function(src)
 	{
@@ -336,10 +405,12 @@ j5g3.Image = function(properties)
 			{
 				this._p.source = new Image;
 				this._p.source.src = src;
+
+				while (this._p.source.complete===false);
 			} else
 				// TODO we assume its an image...
 				this._p.source = src;
-			
+
 			if (this._p.width === null)  this._p.width  = this._p.source.width;
 			if (this._p.height === null) this._p.height = this._p.source.height;
 
@@ -395,7 +466,14 @@ j5g3.Text = function(properties)
 		return metrics.width;
 	};
 };
-
+/**
+ * j5g3 Clip
+ *
+ * Properties:
+ *
+ * frames	Array of array      Frames of clip.
+ *
+ */
 j5g3.Clip = function(properties)
 {
 	j5g3.DisplayObject.apply(this, [ properties ]);
