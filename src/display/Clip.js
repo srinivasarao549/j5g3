@@ -1,4 +1,11 @@
-
+/**
+ * j5g3 Clip
+ *
+ * Properties:
+ *
+ * frames	Array of array      Frames of clip.
+ *
+ */
 j5g3.Clip = function(properties)
 {
 	j5g3.DisplayObject.apply(this, [ properties ]);

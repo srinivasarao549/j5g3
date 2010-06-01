@@ -11,7 +11,8 @@ function initialize()
 {
 	this.initialize();
 
-	var r = new j5g3.Image('spritesheet.png');
+	var ss = new j5g3.Spritesheet('spritesheet.png').grid(6, 7);
+	var r = ss.clip(1, 2, 3, 4, 5);
 
 	this.root.add(r );
 	

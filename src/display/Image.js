@@ -10,6 +10,8 @@ j5g3.Image = function(properties)
 
 	/**
 	 * Sets the source. If src is a string it will create an Image object.
+	 * NOTE: Chrome and Safari (webkit) loads images and css parallely. So we have to wait for the image to load in order
+	 * to get the correct width and height. 
 	 */
 	this.source = function(src)
 	{
@@ -19,10 +21,12 @@ j5g3.Image = function(properties)
 			{
 				this._p.source = new Image;
 				this._p.source.src = src;
+
+				while (this._p.source.complete===false);
 			} else
 				// TODO we assume its an image...
 				this._p.source = src;
-			
+
 			if (this._p.width === null)  this._p.width  = this._p.source.width;
 			if (this._p.height === null) this._p.height = this._p.source.height;
 
