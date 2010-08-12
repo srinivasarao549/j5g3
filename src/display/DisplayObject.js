@@ -53,7 +53,7 @@ j5g3.DisplayObject = function(properties)
 	/**
 	 * Define Basic Properties.
 	 */
-	j5g3.properties(this, ['alpha', 'width', 'height', 'x', 'y', 'scaleX', 'scaleY', 'rotation']);
+	j5g3.properties(this, ['alpha', 'width', 'height', 'x', 'y', 'scaleX', 'scaleY', 'rotation', 'parent']);
 
 	/**
 	 * Sets position of the object according to alignment and container.

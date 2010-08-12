@@ -72,6 +72,7 @@ j5g3.property.get = function(caller, prop) {
 j5g3.Action = function(properties)
 {
 	this.draw = (typeof properties == 'function') ? properties : properties.code;
+	this.parent = function() { };
 };
 
 /**
@@ -86,8 +87,15 @@ j5g3.Action.rotate = function(obj)
 }
 
 
-j5g3.Easing =
+
+j5g3.Animate = { };
+
+j5g3.Animate.Easing =
 {
+	None: function( )
+	{
+	},
+
 	RegularOut: function()
 	{
 		return 0;	
@@ -323,7 +331,7 @@ j5g3.DisplayObject = function(properties)
 	/**
 	 * Define Basic Properties.
 	 */
-	j5g3.properties(this, ['alpha', 'width', 'height', 'x', 'y', 'scaleX', 'scaleY', 'rotation']);
+	j5g3.properties(this, ['alpha', 'width', 'height', 'x', 'y', 'scaleX', 'scaleY', 'rotation', 'parent']);
 
 	/**
 	 * Sets position of the object according to alignment and container.
@@ -373,7 +381,9 @@ j5g3.DisplayObject = function(properties)
 /*
  * j5g3 Sprite
  *
- * properties
+ * Properties:
+ *
+ * source     Object    { image: HTML_Image_Spritesheet, x: xpos, y: ypos, w: sprite_width, h: sprite_height }
  *
  */
 j5g3.Sprite = function(properties)
@@ -392,6 +402,7 @@ j5g3.Image = function(properties)
 
 	this.paint = j5g3.Engine.algorithms.drawImage;
 
+	
 	/**
 	 * Sets the source. If src is a string it will create an Image object.
 	 * NOTE: Chrome and Safari (webkit) loads images and css parallely. So we have to wait for the image to load in order
@@ -405,8 +416,6 @@ j5g3.Image = function(properties)
 			{
 				this._p.source = new Image;
 				this._p.source.src = src;
-
-				while (this._p.source.complete===false);
 			} else
 				// TODO we assume its an image...
 				this._p.source = src;
@@ -500,7 +509,15 @@ j5g3.Clip = function(properties)
 	this.totalFrames  = function() { return this.frames().length; };
 
 	this.currentFrame = function() { return _frame; };
-	this.nextFrame = function() { this._frame = (this._frame < this.totalFrames()-1) ? this._frame + 1 : 0; }
+
+	/**
+	 * Updates frame.
+	 *
+	 */
+	this.nextFrame = function() 
+	{
+		this._frame = (this._frame < this.totalFrames()-1) ? this._frame + 1 : 0; 
+	}
 
 	this.paint = j5g3.Engine.algorithms.drawContainer;
 
@@ -530,6 +547,7 @@ j5g3.Clip = function(properties)
 			return this;
 		};
 
+		display_object.parent(this);
 		this.frames()[this._frame].push(display_object);
 		return this;
 	};
@@ -570,22 +588,20 @@ j5g3.Clip = function(properties)
 		return this;
 	};
 
-	/**
-	 * Adds Frames to Clip.
-	 */
-	this.animateTo = function(property, goal, duration, algorithm)
+	this.animateTo = function(target, duration, alg)
 	{
-		var frms = this.frames();
+		var start = {};
 
-		for (var i = 1; i < duration; i++)
-		{
-			frms[i] = frms[i-1];
-			for (var j in frms[i-1])
-			{
-				frms[i][j][property] = algorithm.apply(frms[0][j][property], goal, i);
-			}
-		}
-	};
+		if (alg===undefined)
+			alg = j5g3.Animate.Easing.None;
+
+		for (var p in target)
+			start[p] = target;
+
+		return function() {
+			alg(start, target, this._iframe);			
+		};
+	}
 
 };
 /**

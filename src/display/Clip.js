@@ -32,7 +32,15 @@ j5g3.Clip = function(properties)
 	this.totalFrames  = function() { return this.frames().length; };
 
 	this.currentFrame = function() { return _frame; };
-	this.nextFrame = function() { this._frame = (this._frame < this.totalFrames()-1) ? this._frame + 1 : 0; }
+
+	/**
+	 * Updates frame.
+	 *
+	 */
+	this.nextFrame = function() 
+	{
+		this._frame = (this._frame < this.totalFrames()-1) ? this._frame + 1 : 0; 
+	}
 
 	this.paint = j5g3.Engine.algorithms.drawContainer;
 
@@ -62,6 +70,7 @@ j5g3.Clip = function(properties)
 			return this;
 		};
 
+		display_object.parent(this);
 		this.frames()[this._frame].push(display_object);
 		return this;
 	};
@@ -102,21 +111,19 @@ j5g3.Clip = function(properties)
 		return this;
 	};
 
-	/**
-	 * Adds Frames to Clip.
-	 */
-	this.animateTo = function(property, goal, duration, algorithm)
+	this.animateTo = function(target, duration, alg)
 	{
-		var frms = this.frames();
+		var start = {};
 
-		for (var i = 1; i < duration; i++)
-		{
-			frms[i] = frms[i-1];
-			for (var j in frms[i-1])
-			{
-				frms[i][j][property] = algorithm.apply(frms[0][j][property], goal, i);
-			}
-		}
-	};
+		if (alg===undefined)
+			alg = j5g3.Animate.Easing.None;
+
+		for (var p in target)
+			start[p] = target;
+
+		return function() {
+			alg(start, target, this._iframe);			
+		};
+	}
 
 };

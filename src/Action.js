@@ -2,6 +2,7 @@
 j5g3.Action = function(properties)
 {
 	this.draw = (typeof properties == 'function') ? properties : properties.code;
+	this.parent = function() { };
 };
 
 /**

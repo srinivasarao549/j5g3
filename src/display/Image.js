@@ -8,6 +8,7 @@ j5g3.Image = function(properties)
 
 	this.paint = j5g3.Engine.algorithms.drawImage;
 
+	
 	/**
 	 * Sets the source. If src is a string it will create an Image object.
 	 * NOTE: Chrome and Safari (webkit) loads images and css parallely. So we have to wait for the image to load in order
@@ -21,8 +22,6 @@ j5g3.Image = function(properties)
 			{
 				this._p.source = new Image;
 				this._p.source.src = src;
-
-				while (this._p.source.complete===false);
 			} else
 				// TODO we assume its an image...
 				this._p.source = src;
