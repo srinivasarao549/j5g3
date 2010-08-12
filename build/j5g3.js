@@ -493,7 +493,7 @@ j5g3.Clip = function(properties)
 	this._frame = 0;
 	this._playing = true;
 
-	this.frames = function(value) { return value ? (this.invalidate(), (this._p.frames = value), this) : this._p.frames; };
+	j5g3.property(this, 'frames');
 
 	/**
 	 * Returns current frame objects.
