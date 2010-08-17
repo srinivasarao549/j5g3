@@ -42,7 +42,7 @@ j5g3.Clip = function(properties)
 		this._frame = (this._frame < this.totalFrames()-1) ? this._frame + 1 : 0; 
 	}
 
-	this.paint = j5g3.Engine.algorithms.drawContainer;
+	this.paint = j5g3.Engine.Draw.Container;
 
 	this.stop = function() { this._playing = false;	};
 	this.play = function() { this._playing = true;	};

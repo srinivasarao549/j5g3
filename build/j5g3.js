@@ -63,8 +63,8 @@ var j5g3 = {
 	 */
 	start: function(initfunc)
 	{
-		j5g3.Engine.initialize();
-		initfunc(j5g3.Engine);
+		j5g3.engine = new j5g3.Engine({ });
+		initfunc(j5g3.engine);
 	}
 	
 };
@@ -109,19 +109,62 @@ j5g3.Animate.Easing =
 };
 /**
  *
+ * Properties:
+ *
+ * canvas:   Canvas object where the game will be rendered. If not present it will default to element with id 'screen'.
  *
  *
  *
  */
 
-j5g3.Engine =
+(function($, undefined)
 {
-	root: null, /** Root Node **/
-	fps: 100,
+	$.Engine = function(p)
+	{
+		this.canvas = p.canvas || document.getElementById('screen');
+		this.fps    = p.fps    || 100;
+		this.backgroundStyle = p.backgroundStyle || 'black';
+		this.width  = p.width || 640;
+		this.height = p.height || 480;
 
-	algorithms: {
+	var 
+		self = this,
 
-		drawImage: function (context)
+		getContext= function()
+		{
+			return self.canvas.getContext('2d');
+		},
+		gameLoop= function()
+		{
+			var context = getContext();
+
+			self.background.draw(context);
+			self.root.draw(context);
+		};
+
+		this.run= function()
+		{
+			setInterval(gameLoop, this.fps);
+		};
+
+
+		this.background = new j5g3.Rect({ fillStyle: this.backgroundStyle, width: this.width, height: this.height });
+		
+		this.root = new $.Clip({ width: this.width, height: this.height });
+
+		this.canvas.width = this.width;
+		this.canvas.height = this.height;
+		this.canvas.addEventListener('click', this.onClick, false);
+	};
+
+
+
+	/**
+	 * This are all the core drawing algorithms. "this" will point to the DisplayObject.
+	 */
+	$.Engine.Draw = 
+	{
+		Image: function (context)
 		{
 			context.drawImage(this.source(), 0, 0);	
 		},
@@ -129,7 +172,7 @@ j5g3.Engine =
 		/**
 		 * Drawing function for Clips
 		 */
-		drawSprite: function (context) 
+		Sprite: function (context) 
 		{
 			var src = this.source(), 
 			    w = this.width(), 
@@ -139,67 +182,18 @@ j5g3.Engine =
 			context.drawImage(src.image, src.x, src.y, src.w, src.h, 0, 0, w ? w : src.w, h ? h : src.h);
 		},
 
-		drawContainer: function (context)
+		Container: function (context)
 		{
 			var frame = this.frame();
 
 			for (var i in frame)
 				frame[i].draw(context);
 		}
-	},
 
-	onClick: function()
-	{
-		
-	},
-
-	/**
-	 * Properties:
-	 *
-	 * canvas:   Canvas object where the game will be rendered. If not present it will default to element with id 'screen'.
-	 *
-	 */
-	initialize: function(properties)
-	{
-		this._p = j5g3.extend({
-			canvas: document.getElementById('screen'),
-			fps: 100,
-			backgroundStyle: 'black',
-			width: 640,
-			height: 480
-		}, properties);
-
-		this.background = new j5g3.Rect({ fillStyle: this._p.backgroundStyle, width: this._p.width, height: this._p.height });
-		
-		this.root = new j5g3.Clip({ width: this._p.width, height: this._p.height });
-
-		this._p.canvas.width = this._p.width;
-		this._p.canvas.height = this._p.height;
-		this._p.canvas.addEventListener('click', this.onClick, false);
-
-		j5g3.property.get(this, 'canvas');
-		
-		return this;
-	},
-
-	getContext: function()
-	{
-		return this._p.canvas.getContext('2d');
-	},
-
-	gameLoop: function()
-	{
-		var context = this.getContext();
-
-		this.background.draw(context);
-		this.root.draw(context);
-	},
-
-	run: function()
-	{
-		setInterval("j5g3.Engine.gameLoop()", this.fps);
 	}
-}
+
+})(j5g3);
+
 
 j5g3.Util = {
 
@@ -407,7 +401,7 @@ j5g3.Image = function(properties)
 
 	j5g3.DisplayObject.apply(this, [ properties ]);
 
-	this.paint = j5g3.Engine.algorithms.drawImage;
+	this.paint = j5g3.Engine.Draw.Image;
 
 	
 	/**
@@ -526,7 +520,7 @@ j5g3.Clip = function(properties)
 		this._frame = (this._frame < this.totalFrames()-1) ? this._frame + 1 : 0; 
 	}
 
-	this.paint = j5g3.Engine.algorithms.drawContainer;
+	this.paint = j5g3.Engine.Draw.Container;
 
 	this.stop = function() { this._playing = false;	};
 	this.play = function() { this._playing = true;	};

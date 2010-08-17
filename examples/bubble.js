@@ -10,7 +10,7 @@ var
 	max_balls = 10,
 
 	/* Elements */
-	canvas = engine.canvas(),
+	canvas = engine.canvas,
 
 	Ball = function()
 	{
@@ -80,7 +80,7 @@ var
 			checkCollision('x', canvas.width);
 			checkCollision('y', canvas.height);
 			
-			engine.algorithms.drawImage.apply(this, [context]);
+			j5g3.Engine.Draw.Image.apply(this, [context]);
 		};
 	},
 	update = function()

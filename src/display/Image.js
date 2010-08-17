@@ -6,7 +6,7 @@ j5g3.Image = function(properties)
 
 	j5g3.DisplayObject.apply(this, [ properties ]);
 
-	this.paint = j5g3.Engine.algorithms.drawImage;
+	this.paint = j5g3.Engine.Draw.Image;
 
 	
 	/**

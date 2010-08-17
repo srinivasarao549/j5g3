@@ -63,8 +63,8 @@ var j5g3 = {
 	 */
 	start: function(initfunc)
 	{
-		j5g3.Engine.initialize();
-		initfunc(j5g3.Engine);
+		j5g3.engine = new j5g3.Engine({ });
+		initfunc(j5g3.engine);
 	}
 	
 };
