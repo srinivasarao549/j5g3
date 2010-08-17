@@ -8,11 +8,13 @@
 	
 	var Engine = function()
 	{
-		this.canvas = document.getElementById('screen');
-		this.fps    = 100;
-		this.backgroundStyle = 'black';
-		this.width  = 640;
-		this.height = 480;
+		var _p = {
+			canvas = document.getElementById('screen'),
+			fps    = 100,
+			backgroundStyle = 'black',
+			width  = 640,
+			height = 480
+		};
 
 	var 
 		self = this,
@@ -28,7 +30,27 @@
 
 			self.background.draw(context);
 			self.root.draw(context);
-		};
+		}, 
+		initialize: function()
+		{
+			self.background = new j5g3.Rect({ 
+				fillStyle: self.backgroundStyle(), 
+				width: self.width(), 
+				height: self.height() 
+			});
+			
+			self.root = new j5g3.Clip({
+				width: self.width(),
+				height: self.height()
+			});
+
+			canvas.width = self.width();
+			canvas.height = self.height();
+			canvas.addEventListener('click', self.onClick, false);
+		}
+	;
+
+		$.Property.define(this, _p, ['fps', 'canvas', 'backgroundStyle', 'width', 'height']);
 
 		/**
 		 * Starts the execution.
@@ -37,26 +59,17 @@
 		{
 			setInterval(gameLoop, this.fps);
 		};
-
-		this.initialize = function()
-		{
-			this.background = new j5g3.Rect({ fillStyle: this.backgroundStyle, width: this.width, height: this.height });
-			
-			this.root = new j5g3.Clip({ width: this.width, height: this.height });
-
-			canvas.width = this.width;
-			canvas.height = this.height;
-			canvas.addEventListener('click', this.onClick, false);
-		};
 	
 		/**
 		 * You should always call this method first.
 		 */
 		this.start= function(initfunc)
 		{
-			this.initialize();
+			initialize();
 			initfunc(this);
 		};
+
+		this.invalidate = function() { };
 	};
 
 	window.j5g3 = new Engine();

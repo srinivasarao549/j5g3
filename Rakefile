@@ -7,7 +7,7 @@ require 'rake/packagetask'
 sources = Dir.glob("src/**/*.js")
 sources.delete('src/core.js')
 
-SRC = 'src/core.js ' + sources.join(' ')
+SRC = sources.join(' ') + 'src/core.js '
 OUTPUT = 'build/j5g3.js'
 MINOUTPUT = 'build/j5g3-min.js'
 JAVA = 'java'
