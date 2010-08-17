@@ -1,76 +1,64 @@
 /**
  * JS Game Engine
  *
- * Core Library.
+ * j5g3 Core Library.
  */
 
-var j5g3 = {
-
-	/**
-	 * Extends object a with b
-	 */
-	extend: function(a, b)
-	{
-		for (var i in b)
-			a[i] = b[i];
-		return a;
-	},
-
-	/**
-	 * Extends Caller with b
-	 * @param b is the class to extend
-	 */
-	inherits: function(obj, klass, args)
-	{
-		klass.apply(obj, args);
-	},
-
-	/**
-	 * Declares a j5g3 Property.
-	 * @param prop       Property name
-	 */
-	property: function(caller, prop)
-	{
-		caller[prop] = function(val) { 
-			if (val!==undefined)
-			{
-				caller.invalidate();
-				caller._p[prop] = val;
-				return caller;
-			}
-			return caller._p[prop];
-		};
-		return caller[prop];
-	},
-
-	/**
-	 * Defines multiple properties for a j5g3 class
-	 */
-	properties: function(obj, prop_array)
-	{
-		var i;
-		for (i in prop_array)
-			j5g3.property(obj, prop_array[i]);
-	},
-
-	init: function(initfunc)
-	{
-		initfunc.apply(j5g3.Engine);
-	},
-
-	/**
-	 * You should always call this method first.
-	 */
-	start: function(initfunc)
-	{
-		j5g3.engine = new j5g3.Engine({ });
-		initfunc(j5g3.engine);
-	}
+(function(window, undefined) {
 	
-};
+	var Engine = function()
+	{
+		this.canvas = document.getElementById('screen');
+		this.fps    = 100;
+		this.backgroundStyle = 'black';
+		this.width  = 640;
+		this.height = 480;
 
-j5g3.property.get = function(caller, prop) {
-	caller[prop] = function () { return caller._p[prop]; }; 
-	return caller[prop]; 
-};
+	var 
+		self = this,
+		canvas = this.canvas,
+
+		getContext= function()
+		{
+			return self.canvas.getContext('2d');
+		},
+		gameLoop= function()
+		{
+			var context = getContext();
+
+			self.background.draw(context);
+			self.root.draw(context);
+		};
+
+		/**
+		 * Starts the execution.
+		 */
+		this.run= function()
+		{
+			setInterval(gameLoop, this.fps);
+		};
+
+		this.initialize = function()
+		{
+			this.background = new j5g3.Rect({ fillStyle: this.backgroundStyle, width: this.width, height: this.height });
+			
+			this.root = new j5g3.Clip({ width: this.width, height: this.height });
+
+			canvas.width = this.width;
+			canvas.height = this.height;
+			canvas.addEventListener('click', this.onClick, false);
+		};
+	
+		/**
+		 * You should always call this method first.
+		 */
+		this.start= function(initfunc)
+		{
+			this.initialize();
+			initfunc(this);
+		};
+	};
+
+	window.j5g3 = new Engine();
+})(window);
 

@@ -1,8 +1,30 @@
+/**
+ *
+ * j5g3 Utilities
+ */
 
-j5g3.Util = {
+(function($, undefined) {
 
+	/**
+	 * Extends object a with b
+	 */
+	$.Util.extend= function(a, b)
+	{
+		for (var i in b)
+			a[i] = b[i];
+		return a;
+	};
 
-	getType: function(obj)
+	/**
+	 * Extends Caller with b
+	 * @param b is the class to extend
+	 */
+	$.Util.inherits= function(obj, klass, args)
+	{
+		klass.apply(obj, args);
+	};
+	
+	$.Util.getType: function(obj)
 	{
 		var result = typeof(obj);
 
@@ -17,5 +39,4 @@ j5g3.Util = {
 		return result;
 	}
 
-};
-
+})(j5g3);

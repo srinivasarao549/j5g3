@@ -1,5 +1,5 @@
 
-var game = function(engine, undefined) {
+var game = function($, undefined) {
 
 	/* Classes used */
 var 
@@ -10,7 +10,7 @@ var
 	max_balls = 10,
 
 	/* Elements */
-	canvas = engine.canvas,
+	canvas = $.canvas,
 
 	Ball = function()
 	{
@@ -85,7 +85,7 @@ var
 	},
 	update = function()
 	{
-		var objs = engine.root.frame(), i=0, j;
+		var objs = $.root.frame(), i=0, j;
 
 		for (; i < max_balls; i++)
 			for (j = i+1; j < max_balls; j++)
@@ -94,12 +94,12 @@ var
 	}
 ;
 
-	engine.fps = (1000/60);
+	$.fps = (1000/60);
 
 	for (i = 0; i < max_balls; i++)
-		engine.root.add(new Ball());
+		$.root.add(new Ball());
 
-	engine.root.add(update);
-	engine.run();
+	$.root.add(update);
+	$.run();
 
 };

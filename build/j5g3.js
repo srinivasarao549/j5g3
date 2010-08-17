@@ -4,76 +4,130 @@
  * Core Library.
  */
 
-var j5g3 = {
+(function(window, undefined) {
+
+	
+	var Engine = function()
+	{
+		this.canvas = document.getElementById('screen');
+		this.fps    = 100;
+		this.backgroundStyle = 'black';
+		this.width  = 640;
+		this.height = 480;
+
+	var 
+		self = this,
+		canvas = this.canvas,
+
+		getContext= function()
+		{
+			return self.canvas.getContext('2d');
+		},
+		gameLoop= function()
+		{
+			var context = getContext();
+
+			self.background.draw(context);
+			self.root.draw(context);
+		};
+
+		/**
+		 * Starts the execution.
+		 */
+		this.run= function()
+		{
+			setInterval(gameLoop, this.fps);
+		};
+
+		this.initialize = function()
+		{
+			this.background = new j5g3.Rect({ fillStyle: this.backgroundStyle, width: this.width, height: this.height });
+			
+			this.root = new j5g3.Clip({ width: this.width, height: this.height });
+
+			canvas.width = this.width;
+			canvas.height = this.height;
+			canvas.addEventListener('click', this.onClick, false);
+		};
+	
+		/**
+		 * You should always call this method first.
+		 */
+		this.start= function(initfunc)
+		{
+			this.initialize();
+			initfunc(this);
+		};
+	};
+
+	window.j5g3 = new Engine();
+})(window);
+
+
+
+(function($, undefined) {
+
+	/**
+	 * This are all the core drawing algorithms. "this" will point to the DisplayObject.
+	 */
+	$.Draw = 
+	{
+		Image: function (context)
+		{
+			context.drawImage(this.source(), 0, 0);	
+		},
+		
+		/**
+		 * Drawing function for Clips
+		 */
+		Sprite: function (context) 
+		{
+			var src = this.source(), 
+			    w = this.width(), 
+			    h = this.height()
+			;
+
+			context.drawImage(src.image, src.x, src.y, src.w, src.h, 0, 0, w ? w : src.w, h ? h : src.h);
+		},
+
+		Container: function (context)
+		{
+			var frame = this.frame();
+
+			for (var i in frame)
+				frame[i].draw(context);
+		}
+
+	};
+
+})(j5g3);
+/**
+ *
+ * j5g3 Utilities
+ */
+
+(function($, undefined) {
 
 	/**
 	 * Extends object a with b
 	 */
-	extend: function(a, b)
+	$.Util.extend= function(a, b)
 	{
 		for (var i in b)
 			a[i] = b[i];
 		return a;
-	},
+	};
 
 	/**
 	 * Extends Caller with b
 	 * @param b is the class to extend
 	 */
-	inherits: function(obj, klass, args)
+	$.Util.inherits= function(obj, klass, args)
 	{
 		klass.apply(obj, args);
-	},
+	};
 
-	/**
-	 * Declares a j5g3 Property.
-	 * @param prop       Property name
-	 */
-	property: function(caller, prop)
-	{
-		caller[prop] = function(val) { 
-			if (val!==undefined)
-			{
-				caller.invalidate();
-				caller._p[prop] = val;
-				return caller;
-			}
-			return caller._p[prop];
-		};
-		return caller[prop];
-	},
-
-	/**
-	 * Defines multiple properties for a j5g3 class
-	 */
-	properties: function(obj, prop_array)
-	{
-		var i;
-		for (i in prop_array)
-			j5g3.property(obj, prop_array[i]);
-	},
-
-	init: function(initfunc)
-	{
-		initfunc.apply(j5g3.Engine);
-	},
-
-	/**
-	 * You should always call this method first.
-	 */
-	start: function(initfunc)
-	{
-		j5g3.engine = new j5g3.Engine({ });
-		initfunc(j5g3.engine);
-	}
-	
-};
-
-j5g3.property.get = function(caller, prop) {
-	caller[prop] = function () { return caller._p[prop]; }; 
-	return caller[prop]; 
-};
-
+})(j5g3);
 
 j5g3.Action = function(properties)
 {
@@ -117,82 +171,7 @@ j5g3.Animate.Easing =
  *
  */
 
-(function($, undefined)
-{
-	$.Engine = function(p)
-	{
-		this.canvas = p.canvas || document.getElementById('screen');
-		this.fps    = p.fps    || 100;
-		this.backgroundStyle = p.backgroundStyle || 'black';
-		this.width  = p.width || 640;
-		this.height = p.height || 480;
 
-	var 
-		self = this,
-
-		getContext= function()
-		{
-			return self.canvas.getContext('2d');
-		},
-		gameLoop= function()
-		{
-			var context = getContext();
-
-			self.background.draw(context);
-			self.root.draw(context);
-		};
-
-		this.run= function()
-		{
-			setInterval(gameLoop, this.fps);
-		};
-
-
-		this.background = new j5g3.Rect({ fillStyle: this.backgroundStyle, width: this.width, height: this.height });
-		
-		this.root = new $.Clip({ width: this.width, height: this.height });
-
-		this.canvas.width = this.width;
-		this.canvas.height = this.height;
-		this.canvas.addEventListener('click', this.onClick, false);
-	};
-
-
-
-	/**
-	 * This are all the core drawing algorithms. "this" will point to the DisplayObject.
-	 */
-	$.Engine.Draw = 
-	{
-		Image: function (context)
-		{
-			context.drawImage(this.source(), 0, 0);	
-		},
-		
-		/**
-		 * Drawing function for Clips
-		 */
-		Sprite: function (context) 
-		{
-			var src = this.source(), 
-			    w = this.width(), 
-			    h = this.height()
-			;
-
-			context.drawImage(src.image, src.x, src.y, src.w, src.h, 0, 0, w ? w : src.w, h ? h : src.h);
-		},
-
-		Container: function (context)
-		{
-			var frame = this.frame();
-
-			for (var i in frame)
-				frame[i].draw(context);
-		}
-
-	}
-
-})(j5g3);
 
 
 j5g3.Util = {
@@ -950,3 +929,45 @@ j5g3.Matrix.Zero = function(n, m)
 {
 	return j5g3.Matrix.Func(n, m, function() { return 0; });
 }
+/**
+ * Property Class
+ *
+ */
+
+(function($, undefined) {
+
+	/**
+	 * Declares a j5g3 Property.
+	 * @param prop       Property name
+	 */
+	$.Property = function(caller, name)
+	{
+		caller[prop] = function(val) { 
+			if (val!==undefined)
+			{
+				caller.invalidate();
+				caller._p[prop] = val;
+				return caller;
+			}
+			return caller._p[prop];
+		};
+		
+		return caller[prop];
+	};
+
+	$.Property.get = function(caller, prop) {
+		caller[prop] = function () { return caller._p[prop]; }; 
+		return caller[prop]; 
+	};
+
+	/**
+	 * Defines multiple properties for a j5g3 class
+	 */
+	$.Property.define = function(obj, prop_array)
+	{
+		var i;
+		for (i in prop_array)
+			j5g3.property(obj, prop_array[i]);
+	};
+
+})(j5g3);
