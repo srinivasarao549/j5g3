@@ -7,7 +7,7 @@ var
 
 	/* Functions */
 	rand = Math.random,
-	max_balls = 64,
+	max_balls = 10,
 
 	/* Elements */
 	canvas = engine.canvas(),
@@ -16,24 +16,33 @@ var
 	{
 		Image.apply(this);	
 
+		this.source('soccer-ball.gif');
+
 		var max_speed = 5,
-		    diameter  = this.width()
+		    diameter  = this.width(),
 		    velocity  = { x: rand() * max_speed, y: rand() * max_speed },
 		    radius    = diameter / 2,
 		    i=0,
+		    self=this,
 
 		    checkCollision = function(coord, limit)
 		    {
-			var v = this[coord]();
+			var v = self[coord]();
+			
+			if (v<0)
+				self[coord](0);
+			else if (v > limit-diameter)
+				self[coord](limit - diameter);
+			else
+				return;
 
-			this[coord]( v < 0 ? 0 : limit - diameter );
-			this.velocity[coord]=-this.velocity[coord]; 
+			velocity[coord] = -velocity[coord]; 
 		    }, 
 
 		    collide = function(obj)
 		    {
-			var dx = this.x() - obj.x(),
-			    dy = this.y() - obj.y(),
+			var dx = self.x() - obj.x(),
+			    dy = self.y() - obj.y(),
 			    dvx = velocity.x - obj.velocity.x,
 			    dvy = velocity.y - obj.velocity.y,
 			    mag = dvx * dx + dvy * dy;
@@ -59,7 +68,6 @@ var
 
 		this.x(rand() * (canvas.width  -diameter));
 		this.y(rand() * (canvas.height -diameter));
-		this.source('soccer-ball.gif');
 		this.velocity = velocity;
 		this.collide  = collide;
 				
@@ -77,16 +85,16 @@ var
 	},
 	update = function()
 	{
-		var objs = game.root.frame();
+		var objs = engine.root.frame(), i=0, j;
 
-		for (var i = 0; i < max_balls; i++)
-			for (var j = i+1; j < max_balls; j++)
+		for (; i < max_balls; i++)
+			for (j = i+1; j < max_balls; j++)
 				if (objs[i].collidesWith(objs[j]))
 					objs[i].collide(objs[j]);
 	}
 ;
 
-	engine.fps = 1000/60;
+	engine.fps = (1000/60);
 
 	for (i = 0; i < max_balls; i++)
 		engine.root.add(new Ball());

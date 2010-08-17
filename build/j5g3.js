@@ -117,6 +117,7 @@ j5g3.Animate.Easing =
 j5g3.Engine =
 {
 	root: null, /** Root Node **/
+	fps: 100,
 
 	algorithms: {
 
@@ -196,7 +197,7 @@ j5g3.Engine =
 
 	run: function()
 	{
-		setInterval('j5g3.Engine.gameLoop()', this._p.fps);
+		setInterval("j5g3.Engine.gameLoop()", this.fps);
 	}
 }
 
