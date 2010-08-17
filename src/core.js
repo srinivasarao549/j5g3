@@ -53,12 +53,18 @@ var j5g3 = {
 			j5g3.property(obj, prop_array[i]);
 	},
 
-	/**
-	 * You should always call this method first.
-	 */
 	init: function(initfunc)
 	{
 		initfunc.apply(j5g3.Engine);
+	},
+
+	/**
+	 * You should always call this method first.
+	 */
+	start: function(initfunc)
+	{
+		j5g3.Engine.initialize();
+		initfunc(j5g3.Engine);
 	}
 	
 };

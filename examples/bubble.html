@@ -2,111 +2,11 @@
 <head>
 	<title>JSGE - Bubble Example</title>
 	<script src="../build/j5g3.js"></script>
+	<script src="bubble.js"></script>
 	<style>
 		canvas { width: 640px; height: 480px; }
 	</style>
-	<script>
-	
-		var game;
-
-		/**
-		 * Ball Object
-		 */
-		function Ball()
-		{
-			j5g3.inherits(this, j5g3.Image);
-
-			this.source('soccer-ball.gif');
-			this.max_speed = 5;
-
-			this.diameter = this.width();
-			this.x(Math.random() * (game.canvas().width-this.diameter));
-			this.y(Math.random() * (game.canvas().height-this.diameter));
-
-			this.velocity = { x: Math.random() * this.max_speed, y: Math.random() * this.max_speed };
-			this.radius = this.diameter / 2;
-
-			this.checkCollision = function(coord, limit)
-			{
-				var v = this[coord]();
-				if (v < 0) 
-				{ 
-					this[coord](0); 
-					this.velocity[coord]=-this.velocity[coord]; 
-				} else if (v > limit-this.diameter) 
-				{ 
-					this[coord](limit-this.diameter);
-					this.velocity[coord]=-this.velocity[coord];
-				}
-			};
-			/**
-			 * Update position and paint
-			 */
-			this.paint = function(context)
-			{
-				this.x(this.x() + this.velocity.x);
-				this.y(this.y() + this.velocity.y);
-
-
-				// wall collission
-				this.checkCollision('x', game.canvas().width);
-				this.checkCollision('y', game.canvas().height);
-				
-				j5g3.Engine.algorithms.drawImage.apply(this, [context]);
-			};
-
-			this.collide = function(obj)
-			{
-				var dx = this.x() - obj.x();
-				var dy = this.y() - obj.y();
-				var dvx = this.velocity.x - obj.velocity.x;
-				var dvy = this.velocity.y - obj.velocity.y;
-
-				var mag = dvx * dx + dvy * dy;
-				if (mag > 0)
-					return;
-
-				var d2 = dx*dx + dy*dy;
-
-				mag /= d2;
-
-				dvx = dx * mag;
-				dvy = dy * mag;
-
-				this.velocity.x -= dvx;
-				this.velocity.y -= dvy;
-
-				obj.velocity.x += dvx;
-				obj.velocity.y += dvy;
-			};
-		};
-
-		function update()
-		{
-			var objs = game.root.frame();
-
-			for (var i = 0; i < window.max_balls; i++)
-				for (var j = i+1; j < window.max_balls; j++)
-					if (objs[i].collidesWith(objs[j]))
-						objs[i].collide(objs[j]);
-		};
-
-		function initialize()
-		{
-			game = j5g3.Engine.initialize( { fps: 1000/60 } );
-			window.max_balls = 64;
-
-			for (var i = 0; i < window.max_balls; i++)
-			{
-				game.root.add(new Ball());
-			}
-
-			game.root.add(update);
-
-			game.run();
-		}
-	</script>
 </head>
-<body onload="initialize()">
+<body onload="j5g3.start(game);">
 	<canvas id="screen"></canvas>
 </body>
