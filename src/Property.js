@@ -48,7 +48,7 @@ Property.define = function(obj)
 
 Property.extend = function(obj, p)
 {
-	var properties = obj.__proto__.constructor.properties,
+	var properties = obj.constructor.properties,
 	    i;
 
 	for (i in properties)

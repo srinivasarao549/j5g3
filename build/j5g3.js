@@ -7,7 +7,7 @@
  * Dual licensed under the MIT or GPL Version 2
  * http://jquery.org/license
  *
- * Date: 2010-08-18 02:19:18 -0400
+ * Date: 2010-08-18 02:30:16 -0400
  */
 
 (function(window, document, undefined) {
@@ -147,7 +147,7 @@ Property.define = function(obj)
 
 Property.extend = function(obj, p)
 {
-	var properties = obj.__proto__.constructor.properties,
+	var properties = obj.constructor.properties,
 	    i;
 
 	for (i in properties)
