@@ -38,21 +38,32 @@ Property.get = function(p, name) {
 /**
  * Will declare all the properties of the object in its prototype
  * @param obj   Object to add Properties.
+ * @param properties Properties object.
  *
  */
-Property.define = function(obj) 
+Property.define = function(obj, properties) 
 {
-	for (var i in obj.properties)
+	for (var i in properties)
 		obj.prototype[i] = $.Property(i); //obj.properties[i]);
+
+	obj.properties = properties;
+
+	return obj;
 };
 
 Property.extend = function(obj, p)
 {
+	obj._p = Util.clone(p);
+
 	var properties = obj.constructor.properties,
 	    i;
 
-	for (i in properties)
-		obj._p[i] = p[i] || properties[i];
+	if (p)
+		for (i in properties)
+			obj._p[i] = p[i] || properties[i];
+	else
+		for (i in properties)
+			obj._p[i] = properties[i];
 };
 
 $.Property = Property;

@@ -23,8 +23,14 @@ var Engine = function()
 		}, 
 		initialize = function(properties)
 		{
+			$.Property.define(Engine, { 
+				canvas : null,
+				fps    : 100,
+				backgroundStyle : 'black',
+				width  : 640,
+				height : 480
+			});
 			$.Property.extend(self, properties);
-			$.Property.define(Engine);
 
 			if (self._p.canvas === null)
 				self._p.canvas = document.getElementById('screen');
@@ -70,14 +76,6 @@ var Engine = function()
 	};
 
 	this.invalidate = function() { };
-};
-
-Engine.properties = { 
-	canvas : null,
-	fps    : 100,
-	backgroundStyle : 'black',
-	width  : 640,
-	height : 480
 };
 
 var $ = window.j5g3 = new Engine();

@@ -4,7 +4,7 @@
  *
  */
 
-$.Util = {
+var Util = {
 
 	/**
 	 * Extends object a with b
@@ -16,13 +16,36 @@ $.Util = {
 		return a;
 	},
 
+	clone: function(a)
+	{
+		var x = {};
+		for (var i in a)
+			x[i] = a[i];
+		return x;
+	},
+
 	/**
-	 * Extends Caller with b
+	 * Extends Caller with b. Sets up properties.
 	 * @param b is the class to extend
 	 */
-	inherits: function(obj, klass, args)
+	inherits: function(base, klass, properties, methods)
 	{
-		klass.apply(obj, args);
+		klass.prototype = new base;
+		Property.define(klass, properties);
+
+		Util.extend(klass.prototype, methods);
+
+		return klass;
+	},
+
+	Class: function(klass, base, properties, methods)
+	{
+		klass.prototype = new base;
+		Property.define(klass, properties);
+
+		Util.extend(klass.prototype, methods);
+
+		return klass;
 	},
 
 	getType: function(obj)
@@ -42,3 +65,4 @@ $.Util = {
 
 };
 
+$.Util = Util;

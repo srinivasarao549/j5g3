@@ -7,7 +7,7 @@
  * Dual licensed under the MIT or GPL Version 2
  * http://jquery.org/license
  *
- * Date: 2010-08-18 02:30:16 -0400
+ * Date: 2010-08-18 13:11:06 -0400
  */
 
 (function(window, document, undefined) {
@@ -38,8 +38,14 @@ var Engine = function()
 		}, 
 		initialize = function(properties)
 		{
+			$.Property.define(Engine, { 
+				canvas : null,
+				fps    : 100,
+				backgroundStyle : 'black',
+				width  : 640,
+				height : 480
+			});
 			$.Property.extend(self, properties);
-			$.Property.define(Engine);
 
 			if (self._p.canvas === null)
 				self._p.canvas = document.getElementById('screen');
@@ -87,14 +93,6 @@ var Engine = function()
 	this.invalidate = function() { };
 };
 
-Engine.properties = { 
-	canvas : null,
-	fps    : 100,
-	backgroundStyle : 'black',
-	width  : 640,
-	height : 480
-};
-
 var $ = window.j5g3 = new Engine();
 
 /**
@@ -137,21 +135,32 @@ Property.get = function(p, name) {
 /**
  * Will declare all the properties of the object in its prototype
  * @param obj   Object to add Properties.
+ * @param properties Properties object.
  *
  */
-Property.define = function(obj) 
+Property.define = function(obj, properties) 
 {
-	for (var i in obj.properties)
+	for (var i in properties)
 		obj.prototype[i] = $.Property(i); //obj.properties[i]);
+
+	obj.properties = properties;
+
+	return obj;
 };
 
 Property.extend = function(obj, p)
 {
+	obj._p = Util.clone(p);
+
 	var properties = obj.constructor.properties,
 	    i;
 
-	for (i in properties)
-		obj._p[i] = p[i] || properties[i];
+	if (p)
+		for (i in properties)
+			obj._p[i] = p[i] || properties[i];
+	else
+		for (i in properties)
+			obj._p[i] = properties[i];
 };
 
 $.Property = Property;
@@ -161,7 +170,7 @@ $.Property = Property;
  *
  */
 
-$.Util = {
+var Util = {
 
 	/**
 	 * Extends object a with b
@@ -173,13 +182,36 @@ $.Util = {
 		return a;
 	},
 
+	clone: function(a)
+	{
+		var x = {};
+		for (var i in a)
+			x[i] = a[i];
+		return x;
+	},
+
 	/**
-	 * Extends Caller with b
+	 * Extends Caller with b. Sets up properties.
 	 * @param b is the class to extend
 	 */
-	inherits: function(obj, klass, args)
+	inherits: function(base, klass, properties, methods)
 	{
-		klass.apply(obj, args);
+		klass.prototype = new base;
+		Property.define(klass, properties);
+
+		Util.extend(klass.prototype, methods);
+
+		return klass;
+	},
+
+	Class: function(klass, base, properties, methods)
+	{
+		klass.prototype = new base;
+		Property.define(klass, properties);
+
+		Util.extend(klass.prototype, methods);
+
+		return klass;
 	},
 
 	getType: function(obj)
@@ -199,16 +231,17 @@ $.Util = {
 
 };
 
+$.Util = Util;
 
 
 /**
  * This are all the core drawing algorithms. "this" will point to the DisplayObject.
  */
-$.Draw = 
+var Draw = $.Draw =  
 {
 	Image: function (context)
 	{
-		context.drawImage(this.source(), 0, 0);	
+		context.drawImage(this._p.source, 0, 0);	
 	},
 	
 	/**
@@ -240,16 +273,13 @@ $.Draw =
  */
 var DisplayObject = function(properties)
 {
-	this._p = { };
-
 	$.Property.extend(this, properties);
-
 	this._dirty = true;
 };
 
 /* METHODS */
 
-DisplayObject.prototype = {
+Util.extend(DisplayObject.prototype, {
 	
 	/**
 	 * Save Transform Matrix and apply transformations.
@@ -337,22 +367,12 @@ DisplayObject.prototype = {
 		this.invalidate();
 		return this;
 	}
-};
+});
 /* PROPERTIES */
 
-DisplayObject.properties = {
+$.DisplayObject = $.Property.define(DisplayObject, {
 	source: null, parent: null, x: 0, y:0, width: null, height: null, rotation: 0, scaleX: 1, scaleY: 1, alpha: 1
-};
-
-DisplayObject.readonly = {
-};
-
-$.Property.define(DisplayObject);
-
-/* METHODS */
-
-
-$.DisplayObject= DisplayObject;
+});
 /**
  * j5g3 Clip
  *
@@ -373,15 +393,7 @@ var Clip = function(properties)
 	this._playing = true;
 };
 
-Clip.prototype = new DisplayObject;
-
-Clip.properties = {
-	frames: null
-};	
-
-$.Property.define(Clip);
-
-$.Util.extend(Clip.prototype, {
+$.Clip = Util.Class(Clip, DisplayObject, { frames: null }, {
 	
 	/**
 	 * Returns current frame objects.
@@ -407,7 +419,7 @@ $.Util.extend(Clip.prototype, {
 		this._frame = (this._frame < this.totalFrames()-1) ? this._frame + 1 : 0; 
 	},
 
-	paint : $.Draw.Container,
+	paint : Draw.Container,
 
 	stop : function() { this._playing = false;	},
 	play : function() { this._playing = true;	},
@@ -492,9 +504,6 @@ $.Util.extend(Clip.prototype, {
 	}
 });
 
-$.Clip = Clip;
-
-
 var Image = function(properties)
 {
 	if (typeof properties == 'string')
@@ -542,22 +551,26 @@ $.Util.extend(Image.prototype, {
 
 $.Image = Image;
 
+/*
+ * Displays a Rect
+ */
 
 var Rect = function(properties)
 {
 	Property.extend(this, properties);
-
-	this.fillStyle = function(value) { return value ? (this.invalidate(), (this._p.fillStyle = value), this) : this._p.fillStyle; };
-
-	this.paint = function(context) {
-		if (this._p.fillStyle) context.fillStyle = this._p.fillStyle;
-		context.fillRect(this._p.x, this._p.y, this._p.width, this._p.height);
-	};
 };
 
-Rect.prototype = new DisplayObject;
+$.Rect = Util.inherits(DisplayObject, Rect, {
+	fillStyle: null
+});
 
-$.Rect = Rect;
+/* METHODS */
+Rect.prototype.paint = function(context)
+{
+	if (this._p.fillStyle) context.fillStyle = this._p.fillStyle;
+
+	context.fillRect(this._p.x, this._p.y, this._p.width, this._p.height);
+};
 
 /*
  * j5g3 Sprite

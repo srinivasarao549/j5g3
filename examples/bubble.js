@@ -14,6 +14,8 @@ var
 
 	Ball = function()
 	{
+		$.Property.extend(this);
+
 		this.source('soccer-ball.gif');
 
 		var max_speed = 5,
@@ -94,7 +96,7 @@ var
 	Ball.prototype = new Image(  );
 
 
-	$.fps = (1000/60);
+	$.fps(1000/60);
 
 	for (i = 0; i < max_balls; i++)
 		$.root.add(new Ball());

@@ -4,16 +4,13 @@
  */
 var DisplayObject = function(properties)
 {
-	this._p = { };
-
 	$.Property.extend(this, properties);
-
 	this._dirty = true;
 };
 
 /* METHODS */
 
-DisplayObject.prototype = {
+Util.extend(DisplayObject.prototype, {
 	
 	/**
 	 * Save Transform Matrix and apply transformations.
@@ -101,19 +98,9 @@ DisplayObject.prototype = {
 		this.invalidate();
 		return this;
 	}
-};
+});
 /* PROPERTIES */
 
-DisplayObject.properties = {
+$.DisplayObject = $.Property.define(DisplayObject, {
 	source: null, parent: null, x: 0, y:0, width: null, height: null, rotation: 0, scaleX: 1, scaleY: 1, alpha: 1
-};
-
-DisplayObject.readonly = {
-};
-
-$.Property.define(DisplayObject);
-
-/* METHODS */
-
-
-$.DisplayObject= DisplayObject;
+});

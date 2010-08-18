@@ -18,15 +18,7 @@ var Clip = function(properties)
 	this._playing = true;
 };
 
-Clip.prototype = new DisplayObject;
-
-Clip.properties = {
-	frames: null
-};	
-
-$.Property.define(Clip);
-
-$.Util.extend(Clip.prototype, {
+$.Clip = Util.Class(Clip, DisplayObject, { frames: null }, {
 	
 	/**
 	 * Returns current frame objects.
@@ -52,7 +44,7 @@ $.Util.extend(Clip.prototype, {
 		this._frame = (this._frame < this.totalFrames()-1) ? this._frame + 1 : 0; 
 	},
 
-	paint : $.Draw.Container,
+	paint : Draw.Container,
 
 	stop : function() { this._playing = false;	},
 	play : function() { this._playing = true;	},
@@ -136,6 +128,3 @@ $.Util.extend(Clip.prototype, {
 		};
 	}
 });
-
-$.Clip = Clip;
-
