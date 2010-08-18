@@ -7,18 +7,20 @@
  *
  */
 
-var Clip = function(properties)
-{
-	$.Property.extend(this, properties);
+Class(
+	Clip= function(properties)
+	{
+		_extend(this, properties);
 
-	if (!this._p.frames)
-		this._p.frames = [ [ ] ];
+		if (!this._p.frames)
+			this._p.frames = [ [ ] ];
 
-	this._frame = 0;
-	this._playing = true;
-};
-
-$.Clip = Util.Class(Clip, DisplayObject, { frames: null }, {
+		this._frame = 0;
+		this._playing = true;
+	},
+	DisplayObject, 
+	{ frames: null }, 
+	{
 	
 	/**
 	 * Returns current frame objects.
@@ -55,16 +57,16 @@ $.Clip = Util.Class(Clip, DisplayObject, { frames: null }, {
 	 */
 	add : function(display_object)
 	{
-		switch (j5g3.Util.getType(display_object)) {
+		switch (Util.getType(display_object)) {
 		case 'function':
-			display_object = new j5g3.Action(display_object);
+			display_object = new Action(display_object);
 			break;
 		case 'string':
-			display_object = new j5g3.Image({ source: display_object });
+			display_object = new Image({ source: display_object });
 			break;
 		/* NOTE j5g3 Objects return j5g3 and not object */
 		case 'object':
-			display_object = new j5g3.Image(display_object);
+			display_object = new Image(display_object);
 			break;			
 		case 'array':
 			for (var i in display_object)
@@ -118,7 +120,7 @@ $.Clip = Util.Class(Clip, DisplayObject, { frames: null }, {
 		var start = {};
 
 		if (alg===undefined)
-			alg = j5g3.Animate.Easing.None;
+			alg = Animate.Easing.None;
 
 		for (var p in target)
 			start[p] = target;

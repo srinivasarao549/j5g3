@@ -93,8 +93,8 @@ var
 					objs[i].collide(objs[j]);
 	}
 ;
-	Ball.prototype = new Image(  );
-
+	$.Util.Class(Ball, Image, { }, { });
+	Ball.klass = 'Ball';
 
 	$.fps(1000/60);
 

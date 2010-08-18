@@ -1,5 +1,5 @@
 	
-var Engine = function()
+$ = window.j5g3 = new (function()
 {
 	var 
 		_pg = {
@@ -12,7 +12,7 @@ var Engine = function()
 
 		getContext= function()
 		{
-			return self._p.canvas.getContext('2d');
+			return canvas.getContext('2d');
 		},
 		gameLoop= function()
 		{
@@ -23,32 +23,34 @@ var Engine = function()
 		}, 
 		initialize = function(properties)
 		{
-			$.Property.define(Engine, { 
-				canvas : null,
+			$.Property.define(self.constructor, { 
+				'canvas' : null,
 				fps    : 100,
 				backgroundStyle : 'black',
 				width  : 640,
 				height : 480
 			});
-			$.Property.extend(self, properties);
+			_extend(self, properties);
 
 			if (self._p.canvas === null)
 				self._p.canvas = document.getElementById('screen');
 
-			self.background = new j5g3.Rect({ 
+			canvas = self._p.canvas;
+
+			self.background = new Rect({ 
 				fillStyle: self.backgroundStyle(),
 				width: self.width(), 
 				height: self.height() 
 			});
 			
-			self.root = new j5g3.Clip({
+			self.root = new Clip({
 				width: self.width(),
 				height: self.height()
 			});
 
-			self._p.canvas.width = self.width();
-			self._p.canvas.height = self.height();
-			self._p.canvas.addEventListener('click', self.onClick, false);
+			canvas.width = self.width();
+			canvas.height = self.height();
+			canvas.addEventListener('click', self.onClick, false);
 
 			properties.start($, document);
 		}
@@ -76,7 +78,4 @@ var Engine = function()
 	};
 
 	this.invalidate = function() { };
-};
-
-var $ = window.j5g3 = new Engine();
-
+});

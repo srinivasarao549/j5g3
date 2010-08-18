@@ -35,6 +35,8 @@ end
 desc "Minify script"
 task :minify => [:build] do
 	`#{JAVA} -jar tools/yuicompressor.jar #{OUTPUT} -o #{MINOUTPUT}`	
+	puts "#{OUTPUT}: " + File.size(OUTPUT).to_s
+	puts "#{MINOUTPUT}: " + File.size(MINOUTPUT).to_s
 end
 
 desc "Lint"
@@ -54,3 +56,4 @@ end
 
 desc "Default Action"
 task :default => [:minify]
+

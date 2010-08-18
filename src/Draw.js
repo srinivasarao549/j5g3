@@ -3,7 +3,7 @@
 /**
  * This are all the core drawing algorithms. "this" will point to the DisplayObject.
  */
-var Draw = $.Draw =  
+Draw =  
 {
 	Image: function (context)
 	{

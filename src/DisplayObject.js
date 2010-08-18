@@ -2,15 +2,18 @@
 /**
  * Base for all classes
  */
-var DisplayObject = function(properties)
-{
-	$.Property.extend(this, properties);
-	this._dirty = true;
-};
-
-/* METHODS */
-
-Util.extend(DisplayObject.prototype, {
+Class(
+	DisplayObject=function(properties)
+	{
+		this._p = { }
+		_extend(this, properties);
+		this._dirty = true;
+	}, 
+	Object, 
+	{
+		source: null, parent: null, x: 0, y:0, width: null, height: null, rotation: 0, scaleX: 1, scaleY: 1, alpha: 1
+	}, 
+	{
 	
 	/**
 	 * Save Transform Matrix and apply transformations.
@@ -98,9 +101,4 @@ Util.extend(DisplayObject.prototype, {
 		this.invalidate();
 		return this;
 	}
-});
-/* PROPERTIES */
-
-$.DisplayObject = $.Property.define(DisplayObject, {
-	source: null, parent: null, x: 0, y:0, width: null, height: null, rotation: 0, scaleX: 1, scaleY: 1, alpha: 1
 });

@@ -10,7 +10,7 @@
  * @param name  Property name
  *
  */
-var Property = function(name)
+Property = function(name)
 {
 	return function(val) { 
 		if (val !== undefined)
@@ -44,16 +44,17 @@ Property.get = function(p, name) {
 Property.define = function(obj, properties) 
 {
 	for (var i in properties)
-		obj.prototype[i] = $.Property(i); //obj.properties[i]);
+		obj.prototype[i] = Property(i); 
 
 	obj.properties = properties;
 
 	return obj;
 };
 
-Property.extend = function(obj, p)
+_extend = Property.extend = function(obj, p)
 {
-	obj._p = Util.clone(p);
+	// TODO Check this..
+	obj._p = Util.clone(obj._p);
 
 	var properties = obj.constructor.properties,
 	    i;
@@ -65,5 +66,3 @@ Property.extend = function(obj, p)
 		for (i in properties)
 			obj._p[i] = properties[i];
 };
-
-$.Property = Property;

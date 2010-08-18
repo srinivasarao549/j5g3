@@ -12,4 +12,21 @@
 
 (function(window, document, undefined) {
 
-	var VERSION = "@VERSION";
+	var VERSION = "@VERSION",
+	    Action,
+	    Clip,
+	    Class,
+	    DisplayObject,
+	    Draw,
+	    Image,
+	    Property,
+	    Rect,
+	    Sprite,
+	    Spritesheet,
+	    Text,
+	    Util,
+
+	    canvas,
+	    _extend,
+
+/* core.js defines $ */

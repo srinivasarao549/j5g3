@@ -7,14 +7,31 @@
  * Dual licensed under the MIT or GPL Version 2
  * http://jquery.org/license
  *
- * Date: 2010-08-18 13:11:06 -0400
+ * Date: 2010-08-18 18:21:48 -0400
  */
 
 (function(window, document, undefined) {
 
-	var VERSION = "0.1";
+	var VERSION = "0.1",
+	    Action,
+	    Clip,
+	    Class,
+	    DisplayObject,
+	    Draw,
+	    Image,
+	    Property,
+	    Rect,
+	    Sprite,
+	    Spritesheet,
+	    Text,
+	    Util,
+
+	    canvas,
+	    _extend,
+
+/* core.js defines $ */
 	
-var Engine = function()
+$ = window.j5g3 = new (function()
 {
 	var 
 		_pg = {
@@ -27,7 +44,7 @@ var Engine = function()
 
 		getContext= function()
 		{
-			return self._p.canvas.getContext('2d');
+			return canvas.getContext('2d');
 		},
 		gameLoop= function()
 		{
@@ -38,32 +55,34 @@ var Engine = function()
 		}, 
 		initialize = function(properties)
 		{
-			$.Property.define(Engine, { 
-				canvas : null,
+			$.Property.define(self.constructor, { 
+				'canvas' : null,
 				fps    : 100,
 				backgroundStyle : 'black',
 				width  : 640,
 				height : 480
 			});
-			$.Property.extend(self, properties);
+			_extend(self, properties);
 
 			if (self._p.canvas === null)
 				self._p.canvas = document.getElementById('screen');
 
-			self.background = new j5g3.Rect({ 
+			canvas = self._p.canvas;
+
+			self.background = new Rect({ 
 				fillStyle: self.backgroundStyle(),
 				width: self.width(), 
 				height: self.height() 
 			});
 			
-			self.root = new j5g3.Clip({
+			self.root = new Clip({
 				width: self.width(),
 				height: self.height()
 			});
 
-			self._p.canvas.width = self.width();
-			self._p.canvas.height = self.height();
-			self._p.canvas.addEventListener('click', self.onClick, false);
+			canvas.width = self.width();
+			canvas.height = self.height();
+			canvas.addEventListener('click', self.onClick, false);
 
 			properties.start($, document);
 		}
@@ -91,10 +110,7 @@ var Engine = function()
 	};
 
 	this.invalidate = function() { };
-};
-
-var $ = window.j5g3 = new Engine();
-
+});
 /**
  * Property Functions
  *
@@ -107,7 +123,7 @@ var $ = window.j5g3 = new Engine();
  * @param name  Property name
  *
  */
-var Property = function(name)
+Property = function(name)
 {
 	return function(val) { 
 		if (val !== undefined)
@@ -141,16 +157,17 @@ Property.get = function(p, name) {
 Property.define = function(obj, properties) 
 {
 	for (var i in properties)
-		obj.prototype[i] = $.Property(i); //obj.properties[i]);
+		obj.prototype[i] = Property(i); 
 
 	obj.properties = properties;
 
 	return obj;
 };
 
-Property.extend = function(obj, p)
+_extend = Property.extend = function(obj, p)
 {
-	obj._p = Util.clone(p);
+	// TODO Check this..
+	obj._p = Util.clone(obj._p);
 
 	var properties = obj.constructor.properties,
 	    i;
@@ -162,15 +179,13 @@ Property.extend = function(obj, p)
 		for (i in properties)
 			obj._p[i] = properties[i];
 };
-
-$.Property = Property;
 /**
  *
  * j5g3 Utilities
  *
  */
 
-var Util = {
+Util = {
 
 	/**
 	 * Extends object a with b
@@ -179,6 +194,13 @@ var Util = {
 	{
 		for (var i in b)
 			a[i] = b[i];
+		return a;
+	},
+
+	inherit: function(a, b)
+	{
+		for (var i in b)
+			a[i] = a[i] || b[i];
 		return a;
 	},
 
@@ -191,24 +213,14 @@ var Util = {
 	},
 
 	/**
-	 * Extends Caller with b. Sets up properties.
+	 * Defines class klass.
 	 * @param b is the class to extend
 	 */
-	inherits: function(base, klass, properties, methods)
-	{
-		klass.prototype = new base;
-		Property.define(klass, properties);
-
-		Util.extend(klass.prototype, methods);
-
-		return klass;
-	},
-
 	Class: function(klass, base, properties, methods)
 	{
-		klass.prototype = new base;
+		Util.extend(klass.prototype, new base);
 		Property.define(klass, properties);
-
+		Util.inherit(properties, base.properties);
 		Util.extend(klass.prototype, methods);
 
 		return klass;
@@ -228,16 +240,15 @@ var Util = {
 
 		return result;
 	}
-
 };
 
-$.Util = Util;
+Class = Util.Class;
 
 
 /**
  * This are all the core drawing algorithms. "this" will point to the DisplayObject.
  */
-var Draw = $.Draw =  
+Draw =  
 {
 	Image: function (context)
 	{
@@ -271,15 +282,18 @@ var Draw = $.Draw =
 /**
  * Base for all classes
  */
-var DisplayObject = function(properties)
-{
-	$.Property.extend(this, properties);
-	this._dirty = true;
-};
-
-/* METHODS */
-
-Util.extend(DisplayObject.prototype, {
+Class(
+	DisplayObject=function(properties)
+	{
+		this._p = { }
+		_extend(this, properties);
+		this._dirty = true;
+	}, 
+	Object, 
+	{
+		source: null, parent: null, x: 0, y:0, width: null, height: null, rotation: 0, scaleX: 1, scaleY: 1, alpha: 1
+	}, 
+	{
 	
 	/**
 	 * Save Transform Matrix and apply transformations.
@@ -368,11 +382,6 @@ Util.extend(DisplayObject.prototype, {
 		return this;
 	}
 });
-/* PROPERTIES */
-
-$.DisplayObject = $.Property.define(DisplayObject, {
-	source: null, parent: null, x: 0, y:0, width: null, height: null, rotation: 0, scaleX: 1, scaleY: 1, alpha: 1
-});
 /**
  * j5g3 Clip
  *
@@ -382,18 +391,20 @@ $.DisplayObject = $.Property.define(DisplayObject, {
  *
  */
 
-var Clip = function(properties)
-{
-	$.Property.extend(this, properties);
+Class(
+	Clip= function(properties)
+	{
+		_extend(this, properties);
 
-	if (!this._p.frames)
-		this._p.frames = [ [ ] ];
+		if (!this._p.frames)
+			this._p.frames = [ [ ] ];
 
-	this._frame = 0;
-	this._playing = true;
-};
-
-$.Clip = Util.Class(Clip, DisplayObject, { frames: null }, {
+		this._frame = 0;
+		this._playing = true;
+	},
+	DisplayObject, 
+	{ frames: null }, 
+	{
 	
 	/**
 	 * Returns current frame objects.
@@ -430,16 +441,16 @@ $.Clip = Util.Class(Clip, DisplayObject, { frames: null }, {
 	 */
 	add : function(display_object)
 	{
-		switch (j5g3.Util.getType(display_object)) {
+		switch (Util.getType(display_object)) {
 		case 'function':
-			display_object = new j5g3.Action(display_object);
+			display_object = new Action(display_object);
 			break;
 		case 'string':
-			display_object = new j5g3.Image({ source: display_object });
+			display_object = new Image({ source: display_object });
 			break;
 		/* NOTE j5g3 Objects return j5g3 and not object */
 		case 'object':
-			display_object = new j5g3.Image(display_object);
+			display_object = new Image(display_object);
 			break;			
 		case 'array':
 			for (var i in display_object)
@@ -493,7 +504,7 @@ $.Clip = Util.Class(Clip, DisplayObject, { frames: null }, {
 		var start = {};
 
 		if (alg===undefined)
-			alg = j5g3.Animate.Easing.None;
+			alg = Animate.Easing.None;
 
 		for (var p in target)
 			start[p] = target;
@@ -504,22 +515,21 @@ $.Clip = Util.Class(Clip, DisplayObject, { frames: null }, {
 	}
 });
 
-var Image = function(properties)
-{
-	if (typeof properties == 'string')
-		properties = { source: properties };
+Class(
+	Image= function(properties)
+	{
+		if (typeof properties == 'string')
+			properties = { source: properties };
 
-	$.Property.extend(this, properties);
+		_extend(this, properties);
 
-	if (this._p.source)
-		this.source(this._p.source);
-};
+		if (this._p.source)
+			this.source(this._p.source);
+	}, 
+	DisplayObject, { }, 
+	{
 
-Image.prototype = new DisplayObject();
-
-$.Util.extend(Image.prototype, {
-
-	paint: $.Draw.Image,
+	paint: Draw.Image,
 
 	/**
 	 * Sets the source. If src is a string it will create an Image object.
@@ -548,29 +558,28 @@ $.Util.extend(Image.prototype, {
 	}
 	
 });
-
-$.Image = Image;
-
 /*
  * Displays a Rect
  */
 
-var Rect = function(properties)
-{
-	Property.extend(this, properties);
-};
+Class(
+	Rect = function(properties)
+	{
+		_extend(this, properties);
+	}, 
+	DisplayObject,
+	{
+		fillStyle: null
+	},
+	{
+		paint : function(context)
+		{
+			if (this._p.fillStyle) context.fillStyle = this._p.fillStyle;
 
-$.Rect = Util.inherits(DisplayObject, Rect, {
-	fillStyle: null
-});
-
-/* METHODS */
-Rect.prototype.paint = function(context)
-{
-	if (this._p.fillStyle) context.fillStyle = this._p.fillStyle;
-
-	context.fillRect(this._p.x, this._p.y, this._p.width, this._p.height);
-};
+			context.fillRect(this._p.x, this._p.y, this._p.width, this._p.height);
+		}
+	}
+);
 
 /*
  * j5g3 Sprite
@@ -580,12 +589,13 @@ Rect.prototype.paint = function(context)
  * source     Object    { image: HTML_Image_Spritesheet, x: xpos, y: ypos, w: sprite_width, h: sprite_height }
  *
  */
-j5g3.Sprite = function(properties)
-{
-	j5g3.DisplayObject.apply(this, [ properties ]);
-
-	this.paint = j5g3.Engine.algorithms.drawSprite;
-}
+Class(
+	Sprite = function(properties)
+	{
+		_extend(this, properties);
+	},
+	DisplayObject, { }, { paint: Draw.Sprite }
+);
 /**
  * j5g3
  *
@@ -596,91 +606,103 @@ j5g3.Sprite = function(properties)
  * source	Image of the spritesheet. If a string passed it will be converted to a j5g3.Image
  *
  */
-j5g3.Spritesheet = function(properties)
-{
-	if (typeof properties == 'string')
-		properties = { source: new j5g3.Image(properties) };
 
-	if (typeof properties.source == 'string')
-		properties.source = new j5g3.Image(properties.source);
-	
-	if (properties.width === undefined && properties.source)
-		properties.width = properties.source.width();
-	
-	if (properties.height === undefined && properties.source)
-		properties.height = properties.source.height();
-	
-	this._p = j5g3.extend({ cols: 1, rows: 1, type: 'grid' }, properties);
-
-	j5g3.properties(this, ['width', 'height', 'source', 'sprites']);
-	
-	/**
-	 * Creates clip from spritesheet indexes.
-	 */
-	this.clip = function()
+Class(
+	Spritesheet = function(properties)
 	{
-		var s = this.sprites(),
-		    frames = []
-		;
+		if (typeof properties == 'string')
+			properties = { source: new Image(properties) };
 
-		for (i = 0; i < arguments.length; i++)
-			frames.push([ s[arguments[i]] ]);
+		if (typeof properties.source == 'string')
+			properties.source = new Image(properties.source);
+		
+		if (properties.width === undefined && properties.source)
+			properties.width = properties.source.width();
+		
+		if (properties.height === undefined && properties.source)
+			properties.height = properties.source.height();
+		
+		Property.extend(this, properties);
 
-		return new j5g3.Clip({ 'frames': frames });
-	};
-
-	/**
-	 * Divides spritesheet into a grid of x rows and y columns.
-	 */
-	this.grid = function(x, y)
+		this._p = $.extend({ cols: 1, rows: 1, type: 'grid' }, properties);
+	},
+	Object, 
+	{'width':0, 'height':0, 'source':null, 'sprites':0}, 
 	{
-		var s = [],
-		    w = this.width() / x,
-		    h = this.height() / y
-		;
 
-		for (var r = 0; r < x; r++)
-			for (var c = 0; c < x; c++)
-				s.push(new j5g3.Sprite({ source: { image: this.source().source(), 'x': c * w, 'y': r * h, 'w': w, 'h': h }}));
+		/**
+		 * Creates clip from spritesheet indexes.
+		 */
+		clip : function()
+		{
+			var s = this.sprites(),
+			    frames = []
+			;
 
-		this._p.sprites = s;
+			for (i = 0; i < arguments.length; i++)
+				frames.push([ s[arguments[i]] ]);
 
-		return this;
-	};
-}
+			return new Clip({ 'frames': frames });
+		},
 
-j5g3.Text = function(properties)
-{
-	if (typeof properties == 'string')
-		properties = { text: properties };
+		/**
+		 * Divides spritesheet into a grid of x rows and y columns.
+		 */
+		grid : function(x, y)
+		{
+			var s = [],
+			    w = this.width() / x,
+			    h = this.height() / y
+			;
 
-	properties = j5g3.extend({ fillStyle: 'white' }, properties);
+			for (var r = 0; r < x; r++)
+				for (var c = 0; c < x; c++)
+					s.push(new Sprite({ source: { image: this.source().source(), 'x': c * w, 'y': r * h, 'w': w, 'h': h }}));
 
-	j5g3.DisplayObject.apply(this, [ properties ]);
-	j5g3.properties(this, ['text', 'fillStyle', 'font']);
+			this._p.sprites = s;
 
-	this._applyContext = function(context)
+			return this;
+		}
+	}
+);
+
+Class(
+	Text = function(properties)
 	{
-		if (this._p.fillStyle) context.fillStyle = this._p.fillStyle;
-		if (this._p.font) context.font = this._p.font;
-	};
+		if (typeof properties == 'string')
+			properties = { text: properties };
 
-	this.paint = function(context)
+		_extend(this, properties);
+	},
+	DisplayObject, 
+
+	{ text: '', fillStyle: 'white', 'font': null },
 	{
-		this._applyContext(context);
-		context.fillText(this.text(), 0, 0);
-	};
+		_applyContext : function(context)
+		{
+			if (this._p.fillStyle) context.fillStyle = this._p.fillStyle;
+			if (this._p.font) context.font = this._p.font;
+		},
 
-	this.width = function()
-	{
-		var ctx = j5g3.Engine.canvas().getContext('2d');
-		this._applyContext(ctx);
-		var metrics = ctx.measureText(this.text());
-		return metrics.width;
-	};
-};
+		paint : function(context)
+		{
+			this._applyContext(context);
+			context.fillText(this.text(), 0, 0);
+		},
 
-$.Action = function(properties)
+		width : function()
+		{
+			var ctx = canvas.getContext('2d');
+			this._applyContext(ctx);
+			var metrics = ctx.measureText(this.text());
+			return metrics.width;
+		}
+	}
+);
+/**
+ * Executes code on FrameEnter.
+ */
+Action = function(properties)
 {
 	this.draw = (typeof properties == 'function') ? properties : properties.code;
 	this.parent = function() { };
@@ -689,12 +711,24 @@ $.Action = function(properties)
 /**
  * Rotates object forever. Clockwise by default.
  */
-$.Action.rotate = function(obj)
+Action.rotate = function(obj)
 {
 	return function() { 
 		var r = obj.rotation();
 		obj.rotation(r < 6.1 ? r+0.1 : 0);
 	};
 }
+
+    $.Action = Action;
+    $.Clip   = Clip;
+    $.DisplayObject = DisplayObject;
+    $.Draw = Draw;
+    $.Image = Image;
+    $.Property = Property;
+    $.Rect = Rect;
+    $.Sprite = Sprite;
+    $.Spritesheet = Spritesheet;
+    $.Text = Text;
+    $.Util = Util;
 
 })(this, document);

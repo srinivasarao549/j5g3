@@ -4,7 +4,7 @@
  *
  */
 
-var Util = {
+Util = {
 
 	/**
 	 * Extends object a with b
@@ -13,6 +13,13 @@ var Util = {
 	{
 		for (var i in b)
 			a[i] = b[i];
+		return a;
+	},
+
+	inherit: function(a, b)
+	{
+		for (var i in b)
+			a[i] = a[i] || b[i];
 		return a;
 	},
 
@@ -25,24 +32,14 @@ var Util = {
 	},
 
 	/**
-	 * Extends Caller with b. Sets up properties.
+	 * Defines class klass.
 	 * @param b is the class to extend
 	 */
-	inherits: function(base, klass, properties, methods)
-	{
-		klass.prototype = new base;
-		Property.define(klass, properties);
-
-		Util.extend(klass.prototype, methods);
-
-		return klass;
-	},
-
 	Class: function(klass, base, properties, methods)
 	{
-		klass.prototype = new base;
+		Util.extend(klass.prototype, new base);
 		Property.define(klass, properties);
-
+		Util.inherit(properties, base.properties);
 		Util.extend(klass.prototype, methods);
 
 		return klass;
@@ -62,7 +59,6 @@ var Util = {
 
 		return result;
 	}
-
 };
 
-$.Util = Util;
+Class = Util.Class;

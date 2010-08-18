@@ -1,20 +1,19 @@
 
-var Image = function(properties)
-{
-	if (typeof properties == 'string')
-		properties = { source: properties };
+Class(
+	Image= function(properties)
+	{
+		if (typeof properties == 'string')
+			properties = { source: properties };
 
-	$.Property.extend(this, properties);
+		_extend(this, properties);
 
-	if (this._p.source)
-		this.source(this._p.source);
-};
+		if (this._p.source)
+			this.source(this._p.source);
+	}, 
+	DisplayObject, { }, 
+	{
 
-Image.prototype = new DisplayObject();
-
-$.Util.extend(Image.prototype, {
-
-	paint: $.Draw.Image,
+	paint: Draw.Image,
 
 	/**
 	 * Sets the source. If src is a string it will create an Image object.
@@ -43,6 +42,3 @@ $.Util.extend(Image.prototype, {
 	}
 	
 });
-
-$.Image = Image;
-

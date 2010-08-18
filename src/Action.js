@@ -1,5 +1,7 @@
-
-$.Action = function(properties)
+/**
+ * Executes code on FrameEnter.
+ */
+Action = function(properties)
 {
 	this.draw = (typeof properties == 'function') ? properties : properties.code;
 	this.parent = function() { };
@@ -8,7 +10,7 @@ $.Action = function(properties)
 /**
  * Rotates object forever. Clockwise by default.
  */
-$.Action.rotate = function(obj)
+Action.rotate = function(obj)
 {
 	return function() { 
 		var r = obj.rotation();
