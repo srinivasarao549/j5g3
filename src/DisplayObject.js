@@ -2,63 +2,65 @@
 /**
  * Base for all classes
  */
-j5g3.DisplayObject = function(properties)
+var DisplayObject = function(properties)
 {
-	this._j5g3 = true;
-	this._p = {
-		x: 0, y:0, width: null, height: null, rotation: 0, scaleX: 1, scaleY: 1, alpha: 1
-	};
+	this._p = { };
 
-	j5g3.extend(this._p, properties);
+	$.Property.extend(this, properties);
 
-	this._dirty = false;
+	this._dirty = true;
+};
 
+/* METHODS */
+
+DisplayObject.prototype = {
+	
 	/**
 	 * Save Transform Matrix and apply transformations.
 	 */
-	this.begin = function(context)
+	begin : function(context)
 	{
 		context.save();
-		context.globalAlpha *= this._p.alpha;
+		context.globalAlpha *= this.alpha();
 		context.translate(this.x(), this.y());
 		context.scale(this.scaleX(), this.scaleY());
 		context.rotate(this.rotation());
-	};
+	},
 
 	/**
 	 * Restores Transform Matrix
 	 */
-	this.end = function(context)
+	end : function(context)
 	{
 		context.restore();
-	};
+	},
 
 	/**
 	 * Applies Transformations and paints Object in the screen.
 	 * To define your custom DisplayObject class implement the paint() function. The paint function receives
 	 * the current context for drawing.
 	 */
-	this.draw = function(context)
+	draw : function(context)
 	{
 		this.begin(context);
 		this.paint(context);
 		this.end(context);
-	};
+	},
 
-	this.source = function() { return this._p.source; };
+	invalidate : function()  
+	{ 
+		this._dirty = true;
+	},
 
-	this.invalidate = function()  { this._dirty = true; }
-	this.isDirty = function()  { return this._dirty; };
-
-	/**
-	 * Define Basic Properties.
-	 */
-	j5g3.properties(this, ['alpha', 'width', 'height', 'x', 'y', 'scaleX', 'scaleY', 'rotation', 'parent']);
+	isDirty : function()  
+	{ 
+		return this._dirty;
+	},
 
 	/**
 	 * Sets position of the object according to alignment and container.
 	 */
-	this.align = function(alignment, container) 
+	align : function(alignment, container) 
 	{
 		switch (alignment) {
 		case 'center': 	this.x(container.width() / 2); 	break;
@@ -67,12 +69,12 @@ j5g3.DisplayObject = function(properties)
 		case 'middle':  this.y(container.height() / 2); break;
 		}
 		return this;
-	};
+	},
 
 	/**
 	 * Collision Check
 	 */
-	this.collidesWith = function(obj)
+	collidesWith : function(obj)
 	{
 		var dx = this.x() - obj.x();
 		var dy = this.y() - obj.y();
@@ -87,12 +89,12 @@ j5g3.DisplayObject = function(properties)
 			return false;
 
 		return true;
-	}
+	},
 
 	/**
 	 * Sets x and y
 	 */
-	this.pos = function(x, y)
+	pos : function(x, y)
 	{
 		this._p.x = x;
 		this._p.y = y;
@@ -100,3 +102,18 @@ j5g3.DisplayObject = function(properties)
 		return this;
 	}
 };
+/* PROPERTIES */
+
+DisplayObject.properties = {
+	source: null, parent: null, x: 0, y:0, width: null, height: null, rotation: 0, scaleX: 1, scaleY: 1, alpha: 1
+};
+
+DisplayObject.readonly = {
+};
+
+$.Property.define(DisplayObject);
+
+/* METHODS */
+
+
+$.DisplayObject= DisplayObject;

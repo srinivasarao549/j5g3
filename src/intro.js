@@ -11,3 +11,5 @@
  */
 
 (function(window, document, undefined) {
+
+	var VERSION = "@VERSION";

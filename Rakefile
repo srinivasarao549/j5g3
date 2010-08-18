@@ -4,19 +4,32 @@
 require 'rake/packagetask'
 
 # We have to make sure src/core.js is included first.
-sources = Dir.glob("src/**/*.js")
-sources.delete('src/core.js').delete('src/intro.js').delete('src/outro.js')
+VERSION = "0.1"
+SRC = %w{core Property Util Draw DisplayObject Clip Image Rect Sprite Spritesheet Text Action outro}
+SRCS = SRC.join(' ')
 
-SRC = 'src/intro.js' + 'src/core.js ' + sources.join(' ') + 'src/outro.js'
 OUTPUT = 'build/j5g3.js'
 MINOUTPUT = 'build/j5g3-min.js'
 JAVA = 'java'
 JS = 'js'
 
+def read(name)
+	File.read("src/#{name}.js")
+end
+
 desc "Build JS Script"
 task :build do
 	directory 'build'
-	`cat #{SRC} > #{OUTPUT} `
+
+	output = read('intro').gsub!('@VERSION', VERSION).sub!('@DATE', Time.new.to_s)
+
+	SRC.each do |file|
+		output += read(file)
+	end
+
+	File.open(OUTPUT, 'w') do |f|
+		f.write output
+	end
 end
 
 desc "Minify script"
@@ -26,12 +39,12 @@ end
 
 desc "Lint"
 task :lint do
-	puts `#{JS} tools/jslint.js #{SRC}`
+	puts `#{JS} tools/jslint.js #{SRCS}`
 end
 
 desc "Syntax Check"
 task :syntax do
-	puts `#{JS} -f #{SRC}`
+	puts `#{JS} -f #{SRCS}`
 end
 
 desc "Test"
@@ -40,4 +53,4 @@ task :test do
 end
 
 desc "Default Action"
-task :default => [:build]
+task :default => [:minify]

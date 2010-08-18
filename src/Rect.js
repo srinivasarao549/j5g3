@@ -1,7 +1,7 @@
 
-j5g3.Rect = function(properties)
+var Rect = function(properties)
 {
-	j5g3.DisplayObject.apply(this, [ properties ]);
+	Property.extend(this, properties);
 
 	this.fillStyle = function(value) { return value ? (this.invalidate(), (this._p.fillStyle = value), this) : this._p.fillStyle; };
 
@@ -10,3 +10,8 @@ j5g3.Rect = function(properties)
 		context.fillRect(this._p.x, this._p.y, this._p.width, this._p.height);
 	};
 };
+
+Rect.prototype = new DisplayObject;
+
+$.Rect = Rect;
+

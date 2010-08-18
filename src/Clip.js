@@ -6,52 +6,62 @@
  * frames	Array of array      Frames of clip.
  *
  */
-j5g3.Clip = function(properties)
+
+var Clip = function(properties)
 {
-	j5g3.DisplayObject.apply(this, [ properties ]);
+	$.Property.extend(this, properties);
 
 	if (!this._p.frames)
 		this._p.frames = [ [ ] ];
 
 	this._frame = 0;
 	this._playing = true;
+};
 
-	j5g3.property(this, 'frames');
+Clip.prototype = new DisplayObject;
 
+Clip.properties = {
+	frames: null
+};	
+
+$.Property.define(Clip);
+
+$.Util.extend(Clip.prototype, {
+	
 	/**
 	 * Returns current frame objects.
 	 */
-	this.frame = function() 
+	frame : function() 
 	{
 		f = this.frames()[this._frame]; 
 		if (this._playing)
 			this.nextFrame();
 		return f; 
-	}
+	},
 
-	this.totalFrames  = function() { return this.frames().length; };
+	totalFrames  : function() { return this.frames().length; },
 
-	this.currentFrame = function() { return _frame; };
+	currentFrame : function() { return _frame; },
 
 	/**
 	 * Updates frame.
 	 *
 	 */
-	this.nextFrame = function() 
+	nextFrame : function() 
 	{
 		this._frame = (this._frame < this.totalFrames()-1) ? this._frame + 1 : 0; 
-	}
+	},
 
-	this.paint = j5g3.Engine.Draw.Container;
+	paint : $.Draw.Container,
 
-	this.stop = function() { this._playing = false;	};
-	this.play = function() { this._playing = true;	};
+	stop : function() { this._playing = false;	},
+	play : function() { this._playing = true;	},
 
 	/**
 	 * Adds display_objects to current frame. 
 	 * If function is passed it converts it to an Action object.
 	 */
-	this.add = function(display_object)
+	add : function(display_object)
 	{
 		switch (j5g3.Util.getType(display_object)) {
 		case 'function':
@@ -73,35 +83,35 @@ j5g3.Clip = function(properties)
 		display_object.parent(this);
 		this.frames()[this._frame].push(display_object);
 		return this;
-	};
+	},
 
 	/**
 	 * Goes to frame 
 	 */
-	this.gotoFrame = function(frame)
+	gotoFrame : function(frame)
 	{
 		this._frame = frame;
 		return this;
-	};
+	},
 
 	/**
 	 * Goes To Frame number and plays.
 	 */
-	this.gotoAndPlay = function(frame)
+	gotoAndPlay : function(frame)
 	{
 		this.gotoFrame(frame);
 		this.play();
 		return this;
-	};
+	},
 
-	this.gotoAndStop = function(frame)
+	gotoAndStop : function(frame)
 	{
 		this.gotoFrame(frame);
 		this.stop();
 		return this;
-	};
+	},
 
-	this.alignChildren = function(alignment)
+	alignChildren : function(alignment)
 	{
 		var frm = this.frame();
 
@@ -109,9 +119,9 @@ j5g3.Clip = function(properties)
 			if (frm[i].align)
 				frm[i].align(alignment, this);
 		return this;
-	};
+	},
 
-	this.animateTo = function(target, duration, alg)
+	animateTo : function(target, duration, alg)
 	{
 		var start = {};
 
@@ -125,5 +135,7 @@ j5g3.Clip = function(properties)
 			alg(start, target, this._iframe);			
 		};
 	}
+});
 
-};
+$.Clip = Clip;
+

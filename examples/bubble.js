@@ -1,21 +1,19 @@
 
-var game = function($, undefined) {
+var game = function($, document, undefined) {
 
 	/* Classes used */
 var 
-	Image = j5g3.Image,
+	Image = $.Image,
 
 	/* Functions */
 	rand = Math.random,
 	max_balls = 10,
 
 	/* Elements */
-	canvas = $.canvas,
+	canvas = $.canvas(),
 
 	Ball = function()
 	{
-		Image.apply(this);	
-
 		this.source('soccer-ball.gif');
 
 		var max_speed = 5,
@@ -80,7 +78,7 @@ var
 			checkCollision('x', canvas.width);
 			checkCollision('y', canvas.height);
 			
-			j5g3.Engine.Draw.Image.apply(this, [context]);
+			$.Draw.Image.apply(this, [context]);
 		};
 	},
 	update = function()
@@ -93,6 +91,8 @@ var
 					objs[i].collide(objs[j]);
 	}
 ;
+	Ball.prototype = new Image(  );
+
 
 	$.fps = (1000/60);
 

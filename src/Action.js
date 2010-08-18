@@ -1,5 +1,5 @@
 
-j5g3.Action = function(properties)
+$.Action = function(properties)
 {
 	this.draw = (typeof properties == 'function') ? properties : properties.code;
 	this.parent = function() { };
@@ -8,7 +8,7 @@ j5g3.Action = function(properties)
 /**
  * Rotates object forever. Clockwise by default.
  */
-j5g3.Action.rotate = function(obj)
+$.Action.rotate = function(obj)
 {
 	return function() { 
 		var r = obj.rotation();

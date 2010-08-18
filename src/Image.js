@@ -1,26 +1,33 @@
 
-j5g3.Image = function(properties)
+var Image = function(properties)
 {
 	if (typeof properties == 'string')
 		properties = { source: properties };
 
-	j5g3.DisplayObject.apply(this, [ properties ]);
+	$.Property.extend(this, properties);
 
-	this.paint = j5g3.Engine.Draw.Image;
+	if (this._p.source)
+		this.source(this._p.source);
+};
 
-	
+Image.prototype = new DisplayObject();
+
+$.Util.extend(Image.prototype, {
+
+	paint: $.Draw.Image,
+
 	/**
 	 * Sets the source. If src is a string it will create an Image object.
 	 * NOTE: Chrome and Safari (webkit) loads images and css parallely. So we have to wait for the image to load in order
 	 * to get the correct width and height. 
 	 */
-	this.source = function(src)
+	source: function(src)
 	{
 		if (src)
 		{
 			if (typeof(src)=='string')
 			{
-				this._p.source = new Image;
+				this._p.source = new window.Image;
 				this._p.source.src = src;
 			} else
 				// TODO we assume its an image...
@@ -34,7 +41,8 @@ j5g3.Image = function(properties)
 		}
 		return this._p.source;
 	}
+	
+});
 
-	if (this._p.source)
-		this.source(this._p.source);
-}
+$.Image = Image;
+
