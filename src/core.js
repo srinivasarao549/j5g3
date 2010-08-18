@@ -1,10 +1,3 @@
-/**
- * JS Game Engine
- *
- * j5g3 Core Library.
- */
-
-(function(window, undefined) {
 	
 	var Engine = function()
 	{
@@ -73,5 +66,4 @@
 	};
 
 	window.j5g3 = new Engine();
-})(window);
 
