@@ -1,4 +1,5 @@
     $.Action = Action;
+    $.Animate = Animate;
     $.Clip   = Clip;
     $.DisplayObject = DisplayObject;
     $.Draw = Draw;

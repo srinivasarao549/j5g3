@@ -7,13 +7,14 @@
  * Dual licensed under the MIT or GPL Version 2
  * http://jquery.org/license
  *
- * Date: 2010-08-19 12:48:52 -0400
+ * Date: 2010-08-19 13:29:16 -0400
  */
 
 (function(window, document, undefined) {
 
 	var VERSION = "0.1",
 	    Action,
+	    Animate,
 	    Clip,
 	    Class,
 	    DisplayObject,
@@ -108,6 +109,23 @@ $ = window.j5g3 = new (function()
 
 	this.invalidate = function() { return this; };
 });
+
+
+Animate = { 
+
+	Easing: 
+	{
+		None: function( )
+		{
+		},
+
+		RegularOut: function()
+		{
+			return 0;	
+		}
+	}
+};
+
 /**
  * Property Functions
  *
@@ -625,12 +643,12 @@ Class(
 		if (properties.height === undefined && properties.source)
 			properties.height = properties.source.height();
 		
-		Property.extend(this, properties);
-
-		this._p = $.extend({ cols: 1, rows: 1, type: 'grid' }, properties);
+		_extend(this, properties);
 	},
 	Object, 
-	{'width':0, 'height':0, 'source':null, 'sprites':0}, 
+	{
+		'width':0, 'height':0, 'source':null, 'sprites':0, cols: 1, rows:1, type: 'grid'
+	},
 	{
 
 		/**
@@ -728,6 +746,7 @@ Action.rotate = function(obj)
 }
 
     $.Action = Action;
+    $.Animate = Animate;
     $.Clip   = Clip;
     $.DisplayObject = DisplayObject;
     $.Draw = Draw;

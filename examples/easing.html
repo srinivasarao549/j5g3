@@ -7,24 +7,19 @@
 	</style>
 	<script>
 
-function initialize()
+function game($)
 {
-	this.initialize();
-
-	var ss = new j5g3.Spritesheet('spritesheet.png').grid(6, 7);
+	var ss = new $.Spritesheet('spritesheet.png').grid(6, 7);
 	var r = ss.clip(1, 2, 3, 4, 5);
 	
 	var a = r.animateTo({x : 600});
 
-	this.root.add([
-		r, a
-	]);
-	
-	this.run();
+	$.root.add([ r, a ]);
+	$.run();
 }
 
 	</script>
 </head>
-<body onload="j5g3.init(initialize);">
+<body onload="j5g3.start(game);">
 	<canvas id="screen"></canvas>
 </body>

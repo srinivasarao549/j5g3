@@ -24,12 +24,12 @@ Class(
 		if (properties.height === undefined && properties.source)
 			properties.height = properties.source.height();
 		
-		Property.extend(this, properties);
-
-		this._p = $.extend({ cols: 1, rows: 1, type: 'grid' }, properties);
+		_extend(this, properties);
 	},
 	Object, 
-	{'width':0, 'height':0, 'source':null, 'sprites':0}, 
+	{
+		'width':0, 'height':0, 'source':null, 'sprites':0, cols: 1, rows:1, type: 'grid'
+	},
 	{
 
 		/**

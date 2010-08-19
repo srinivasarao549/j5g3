@@ -14,6 +14,7 @@
 
 	var VERSION = "@VERSION",
 	    Action,
+	    Animate,
 	    Clip,
 	    Class,
 	    DisplayObject,
