@@ -14,13 +14,6 @@ $ = window.j5g3 = new (function()
 		{
 			return canvas.getContext('2d');
 		},
-		gameLoop= function()
-		{
-			var context = getContext();
-
-			self.background.draw(context);
-			self.root.draw(context);
-		}, 
 		initialize = function(properties)
 		{
 			$.Property.define(self.constructor, { 
@@ -63,18 +56,22 @@ $ = window.j5g3 = new (function()
 	 */
 	this.run= function()
 	{
-		setInterval(gameLoop, this._p.fps);
+		setInterval(this.gameLoop, this._p.fps);
 	};
+	this.gameLoop = function()
+	{
+		var context = getContext();
+
+		self.background.draw(context);
+		self.root.draw(context);
+	}; 
 
 	/**
 	 * You should always call this method first.
 	 */
 	this.start= function(initfunc)
 	{
-		if (typeof(initfunc)=='function')
-			initialize({ start: initfunc });
-		else
-			initialize(initfunc);
+		initialize(typeof(initfunc)=='function' ? { start: initfunc } : initfunc);
 	};
 
 	this.invalidate = function() { };

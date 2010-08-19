@@ -29,6 +29,11 @@ Draw =
 
 		for (var i in frame)
 			frame[i].draw(context);
+	},
+
+	Text: function(context)
+	{
+		context.fillText(this.text(), 0, 0);
 	}
 
 };

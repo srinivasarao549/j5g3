@@ -1,4 +1,7 @@
 
+var 
+	TextOldBegin;
+
 Class(
 	Text = function(properties)
 	{
@@ -11,24 +14,26 @@ Class(
 
 	{ text: '', fillStyle: 'white', 'font': null },
 	{
-		_applyContext : function(context)
+		begin : function(context)
 		{
+			TextOldBegin.apply(this, [context]);
+
 			if (this._p.fillStyle) context.fillStyle = this._p.fillStyle;
 			if (this._p.font) context.font = this._p.font;
 		},
 
-		paint : function(context)
-		{
-			this._applyContext(context);
-			context.fillText(this.text(), 0, 0);
-		},
+		paint : Draw.Text,
 
 		width : function()
 		{
 			var ctx = canvas.getContext('2d');
-			this._applyContext(ctx);
+			this.begin(ctx); 
 			var metrics = ctx.measureText(this.text());
+
 			return metrics.width;
 		}
 	}
 );
+
+/* TODO This is an ugly hack. */
+TextOldBegin = DisplayObject.prototype.begin;

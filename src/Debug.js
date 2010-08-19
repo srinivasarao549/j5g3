@@ -4,7 +4,8 @@
 
 (function($, undefined)
 {
-	var Debug = $.Debug = { };
+	var Debug = $.Debug = { },
+	    DebugFPS = new $.Text({ fillStyle: 'green', text: "0 FPS", x: 0, y: 14 });
 
 	$.Action.klass = 'Action';
 	$.Clip.klass   = 'Clip';
@@ -18,15 +19,21 @@
 	$.Text.klass = 'Text';
 	$.Util.klass = 'Util';
 
-	/* Add Image validation foor Draw */
+	/* Add Timing and FPS */
+	Debug.oldGameLoop = $.gameLoop;
+	$.gameLoop = function()
+	{
+		var time = (new Date).getTime();
+		Debug.oldGameLoop.apply(this);
+		time = (new Date).getTime() - time;
 
-	$.Debug.DrawImage = $.Draw.Image;
-	$.Draw.Image = function(context) {
-		if (!this._p.source)
-			console.log ("Invalid Image.");
-		else
-			$.Debug.DrawImage.apply(this, [ context ]);
+		var ctx = $.canvas().getContext('2d');
+		DebugFPS.text(parseInt(1000/time) + " FPS");
+
+		DebugFPS.draw(ctx); 
 	};
+
+
 })(j5g3);
 
 

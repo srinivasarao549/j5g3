@@ -7,7 +7,7 @@ var
 
 	/* Functions */
 	rand = Math.random,
-	max_balls = 10,
+	max_balls = 50,
 
 	/* Elements */
 	canvas = $.canvas(),

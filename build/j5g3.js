@@ -7,7 +7,7 @@
  * Dual licensed under the MIT or GPL Version 2
  * http://jquery.org/license
  *
- * Date: 2010-08-19 01:38:35 -0400
+ * Date: 2010-08-19 02:28:48 -0400
  */
 
 (function(window, document, undefined) {
@@ -46,13 +46,6 @@ $ = window.j5g3 = new (function()
 		{
 			return canvas.getContext('2d');
 		},
-		gameLoop= function()
-		{
-			var context = getContext();
-
-			self.background.draw(context);
-			self.root.draw(context);
-		}, 
 		initialize = function(properties)
 		{
 			$.Property.define(self.constructor, { 
@@ -95,18 +88,22 @@ $ = window.j5g3 = new (function()
 	 */
 	this.run= function()
 	{
-		setInterval(gameLoop, this._p.fps);
+		setInterval(this.gameLoop, this._p.fps);
 	};
+	this.gameLoop = function()
+	{
+		var context = getContext();
+
+		self.background.draw(context);
+		self.root.draw(context);
+	}; 
 
 	/**
 	 * You should always call this method first.
 	 */
 	this.start= function(initfunc)
 	{
-		if (typeof(initfunc)=='function')
-			initialize({ start: initfunc });
-		else
-			initialize(initfunc);
+		initialize(typeof(initfunc)=='function' ? { start: initfunc } : initfunc);
 	};
 
 	this.invalidate = function() { };
@@ -274,6 +271,11 @@ Draw =
 
 		for (var i in frame)
 			frame[i].draw(context);
+	},
+
+	Text: function(context)
+	{
+		context.fillText(this.text(), 0, 0);
 	}
 
 };
@@ -666,6 +668,9 @@ Class(
 	}
 );
 
+var 
+	TextOldBegin;
+
 Class(
 	Text = function(properties)
 	{
@@ -678,27 +683,29 @@ Class(
 
 	{ text: '', fillStyle: 'white', 'font': null },
 	{
-		_applyContext : function(context)
+		begin : function(context)
 		{
+			TextOldBegin.apply(this, [context]);
+
 			if (this._p.fillStyle) context.fillStyle = this._p.fillStyle;
 			if (this._p.font) context.font = this._p.font;
 		},
 
-		paint : function(context)
-		{
-			this._applyContext(context);
-			context.fillText(this.text(), 0, 0);
-		},
+		paint : Draw.Text,
 
 		width : function()
 		{
 			var ctx = canvas.getContext('2d');
-			this._applyContext(ctx);
+			this.begin(ctx); 
 			var metrics = ctx.measureText(this.text());
+
 			return metrics.width;
 		}
 	}
 );
+
+/* TODO This is an ugly hack. */
+TextOldBegin = DisplayObject.prototype.begin;
 /**
  * Executes code on FrameEnter.
  */
