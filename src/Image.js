@@ -1,9 +1,20 @@
 
+/**
+ * j5g3 Image Class
+ *
+ * Constructor takes properties object, a string with the filename or a HTML Image Element.
+ *
+ * Properties
+ *
+ * source: 
+ */
 Class(
 	Image= function(properties)
 	{
-		if (typeof properties == 'string')
-			properties = { source: properties };
+		switch(Util.getType(properties)) {
+		case 'string': case 'DOM':
+			properties = { source: properties }; break;
+		}
 
 		_extend(this, properties);
 

@@ -7,7 +7,7 @@
  * Dual licensed under the MIT or GPL Version 2
  * http://jquery.org/license
  *
- * Date: 2010-08-19 14:08:57 -0400
+ * Date: 2010-08-19 14:40:03 -0400
  */
 
 (function(window, document, undefined) {
@@ -109,7 +109,7 @@ $ = window.j5g3 = new (function()
 
 	this.invalidate = function() { return this; };
 
-	this.id = function(id) { document.getElementById(id); };
+	this.id = function(id) { return document.getElementById(id); };
 });
 
 
@@ -184,7 +184,8 @@ Property.define = function(obj, properties)
 _extend = Property.extend = function(obj, p)
 {
 	// TODO Check this..
-	obj._p = Util.clone(obj._p);
+	//obj._p = obj._p ? Util.clone(obj._p) : { };
+	obj._p = { };
 
 	var properties = obj.constructor.properties,
 	    i;
@@ -249,10 +250,9 @@ Util = {
 
 		if (result == 'object')
 		{
-			if (obj instanceof Array)
-				result = 'array';
-			else if (obj._p)
-				result = 'j5g3';
+			if (obj instanceof Array) return 'array';
+			if (obj instanceof HTMLElement) return 'DOM';
+			if (obj._p) return 'j5g3';
 		}
 
 		return result;
@@ -538,11 +538,22 @@ Class(
 	}
 });
 
+/**
+ * j5g3 Image Class
+ *
+ * Constructor takes properties object, a string with the filename or a HTML Image Element.
+ *
+ * Properties
+ *
+ * source: 
+ */
 Class(
 	Image= function(properties)
 	{
-		if (typeof properties == 'string')
-			properties = { source: properties };
+		switch(Util.getType(properties)) {
+		case 'string': case 'DOM':
+			properties = { source: properties }; break;
+		}
 
 		_extend(this, properties);
 
@@ -620,9 +631,9 @@ Class(
 	DisplayObject, { }, { paint: Draw.Sprite }
 );
 /**
- * j5g3
+ * j5g3 Spritesheet Class
  *
- * display.Spritesheet
+ * Constructor can take properties object, a string with the filename, an HTML Image or j5g3 Image.
  *
  * Properties:
  *
@@ -633,11 +644,16 @@ Class(
 Class(
 	Spritesheet = function(properties)
 	{
-		if (typeof properties == 'string')
-			properties = { source: new Image(properties) };
+		switch (Util.getType(properties)) {
+		case 'string': case 'DOM': case 'j5g3':   
+			properties = { source: properties }; 
+		}
 
-		if (typeof properties.source == 'string')
+		switch (Util.getType(properties.source)) {
+		case 'string': case 'DOM':
 			properties.source = new Image(properties.source);
+			break;
+		}
 		
 		if (properties.width === undefined && properties.source)
 			properties.width = properties.source.width();

@@ -51,10 +51,9 @@ Util = {
 
 		if (result == 'object')
 		{
-			if (obj instanceof Array)
-				result = 'array';
-			else if (obj._p)
-				result = 'j5g3';
+			if (obj instanceof Array) return 'array';
+			if (obj instanceof HTMLElement) return 'DOM';
+			if (obj._p) return 'j5g3';
 		}
 
 		return result;

@@ -1,7 +1,7 @@
 /**
- * j5g3
+ * j5g3 Spritesheet Class
  *
- * display.Spritesheet
+ * Constructor can take properties object, a string with the filename, an HTML Image or j5g3 Image.
  *
  * Properties:
  *
@@ -12,11 +12,16 @@
 Class(
 	Spritesheet = function(properties)
 	{
-		if (typeof properties == 'string')
-			properties = { source: new Image(properties) };
+		switch (Util.getType(properties)) {
+		case 'string': case 'DOM': case 'j5g3':   
+			properties = { source: properties }; 
+		}
 
-		if (typeof properties.source == 'string')
+		switch (Util.getType(properties.source)) {
+		case 'string': case 'DOM':
 			properties.source = new Image(properties.source);
+			break;
+		}
 		
 		if (properties.width === undefined && properties.source)
 			properties.width = properties.source.width();

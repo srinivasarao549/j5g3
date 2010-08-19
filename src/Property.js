@@ -54,7 +54,8 @@ Property.define = function(obj, properties)
 _extend = Property.extend = function(obj, p)
 {
 	// TODO Check this..
-	obj._p = Util.clone(obj._p);
+	//obj._p = obj._p ? Util.clone(obj._p) : { };
+	obj._p = { };
 
 	var properties = obj.constructor.properties,
 	    i;

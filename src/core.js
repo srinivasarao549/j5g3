@@ -76,5 +76,5 @@ $ = window.j5g3 = new (function()
 
 	this.invalidate = function() { return this; };
 
-	this.id = function(id) { document.getElementById(id); };
+	this.id = function(id) { return document.getElementById(id); };
 });
