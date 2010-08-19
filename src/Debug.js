@@ -25,7 +25,7 @@
 		if (!this._p.source)
 			console.log ("Invalid Image.");
 		else
-			$.Debug.DrawImage.appy(this, [ context ]);
+			$.Debug.DrawImage.apply(this, [ context ]);
 	};
 })(j5g3);
 

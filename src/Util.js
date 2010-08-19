@@ -53,7 +53,7 @@ Util = {
 		{
 			if (obj instanceof Array)
 				result = 'array';
-			else if (obj instanceof DisplayObject)
+			else if (obj._p)
 				result = 'j5g3';
 		}
 

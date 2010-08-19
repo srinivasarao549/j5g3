@@ -1,6 +1,13 @@
 module('core');
 
-var $ = j5g3;
+var $ = j5g3,
+    size = function(obj)
+    {
+    	var c=0;
+    	for (var i in obj)
+		c++;
+	return c;
+    };
 
 test('Core', function() {
 	expect(2);

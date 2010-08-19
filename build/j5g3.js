@@ -7,7 +7,7 @@
  * Dual licensed under the MIT or GPL Version 2
  * http://jquery.org/license
  *
- * Date: 2010-08-18 18:21:48 -0400
+ * Date: 2010-08-19 01:38:35 -0400
  */
 
 (function(window, document, undefined) {
@@ -234,7 +234,7 @@ Util = {
 		{
 			if (obj instanceof Array)
 				result = 'array';
-			else if (obj instanceof DisplayObject)
+			else if (obj._p)
 				result = 'j5g3';
 		}
 
