@@ -57,7 +57,7 @@ Class(
 	 */
 	add : function(display_object)
 	{
-		switch (Util.getType(display_object)) {
+		switch (_typeof(display_object)) {
 		case 'function':
 			display_object = new Action(display_object);
 			break;

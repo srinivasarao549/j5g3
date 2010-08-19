@@ -30,5 +30,6 @@
 
 	    canvas,
 	    _extend,
+	    _typeof,
 
 /* core.js defines $ */

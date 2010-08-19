@@ -43,9 +43,13 @@ Util = {
 		Util.extend(klass.prototype, methods);
 
 		return klass;
-	},
+	}
+};
 
-	getType: function(obj)
+
+Class = Util.Class;
+
+_typeof = Util.getType = function(obj)
 	{
 		var result = typeof(obj);
 
@@ -58,6 +62,5 @@ Util = {
 
 		return result;
 	}
-};
+;
 
-Class = Util.Class;

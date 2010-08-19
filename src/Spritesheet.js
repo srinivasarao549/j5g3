@@ -12,12 +12,12 @@
 Class(
 	Spritesheet = function(properties)
 	{
-		switch (Util.getType(properties)) {
+		switch (_typeof(properties)) {
 		case 'string': case 'DOM': case 'j5g3':   
 			properties = { source: properties }; 
 		}
 
-		switch (Util.getType(properties.source)) {
+		switch (_typeof(properties.source)) {
 		case 'string': case 'DOM':
 			properties.source = new Image(properties.source);
 			break;

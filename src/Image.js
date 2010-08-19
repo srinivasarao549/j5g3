@@ -11,7 +11,7 @@
 Class(
 	Image= function(properties)
 	{
-		switch(Util.getType(properties)) {
+		switch(_typeof(properties)) {
 		case 'string': case 'DOM':
 			properties = { source: properties }; break;
 		}

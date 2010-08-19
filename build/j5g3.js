@@ -7,7 +7,7 @@
  * Dual licensed under the MIT or GPL Version 2
  * http://jquery.org/license
  *
- * Date: 2010-08-19 15:17:46 -0400
+ * Date: 2010-08-19 17:35:12 -0400
  */
 
 (function(window, document, undefined) {
@@ -30,6 +30,7 @@
 
 	    canvas,
 	    _extend,
+	    _typeof,
 
 /* core.js defines $ */
 	
@@ -243,9 +244,13 @@ Util = {
 		Util.extend(klass.prototype, methods);
 
 		return klass;
-	},
+	}
+};
 
-	getType: function(obj)
+
+Class = Util.Class;
+
+_typeof = Util.getType = function(obj)
 	{
 		var result = typeof(obj);
 
@@ -258,9 +263,8 @@ Util = {
 
 		return result;
 	}
-};
+;
 
-Class = Util.Class;
 
 
 /**
@@ -465,7 +469,7 @@ Class(
 	 */
 	add : function(display_object)
 	{
-		switch (Util.getType(display_object)) {
+		switch (_typeof(display_object)) {
 		case 'function':
 			display_object = new Action(display_object);
 			break;
@@ -553,7 +557,7 @@ Class(
 Class(
 	Image= function(properties)
 	{
-		switch(Util.getType(properties)) {
+		switch(_typeof(properties)) {
 		case 'string': case 'DOM':
 			properties = { source: properties }; break;
 		}
@@ -676,12 +680,12 @@ Class(
 Class(
 	Spritesheet = function(properties)
 	{
-		switch (Util.getType(properties)) {
+		switch (_typeof(properties)) {
 		case 'string': case 'DOM': case 'j5g3':   
 			properties = { source: properties }; 
 		}
 
-		switch (Util.getType(properties.source)) {
+		switch (_typeof(properties.source)) {
 		case 'string': case 'DOM':
 			properties.source = new Image(properties.source);
 			break;
