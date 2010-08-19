@@ -1,0 +1,28 @@
+<html>
+<head>
+	<title>JSGE - Bubble Example</title>
+	<script src="../build/j5g3.js"></script>
+	<style>
+		canvas { width: 640px; height: 480px; border: 1px solid #ccc; }
+	</style>
+	<script>
+
+function game($)
+{
+	var ss = new $.Spritesheet($.id('spritesheet')).grid(6, 7);
+	var r = ss.clip(1, 2, 3, 4, 5);
+	
+	var a = r.animateTo({x : 600});
+
+	$.root.add([ r, a ]);
+	$.run();
+}
+
+	</script>
+</head>
+<body onload="j5g3.start(game);">
+	<div id="assets" style="display: none;">
+		<img id="spritesheet" src="explosion17.png" />	
+	</div>
+	<canvas id="screen"></canvas>
+</body>
