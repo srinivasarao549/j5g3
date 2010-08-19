@@ -7,7 +7,7 @@
  * Dual licensed under the MIT or GPL Version 2
  * http://jquery.org/license
  *
- * Date: 2010-08-19 13:29:16 -0400
+ * Date: 2010-08-19 14:08:57 -0400
  */
 
 (function(window, document, undefined) {
@@ -108,6 +108,8 @@ $ = window.j5g3 = new (function()
 	};
 
 	this.invalidate = function() { return this; };
+
+	this.id = function(id) { document.getElementById(id); };
 });
 
 
