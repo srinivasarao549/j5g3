@@ -7,24 +7,22 @@
 	</style>
 	<script>
 
-function initialize()
+function game($)
 {
-	this.initialize();
+	var txt = new $.Text('Hello World').pos(0,40).font('48px auto');
+	var bb  = new $.Rect({ fillStyle: 'green', x: 0, y: 0, width: txt.width(), height: 40 });
 
-	var txt = new j5g3.Text('Hello World').pos(0,40).font('48px auto');
-	var bb  = new j5g3.Rect({ fillStyle: 'green', x: 0, y: 0, width: txt.width(), height: 40 });
-
-	this.root.add([
+	$.root.add([
 		bb,
 		txt,
-		new j5g3.Text({ font: '20px Arial', text: "Hello World", x: 100, y: 100 })
+		new $.Text({ font: '20px Arial', text: "Hello World", x: 100, y: 100 })
 	]);
 	
-	this.run();
+	$.run();
 }
 
 	</script>
 </head>
-<body onload="j5g3.init(initialize);">
+<body onload="j5g3.start(game);">
 	<canvas id="screen"></canvas>
 </body>
