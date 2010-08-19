@@ -38,18 +38,28 @@ Class(
 	{
 
 		/**
-		 * Creates clip from spritesheet indexes.
+		 * Creates clip from spritesheet indexes. Takes 
 		 */
 		clip : function()
+		{
+			return this.clipArray(arguments); 
+		},
+
+		clipArray: function(sprites)
 		{
 			var s = this.sprites(),
 			    frames = []
 			;
 
-			for (i = 0; i < arguments.length; i++)
-				frames.push([ s[arguments[i]] ]);
+			for (i = 0; i < sprites.length; i++)
+				frames.push([ s[sprites[i]] ]);
 
 			return new Clip({ 'frames': frames });
+		},
+
+		clipRange: function(sprites)
+		{
+			return this.clipArray(sprites.to_a());
 		},
 
 		/**

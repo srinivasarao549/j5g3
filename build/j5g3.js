@@ -7,7 +7,7 @@
  * Dual licensed under the MIT or GPL Version 2
  * http://jquery.org/license
  *
- * Date: 2010-08-19 14:40:03 -0400
+ * Date: 2010-08-19 15:17:46 -0400
  */
 
 (function(window, document, undefined) {
@@ -21,6 +21,7 @@
 	    Draw,
 	    Image,
 	    Property,
+	    Range,
 	    Rect,
 	    Sprite,
 	    Spritesheet,
@@ -482,7 +483,9 @@ Class(
 		};
 
 		display_object.parent(this);
-		this.frames()[this._frame].push(display_object);
+		var f = this.frames();
+		f[f.length-1].push(display_object);
+		//this.frames()[this._frame].push(display_object);
 		return this;
 	},
 
@@ -593,6 +596,35 @@ Class(
 	
 });
 /*
+ * j5g3 Range Class
+ *
+ * Constructor takes a property object, or a start and end values.
+ */
+Class(
+	Range = function(start, end)
+	{
+		if (typeof start != 'object')
+			start = { 'start': start, 'end': end };
+			
+		_extend(this, start);
+	},
+	Object,
+	{ start: 0, end: 0 },
+	{ 
+		to_a: function()
+		{
+			var p = this._p, i=p.start, result=[];
+
+			for (; i < p.end; i++)
+				result.push(i);
+
+			return result;
+		}
+	
+	}
+);
+
+/*
  * Displays a Rect
  */
 
@@ -670,18 +702,28 @@ Class(
 	{
 
 		/**
-		 * Creates clip from spritesheet indexes.
+		 * Creates clip from spritesheet indexes. Takes 
 		 */
 		clip : function()
+		{
+			return this.clipArray(arguments); 
+		},
+
+		clipArray: function(sprites)
 		{
 			var s = this.sprites(),
 			    frames = []
 			;
 
-			for (i = 0; i < arguments.length; i++)
-				frames.push([ s[arguments[i]] ]);
+			for (i = 0; i < sprites.length; i++)
+				frames.push([ s[sprites[i]] ]);
 
 			return new Clip({ 'frames': frames });
+		},
+
+		clipRange: function(sprites)
+		{
+			return this.clipArray(sprites.to_a());
 		},
 
 		/**
@@ -770,6 +812,7 @@ Action.rotate = function(obj)
     $.Draw = Draw;
     $.Image = Image;
     $.Property = Property;
+    $.Range = Range;
     $.Rect = Rect;
     $.Sprite = Sprite;
     $.Spritesheet = Spritesheet;

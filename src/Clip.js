@@ -75,7 +75,9 @@ Class(
 		};
 
 		display_object.parent(this);
-		this.frames()[this._frame].push(display_object);
+		var f = this.frames();
+		f[f.length-1].push(display_object);
+		//this.frames()[this._frame].push(display_object);
 		return this;
 	},
 

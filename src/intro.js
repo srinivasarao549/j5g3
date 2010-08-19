@@ -21,6 +21,7 @@
 	    Draw,
 	    Image,
 	    Property,
+	    Range,
 	    Rect,
 	    Sprite,
 	    Spritesheet,

@@ -9,12 +9,14 @@
 
 function game($)
 {
-	var ss = new $.Spritesheet($.id('spritesheet')).grid(5, 5);
-	var r = ss.clip(1, 2, 3, 4, 5);
-	
-	var a = r.animateTo({x : 600});
+	var ss = new $.Spritesheet($.id('spritesheet')).grid(5, 5),
+	    range = new $.Range(0, 24),
+	    update = function() { r.x(Math.random() * 600); r.y(Math.random() * 440); },
+	    r = ss.clipRange(range).add(update)
+	;
 
-	$.root.add([ r, a ]);
+	$.fps(1000/60);
+	$.root.add([ r ]);
 	$.run();
 }
 

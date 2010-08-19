@@ -5,6 +5,7 @@
     $.Draw = Draw;
     $.Image = Image;
     $.Property = Property;
+    $.Range = Range;
     $.Rect = Rect;
     $.Sprite = Sprite;
     $.Spritesheet = Spritesheet;
