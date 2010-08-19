@@ -50,6 +50,7 @@ Class(
 	invalidate : function()  
 	{ 
 		this._dirty = true;
+		return this;
 	},
 
 	isDirty : function()  

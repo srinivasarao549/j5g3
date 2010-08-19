@@ -7,7 +7,7 @@
  * Dual licensed under the MIT or GPL Version 2
  * http://jquery.org/license
  *
- * Date: 2010-08-19 02:28:48 -0400
+ * Date: 2010-08-19 12:48:52 -0400
  */
 
 (function(window, document, undefined) {
@@ -106,7 +106,7 @@ $ = window.j5g3 = new (function()
 		initialize(typeof(initfunc)=='function' ? { start: initfunc } : initfunc);
 	};
 
-	this.invalidate = function() { };
+	this.invalidate = function() { return this; };
 });
 /**
  * Property Functions
@@ -332,6 +332,7 @@ Class(
 	invalidate : function()  
 	{ 
 		this._dirty = true;
+		return this;
 	},
 
 	isDirty : function()  

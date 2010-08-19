@@ -74,5 +74,5 @@ $ = window.j5g3 = new (function()
 		initialize(typeof(initfunc)=='function' ? { start: initfunc } : initfunc);
 	};
 
-	this.invalidate = function() { };
+	this.invalidate = function() { return this; };
 });

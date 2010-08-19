@@ -3,45 +3,42 @@
 	<title> j5g3 - Clock Example</title>
 	<script src="../build/j5g3.js"></script>
 	<script>
-		var game;
 
-		function update()
-		{
-			var objs = game.root.frame();
-
-			var t = new Date;
-
-			var secs = t.getSeconds() + t.getMilliseconds() / 1000;
-			var mins = t.getMinutes() + secs / 60;
-			var hours= t.getHours() + mins / 60;
+function game($, undefined)
+{
+	
+	var 
+	update = function() 
+	{
+			var objs = $.root.frame(),
+			    t = new Date,
+			    secs = t.getSeconds() + t.getMilliseconds() / 1000,
+			    mins = t.getMinutes() + secs / 60,
+			    hours= t.getHours() + mins / 60
+			;
 
 			objs[1].rotation(Math.PI + Math.PI / 6 * hours);
 			objs[2].rotation(Math.PI + Math.PI / 30 * mins);
 			objs[3].rotation(Math.PI + Math.PI / 30 * secs);
-		}
+	};
 
-		function initialize()
-		{
-			game = j5g3.Engine.initialize({ fps: 1000/60 });
+	var clock = new $.Clip( { frames: [[ new $.Image({ source: 'clock.jpg', x: -175, y: -175 }) ]] } );
+	var hour = new $.Clip( { frames: [[ new $.Image({ source: 'HourHand.png', x: -10, y: 210, scaleY: -1}) ]] } );
+	var mins = new $.Clip( { frames: [[ new $.Image({ source: 'MinuteHand.png', x: -10, y: 220, scaleY: -1}) ]] } );
+	var secs = new $.Clip( { frames: [[ new $.Image({ source: 'SecondHand.png', x: -10, y: 190, scaleY: -1}) ]] } );
 
-			var clock = new j5g3.Clip( { frames: [[ new j5g3.Image({ source: 'clock.jpg', x: -175, y: -175 }) ]] } );
-			var hour = new j5g3.Clip( { frames: [[ new j5g3.Image({ source: 'HourHand.png', x: -10, y: 210, scaleY: -1}) ]] } );
-			var mins = new j5g3.Clip( { frames: [[ new j5g3.Image({ source: 'MinuteHand.png', x: -10, y: 220, scaleY: -1}) ]] } );
-			var secs = new j5g3.Clip( { frames: [[ new j5g3.Image({ source: 'SecondHand.png', x: -10, y: 190, scaleY: -1}) ]] } );
+	$.root.add([ clock, hour, mins, secs, update ])
+		 .alignChildren('center')
+		 .alignChildren('middle')
+	;
 
-			game.root.add([ clock, hour, mins, secs, update ])
-			         .alignChildren('center')
-			         .alignChildren('middle')
-			;
-
-			game.background.fillStyle('white');
-			
-			game.run();
-		}
+	$.background.fillStyle('white');
+	
+	$.fps(1000/60).run();
+};
 	</script>
 </head>
-<body onload="initialize()">
+<body onload="j5g3.start(game);">
 	<canvas id="screen">
-
 	</canvas>
 </body>
