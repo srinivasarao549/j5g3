@@ -7,7 +7,7 @@
  * Dual licensed under the MIT or GPL Version 2
  * http://jquery.org/license
  *
- * Date: 2010-08-20 17:07:56 -0400
+ * Date: 2010-08-20 18:30:10 -0400
  */
 
 (function(window, document, undefined) {
@@ -20,6 +20,7 @@
 	    DisplayObject,
 	    Draw,
 	    Image,
+	    Physics,
 	    Property,
 	    Range,
 	    Rect,
@@ -495,7 +496,7 @@ Class(
 			return this;
 		};
 
-		display_object.parent(this);
+		if (display_object.parent) display_object.parent(this);
 		var f = this.frames();
 		f[f.length-1].push(display_object);
 		//this.frames()[this._frame].push(display_object);
@@ -659,6 +660,35 @@ Class(
 		}
 	}
 );
+
+/**
+ * j5g3 Physics Class
+ *
+ * Properties
+ *
+ * obj     Object to apply physics to.
+ * v       Velocity 2D Vector
+ */
+
+Class(Physics = function(properties)
+{
+	_extend(this, properties);
+},
+Object,
+{
+	obj: null, v: null
+},
+{
+	draw: function()
+	{
+		var o = this._p.obj,
+		    v = this._p.v
+		;
+
+		o.x(o.x() + v[0]);
+		o.y(o.y() + v[1]);
+	}
+});
 
 /*
  * j5g3 Sprite
@@ -860,6 +890,7 @@ $.Rect = Rect;
 $.Sprite = Sprite;
 $.Spritesheet = Spritesheet;
 $.Text = Text;
+$.Physics = Physics;
 
 $.action = f(Action);
 $.clip   = f(Clip);
@@ -869,5 +900,6 @@ $.rect   = f(Rect);
 $.sprite = f(Sprite);
 $.spritesheet = f(Spritesheet);
 $.text   = f(Text);
+$.physics= f(Physics);
 
 })(this, document);

@@ -20,6 +20,7 @@
 	    DisplayObject,
 	    Draw,
 	    Image,
+	    Physics,
 	    Property,
 	    Range,
 	    Rect,

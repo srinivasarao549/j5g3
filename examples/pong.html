@@ -11,11 +11,12 @@ function game($)
 	    ball = ss.cut([24, 8, 8, 8]).pos(160, 120),
 
 	    score1 = $.text({ text: "0", x: 190, y: 10, font: '14px' }),
-	    score2 = $.text({ text: "0", x: 130, y: 10, font: '14px' })
+	    score2 = $.text({ text: "0", x: 130, y: 10, font: '14px' }),
 
+	    p = $.physics({ obj: ball, v: [ -1, 0, 1 ]});
 	;
 
-	$.root.add([ player, computer, ball, score1, score2]);
+	$.root.add([ player, computer, ball, score1, score2, p]);
 	$.run();
 }
 	

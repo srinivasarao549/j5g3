@@ -19,6 +19,7 @@ $.Rect = Rect;
 $.Sprite = Sprite;
 $.Spritesheet = Spritesheet;
 $.Text = Text;
+$.Physics = Physics;
 
 $.action = f(Action);
 $.clip   = f(Clip);
@@ -28,5 +29,6 @@ $.rect   = f(Rect);
 $.sprite = f(Sprite);
 $.spritesheet = f(Spritesheet);
 $.text   = f(Text);
+$.physics= f(Physics);
 
 })(this, document);
