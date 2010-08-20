@@ -7,7 +7,7 @@
  * Dual licensed under the MIT or GPL Version 2
  * http://jquery.org/license
  *
- * Date: 2010-08-20 00:09:35 -0400
+ * Date: 2010-08-20 02:12:04 -0400
  */
 
 (function(window, document, undefined) {
@@ -60,7 +60,7 @@ $ = window.j5g3 = new (function()
 			_extend(self, properties);
 
 			if (self._p.canvas === null)
-				self._p.canvas = document.getElementById('screen');
+				self._p.canvas = $.id('screen');
 
 			canvas = self._p.canvas;
 
@@ -82,9 +82,6 @@ $ = window.j5g3 = new (function()
 			properties.start($, document);
 		}
 	;
-
-	this._p = { };
-
 	/**
 	 * Starts the execution.
 	 */
@@ -153,9 +150,9 @@ Animate = {
 Property = function(name)
 {
 	return function(val) { 
-		return (val === undefined) ? this._p[name] :
-			this._p[name] = val, this.invalidate();
-	};
+		return val === undefined ? this._p[name] :
+			(this._p[name] = val, this.invalidate());
+	}
 };
 
 /**
@@ -187,6 +184,11 @@ Property.define = function(obj, properties)
 	return obj;
 };
 
+/**
+ * Extends Properties by initializing the _p object.
+ *
+ * @return obj._p Object
+ */
 _extend = Property.extend = function(obj, p)
 {
 	// TODO Check this..
@@ -202,6 +204,8 @@ _extend = Property.extend = function(obj, p)
 	else
 		for (i in properties)
 			obj._p[i] = properties[i];
+	
+	return obj._p;
 };
 /**
  *
@@ -701,23 +705,26 @@ Class(
 		if (properties.height === undefined && properties.source)
 			properties.height = properties.source.height();
 		
-		_extend(this, properties);
+		var p = _extend(this, properties);
+
+		p.sprites = p.sprites || [];
+
 	},
 	Object, 
 	{
-		'width':0, 'height':0, 'source':null, 'sprites':0, cols: 1, rows:1, type: 'grid'
+		'width':0, 'height':0, 'source':null, 'sprites': undefined, cols: 1, rows:1, type: 'grid'
 	},
 	{
 
 		/**
-		 * Creates clip from spritesheet indexes. Takes 
+		 * Creates clip from spritesheet indexes. Takes an Array, Range or a list of arguments.
 		 */
-		clip : function()
+		clip : function(sprites)
 		{
 			return this.clipArray(arguments); 
 		},
 
-		clipArray: function(sprites)
+		clip_array: function(sprites)
 		{
 			var s = this.sprites(),
 			    frames = []
@@ -729,9 +736,27 @@ Class(
 			return new Clip({ 'frames': frames });
 		},
 
-		clipRange: function(sprites)
+		clip_range: function(sprites)
 		{
 			return this.clipArray(sprites.to_a());
+		},
+
+		/**
+		 * Returns a Sprite object from a section of the Spritesheet. It also adds it to the sprites list.
+		 *
+		 * @param r Rect structure. { x, y, w, h } or Rect array [ x, y, w, h ]
+		 */
+		cut: function(r)
+		{
+			var s = new Sprite(_typeof(r) == 'array' ? 
+				{ source: { image: this.source().source(), x: r[0], y: r[1], w: r[2], h: r[3] } }
+			:
+				{ source: { image: this.source().source(), x: r.x, y: r.y, w: r.w, h: r.h } }
+			);
+
+			this._p.sprites.push(s);
+
+			return s;
 		},
 
 		/**
@@ -739,19 +764,19 @@ Class(
 		 */
 		grid : function(x, y)
 		{
-			var s = [],
+			var s = this._p.sprites = [],
 			    w = this.width() / x,
 			    h = this.height() / y
+			    r = 0, c = 0
 			;
 
-			for (var r = 0; r < x; r++)
-				for (var c = 0; c < x; c++)
+			for (; r < x; r++)
+				for (; c < x; c++)
 					s.push(new Sprite({ source: { image: this.source().source(), 'x': c * w, 'y': r * h, 'w': w, 'h': h }}));
-
-			this._p.sprites = s;
 
 			return this;
 		}
+
 	}
 );
 

@@ -25,7 +25,7 @@ $ = window.j5g3 = new (function()
 			_extend(self, properties);
 
 			if (self._p.canvas === null)
-				self._p.canvas = document.getElementById('screen');
+				self._p.canvas = $.id('screen');
 
 			canvas = self._p.canvas;
 
@@ -47,9 +47,6 @@ $ = window.j5g3 = new (function()
 			properties.start($, document);
 		}
 	;
-
-	this._p = { };
-
 	/**
 	 * Starts the execution.
 	 */

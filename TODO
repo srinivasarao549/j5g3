@@ -3,4 +3,5 @@ TODO
 
 - Get Rid of Context
 - Replace getType Results with Constants.
+- Automatically call 'new'
 

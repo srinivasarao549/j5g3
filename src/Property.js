@@ -13,9 +13,9 @@
 Property = function(name)
 {
 	return function(val) { 
-		return (val === undefined) ? this._p[name] :
-			this._p[name] = val, this.invalidate();
-	};
+		return val === undefined ? this._p[name] :
+			(this._p[name] = val, this.invalidate());
+	}
 };
 
 /**
@@ -47,6 +47,11 @@ Property.define = function(obj, properties)
 	return obj;
 };
 
+/**
+ * Extends Properties by initializing the _p object.
+ *
+ * @return obj._p Object
+ */
 _extend = Property.extend = function(obj, p)
 {
 	// TODO Check this..
@@ -62,4 +67,6 @@ _extend = Property.extend = function(obj, p)
 	else
 		for (i in properties)
 			obj._p[i] = properties[i];
+	
+	return obj._p;
 };
