@@ -12,7 +12,7 @@ Class(
 		fillStyle: null
 	},
 	{
-		paint : function(context)
+		paint : function()
 		{
 			if (this._p.fillStyle) context.fillStyle = this._p.fillStyle;
 

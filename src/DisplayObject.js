@@ -18,7 +18,7 @@ Class(
 	/**
 	 * Save Transform Matrix and apply transformations.
 	 */
-	begin : function(context)
+	begin : function()
 	{
 		context.save();
 		context.globalAlpha *= this.alpha();
@@ -30,7 +30,7 @@ Class(
 	/**
 	 * Restores Transform Matrix
 	 */
-	end : function(context)
+	end : function()
 	{
 		context.restore();
 	},
@@ -40,11 +40,11 @@ Class(
 	 * To define your custom DisplayObject class implement the paint() function. The paint function receives
 	 * the current context for drawing.
 	 */
-	draw : function(context)
+	draw : function()
 	{
-		this.begin(context);
-		this.paint(context);
-		this.end(context);
+		this.begin();
+		this.paint();
+		this.end();
 	},
 
 	invalidate : function()  

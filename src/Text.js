@@ -14,7 +14,7 @@ Class(
 
 	{ text: '', fillStyle: 'white', 'font': null },
 	{
-		begin : function(context)
+		begin : function()
 		{
 			TextOldBegin.apply(this, [context]);
 

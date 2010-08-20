@@ -58,10 +58,10 @@ $ = window.j5g3 = new (function()
 
 	this.gameLoop = function()
 	{
-		var context = getContext();
+		context = getContext();
 
-		self.background.draw(context);
-		self.root.draw(context);
+		self.background.draw();
+		self.root.draw();
 	}; 
 
 	this.fps = function(val)

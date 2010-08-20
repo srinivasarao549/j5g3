@@ -5,7 +5,7 @@
  */
 Draw =  
 {
-	Image: function (context)
+	Image: function ()
 	{
 		context.drawImage(this._p.source, 0, 0);	
 	},
@@ -13,7 +13,7 @@ Draw =
 	/**
 	 * Drawing function for Clips
 	 */
-	Sprite: function (context) 
+	Sprite: function () 
 	{
 		var src = this.source(), 
 		    w = this.width(), 
@@ -23,7 +23,7 @@ Draw =
 		context.drawImage(src.image, src.x, src.y, src.w, src.h, 0, 0, w ? w : src.w, h ? h : src.h);
 	},
 
-	Container: function (context)
+	Container: function ()
 	{
 		var frame = this.frame();
 
@@ -31,7 +31,7 @@ Draw =
 			frame[i].draw(context);
 	},
 
-	Text: function(context)
+	Text: function()
 	{
 		context.fillText(this.text(), 0, 0);
 	}

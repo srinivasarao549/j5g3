@@ -7,7 +7,7 @@
  * Dual licensed under the MIT or GPL Version 2
  * http://jquery.org/license
  *
- * Date: 2010-08-20 16:36:56 -0400
+ * Date: 2010-08-20 17:07:56 -0400
  */
 
 (function(window, document, undefined) {
@@ -31,6 +31,7 @@
 	    canvas,
 	    _extend,
 	    _typeof,
+	    context,
 
 /* core.js defines $ */
 	
@@ -93,10 +94,10 @@ $ = window.j5g3 = new (function()
 
 	this.gameLoop = function()
 	{
-		var context = getContext();
+		context = getContext();
 
-		self.background.draw(context);
-		self.root.draw(context);
+		self.background.draw();
+		self.root.draw();
 	}; 
 
 	this.fps = function(val)
@@ -280,7 +281,7 @@ _typeof = Util.getType = function(obj)
  */
 Draw =  
 {
-	Image: function (context)
+	Image: function ()
 	{
 		context.drawImage(this._p.source, 0, 0);	
 	},
@@ -288,7 +289,7 @@ Draw =
 	/**
 	 * Drawing function for Clips
 	 */
-	Sprite: function (context) 
+	Sprite: function () 
 	{
 		var src = this.source(), 
 		    w = this.width(), 
@@ -298,7 +299,7 @@ Draw =
 		context.drawImage(src.image, src.x, src.y, src.w, src.h, 0, 0, w ? w : src.w, h ? h : src.h);
 	},
 
-	Container: function (context)
+	Container: function ()
 	{
 		var frame = this.frame();
 
@@ -306,7 +307,7 @@ Draw =
 			frame[i].draw(context);
 	},
 
-	Text: function(context)
+	Text: function()
 	{
 		context.fillText(this.text(), 0, 0);
 	}
@@ -333,7 +334,7 @@ Class(
 	/**
 	 * Save Transform Matrix and apply transformations.
 	 */
-	begin : function(context)
+	begin : function()
 	{
 		context.save();
 		context.globalAlpha *= this.alpha();
@@ -345,7 +346,7 @@ Class(
 	/**
 	 * Restores Transform Matrix
 	 */
-	end : function(context)
+	end : function()
 	{
 		context.restore();
 	},
@@ -355,11 +356,11 @@ Class(
 	 * To define your custom DisplayObject class implement the paint() function. The paint function receives
 	 * the current context for drawing.
 	 */
-	draw : function(context)
+	draw : function()
 	{
-		this.begin(context);
-		this.paint(context);
-		this.end(context);
+		this.begin();
+		this.paint();
+		this.end();
 	},
 
 	invalidate : function()  
@@ -650,7 +651,7 @@ Class(
 		fillStyle: null
 	},
 	{
-		paint : function(context)
+		paint : function()
 		{
 			if (this._p.fillStyle) context.fillStyle = this._p.fillStyle;
 
@@ -795,7 +796,7 @@ Class(
 
 	{ text: '', fillStyle: 'white', 'font': null },
 	{
-		begin : function(context)
+		begin : function()
 		{
 			TextOldBegin.apply(this, [context]);
 
