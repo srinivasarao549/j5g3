@@ -5,16 +5,16 @@
 function game($)
 {
 
-	var ss = new $.Spritesheet($.id('spritesheet')),
+	var ss = $.spritesheet($.id('spritesheet')),
 	    player = ss.cut([ 8, 8, 8, 40 ]).pos(20, 100),
 	    computer = ss.cut([8, 54, 8, 40 ]).pos(292, 100),
 	    ball = ss.cut([24, 8, 8, 8]).pos(160, 120),
 
-	    score1 = new $.Text({ text: "0", x: 190, y: 10 }),
-	    score2 = new $.Text({ text: "0", x: 130, y: 10 })
+	    score1 = $.text({ text: "0", x: 190, y: 10, font: '14px' }),
+	    score2 = $.text({ text: "0", x: 130, y: 10, font: '14px' })
 	;
 
-	$.root.add([ player, computer, ball]);
+	$.root.add([ player, computer, ball, score1, score2]);
 	$.run();
 }
 	
