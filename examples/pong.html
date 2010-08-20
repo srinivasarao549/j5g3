@@ -1,0 +1,28 @@
+<script src="../build/j5g3.js"></script>
+<script src="../src/Debug.js"></script>
+<script>
+
+function game($)
+{
+
+	var ss = new $.Spritesheet($.id('spritesheet')),
+	    player = ss.cut([ 8, 8, 8, 40 ]).pos(20, 100),
+	    computer = ss.cut([8, 54, 8, 40 ]).pos(292, 100),
+	    ball = ss.cut([24, 8, 8, 8]).pos(160, 120),
+
+	    score1 = new $.Text({ text: "0", x: 190, y: 10 }),
+	    score2 = new $.Text({ text: "0", x: 130, y: 10 })
+	;
+
+	$.root.add([ player, computer, ball]);
+	$.run();
+}
+	
+</script>
+
+<body onload="j5g3.start( { start: game, width: 320, height: 240 });">
+	<canvas style="width: 640px; height: 480px;" id="screen"></canvas>
+	<div id="assets" style="display: none;">
+		<img id="spritesheet" src="pong.png" />
+	</div>
+</body>
