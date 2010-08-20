@@ -27,8 +27,12 @@
 		Debug.oldGameLoop.apply(this);
 		time = (new Date).getTime() - time;
 
-		var ctx = $.canvas().getContext('2d');
-		DebugFPS.text(parseInt(1000/time) + " FPS");
+		var ctx = $.canvas().getContext('2d'),
+		    afps = 1000/time,
+		    fps = $.fps()
+		;
+
+		DebugFPS.text(Math.round(fps < afps ? fps : afps) + " FPS");
 
 		DebugFPS.draw(ctx); 
 	};

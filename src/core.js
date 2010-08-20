@@ -18,7 +18,6 @@ $ = window.j5g3 = new (function()
 		{
 			$.Property.define(self.constructor, { 
 				'canvas' : null,
-				fps    : 100,
 				backgroundStyle : 'black',
 				width  : 640,
 				height : 480
@@ -58,6 +57,8 @@ $ = window.j5g3 = new (function()
 	{
 		setInterval(this.gameLoop, this._p.fps);
 	};
+
+
 	this.gameLoop = function()
 	{
 		var context = getContext();
@@ -65,6 +66,13 @@ $ = window.j5g3 = new (function()
 		self.background.draw(context);
 		self.root.draw(context);
 	}; 
+
+	this.fps = function(val)
+	{
+		if (val === undefined) return 1000 / this._p.fps;
+		this._p.fps = 1000 / val;
+		return this;
+	};
 
 	/**
 	 * You should always call this method first.

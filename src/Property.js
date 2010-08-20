@@ -13,12 +13,8 @@
 Property = function(name)
 {
 	return function(val) { 
-		if (val !== undefined)
-		{
-			this._p[name] = val;
-			return this.invalidate();
-		}
-		return this._p[name];
+		return (val === undefined) ? this._p[name] :
+			this._p[name] = val, this.invalidate();
 	};
 };
 

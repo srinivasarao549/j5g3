@@ -7,7 +7,7 @@ var
 
 	/* Functions */
 	rand = Math.random,
-	max_balls = 50,
+	max_balls = 77,
 
 	/* Elements */
 	canvas = $.canvas(),
@@ -96,7 +96,7 @@ var
 	$.Util.Class(Ball, Image, { }, { });
 	Ball.klass = 'Ball';
 
-	$.fps(1000/60);
+	$.fps(60);
 
 	for (i = 0; i < max_balls; i++)
 		$.root.add(new Ball());
