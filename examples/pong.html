@@ -13,10 +13,15 @@ function game($)
 	    score1 = $.text({ text: "0", x: 190, y: 10, font: '14px' }),
 	    score2 = $.text({ text: "0", x: 130, y: 10, font: '14px' }),
 
-	    p = $.physics({ obj: ball, v: [ -1, 0, 1 ]});
+	    p = $.physics({ obj: ball, v: [ -1, 0, 1 ]}),
+	    update = function()
+	    {
+	    	if (ball.collides(player))
+			p.force(1, 0);
+	    }
 	;
 
-	$.root.add([ player, computer, ball, score1, score2, p]);
+	$.root.add([ player, computer, ball, score1, score2, p, update]);
 	$.run();
 }
 	

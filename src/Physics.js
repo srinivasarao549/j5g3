@@ -13,7 +13,7 @@ Class(Physics = function(properties)
 },
 Object,
 {
-	obj: null, v: null
+	obj: null, v: null, mass: 1
 },
 {
 	draw: function()
@@ -24,6 +24,15 @@ Object,
 
 		o.x(o.x() + v[0]);
 		o.y(o.y() + v[1]);
+	},
+
+	force: function(fx, fy, x, y)
+	{
+		
+	},
+
+	impulse: function()
+	{
 	}
 });
 
