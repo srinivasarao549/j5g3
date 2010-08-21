@@ -13,7 +13,7 @@ Class(Physics = function(properties)
 },
 Object,
 {
-	obj: null, v: null, mass: 1
+	obj: null, v: null, m: 1
 },
 {
 	draw: function()
@@ -28,7 +28,14 @@ Object,
 
 	force: function(fx, fy, x, y)
 	{
-		
+		var m = this._p.m,
+		    v = this._p.v
+		; 
+
+		v[0] = (m*v[0]+fx)/m;
+		v[1] = (m*v[1]+fy)/m;
+
+		return this;
 	},
 
 	impulse: function()

@@ -4,6 +4,8 @@
 
 function game($)
 {
+	// CHange collision mode to AABB
+	$.Sprite.prototype.collides = $.Collision.AABB;
 
 	var ss = $.spritesheet($.id('spritesheet')),
 	    player = ss.cut([ 8, 8, 8, 40 ]).pos(20, 100),
@@ -17,7 +19,9 @@ function game($)
 	    update = function()
 	    {
 	    	if (ball.collides(player))
-			p.force(1, 0);
+			p.force(2, 0);
+		else if (ball.collides(computer))
+			p.force(-2, 0);
 	    }
 	;
 

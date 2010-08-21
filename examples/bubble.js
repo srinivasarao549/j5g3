@@ -16,7 +16,7 @@ var
 	{
 		$.Property.extend(this);
 
-		this.source('soccer-ball.gif');
+		this.source($.id('ball'));
 
 		var max_speed = 5,
 		    diameter  = this.width(),
@@ -89,7 +89,7 @@ var
 
 		for (; i < max_balls; i++)
 			for (j = i+1; j < max_balls; j++)
-				if (objs[i].collidesWith(objs[j]))
+				if (objs[i].collides(objs[j]))
 					objs[i].collide(objs[j]);
 	}
 ;

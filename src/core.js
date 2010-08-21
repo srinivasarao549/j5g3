@@ -12,7 +12,7 @@ $ = window.j5g3 = new (function()
 
 		getContext= function()
 		{
-			return canvas.getContext('2d');
+			return context;
 		},
 		initialize = function(properties)
 		{
@@ -58,7 +58,7 @@ $ = window.j5g3 = new (function()
 
 	this.gameLoop = function()
 	{
-		context = getContext();
+		context = canvas.getContext('2d');
 
 		self.background.draw();
 		self.root.draw();

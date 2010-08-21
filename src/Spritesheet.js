@@ -73,9 +73,9 @@ Class(
 		cut: function(r)
 		{
 			var s = new Sprite(_typeof(r) == 'array' ? 
-				{ source: { image: this.source().source(), x: r[0], y: r[1], w: r[2], h: r[3] } }
+				{ width: r[2], height: r[3], source: { image: this.source().source(), x: r[0], y: r[1], w: r[2], h: r[3] } }
 			:
-				{ source: { image: this.source().source(), x: r.x, y: r.y, w: r.w, h: r.h } }
+				{ width: r.w, height: r.h, source: { image: this.source().source(), x: r.x, y: r.y, w: r.w, h: r.h } }
 			);
 
 			this._p.sprites.push(s);

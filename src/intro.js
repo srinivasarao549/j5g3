@@ -17,6 +17,7 @@
 	    Animate,
 	    Clip,
 	    Class,
+	    Collision,
 	    DisplayObject,
 	    Draw,
 	    Image,

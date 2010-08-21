@@ -8,6 +8,7 @@ $.Animate = Animate;
 $.Draw = Draw;
 $.Property = Property;
 $.Util = Util;
+$.Collision = Collision;
 
 /* CLASSES */
 $.Action = Action;

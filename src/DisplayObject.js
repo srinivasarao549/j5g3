@@ -5,7 +5,7 @@
 Class(
 	DisplayObject=function(properties)
 	{
-		this._p = { }
+		//this._p = { }
 		_extend(this, properties);
 		this._dirty = true;
 	}, 
@@ -73,24 +73,9 @@ Class(
 	},
 
 	/**
-	 * Collision Check
+	 * Default collision Algorithm is Circle (Collision Module)
 	 */
-	collidesWith : function(obj)
-	{
-		var dx = this.x() - obj.x();
-		var dy = this.y() - obj.y();
-		var w  = this.width();
-
-		if (Math.abs(dx) > w || Math.abs(dy) > w)
-			return false;
-
-		var d2 = dx*dx + dy*dy;
-
-		if (d2 > w*w)
-			return false;
-
-		return true;
-	},
+	collides: Collision.Circle,
 
 	/**
 	 * Sets x and y
@@ -99,7 +84,7 @@ Class(
 	{
 		this._p.x = x;
 		this._p.y = y;
-		this.invalidate();
-		return this;
+
+		return this.invalidate();
 	}
 });

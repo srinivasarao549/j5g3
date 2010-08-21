@@ -7,7 +7,7 @@
  * Dual licensed under the MIT or GPL Version 2
  * http://jquery.org/license
  *
- * Date: 2010-08-20 18:30:10 -0400
+ * Date: 2010-08-21 14:54:31 -0400
  */
 
 (function(window, document, undefined) {
@@ -17,6 +17,7 @@
 	    Animate,
 	    Clip,
 	    Class,
+	    Collision,
 	    DisplayObject,
 	    Draw,
 	    Image,
@@ -49,7 +50,7 @@ $ = window.j5g3 = new (function()
 
 		getContext= function()
 		{
-			return canvas.getContext('2d');
+			return context;
 		},
 		initialize = function(properties)
 		{
@@ -95,7 +96,7 @@ $ = window.j5g3 = new (function()
 
 	this.gameLoop = function()
 	{
-		context = getContext();
+		context = canvas.getContext('2d');
 
 		self.background.draw();
 		self.root.draw();
@@ -137,6 +138,45 @@ Animate = {
 	}
 };
 
+/**
+ * Collision Module Algorithsm
+ */
+
+Collision = {
+
+	/**
+	 * Circle Collision detection algorithm.
+	 */
+	Circle: function(b) 
+	{
+		var dx = this.x() - b.x(),
+		    dy = this.y() - b.y(),
+		    w  = this.width()
+		;
+
+		if (Math.abs(dx) > w || Math.abs(dy) > w)
+			return false;
+
+		var d2 = dx*dx + dy*dy;
+
+		return (d2 <= w*w);
+	},
+
+	/**
+	 * AABB Test
+	 */
+	AABB: function(b)
+	{
+		var ax = this.x(),
+		    ay = this.y(),
+		    bx = b.x(),
+		    by = b.y()
+		;
+
+		return (ax+this.width() >= bx && ax <= bx+b.width()) && (ay+this.height() > by && ay <= by+b.height());
+	}
+
+};
 /**
  * Property Functions
  *
@@ -322,7 +362,7 @@ Draw =
 Class(
 	DisplayObject=function(properties)
 	{
-		this._p = { }
+		//this._p = { }
 		_extend(this, properties);
 		this._dirty = true;
 	}, 
@@ -390,24 +430,9 @@ Class(
 	},
 
 	/**
-	 * Collision Check
+	 * Default collision Algorithm is Circle (Collision Module)
 	 */
-	collidesWith : function(obj)
-	{
-		var dx = this.x() - obj.x();
-		var dy = this.y() - obj.y();
-		var w  = this.width();
-
-		if (Math.abs(dx) > w || Math.abs(dy) > w)
-			return false;
-
-		var d2 = dx*dx + dy*dy;
-
-		if (d2 > w*w)
-			return false;
-
-		return true;
-	},
+	collides: Collision.Circle,
 
 	/**
 	 * Sets x and y
@@ -416,8 +441,8 @@ Class(
 	{
 		this._p.x = x;
 		this._p.y = y;
-		this.invalidate();
-		return this;
+
+		return this.invalidate();
 	}
 });
 /**
@@ -676,7 +701,7 @@ Class(Physics = function(properties)
 },
 Object,
 {
-	obj: null, v: null
+	obj: null, v: null, m: 1
 },
 {
 	draw: function()
@@ -687,6 +712,22 @@ Object,
 
 		o.x(o.x() + v[0]);
 		o.y(o.y() + v[1]);
+	},
+
+	force: function(fx, fy, x, y)
+	{
+		var m = this._p.m,
+		    v = this._p.v
+		; 
+
+		v[0] = (m*v[0]+fx)/m;
+		v[1] = (m*v[1]+fy)/m;
+
+		return this;
+	},
+
+	impulse: function()
+	{
 	}
 });
 
@@ -780,9 +821,9 @@ Class(
 		cut: function(r)
 		{
 			var s = new Sprite(_typeof(r) == 'array' ? 
-				{ source: { image: this.source().source(), x: r[0], y: r[1], w: r[2], h: r[3] } }
+				{ width: r[2], height: r[3], source: { image: this.source().source(), x: r[0], y: r[1], w: r[2], h: r[3] } }
 			:
-				{ source: { image: this.source().source(), x: r.x, y: r.y, w: r.w, h: r.h } }
+				{ width: r.w, height: r.h, source: { image: this.source().source(), x: r.x, y: r.y, w: r.w, h: r.h } }
 			);
 
 			this._p.sprites.push(s);
@@ -879,6 +920,7 @@ $.Animate = Animate;
 $.Draw = Draw;
 $.Property = Property;
 $.Util = Util;
+$.Collision = Collision;
 
 /* CLASSES */
 $.Action = Action;
