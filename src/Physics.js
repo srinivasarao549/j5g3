@@ -26,6 +26,9 @@ Object,
 		o.y(o.y() + v[1]);
 	},
 
+	/**
+	 * Applies force [fx, fy] for 1 frame.
+	 */
 	force: function(fx, fy, x, y)
 	{
 		var m = this._p.m,
@@ -40,6 +43,8 @@ Object,
 
 	impulse: function()
 	{
-	}
+	},
+
+	invalidate: function() { }
 });
 

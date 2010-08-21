@@ -7,7 +7,7 @@
  * Dual licensed under the MIT or GPL Version 2
  * http://jquery.org/license
  *
- * Date: 2010-08-21 14:54:31 -0400
+ * Date: 2010-08-21 16:56:56 -0400
  */
 
 (function(window, document, undefined) {
@@ -65,6 +65,8 @@ $ = window.j5g3 = new (function()
 			if (self._p.canvas === null)
 				self._p.canvas = $.id('screen');
 
+			self._p.fps = 33;
+
 			canvas = self._p.canvas;
 
 			self.background = new Rect({ 
@@ -80,7 +82,6 @@ $ = window.j5g3 = new (function()
 
 			canvas.width = self.width();
 			canvas.height = self.height();
-			canvas.addEventListener('click', self.onClick, false);
 
 			properties.start($, document);
 		}
@@ -714,6 +715,9 @@ Object,
 		o.y(o.y() + v[1]);
 	},
 
+	/**
+	 * Applies force [fx, fy] for 1 frame.
+	 */
 	force: function(fx, fy, x, y)
 	{
 		var m = this._p.m,
@@ -728,7 +732,9 @@ Object,
 
 	impulse: function()
 	{
-	}
+	},
+
+	invalidate: function() { }
 });
 
 /*

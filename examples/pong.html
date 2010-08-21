@@ -7,25 +7,84 @@ function game($)
 	// CHange collision mode to AABB
 	$.Sprite.prototype.collides = $.Collision.AABB;
 
-	var ss = $.spritesheet($.id('spritesheet')),
+	var 
+	    maxvx = 8,
+	    ss = $.spritesheet($.id('spritesheet')),
 	    player = ss.cut([ 8, 8, 8, 40 ]).pos(20, 100),
 	    computer = ss.cut([8, 54, 8, 40 ]).pos(292, 100),
 	    ball = ss.cut([24, 8, 8, 8]).pos(160, 120),
 
-	    score1 = $.text({ text: "0", x: 190, y: 10, font: '14px' }),
-	    score2 = $.text({ text: "0", x: 130, y: 10, font: '14px' }),
+	    score1 = $.text({ text: "0", x: 130, y: 10, font: '14px' }),
+	    score2 = $.text({ text: "0", x: 190, y: 10, font: '14px' }),
 
-	    p = $.physics({ obj: ball, v: [ -1, 0, 1 ]}),
+	    p = $.physics({ obj: ball, v: [ -maxvx, 0, 1 ]}),
+	    restart = function(winner)
+	    {
+	    	winner.text(parseInt(winner.text()) + 1);
+		ball.x(160).y(120);
+		p.v( [ -maxvx, 0, 1 ]);
+		player.y(100);
+		computer.y(100);
+		computer.v = 0;
+	    },
 	    update = function()
 	    {
 	    	if (ball.collides(player))
-			p.force(2, 0);
-		else if (ball.collides(computer))
-			p.force(-2, 0);
+		{
+			p.v()[0] = maxvx;
+			p.force(0, player.F);
+		} else if (ball.collides(computer))
+		{
+			p.v()[0] = -maxvx;
+			p.force(0, computer.a);
+		} else if (ball.x() < 0)
+			restart(score2);
+		else if (ball.x() > 320)
+			restart(score1);
+		else if (ball.y() <= 0 || ball.y() >= 232)
+			p.force(0, -2 * p.v()[1]);
+		player.F = 0;
+	    },
+
+	    ai = function()
+	    {
+	    	var by = ball.y(), bv = p.v(), y = computer.y()+computer.height()/2, a=0;
+
+		if (bv[0] > 0)
+		{
+			if (computer.y() <5) computer.y(5);
+			else if (computer.y()>195) computer.y(195);
+			else if (by > y+4) a = 1;
+			else if (by < y-4) a = -1;
+
+			if (a)
+			{
+				computer.v += a;
+				computer.y(computer.y() + computer.v);
+				computer.a = a;
+				return;
+			}
+		} 
+
+		computer.v = 0;
+		computer.a = 0;
+	    },
+
+	    mouse = function(evt)
+	    {
+	    	var yi = player.y(), yf;
+	    	player.y(yf = evt.y/2-20);
+		// Calculate force, t = 1 frame, m = 1
+		player.F = (yf-yi)/3; 
 	    }
 	;
 
-	$.root.add([ player, computer, ball, score1, score2, p, update]);
+	player.F = 0;
+	computer.v = 0;
+
+	$.canvas().onmousemove = mouse;
+
+	$.root.add([ player, computer, ball, score1, score2, p, update, ai]);
 	$.run();
 }
 	

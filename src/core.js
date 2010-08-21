@@ -27,6 +27,8 @@ $ = window.j5g3 = new (function()
 			if (self._p.canvas === null)
 				self._p.canvas = $.id('screen');
 
+			self._p.fps = 33;
+
 			canvas = self._p.canvas;
 
 			self.background = new Rect({ 
@@ -42,7 +44,6 @@ $ = window.j5g3 = new (function()
 
 			canvas.width = self.width();
 			canvas.height = self.height();
-			canvas.addEventListener('click', self.onClick, false);
 
 			properties.start($, document);
 		}
