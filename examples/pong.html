@@ -10,9 +10,9 @@ function game($)
 	var 
 	    maxvx = 8,
 	    ss = $.spritesheet($.id('spritesheet')),
-	    player = ss.cut([ 8, 8, 8, 40 ]).pos(20, 100),
-	    computer = ss.cut([8, 54, 8, 40 ]).pos(292, 100),
-	    ball = ss.cut([24, 8, 8, 8]).pos(160, 120),
+	    player   = ss.cut(8, 8, 8, 40).pos(20, 100),
+	    computer = ss.cut(8, 54, 8, 40 ).pos(292, 100),
+	    ball     = ss.cut(24, 8, 8, 8).pos(160, 120),
 
 	    score1 = $.text({ text: "0", x: 130, y: 10, font: '14px' }),
 	    score2 = $.text({ text: "0", x: 190, y: 10, font: '14px' }),
@@ -33,16 +33,21 @@ function game($)
 		{
 			p.v()[0] = maxvx;
 			p.force(0, player.F);
+			sound.play();
 		} else if (ball.collides(computer))
 		{
 			p.v()[0] = -maxvx;
 			p.force(0, computer.a);
+			sound.play();
 		} else if (ball.x() < 0)
 			restart(score2);
 		else if (ball.x() > 320)
 			restart(score1);
 		else if (ball.y() <= 0 || ball.y() >= 232)
+		{
 			p.force(0, -2 * p.v()[1]);
+			sound.play();
+		}
 		player.F = 0;
 	    },
 
@@ -73,26 +78,37 @@ function game($)
 	    mouse = function(evt)
 	    {
 	    	var yi = player.y(), yf;
-	    	player.y(yf = evt.y/2-20);
+	    	player.y(yf = evt.offsetY/2-20);
 		// Calculate force, t = 1 frame, m = 1
 		player.F = (yf-yi)/3; 
-	    }
+	    },
+
+	    sound = $.id('pong');
 	;
+
+	window.toggleSound = function() { sound.volume = this.checked ? 0 : 0.25 ; }
 
 	player.F = 0;
 	computer.v = 0;
+	sound.volume = 0.2;
 
 	$.canvas().onmousemove = mouse;
 
 	$.root.add([ player, computer, ball, score1, score2, p, update, ai]);
 	$.run();
 }
+
 	
 </script>
 
 <body onload="j5g3.start( { start: game, width: 320, height: 240 });">
-	<canvas style="width: 640px; height: 480px;" id="screen"></canvas>
+	<div>
+		<h1>P O N G</h1>
+		<label><input type="checkbox" onclick="toggleSound.apply(this)" />Mute Sounds</label>
+	</div>
+		<canvas style="width: 640px; height: 480px;" id="screen"></canvas>
 	<div id="assets" style="display: none;">
 		<img id="spritesheet" src="pong.png" />
+		<audio id="pong" src="pong.ogg" preload="true"></audio>
 	</div>
 </body>

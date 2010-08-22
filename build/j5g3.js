@@ -7,7 +7,7 @@
  * Dual licensed under the MIT or GPL Version 2
  * http://jquery.org/license
  *
- * Date: 2010-08-21 16:56:56 -0400
+ * Date: 2010-08-21 20:10:55 -0400
  */
 
 (function(window, document, undefined) {
@@ -65,7 +65,7 @@ $ = window.j5g3 = new (function()
 			if (self._p.canvas === null)
 				self._p.canvas = $.id('screen');
 
-			self._p.fps = 33;
+			self._p.fps = 31;
 
 			canvas = self._p.canvas;
 
@@ -308,6 +308,7 @@ _typeof = Util.getType = function(obj)
 		if (result == 'object')
 		{
 			if (obj instanceof Array) return 'array';
+			if (obj instanceof HTMLAudioElement) return 'audio';
 			if (obj instanceof HTMLElement) return 'DOM';
 			if (obj._p) return 'j5g3';
 		}
@@ -520,6 +521,11 @@ Class(
 			for (var i in display_object)
 				this.add(display_object[i]);
 			return this;
+		case 'audio':
+			// Create On the Fly display obejct for audio
+			// TODO We might have an Audio class... If we need to.
+			display_object = { parent: Property('parent'), draw: function() { display_object.play(); } };
+			break;
 		};
 
 		if (display_object.parent) display_object.parent(this);
@@ -824,12 +830,12 @@ Class(
 		 *
 		 * @param r Rect structure. { x, y, w, h } or Rect array [ x, y, w, h ]
 		 */
-		cut: function(r)
+		cut: function(x, y, w, h)
 		{
-			var s = new Sprite(_typeof(r) == 'array' ? 
-				{ width: r[2], height: r[3], source: { image: this.source().source(), x: r[0], y: r[1], w: r[2], h: r[3] } }
-			:
+			var s = new Sprite(_typeof(x) == 'object' ? 
 				{ width: r.w, height: r.h, source: { image: this.source().source(), x: r.x, y: r.y, w: r.w, h: r.h } }
+			:
+				{ width: w, height: h, source: { image: this.source().source(), 'x': x, 'y': y, 'w': w, 'h': h } }
 			);
 
 			this._p.sprites.push(s);

@@ -72,6 +72,11 @@ Class(
 			for (var i in display_object)
 				this.add(display_object[i]);
 			return this;
+		case 'audio':
+			// Create On the Fly display obejct for audio
+			// TODO We might have an Audio class... If we need to.
+			display_object = { parent: Property('parent'), draw: function() { display_object.play(); } };
+			break;
 		};
 
 		if (display_object.parent) display_object.parent(this);

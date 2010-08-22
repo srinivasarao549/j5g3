@@ -27,7 +27,7 @@ $ = window.j5g3 = new (function()
 			if (self._p.canvas === null)
 				self._p.canvas = $.id('screen');
 
-			self._p.fps = 33;
+			self._p.fps = 31;
 
 			canvas = self._p.canvas;
 
