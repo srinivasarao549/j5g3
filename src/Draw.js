@@ -25,9 +25,9 @@ Draw =
 
 	Container: function ()
 	{
-		var frame = this.frame();
+		var frame = this.frame(),i;
 
-		for (var i in frame)
+		for (i=0; i<frame.length;i++)
 			frame[i].draw(context);
 	},
 

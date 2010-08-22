@@ -28,6 +28,7 @@
 	    Sprite,
 	    Spritesheet,
 	    Text,
+	    Tween,
 	    Util,
 
 	    canvas,

@@ -20,6 +20,7 @@ $.Rect = Rect;
 $.Sprite = Sprite;
 $.Spritesheet = Spritesheet;
 $.Text = Text;
+$.Tween = Tween;
 $.Physics = Physics;
 
 $.action = f(Action);
@@ -30,6 +31,7 @@ $.rect   = f(Rect);
 $.sprite = f(Sprite);
 $.spritesheet = f(Spritesheet);
 $.text   = f(Text);
+$.tween  = f(Tween);
 $.physics= f(Physics);
 
 })(this, document);

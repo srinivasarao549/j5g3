@@ -3,6 +3,17 @@
  */
 
 Collision = {
+	
+	/**
+	 * Determines if point is inside object.
+	 */
+	Point: function(x, y)
+	{
+		var ox = this.x(), oy = this.y();
+
+		return (x >= ox && x <= ox+this.width()) &&
+		       (y >= oy && y <= oy+this.height());		
+	},
 
 	/**
 	 * Circle Collision detection algorithm.

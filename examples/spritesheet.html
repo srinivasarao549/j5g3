@@ -1,0 +1,60 @@
+<script src="../build/j5g3.js"></script>
+<script src="../src/Debug.js"></script>
+<script src="../src/Monkey.js"></script>
+<script>
+function game($)
+{
+	var ss = $.spritesheet($.id('pic')).grid(3,3),
+	    pieces= ss.sprites(),
+	    r, c,
+	    w=$.canvas().width/3,
+	    h=$.canvas().height/3
+	;
+
+	var last = pieces[8];
+	pieces.shuffle();
+
+	for (r=0; r<3; r++)
+		for (c=0; c<3; c++)
+			pieces[r*3+c].pos(c*w, r*h).width(w-4).height(h-4);
+
+	pieces.splice(pieces.indexOf(last), 1);
+
+	$.canvas().onmousemove = function(evt)
+	{
+		pieces.each(function() { this.alpha(1); });
+		var piece = $.root.at(evt.offsetX, evt.offsetY);
+		if (piece) piece.alpha(0.5);
+	};
+
+	$.canvas().onclick = function(evt)
+	{
+		var piece = $.root.at(evt.offsetX, evt.offsetY),
+		    x = piece.x(), y = piece.y()
+		;
+		// decide where to move
+		if (x > 0 && !$.root.at(x-4,y))
+			$.root.add($.Animate(piece).to({x: piece.x()-w}).autoremove(true));
+	}
+
+	$.background.fillStyle('black');
+	$.root.add(pieces);
+	$.run();
+}
+</script>
+<style>
+	canvas { border: 4px solid black; width: 500px; height: 400px; }
+	#assets { display:none;}
+	#thumb { float: right; border: 1px solid #ccc; }
+</style>
+
+<body onload="j5g3.start({ start: game, width: 500, height: 400});" style="width: 800px; margin: 10px auto;">
+	<h1>Spritesheet Demo</h1>
+	<label>Enter Image URL: <input id="img"> <button onclick="load">Load</button> </label>
+	<canvas id="screen"></canvas>
+	<img width="280" src="sn.jpg" id="thumb"/>
+	<div id="assets">
+		<img src="sn.jpg" id="pic"/>
+	</div>
+		
+</body>

@@ -7,7 +7,7 @@
  * Dual licensed under the MIT or GPL Version 2
  * http://jquery.org/license
  *
- * Date: 2010-08-21 20:10:55 -0400
+ * Date: 2010-08-22 16:33:18 -0400
  */
 
 (function(window, document, undefined) {
@@ -28,6 +28,7 @@
 	    Sprite,
 	    Spritesheet,
 	    Text,
+	    Tween,
 	    Util,
 
 	    canvas,
@@ -122,14 +123,20 @@ $ = window.j5g3 = new (function()
 
 	this.id = function(id) { return document.getElementById(id); };
 });
-
+/**
+ * j5g3 Animation Module.
+ */
 
 Animate = { 
-
-	Easing: 
+	Easing:
 	{
-		None: function( )
+		None: function( prop, to, t)
 		{
+			var start = this.from(),
+			    v = (to - start[prop]) / this.duration()
+			;
+
+			return start[prop] + v*t;
 		},
 
 		RegularOut: function()
@@ -144,6 +151,17 @@ Animate = {
  */
 
 Collision = {
+	
+	/**
+	 * Determines if point is inside object.
+	 */
+	Point: function(x, y)
+	{
+		var ox = this.x(), oy = this.y();
+
+		return (x >= ox && x <= ox+this.width()) &&
+		       (y >= oy && y <= oy+this.height());		
+	},
 
 	/**
 	 * Circle Collision detection algorithm.
@@ -344,9 +362,9 @@ Draw =
 
 	Container: function ()
 	{
-		var frame = this.frame();
+		var frame = this.frame(),i;
 
-		for (var i in frame)
+		for (i=0; i<frame.length;i++)
 			frame[i].draw(context);
 	},
 
@@ -445,7 +463,22 @@ Class(
 		this._p.y = y;
 
 		return this.invalidate();
+	},
+
+	remove: function()
+	{
+		var frames = this.parent().frames(),
+		    i,a
+		;
+
+		for (i=0; i<frames.length; i++)
+			if (a = frames[i].indexOf(this))
+			{
+				frames.splice(a, 1);
+				return this.invalidate();
+			}
 	}
+	
 });
 /**
  * j5g3 Clip
@@ -484,7 +517,7 @@ Class(
 
 	totalFrames  : function() { return this.frames().length; },
 
-	currentFrame : function() { return _frame; },
+	currentFrame : function() { return this._p._frame; },
 
 	/**
 	 * Updates frame.
@@ -497,14 +530,14 @@ Class(
 
 	paint : Draw.Container,
 
-	stop : function() { this._playing = false;	},
-	play : function() { this._playing = true;	},
+	stop: function() { this._playing = false;	},
+	play: function() { this._playing = true;	},
 
 	/**
 	 * Adds display_objects to current frame. 
 	 * If function is passed it converts it to an Action object.
 	 */
-	add : function(display_object)
+	add: function(display_object)
 	{
 		switch (_typeof(display_object)) {
 		case 'function':
@@ -518,7 +551,7 @@ Class(
 			display_object = new Image(display_object);
 			break;			
 		case 'array':
-			for (var i in display_object)
+			for (var i=0; i < display_object.length; i++)
 				this.add(display_object[i]);
 			return this;
 		case 'audio':
@@ -528,7 +561,8 @@ Class(
 			break;
 		};
 
-		if (display_object.parent) display_object.parent(this);
+		//if (display_object.parent) 
+			display_object.parent(this);
 		var f = this.frames();
 		f[f.length-1].push(display_object);
 		//this.frames()[this._frame].push(display_object);
@@ -571,19 +605,16 @@ Class(
 		return this;
 	},
 
-	animateTo : function(target, duration, alg)
+	/**
+	 * Returns element at position x,y
+	 */
+	at: function(x, y)
 	{
-		var start = {};
+		var frame = this.frame(), i;
 
-		if (alg===undefined)
-			alg = Animate.Easing.None;
-
-		for (var p in target)
-			start[p] = target;
-
-		return function() {
-			alg(start, target, this._iframe);			
-		};
+		for (i =0;i<frame.length; i++)
+			if (Collision.Point.apply(frame[i], [x, y]))
+				return frame[i];
 	}
 });
 
@@ -803,9 +834,9 @@ Class(
 		/**
 		 * Creates clip from spritesheet indexes. Takes an Array, Range or a list of arguments.
 		 */
-		clip : function(sprites)
+		clip: function(sprites)
 		{
-			return this.clipArray(arguments); 
+			return this.clip_array(arguments); 
 		},
 
 		clip_array: function(sprites)
@@ -846,17 +877,18 @@ Class(
 		/**
 		 * Divides spritesheet into a grid of x rows and y columns.
 		 */
-		grid : function(x, y)
+		grid: function(x, y)
 		{
 			var s = this._p.sprites = [],
 			    w = this.width() / x,
-			    h = this.height() / y
-			    r = 0, c = 0
+			    h = this.height() / y,
+			    r,c,
+			    src = this.source().source()
 			;
 
-			for (; r < x; r++)
-				for (; c < x; c++)
-					s.push(new Sprite({ source: { image: this.source().source(), 'x': c * w, 'y': r * h, 'w': w, 'h': h }}));
+			for (r=0; r < y; r++)
+				for (c=0; c < x; c++)
+					s.push(new Sprite({ source: { image: src, 'x': c * w, 'y': r * h, 'w': w, 'h': h }}));
 
 			return this;
 		}
@@ -903,6 +935,85 @@ Class(
 /* TODO This is an ugly hack. */
 TextOldBegin = DisplayObject.prototype.begin;
 /**
+ * j5g3 Tween Class
+ *
+ * Properties
+ *
+ * properties can be a DisplayObject or a properties Object.
+ *
+ * target    DisplayObject     Object to animate.
+ * from      Object            Start Value(s)
+ * to        Object            Final Value(s)
+ * duration  int               Duration of tween in frames.
+ * repeat    int               How many times to repeat.
+ * t         int               Current Time of the animation.
+ *
+ * Replaceable Methods: 
+ *
+ * easing    function
+ *
+ */
+
+Class(Tween = function(properties)
+{
+	if (_typeof(properties) == 'j5g3')
+		properties = { target: properties };
+
+	_extend(this, properties);
+},
+Object,
+{
+	auto_emove: true,
+	duration: 100,
+	parent: null,
+	is_playing: false,
+	from: null,
+	target: null,
+	to:   null,
+	t: 0
+},
+{
+	pause: function() { this._p.isPlaying= false; },
+	resume: function() { this._p.isPlaying= true; },
+	
+	stop: function() { this.pause(); this.rewind(); },
+	easing: Animate.Easing.None,
+
+	_calculate: function()
+	{
+		var target=this.target(), i, to=this.to(), t=this.t();
+		for (i in to)
+			target[i](this.easing(i, to[i],t ));
+
+		if (t<this.duration())
+			this.t(t+1);
+		else
+			this.t(0);
+	},
+
+	restart: function()
+	{
+		
+	},
+
+	draw: function() {
+		var to = this.to(), i, target=this.target();
+
+		// Setup function it will be replaced after setting up.
+		if (this._p.from === null)
+		{
+			this._p.from = {};
+			for (i in to)
+				this._p.from[i] = target[i]();
+		}
+
+		this.draw = this._calculate;
+	},
+
+	invalidate: function() { return this; }
+	
+});
+/**
  * Executes code on FrameEnter.
  */
 Action = function(properties)
@@ -944,6 +1055,7 @@ $.Rect = Rect;
 $.Sprite = Sprite;
 $.Spritesheet = Spritesheet;
 $.Text = Text;
+$.Tween = Tween;
 $.Physics = Physics;
 
 $.action = f(Action);
@@ -954,6 +1066,7 @@ $.rect   = f(Rect);
 $.sprite = f(Sprite);
 $.spritesheet = f(Spritesheet);
 $.text   = f(Text);
+$.tween  = f(Tween);
 $.physics= f(Physics);
 
 })(this, document);

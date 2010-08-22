@@ -43,9 +43,9 @@ Class(
 		/**
 		 * Creates clip from spritesheet indexes. Takes an Array, Range or a list of arguments.
 		 */
-		clip : function(sprites)
+		clip: function(sprites)
 		{
-			return this.clipArray(arguments); 
+			return this.clip_array(arguments); 
 		},
 
 		clip_array: function(sprites)
@@ -86,17 +86,18 @@ Class(
 		/**
 		 * Divides spritesheet into a grid of x rows and y columns.
 		 */
-		grid : function(x, y)
+		grid: function(x, y)
 		{
 			var s = this._p.sprites = [],
 			    w = this.width() / x,
-			    h = this.height() / y
-			    r = 0, c = 0
+			    h = this.height() / y,
+			    r,c,
+			    src = this.source().source()
 			;
 
-			for (; r < x; r++)
-				for (; c < x; c++)
-					s.push(new Sprite({ source: { image: this.source().source(), 'x': c * w, 'y': r * h, 'w': w, 'h': h }}));
+			for (r=0; r < y; r++)
+				for (c=0; c < x; c++)
+					s.push(new Sprite({ source: { image: src, 'x': c * w, 'y': r * h, 'w': w, 'h': h }}));
 
 			return this;
 		}

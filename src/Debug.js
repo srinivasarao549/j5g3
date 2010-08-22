@@ -37,7 +37,6 @@
 		DebugFPS.draw(ctx); 
 	};
 
-
 })(j5g3);
 
 

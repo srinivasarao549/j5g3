@@ -35,7 +35,7 @@ Class(
 
 	totalFrames  : function() { return this.frames().length; },
 
-	currentFrame : function() { return _frame; },
+	currentFrame : function() { return this._p._frame; },
 
 	/**
 	 * Updates frame.
@@ -48,14 +48,14 @@ Class(
 
 	paint : Draw.Container,
 
-	stop : function() { this._playing = false;	},
-	play : function() { this._playing = true;	},
+	stop: function() { this._playing = false;	},
+	play: function() { this._playing = true;	},
 
 	/**
 	 * Adds display_objects to current frame. 
 	 * If function is passed it converts it to an Action object.
 	 */
-	add : function(display_object)
+	add: function(display_object)
 	{
 		switch (_typeof(display_object)) {
 		case 'function':
@@ -69,7 +69,7 @@ Class(
 			display_object = new Image(display_object);
 			break;			
 		case 'array':
-			for (var i in display_object)
+			for (var i=0; i < display_object.length; i++)
 				this.add(display_object[i]);
 			return this;
 		case 'audio':
@@ -79,7 +79,8 @@ Class(
 			break;
 		};
 
-		if (display_object.parent) display_object.parent(this);
+		//if (display_object.parent) 
+			display_object.parent(this);
 		var f = this.frames();
 		f[f.length-1].push(display_object);
 		//this.frames()[this._frame].push(display_object);
@@ -122,18 +123,15 @@ Class(
 		return this;
 	},
 
-	animateTo : function(target, duration, alg)
+	/**
+	 * Returns element at position x,y
+	 */
+	at: function(x, y)
 	{
-		var start = {};
+		var frame = this.frame(), i;
 
-		if (alg===undefined)
-			alg = Animate.Easing.None;
-
-		for (var p in target)
-			start[p] = target;
-
-		return function() {
-			alg(start, target, this._iframe);			
-		};
+		for (i =0;i<frame.length; i++)
+			if (Collision.Point.apply(frame[i], [x, y]))
+				return frame[i];
 	}
 });

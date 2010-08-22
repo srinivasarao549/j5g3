@@ -86,5 +86,20 @@ Class(
 		this._p.y = y;
 
 		return this.invalidate();
+	},
+
+	remove: function()
+	{
+		var frames = this.parent().frames(),
+		    i,a
+		;
+
+		for (i=0; i<frames.length; i++)
+			if (a = frames[i].indexOf(this))
+			{
+				frames.splice(a, 1);
+				return this.invalidate();
+			}
 	}
+	
 });
