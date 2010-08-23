@@ -90,16 +90,12 @@ Class(
 
 	remove: function()
 	{
-		var frames = this.parent().frames(),
-		    i,a
-		;
+		this.parent().remove_child(this);
+	},
 
-		for (i=0; i<frames.length; i++)
-			if (a = frames[i].indexOf(this))
-			{
-				frames.splice(a, 1);
-				return this.invalidate();
-			}
+	visible: function()
+	{
+		return this._p.alpha > 0;
 	}
 	
 });

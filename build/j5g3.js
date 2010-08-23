@@ -7,7 +7,7 @@
  * Dual licensed under the MIT or GPL Version 2
  * http://jquery.org/license
  *
- * Date: 2010-08-22 16:33:18 -0400
+ * Date: 2010-08-22 17:20:32 -0400
  */
 
 (function(window, document, undefined) {
@@ -467,16 +467,12 @@ Class(
 
 	remove: function()
 	{
-		var frames = this.parent().frames(),
-		    i,a
-		;
+		this.parent().remove_child(this);
+	},
 
-		for (i=0; i<frames.length; i++)
-			if (a = frames[i].indexOf(this))
-			{
-				frames.splice(a, 1);
-				return this.invalidate();
-			}
+	visible: function()
+	{
+		return this._p.alpha > 0;
 	}
 	
 });
@@ -613,8 +609,23 @@ Class(
 		var frame = this.frame(), i;
 
 		for (i =0;i<frame.length; i++)
-			if (Collision.Point.apply(frame[i], [x, y]))
+			if (frame[i].visible() && Collision.Point.apply(frame[i], [x, y]))
 				return frame[i];
+	},
+
+	remove_child: function(child)
+	{
+		var frames = this.frames(),
+		    i,a
+		;
+
+		for (i=0; i<frames.length; i++)
+			if (a = frames[i].indexOf(child))
+			{
+				frames.splice(a, 1);
+				return this.invalidate();
+			}
+		
 	}
 });
 
@@ -941,6 +952,7 @@ TextOldBegin = DisplayObject.prototype.begin;
  *
  * properties can be a DisplayObject or a properties Object.
  *
+ * auto_remove Boolean         Removes tween from clip at the end.
  * target    DisplayObject     Object to animate.
  * from      Object            Start Value(s)
  * to        Object            Final Value(s)
@@ -959,25 +971,34 @@ Class(Tween = function(properties)
 	if (_typeof(properties) == 'j5g3')
 		properties = { target: properties };
 
+	this.draw = this.start;
+
 	_extend(this, properties);
 },
 Object,
 {
-	auto_emove: true,
+	auto_remove: false,
+	repeat: Infinity,
 	duration: 100,
 	parent: null,
 	is_playing: false,
 	from: null,
 	target: null,
 	to:   null,
-	t: 0
+	t: 0,
+	/* EVENTS */
+	on_stop: null,
+	on_remove: null,
+	visible: false
 },
 {
-	pause: function() { this._p.isPlaying= false; },
-	resume: function() { this._p.isPlaying= true; },
+	pause: function() { this._olddraw = this.draw; this.draw = function() { }; return this; },
+	resume: function() { this.draw = this._olddraw ? this._olddraw : this.start; return this;},
+	rewind: function() { this._p.repeat -= 1; return this.t(0); },
 	
-	stop: function() { this.pause(); this.rewind(); },
+	stop: function() { this.pause(); this.rewind(); if (this._p.on_stop) this._p.on_stop(); return this;},
 	easing: Animate.Easing.None,
+	remove: function() { this.parent().remove_child(this); if (this._p.on_remove) this._p.on_remove(); return this;},
 
 	_calculate: function()
 	{
@@ -987,16 +1008,19 @@ Object,
 
 		if (t<this.duration())
 			this.t(t+1);
-		else
-			this.t(0);
+		else 
+		{
+			if (this.auto_remove())
+				this.remove();
+			else if (this.repeat())
+				this.rewind();
+			else
+				this.stop();
+		}
 	},
 
-	restart: function()
+	start: function()
 	{
-		
-	},
-
-	draw: function() {
 		var to = this.to(), i, target=this.target();
 
 		// Setup function it will be replaced after setting up.
@@ -1009,6 +1033,8 @@ Object,
 
 		this.draw = this._calculate;
 	},
+
+	draw: null,
 
 	invalidate: function() { return this; }
 	

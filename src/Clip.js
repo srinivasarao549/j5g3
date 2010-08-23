@@ -131,7 +131,22 @@ Class(
 		var frame = this.frame(), i;
 
 		for (i =0;i<frame.length; i++)
-			if (Collision.Point.apply(frame[i], [x, y]))
+			if (frame[i].visible() && Collision.Point.apply(frame[i], [x, y]))
 				return frame[i];
+	},
+
+	remove_child: function(child)
+	{
+		var frames = this.frames(),
+		    i,a
+		;
+
+		for (i=0; i<frames.length; i++)
+			if (a = frames[i].indexOf(child))
+			{
+				frames.splice(a, 1);
+				return this.invalidate();
+			}
+		
 	}
 });
