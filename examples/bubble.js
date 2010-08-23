@@ -71,7 +71,7 @@ var
 		this.velocity = velocity;
 		this.collide  = collide;
 				
-		this.paint = function(context)
+		this.paint = function()
 		{
 			this.x(this.x() + velocity.x);
 			this.y(this.y() + velocity.y);
@@ -80,7 +80,7 @@ var
 			checkCollision('x', canvas.width);
 			checkCollision('y', canvas.height);
 			
-			$.Draw.Image.apply(this, [context]);
+			$.Draw.Image.apply(this);
 		};
 	},
 	update = function()
