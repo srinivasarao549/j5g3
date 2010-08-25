@@ -13,7 +13,7 @@ Class(Physics = function(properties)
 },
 Object,
 {
-	obj: null, v: null, m: 1
+	obj: null, v: null, m: 1, parent: null
 },
 {
 	draw: function()

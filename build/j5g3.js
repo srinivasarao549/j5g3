@@ -7,7 +7,7 @@
  * Dual licensed under the MIT or GPL Version 2
  * http://jquery.org/license
  *
- * Date: 2010-08-25 16:44:06 -0400
+ * Date: 2010-08-25 16:49:27 -0400
  */
 
 (function(window, document, undefined) {
@@ -750,7 +750,7 @@ Class(Physics = function(properties)
 },
 Object,
 {
-	obj: null, v: null, m: 1
+	obj: null, v: null, m: 1, parent: null
 },
 {
 	draw: function()
