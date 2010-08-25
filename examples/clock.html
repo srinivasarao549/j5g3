@@ -1,6 +1,7 @@
 <html>
 <head>
 	<title> j5g3 - Clock Example</title>
+	<link rel="stylesheet" href="styles.css" />
 	<script src="../build/j5g3.js"></script>
 	<script>
 
@@ -22,10 +23,10 @@ function game($)
 			objs[3].rotation(Math.PI + Math.PI / 30 * secs);
 	};
 
-	var clock = new $.Clip( { frames: [[ new $.Image({ source: 'clock.jpg', x: -175, y: -175 }) ]] } );
-	var hour = new $.Clip( { frames: [[ new $.Image({ source: 'HourHand.png', x: -10, y: 210, scaleY: -1}) ]] } );
-	var mins = new $.Clip( { frames: [[ new $.Image({ source: 'MinuteHand.png', x: -10, y: 220, scaleY: -1}) ]] } );
-	var secs = new $.Clip( { frames: [[ new $.Image({ source: 'SecondHand.png', x: -10, y: 190, scaleY: -1}) ]] } );
+	var clock = new $.Clip( { frames: [[ new $.Image({ source: 'clock', x: -175, y: -175 }) ]] } );
+	var hour = new $.Clip( { frames: [[ new $.Image({ source: 'hour', x: -10, y: 210, scaleY: -1}) ]] } );
+	var mins = new $.Clip( { frames: [[ new $.Image({ source: 'min', x: -10, y: 220, scaleY: -1}) ]] } );
+	var secs = new $.Clip( { frames: [[ new $.Image({ source: 'sec', x: -10, y: 190, scaleY: -1}) ]] } );
 
 	$.root.add([ clock, hour, mins, secs, update ])
 		 .alignChildren('center')
@@ -39,6 +40,11 @@ function game($)
 	</script>
 </head>
 <body onload="j5g3.start(game);">
-	<canvas id="screen">
-	</canvas>
+	<canvas id="screen"></canvas>
+	<div id="assets">
+		<img id="clock" src="clock.jpg" />
+		<img id="hour" src="HourHand.png" />
+		<img id="min" src="MinuteHand.png" />
+		<img id="sec" src="SecondHand.png" />
+	</div>
 </body>

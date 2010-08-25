@@ -45,6 +45,8 @@ $ = window.j5g3 = new (function()
 			canvas.width = self.width();
 			canvas.height = self.height();
 
+			context = canvas.getContext('2d');
+
 			properties.start($, document);
 		}
 	;
@@ -59,8 +61,6 @@ $ = window.j5g3 = new (function()
 
 	this.gameLoop = function()
 	{
-		context = canvas.getContext('2d');
-
 		self.background.draw();
 		self.root.draw();
 	}; 

@@ -3,6 +3,7 @@
 	<title>JSGE - Bubble Example</title>
 	<script src="../build/j5g3.js"></script>
 	<script src="../src/Debug.js"></script>
+	<link href="styles.css" rel="stylesheet" />
 	<style>
 		canvas { width: 640px; height: 480px; border: 1px solid #ccc; }
 	</style>
@@ -10,7 +11,7 @@
 
 function game($)
 {
-	var ss = new $.Spritesheet('spritesheet.png').grid(6, 7);
+	var ss = new $.Spritesheet('spritesheet').grid(6, 7);
 	var r = ss.clip(1, 2, 3, 4, 5);
 	var x = ss.clip(1, 2, 3, 4, 5);
 	
@@ -25,4 +26,7 @@ function game($)
 </head>
 <body onload="j5g3.start(game);">
 	<canvas id="screen"></canvas>
+	<div id="assets">
+		<img src="spritesheet.png" id="spritesheet" />
+	</div>
 </body>

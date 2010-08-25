@@ -16,7 +16,7 @@ Class(
 	{
 		begin : function()
 		{
-			TextOldBegin.apply(this, [context]);
+			TextOldBegin.apply(this);
 
 			if (this._p.fillStyle) context.fillStyle = this._p.fillStyle;
 			if (this._p.font) context.font = this._p.font;
@@ -26,9 +26,9 @@ Class(
 
 		width : function()
 		{
-			var ctx = canvas.getContext('2d');
-			this.begin(ctx); 
-			var metrics = ctx.measureText(this.text());
+			this.begin(); 
+			var metrics = context.measureText(this.text());
+			this.end();
 
 			return metrics.width;
 		}

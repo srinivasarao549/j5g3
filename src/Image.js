@@ -2,7 +2,7 @@
 /**
  * j5g3 Image Class
  *
- * Constructor takes properties object, a string with the filename or a HTML Image Element.
+ * Constructor takes properties object, a string with the id of an Image or an HTML Image Element.
  *
  * Properties
  *
@@ -12,7 +12,9 @@ Class(
 	Image= function(properties)
 	{
 		switch(_typeof(properties)) {
-		case 'string': case 'DOM':
+		case 'string': 
+			properties = { source: $.id(properties) }; break;
+		case 'DOM':
 			properties = { source: properties }; break;
 		}
 
@@ -37,10 +39,8 @@ Class(
 		{
 			if (typeof(src)=='string')
 			{
-				this._p.source = new window.Image;
-				this._p.source.src = src;
+				this._p.source = $.id(src);
 			} else
-				// TODO we assume its an image...
 				this._p.source = src;
 
 			if (this._p.width === null)  this._p.width  = this._p.source.width;

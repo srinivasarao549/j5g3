@@ -2,20 +2,18 @@
 <head>
 	<title>JSGE - Bubble Example</title>
 	<script src="../build/j5g3.js"></script>
-	<style>
-		canvas { width: 640px; height: 480px; border: 1px solid #ccc; }
-	</style>
+	<link rel="stylesheet" href="styles.css" />
 	<script>
 
 function game($)
 {
-	var txt = new $.Text('Hello World').pos(0,40).font('48px auto');
-	var bb  = new $.Rect({ fillStyle: 'green', x: 0, y: 0, width: txt.width(), height: 40 });
+	var txt = $.text('Hello World').pos(0,40).font('48px auto');
+	var bb  = $.rect({ fillStyle: 'green', x: 0, y: 0, width: txt.width(), height: 40 });
 
 	$.root.add([
 		bb,
 		txt,
-		new $.Text({ font: '20px Arial', text: "Hello World", x: 100, y: 100 })
+		$.text({ font: '20px Arial', text: "Hello World", x: 100, y: 100 })
 	]);
 	
 	$.run();

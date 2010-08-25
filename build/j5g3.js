@@ -7,7 +7,7 @@
  * Dual licensed under the MIT or GPL Version 2
  * http://jquery.org/license
  *
- * Date: 2010-08-22 17:20:32 -0400
+ * Date: 2010-08-25 16:44:06 -0400
  */
 
 (function(window, document, undefined) {
@@ -84,6 +84,8 @@ $ = window.j5g3 = new (function()
 			canvas.width = self.width();
 			canvas.height = self.height();
 
+			context = canvas.getContext('2d');
+
 			properties.start($, document);
 		}
 	;
@@ -98,8 +100,6 @@ $ = window.j5g3 = new (function()
 
 	this.gameLoop = function()
 	{
-		context = canvas.getContext('2d');
-
 		self.background.draw();
 		self.root.draw();
 	}; 
@@ -632,7 +632,7 @@ Class(
 /**
  * j5g3 Image Class
  *
- * Constructor takes properties object, a string with the filename or a HTML Image Element.
+ * Constructor takes properties object, a string with the id of an Image or an HTML Image Element.
  *
  * Properties
  *
@@ -642,7 +642,9 @@ Class(
 	Image= function(properties)
 	{
 		switch(_typeof(properties)) {
-		case 'string': case 'DOM':
+		case 'string': 
+			properties = { source: $.id(properties) }; break;
+		case 'DOM':
 			properties = { source: properties }; break;
 		}
 
@@ -667,10 +669,8 @@ Class(
 		{
 			if (typeof(src)=='string')
 			{
-				this._p.source = new window.Image;
-				this._p.source.src = src;
+				this._p.source = $.id(src);
 			} else
-				// TODO we assume its an image...
 				this._p.source = src;
 
 			if (this._p.width === null)  this._p.width  = this._p.source.width;
@@ -924,7 +924,7 @@ Class(
 	{
 		begin : function()
 		{
-			TextOldBegin.apply(this, [context]);
+			TextOldBegin.apply(this);
 
 			if (this._p.fillStyle) context.fillStyle = this._p.fillStyle;
 			if (this._p.font) context.font = this._p.font;
@@ -934,9 +934,9 @@ Class(
 
 		width : function()
 		{
-			var ctx = canvas.getContext('2d');
-			this.begin(ctx); 
-			var metrics = ctx.measureText(this.text());
+			this.begin(); 
+			var metrics = context.measureText(this.text());
+			this.end();
 
 			return metrics.width;
 		}
