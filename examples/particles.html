@@ -1,83 +1,86 @@
 <html>
 <head>
 	<title>JSGE - Bubble Example</title>
-	<script src="../build/j5g3-min.js"></script>
-	<style>
-		canvas { width: 640px; height: 480px; }
-	</style>
+	<script src="../build/j5g3.js"></script>
+	<script src="../src/Debug.js"></script>
+	<link rel="stylesheet" href="styles.css" />
 	<script>
+	/* NOTE not complete yet */
+
+function game($)
+{
+var 
+	particles,
+	mouseX = 0,
+	mouseY = 0,
+	lastX = 0, 
+	lastY = 0,
+	PI2 = Math.PI * 2,
+	sprites = null,
+
+	onclick = function(evt)
+	{
+		mouseX = evt.offsetX;
+		mouseY = evt.offsetY;
+	},
+
+	update = function()
+	{
+		var dist = Math.sqrt((lastX - mouseX) * (lastX - mouseX) + (lastY - mouseY) * (lastY - mouseY));
 		
-		var particles;
-		var mouse = { x: 0, y: 0 };
-		var lastX = 0, lastY = 0;
-		var PI2 = Math.PI * 2;
-		var sprites = null;
-
-		function onclickevt(evt)
+		for (var i = 0; i < dist; i++)
 		{
-			mouse.x = evt.clientX;
-			mouse.y = evt.clientY;			
-		}
-
-		function update()
-		{
-			var dist = Math.sqrt((lastX - mouse.x) * (lastX - mouse.x) + (lastY - mouse.y) * (lastY - mouse.y));
+			var size = 4 + Math.random() * 44;
+			var duration = (200-size) * 3;
+			var moveDistance = 4 + Math.random() * (80-size);
+			var moveDirection = Math.random() * PI2;
 			
-			for (var i = 0; i < dist; i++)
-			{
-				var size = 4 + Math.random() * 44;
-				var duration = (200-size) * 3;
-				var moveDistance = 4 + Math.random() * (80-size);
-				var moveDirection = Math.random() * PI2;
-				
-				var startX = lastX + i * (mouse.x - lastX) / dist;
-				var startY = lastY + i * (mouse.y - lastY) / dist;
-				var goalX  = startX + (moveDistance * Math.cos(moveDirection));
-				var goalY  = startY + (moveDistance * Math.sin(moveDirection));
-				var startAngle = Math.random() * PI2;
-				var endAngle = startAngle + (-PI2 + Math.random() * PI2);
+			var startX = lastX + i * (mouseX - lastX) / dist;
+			var startY = lastY + i * (mouseY - lastY) / dist;
+			var goalX  = startX + (moveDistance * Math.cos(moveDirection));
+			var goalY  = startY + (moveDistance * Math.sin(moveDirection));
+			var startAngle = Math.random() * PI2;
+			var endAngle = startAngle + (-PI2 + Math.random() * PI2);
 
-				var image = new j5g3.Clip({ frames: [[ sprites[Math.random() * 5] ]], x: startX, y:startY });
-				image.scaleX(size).scaleY(size);
+			var image = new j5g3.Clip({
+				frames: [[ sprites[Math.random() * 5] ]], x: startX, y:startY,
+				scaleX: size,
+				scaleY: size
+			}),
+			tween = $.tween({ target: image, to: {x: goalX, y: goalY}, 'duration': duration })
+			;
 
-				game.root.add(image);
-				
-				image.animateTo('x', goalX, duration, j5g3.Easing.RegularOut);
-				image.animateTo('y', goalY, duration, j5g3.Easing.RegularOut);
-				//image.animate(
-				image.frames().push(j5g3.Actions.Destroy);
-			}
-
-			lastX = mouse.x;
-			lastY = mouse.y;
+			$.root.add(image, tween);
 		}
 
-		function initialize()
-		{
-			particles = new Image();
-			particles.src = 'particles.png';
+		lastX = mouseX;
+		lastY = mouseY;
+	}
+;
 
-			var p = new j5g3.Clip();
+	particles = 'particles';
 
-			sprites = [
-				new j5g3.Sprite({source: { image: particles, x: 0}}),
-				new j5g3.Sprite({source: { image: particles, x: 32}}),
-				new j5g3.Sprite({source: { image: particles, x: 64}}),
-				new j5g3.Sprite({source: { image: particles, x: 96}}),
-				new j5g3.Sprite({source: { image: particles, x: 128}}),
-				new j5g3.Sprite({source: { image: particles, x: 160}})
-			];
+	var p = new j5g3.Clip();
 
-			game = j5g3.Engine.initialize();
-			game.root.add(p).add(update);
+	sprites = [
+		new j5g3.Sprite({source: { image: particles, x: 0}}),
+		new j5g3.Sprite({source: { image: particles, x: 32}}),
+		new j5g3.Sprite({source: { image: particles, x: 64}}),
+		new j5g3.Sprite({source: { image: particles, x: 96}}),
+		new j5g3.Sprite({source: { image: particles, x: 128}}),
+		new j5g3.Sprite({source: { image: particles, x: 160}})
+	];
 
-			game.run();						
-		}
-	
+	$.root.add(p).add(update);
+	$.run();						
+
+};
 	</script>
 </head>
-<body onload="initialize()">
-	<canvas id="screen" onclick="onclickevt(event)">
-	</canvas>
+<body onload="j5g3.start(game);">
+	<canvas id="screen"></canvas>
+	<div id="assets">
+		<img src="particles.png" id="particles" />
+	</div>
 </body>
 </html>

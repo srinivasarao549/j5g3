@@ -7,7 +7,7 @@
  * Dual licensed under the MIT or GPL Version 2
  * http://jquery.org/license
  *
- * Date: 2010-08-25 16:49:27 -0400
+ * Date: 2010-08-25 17:32:06 -0400
  */
 
 (function(window, document, undefined) {
@@ -557,11 +557,10 @@ Class(
 			break;
 		};
 
-		//if (display_object.parent) 
-			display_object.parent(this);
+		display_object.parent(this);
 		var f = this.frames();
 		f[f.length-1].push(display_object);
-		//this.frames()[this._frame].push(display_object);
+
 		return this;
 	},
 

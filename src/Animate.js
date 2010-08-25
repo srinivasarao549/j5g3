@@ -3,6 +3,7 @@
  */
 
 Animate = { 
+
 	Easing:
 	{
 		None: function( prop, to, t)
