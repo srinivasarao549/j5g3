@@ -13,7 +13,7 @@ function game($)
 	var ss = new $.Spritesheet($.id('spritesheet')).grid(5, 5),
 	    range = new $.Range(0, 24),
 	    update = function() { r.x(Math.random() * 600); r.y(Math.random() * 440); },
-	    r = ss.clipRange(range).add(update)
+	    r = ss.clip_range(range).add(update)
 	;
 
 	$.fps(60);

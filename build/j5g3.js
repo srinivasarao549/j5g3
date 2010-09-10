@@ -7,7 +7,7 @@
  * Dual licensed under the MIT or GPL Version 2
  * http://jquery.org/license
  *
- * Date: 2010-09-10 15:34:30 -0400
+ * Date: 2010-09-10 15:52:49 -0400
  */
 
 (function(window, document, undefined) {
@@ -396,7 +396,7 @@ Class(
 	/**
 	 * Save Transform Matrix and apply transformations.
 	 */
-	begin : function()
+	begin: function()
 	{
 		context.save();
 		context.globalAlpha *= this.alpha();
@@ -408,7 +408,7 @@ Class(
 	/**
 	 * Restores Transform Matrix
 	 */
-	end : function()
+	end: function()
 	{
 		context.restore();
 	},
@@ -471,6 +471,12 @@ Class(
 		this._p.width = w;
 		this._p.height = h;
 		return this.invalidate();
+	},
+
+	scale: function(sx, sy)
+	{
+		this.scaleX(sx);
+		return this.scaleY(sy);
 	},
 
 	remove: function()
