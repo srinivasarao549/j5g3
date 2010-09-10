@@ -39,6 +39,13 @@ task :minify => [:build] do
 	puts "#{MINOUTPUT}: " + File.size(MINOUTPUT).to_s
 end
 
+desc "Closure Compile"
+task :compile => [:build] do
+	`#{JAVA} -jar tools/compiler.jar --js #{OUTPUT} --js_output_file #{MINOUTPUT} --warning_level VERBOSE`
+	puts "#{OUTPUT}: " + File.size(OUTPUT).to_s
+	puts "#{MINOUTPUT}: " + File.size(MINOUTPUT).to_s
+end
+
 desc "Lint"
 task :lint do
 	puts `#{JS} tools/jslint.js #{SRCS}`
@@ -55,5 +62,5 @@ task :test do
 end
 
 desc "Default Action"
-task :default => [:minify]
+task :default => [:compile]
 

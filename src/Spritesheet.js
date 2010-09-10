@@ -51,7 +51,7 @@ Class(
 		clip_array: function(sprites)
 		{
 			var s = this.sprites(),
-			    frames = []
+			    frames = [], i
 			;
 
 			for (i = 0; i < sprites.length; i++)
@@ -73,7 +73,7 @@ Class(
 		cut: function(x, y, w, h)
 		{
 			var s = new Sprite(_typeof(x) == 'object' ? 
-				{ width: r.w, height: r.h, source: { image: this.source().source(), x: r.x, y: r.y, w: r.w, h: r.h } }
+				{ width: x.w, height: x.h, source: { image: this.source().source(), 'x': x.x, 'y': x.y, 'w': x.w, 'h': x.h } }
 			:
 				{ width: w, height: h, source: { image: this.source().source(), 'x': x, 'y': y, 'w': w, 'h': h } }
 			);

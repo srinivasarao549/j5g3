@@ -12,6 +12,7 @@ $.Collision = Collision;
 
 /* CLASSES */
 $.Action = Action;
+$.Class  = Class;
 $.Clip   = Clip;
 $.DisplayObject = DisplayObject;
 $.Image = Image;

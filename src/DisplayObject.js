@@ -80,11 +80,18 @@ Class(
 	/**
 	 * Sets x and y
 	 */
-	pos : function(x, y)
+	pos: function(x, y)
 	{
 		this._p.x = x;
 		this._p.y = y;
 
+		return this.invalidate();
+	},
+
+	size: function(w, h)
+	{
+		this._p.width = w;
+		this._p.height = h;
 		return this.invalidate();
 	},
 

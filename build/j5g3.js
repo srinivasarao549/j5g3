@@ -7,7 +7,7 @@
  * Dual licensed under the MIT or GPL Version 2
  * http://jquery.org/license
  *
- * Date: 2010-08-25 17:32:06 -0400
+ * Date: 2010-09-10 15:34:30 -0400
  */
 
 (function(window, document, undefined) {
@@ -128,6 +128,7 @@ $ = window.j5g3 = new (function()
  */
 
 Animate = { 
+
 	Easing:
 	{
 		None: function( prop, to, t)
@@ -457,11 +458,18 @@ Class(
 	/**
 	 * Sets x and y
 	 */
-	pos : function(x, y)
+	pos: function(x, y)
 	{
 		this._p.x = x;
 		this._p.y = y;
 
+		return this.invalidate();
+	},
+
+	size: function(w, h)
+	{
+		this._p.width = w;
+		this._p.height = h;
 		return this.invalidate();
 	},
 
@@ -852,7 +860,7 @@ Class(
 		clip_array: function(sprites)
 		{
 			var s = this.sprites(),
-			    frames = []
+			    frames = [], i
 			;
 
 			for (i = 0; i < sprites.length; i++)
@@ -874,7 +882,7 @@ Class(
 		cut: function(x, y, w, h)
 		{
 			var s = new Sprite(_typeof(x) == 'object' ? 
-				{ width: r.w, height: r.h, source: { image: this.source().source(), x: r.x, y: r.y, w: r.w, h: r.h } }
+				{ width: x.w, height: x.h, source: { image: this.source().source(), 'x': x.x, 'y': x.y, 'w': x.w, 'h': x.h } }
 			:
 				{ width: w, height: h, source: { image: this.source().source(), 'x': x, 'y': y, 'w': w, 'h': h } }
 			);
@@ -1072,6 +1080,7 @@ $.Collision = Collision;
 
 /* CLASSES */
 $.Action = Action;
+$.Class  = Class;
 $.Clip   = Clip;
 $.DisplayObject = DisplayObject;
 $.Image = Image;
