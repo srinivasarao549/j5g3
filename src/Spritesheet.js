@@ -62,7 +62,7 @@ Class(
 
 		clip_range: function(sprites)
 		{
-			return this.clipArray(sprites.to_a());
+			return this.clip_array(sprites.to_a());
 		},
 
 		/**
