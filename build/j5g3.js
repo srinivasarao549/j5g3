@@ -7,7 +7,7 @@
  * Dual licensed under the MIT or GPL Version 2
  * http://jquery.org/license
  *
- * Date: 2010-09-10 15:52:49 -0400
+ * Date: 2010-09-17 18:20:07 -0400
  */
 
 (function(window, document, undefined) {
@@ -877,7 +877,7 @@ Class(
 
 		clip_range: function(sprites)
 		{
-			return this.clipArray(sprites.to_a());
+			return this.clip_array(sprites.to_a());
 		},
 
 		/**
@@ -1101,7 +1101,7 @@ $.Physics = Physics;
 $.action = f(Action);
 $.clip   = f(Clip);
 $.image  = f(Image);
-$.range  = f(Range);
+$.range  = function(a, b) { return new Range(a, b); };
 $.rect   = f(Rect);
 $.sprite = f(Sprite);
 $.spritesheet = f(Spritesheet);
