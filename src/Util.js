@@ -29,25 +29,9 @@ Util = {
 		for (var i in a)
 			x[i] = a[i];
 		return x;
-	},
-
-	/**
-	 * Defines class klass.
-	 * @param b is the class to extend
-	 */
-	Class: function(klass, base, properties, methods)
-	{
-		Util.extend(klass.prototype, new base);
-		Property.define(klass, properties);
-		Util.inherit(properties, base.properties);
-		Util.extend(klass.prototype, methods);
-
-		return klass;
 	}
+
 };
-
-
-Class = Util.Class;
 
 _typeof = Util.getType = function(obj)
 	{
@@ -58,7 +42,7 @@ _typeof = Util.getType = function(obj)
 			if (obj instanceof Array) return 'array';
 			if (obj instanceof HTMLAudioElement) return 'audio';
 			if (obj instanceof HTMLElement) return 'DOM';
-			if (obj._p) return 'j5g3';
+			if (obj.init) return 'j5g3';
 		}
 
 		return result;

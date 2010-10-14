@@ -1,6 +1,9 @@
 /**
  * j5g3 Animation Module.
+ * This is the first module included.
  */
+
+Class = window.Class;
 
 Animate = { 
 

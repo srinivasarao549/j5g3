@@ -7,7 +7,7 @@
  * Dual licensed under the MIT or GPL Version 2
  * http://jquery.org/license
  *
- * Date: 2010-09-17 18:20:07 -0400
+ * Date: 2010-10-14 19:32:04 -0400
  */
 
 (function(window, document, undefined) {
@@ -15,14 +15,14 @@
 	var VERSION = "0.1",
 	    Action,
 	    Animate,
-	    Clip,
+	    // Requires js-class library.
 	    Class,
+	    Clip,
 	    Collision,
 	    DisplayObject,
 	    Draw,
 	    Image,
 	    Physics,
-	    Property,
 	    Range,
 	    Rect,
 	    Sprite,
@@ -30,6 +30,7 @@
 	    Text,
 	    Tween,
 	    Util,
+	    J5G3,
 
 	    canvas,
 	    _extend,
@@ -41,13 +42,9 @@
 $ = window.j5g3 = new (function()
 {
 	var 
-		_pg = {
-			version: VERSION
-		},
-
 		/* PRIVATE MEMBERS */
-
 		self = this,
+		callee = arguments.callee,
 
 		getContext= function()
 		{
@@ -55,20 +52,21 @@ $ = window.j5g3 = new (function()
 		},
 		initialize = function(properties)
 		{
-			$.Property.define(self.constructor, { 
+			// TODO this is horrible.
+			Class.properties.apply(callee, [{
 				'canvas' : null,
 				backgroundStyle : 'black',
 				width  : 640,
 				height : 480
-			});
+			}]);	
 			_extend(self, properties);
 
-			if (self._p.canvas === null)
-				self._p.canvas = $.id('screen');
+			if (self.canvas() === null)
+				self.canvas($.id('screen'));
 
-			self._p.fps = 31;
+			self.__fps = 31;
 
-			canvas = self._p.canvas;
+			canvas = self.canvas();
 
 			self.background = new Rect({ 
 				fillStyle: self.backgroundStyle(),
@@ -89,14 +87,14 @@ $ = window.j5g3 = new (function()
 			properties.start($, document);
 		}
 	;
+
 	/**
 	 * Starts the execution.
 	 */
 	this.run= function()
 	{
-		setInterval(this.gameLoop, this._p.fps);
+		setInterval(this.gameLoop, this.__fps);
 	};
-
 
 	this.gameLoop = function()
 	{
@@ -106,8 +104,8 @@ $ = window.j5g3 = new (function()
 
 	this.fps = function(val)
 	{
-		if (val === undefined) return 1000 / this._p.fps;
-		this._p.fps = 1000 / val;
+		if (val === undefined) return 1000 / this.__fps;
+		this.__fps = 1000 / val;
 		return this;
 	};
 
@@ -123,9 +121,91 @@ $ = window.j5g3 = new (function()
 
 	this.id = function(id) { return document.getElementById(id); };
 });
+
+/**
+ * js-class
+ *
+ * Object Oriented Class Implementation in Javascript.
+ *
+ * To create a class use Object.extend({ methods });
+ *
+ */
+
+window.Class = function() { };
+
+/**
+ *
+ * Uses methods.init as the constructor. If not passed it will define a function and call the base
+ * constructor. Sets 'super' as the base class.
+ * 
+ */
+window.Class.extend = function(methods)
+{
+	var i,
+	    init   = methods.init ? methods.init : function() { this.__super.apply(this, arguments); }
+	;
+
+	init.prototype = new this();
+
+	for(i in methods)
+		if (this[i]!=methods[i])
+			init.prototype[i] = methods[i];
+
+	init.properties = window.Class.properties;
+	init.extend = window.Class.extend;
+	init.prototype.__super = this;
+
+	return init;
+};
+/*
+ * Property emulation for Javascript
+ */
+
+
+/**
+ * Define a property.
+ */
+window.property = function(name)
+{
+	var pid='__'+name;
+	return function(val)
+	{
+		return (val===undefined) ? this[pid] : (this[pid]=val, this);
+	}
+}
+
+/**
+ * Define a read only property.
+ */
+window.property.read = function(name, def)
+{
+	var pid='__'+name;
+	return function() { return this[pid]; }
+}
+
+/**
+ * Define properties in props.
+ * { name: default_value }
+ */
+window.Class.properties = function(props)
+{
+	var i;
+
+	for (i in props)
+		if (props[i] !== this[i])
+		{
+			this.prototype[i] = window.property(i);
+			this.prototype['__'+i] = props[i];
+		}
+
+	return this;
+};
 /**
  * j5g3 Animation Module.
+ * This is the first module included.
  */
+
+Class = window.Class;
 
 Animate = { 
 
@@ -202,72 +282,19 @@ Collision = {
  *
  */
 
-
-/**
- * Declares a j5g3 Property.
- * @param p	Object storing the value.
- * @param name  Property name
- *
- */
-Property = function(name)
-{
-	return function(val) { 
-		return val === undefined ? this._p[name] :
-			(this._p[name] = val, this.invalidate());
-	}
-};
-
-/**
- * Declares a read-only j5g3 Property.
- * @param p	Object storing the value.
- * @param name  Property name
- *
- */
-Property.get = function(p, name) {
-	return function(val)
-	{
-		return p[name];
-	};
-};
-
-/**
- * Will declare all the properties of the object in its prototype
- * @param obj   Object to add Properties.
- * @param properties Properties object.
- *
- */
-Property.define = function(obj, properties) 
-{
-	for (var i in properties)
-		obj.prototype[i] = Property(i); 
-
-	obj.properties = properties;
-
-	return obj;
-};
-
 /**
  * Extends Properties by initializing the _p object.
  *
  * @return obj._p Object
  */
-_extend = Property.extend = function(obj, p)
+_extend = function(obj, p)
 {
-	// TODO Check this..
-	//obj._p = obj._p ? Util.clone(obj._p) : { };
-	obj._p = { };
+	var i;
 
-	var properties = obj.constructor.properties,
-	    i;
-
-	if (p)
-		for (i in properties)
-			obj._p[i] = p[i] || properties[i];
-	else
-		for (i in properties)
-			obj._p[i] = properties[i];
+	for (i in p)
+		obj['__'+i] = p[i];
 	
-	return obj._p;
+	return obj;
 };
 /**
  *
@@ -300,25 +327,9 @@ Util = {
 		for (var i in a)
 			x[i] = a[i];
 		return x;
-	},
-
-	/**
-	 * Defines class klass.
-	 * @param b is the class to extend
-	 */
-	Class: function(klass, base, properties, methods)
-	{
-		Util.extend(klass.prototype, new base);
-		Property.define(klass, properties);
-		Util.inherit(properties, base.properties);
-		Util.extend(klass.prototype, methods);
-
-		return klass;
 	}
+
 };
-
-
-Class = Util.Class;
 
 _typeof = Util.getType = function(obj)
 	{
@@ -329,7 +340,7 @@ _typeof = Util.getType = function(obj)
 			if (obj instanceof Array) return 'array';
 			if (obj instanceof HTMLAudioElement) return 'audio';
 			if (obj instanceof HTMLElement) return 'DOM';
-			if (obj._p) return 'j5g3';
+			if (obj.init) return 'j5g3';
 		}
 
 		return result;
@@ -345,7 +356,7 @@ Draw =
 {
 	Image: function ()
 	{
-		context.drawImage(this._p.source, 0, 0);	
+		context.drawImage(this.__source, 0, 0);	
 	},
 	
 	/**
@@ -380,19 +391,14 @@ Draw =
 /**
  * Base for all classes
  */
-Class(
-	DisplayObject=function(properties)
+DisplayObject = Class.extend({
+
+	init: function(properties)
 	{
-		//this._p = { }
 		_extend(this, properties);
 		this._dirty = true;
 	}, 
-	Object, 
-	{
-		source: null, parent: null, x: 0, y:0, width: null, height: null, rotation: 0, scaleX: 1, scaleY: 1, alpha: 1
-	}, 
-	{
-	
+
 	/**
 	 * Save Transform Matrix and apply transformations.
 	 */
@@ -460,16 +466,16 @@ Class(
 	 */
 	pos: function(x, y)
 	{
-		this._p.x = x;
-		this._p.y = y;
+		this.__x = x;
+		this.__y = y;
 
 		return this.invalidate();
 	},
 
 	size: function(w, h)
 	{
-		this._p.width = w;
-		this._p.height = h;
+		this.__width = w;
+		this.__height = h;
 		return this.invalidate();
 	},
 
@@ -486,9 +492,11 @@ Class(
 
 	visible: function()
 	{
-		return this._p.alpha > 0;
+		return this.__alpha > 0;
 	}
 	
+}).properties({
+	source: null, parent: null, x: 0, y:0, width: null, height: null, rotation: 0, scaleX: 1, scaleY: 1, alpha: 1
 });
 /**
  * j5g3 Clip
@@ -499,20 +507,20 @@ Class(
  *
  */
 
-Class(
-	Clip= function(properties)
+Clip = DisplayObject.extend(
+{
+	init: function(properties)
 	{
 		_extend(this, properties);
 
-		if (!this._p.frames)
-			this._p.frames = [ [ ] ];
+		// TODO This might be dangerous if we decide to change the internal storage of
+		//      properties. Be careful.
+		if (!this.__frames)
+			this.__frames = [ [ ] ];
 
 		this._frame = 0;
 		this._playing = true;
 	},
-	DisplayObject, 
-	{ frames: null }, 
-	{
 	
 	/**
 	 * Returns current frame objects.
@@ -527,7 +535,7 @@ Class(
 
 	totalFrames  : function() { return this.frames().length; },
 
-	currentFrame : function() { return this._p._frame; },
+	currentFrame : function() { return this.__frame; },
 
 	/**
 	 * Updates frame.
@@ -567,7 +575,7 @@ Class(
 		case 'audio':
 			// Create On the Fly display obejct for audio
 			// TODO We might have an Audio class... If we need to.
-			display_object = { parent: Property('parent'), draw: function() { display_object.play(); } };
+			display_object = { parent: window.property('parent'), draw: function() { display_object.play(); } };
 			break;
 		};
 
@@ -640,7 +648,9 @@ Class(
 			}
 		
 	}
-});
+}).properties(
+	{ frames: null }
+);
 
 /**
  * j5g3 Image Class
@@ -651,8 +661,9 @@ Class(
  *
  * source: 
  */
-Class(
-	Image= function(properties)
+Image = DisplayObject.extend(
+{
+	init: function(properties)
 	{
 		switch(_typeof(properties)) {
 		case 'string': 
@@ -663,11 +674,9 @@ Class(
 
 		_extend(this, properties);
 
-		if (this._p.source)
-			this.source(this._p.source);
+		if (this.__source)
+			this.source(this.__source);
 	}, 
-	DisplayObject, { }, 
-	{
 
 	paint: Draw.Image,
 
@@ -682,17 +691,17 @@ Class(
 		{
 			if (typeof(src)=='string')
 			{
-				this._p.source = $.id(src);
+				this.__source = $.id(src);
 			} else
-				this._p.source = src;
+				this.__source = src;
 
-			if (this._p.width === null)  this._p.width  = this._p.source.width;
-			if (this._p.height === null) this._p.height = this._p.source.height;
+			if (this.__width === null)  this.width(this.__source.width);
+			if (this.__height === null) this.height(this.__source.height);
 
 			this.invalidate();
 			return this;
 		}
-		return this._p.source;
+		return this.__source;
 	}
 	
 });
@@ -701,52 +710,51 @@ Class(
  *
  * Constructor takes a property object, or a start and end values.
  */
-Class(
-	Range = function(start, end)
+Range = Class.extend({
+
+	init: function(start, end)
 	{
 		if (typeof start != 'object')
 			start = { 'start': start, 'end': end };
 			
 		_extend(this, start);
 	},
-	Object,
-	{ start: 0, end: 0 },
-	{ 
-		to_a: function()
-		{
-			var p = this._p, i=p.start, result=[];
+	to_a: function()
+	{
+		var i=this.__start, result=[],
+		    e=this.end();
 
-			for (; i < p.end; i++)
-				result.push(i);
+		for (; i < e; i++)
+			result.push(i);
 
-			return result;
-		}
-	
+		return result;
 	}
+	
+}).properties(
+	{ start: 0, end: 0 }
 );
 
 /*
  * Displays a Rect
  */
 
-Class(
-	Rect = function(properties)
+Rect = DisplayObject.extend({
+
+	init: function(properties)
 	{
 		_extend(this, properties);
 	}, 
-	DisplayObject,
+	paint : function()
 	{
-		fillStyle: null
-	},
-	{
-		paint : function()
-		{
-			if (this._p.fillStyle) context.fillStyle = this._p.fillStyle;
+		if (this.__fillStyle) context.fillStyle = this.__fillStyle;
 
-			context.fillRect(this._p.x, this._p.y, this._p.width, this._p.height);
-		}
+		context.fillRect(this.__x, this.__y, this.__width, this.__height);
 	}
-);
+
+}).properties(
+{
+	fillStyle: null
+});
 
 /**
  * j5g3 Physics Class
@@ -757,19 +765,17 @@ Class(
  * v       Velocity 2D Vector
  */
 
-Class(Physics = function(properties)
-{
-	_extend(this, properties);
-},
-Object,
-{
-	obj: null, v: null, m: 1, parent: null
-},
-{
+Physics = Class.extend({
+
+	init: function(properties)
+	{
+		_extend(this, properties);
+	},
+
 	draw: function()
 	{
-		var o = this._p.obj,
-		    v = this._p.v
+		var o = this.__obj,
+		    v = this.__v
 		;
 
 		o.x(o.x() + v[0]);
@@ -781,8 +787,8 @@ Object,
 	 */
 	force: function(fx, fy, x, y)
 	{
-		var m = this._p.m,
-		    v = this._p.v
+		var m = this.__m,
+		    v = this.__v
 		; 
 
 		v[0] = (m*v[0]+fx)/m;
@@ -796,6 +802,9 @@ Object,
 	},
 
 	invalidate: function() { }
+}).properties(
+{
+	obj: null, v: null, m: 1, parent: null
 });
 
 /*
@@ -806,13 +815,14 @@ Object,
  * source     Object    { image: HTML_Image_Spritesheet, x: xpos, y: ypos, w: sprite_width, h: sprite_height }
  *
  */
-Class(
-	Sprite = function(properties)
+Sprite = DisplayObject.extend({
+
+	init: function(properties)
 	{
 		_extend(this, properties);
 	},
-	DisplayObject, { }, { paint: Draw.Sprite }
-);
+	paint: Draw.Sprite
+});
 /**
  * j5g3 Spritesheet Class
  *
@@ -824,8 +834,9 @@ Class(
  *
  */
 
-Class(
-	Spritesheet = function(properties)
+Spritesheet = Class.extend({
+
+	init: function(properties)
 	{
 		switch (_typeof(properties)) {
 		case 'string': case 'DOM': case 'j5g3':   
@@ -846,114 +857,111 @@ Class(
 		
 		var p = _extend(this, properties);
 
-		p.sprites = p.sprites || [];
+		p.__sprites = p.__sprites || [];
 
 	},
-	Object, 
+
+	/**
+	 * Creates clip from spritesheet indexes. Takes an Array, Range or a list of arguments.
+	 */
+	clip: function(sprites)
 	{
-		'width':0, 'height':0, 'source':null, 'sprites': undefined, cols: 1, rows:1, type: 'grid'
+		return this.clip_array(arguments); 
 	},
+
+	clip_array: function(sprites)
 	{
+		var s = this.sprites(),
+		    frames = [], i
+		;
 
-		/**
-		 * Creates clip from spritesheet indexes. Takes an Array, Range or a list of arguments.
-		 */
-		clip: function(sprites)
-		{
-			return this.clip_array(arguments); 
-		},
+		for (i = 0; i < sprites.length; i++)
+			frames.push([ s[sprites[i]] ]);
 
-		clip_array: function(sprites)
-		{
-			var s = this.sprites(),
-			    frames = [], i
-			;
+		return new Clip({ 'frames': frames });
+	},
 
-			for (i = 0; i < sprites.length; i++)
-				frames.push([ s[sprites[i]] ]);
+	clip_range: function(sprites)
+	{
+		return this.clip_array(sprites.to_a());
+	},
 
-			return new Clip({ 'frames': frames });
-		},
+	/**
+	 * Returns a Sprite object from a section of the Spritesheet. It also adds it to the sprites list.
+	 *
+	 * @param r Rect structure. { x, y, w, h } or Rect array [ x, y, w, h ]
+	 */
+	cut: function(x, y, w, h)
+	{
+		var s = new Sprite(_typeof(x) == 'object' ? 
+			{ width: x.w, height: x.h, source: { image: this.source().source(), 'x': x.x, 'y': x.y, 'w': x.w, 'h': x.h } }
+		:
+			{ width: w, height: h, source: { image: this.source().source(), 'x': x, 'y': y, 'w': w, 'h': h } }
+		);
 
-		clip_range: function(sprites)
-		{
-			return this.clip_array(sprites.to_a());
-		},
+		this.__sprites.push(s);
 
-		/**
-		 * Returns a Sprite object from a section of the Spritesheet. It also adds it to the sprites list.
-		 *
-		 * @param r Rect structure. { x, y, w, h } or Rect array [ x, y, w, h ]
-		 */
-		cut: function(x, y, w, h)
-		{
-			var s = new Sprite(_typeof(x) == 'object' ? 
-				{ width: x.w, height: x.h, source: { image: this.source().source(), 'x': x.x, 'y': x.y, 'w': x.w, 'h': x.h } }
-			:
-				{ width: w, height: h, source: { image: this.source().source(), 'x': x, 'y': y, 'w': w, 'h': h } }
-			);
+		return s;
+	},
 
-			this._p.sprites.push(s);
+	/**
+	 * Divides spritesheet into a grid of x rows and y columns.
+	 */
+	grid: function(x, y)
+	{
+		var s = this.__sprites = [],
+		    w = this.width() / x,
+		    h = this.height() / y,
+		    r,c,
+		    src = this.source().source()
+		;
 
-			return s;
-		},
+		for (r=0; r < y; r++)
+			for (c=0; c < x; c++)
+				s.push(new Sprite({ source: { image: src, 'x': c * w, 'y': r * h, 'w': w, 'h': h }}));
 
-		/**
-		 * Divides spritesheet into a grid of x rows and y columns.
-		 */
-		grid: function(x, y)
-		{
-			var s = this._p.sprites = [],
-			    w = this.width() / x,
-			    h = this.height() / y,
-			    r,c,
-			    src = this.source().source()
-			;
+		return this;
+	}
 
-			for (r=0; r < y; r++)
-				for (c=0; c < x; c++)
-					s.push(new Sprite({ source: { image: src, 'x': c * w, 'y': r * h, 'w': w, 'h': h }}));
-
-			return this;
-		}
-
+}).properties(
+	{
+		'width':0, 'height':0, 'source':null, 'sprites': null, cols: 1, rows:1, type: 'grid'
 	}
 );
 
 var 
 	TextOldBegin;
 
-Class(
-	Text = function(properties)
+Text = DisplayObject.extend({
+
+	init: function(properties)
 	{
 		if (typeof properties == 'string')
 			properties = { text: properties };
 
 		_extend(this, properties);
 	},
-	DisplayObject, 
 
-	{ text: '', fillStyle: 'white', 'font': null },
+	begin : function()
 	{
-		begin : function()
-		{
-			TextOldBegin.apply(this);
+		TextOldBegin.apply(this);
 
-			if (this._p.fillStyle) context.fillStyle = this._p.fillStyle;
-			if (this._p.font) context.font = this._p.font;
-		},
+		if (this.__fillStyle) context.fillStyle = this.__fillStyle;
+		if (this.__font) context.font = this.__font;
+	},
 
-		paint : Draw.Text,
+	paint : Draw.Text,
 
-		width : function()
-		{
-			this.begin(); 
-			var metrics = context.measureText(this.text());
-			this.end();
+	width : function()
+	{
+		this.begin(); 
+		var metrics = context.measureText(this.text());
+		this.end();
 
-			return metrics.width;
-		}
+		return metrics.width;
 	}
+}).properties(
+	{ text: '', fillStyle: 'white', 'font': null }
 );
 
 /* TODO This is an ugly hack. */
@@ -979,39 +987,25 @@ TextOldBegin = DisplayObject.prototype.begin;
  *
  */
 
-Class(Tween = function(properties)
-{
-	if (_typeof(properties) == 'j5g3')
-		properties = { target: properties };
+Tween = Class.extend({
+	
+	init: function(properties)
+	{
+		if (_typeof(properties) == 'j5g3')
+			properties = { target: properties };
 
-	this.draw = this.start;
+		this.draw = this.start;
 
-	_extend(this, properties);
-},
-Object,
-{
-	auto_remove: false,
-	repeat: Infinity,
-	duration: 100,
-	parent: null,
-	is_playing: false,
-	from: null,
-	target: null,
-	to:   null,
-	t: 0,
-	/* EVENTS */
-	on_stop: null,
-	on_remove: null,
-	visible: false
-},
-{
+		_extend(this, properties);
+	},
+
 	pause: function() { this._olddraw = this.draw; this.draw = function() { }; return this; },
 	resume: function() { this.draw = this._olddraw ? this._olddraw : this.start; return this;},
-	rewind: function() { this._p.repeat -= 1; return this.t(0); },
+	rewind: function() { this.__repeat -= 1; return this.t(0); },
 	
-	stop: function() { this.pause(); this.rewind(); if (this._p.on_stop) this._p.on_stop(); return this;},
+	stop: function() { this.pause(); this.rewind(); if (this.__on_stop) this.__on_stop(); return this;},
 	easing: Animate.Easing.None,
-	remove: function() { this.parent().remove_child(this); if (this._p.on_remove) this._p.on_remove(); return this;},
+	remove: function() { this.parent().remove_child(this); if (this.__on_remove) this.__on_remove(); return this;},
 
 	_calculate: function()
 	{
@@ -1037,11 +1031,11 @@ Object,
 		var to = this.to(), i, target=this.target();
 
 		// Setup function it will be replaced after setting up.
-		if (this._p.from === null)
+		if (this.__from === null)
 		{
-			this._p.from = {};
+			this.__from = {};
 			for (i in to)
-				this._p.from[i] = target[i]();
+				this.__from[i] = target[i]();
 		}
 
 		this.draw = this._calculate;
@@ -1051,6 +1045,21 @@ Object,
 
 	invalidate: function() { return this; }
 	
+}).properties(
+{
+	auto_remove: false,
+	repeat: Infinity,
+	duration: 100,
+	parent: null,
+	is_playing: false,
+	from: null,
+	target: null,
+	to:   null,
+	t: 0,
+	/* EVENTS */
+	on_stop: null,
+	on_remove: null,
+	visible: false
 });
 /**
  * Executes code on FrameEnter.
@@ -1080,13 +1089,11 @@ var f = function(klass)
 /* MODULES */
 $.Animate = Animate;
 $.Draw = Draw;
-$.Property = Property;
 $.Util = Util;
 $.Collision = Collision;
 
 /* CLASSES */
 $.Action = Action;
-$.Class  = Class;
 $.Clip   = Clip;
 $.DisplayObject = DisplayObject;
 $.Image = Image;

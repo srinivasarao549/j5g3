@@ -7,20 +7,20 @@
  *
  */
 
-Class(
-	Clip= function(properties)
+Clip = DisplayObject.extend(
+{
+	init: function(properties)
 	{
 		_extend(this, properties);
 
-		if (!this._p.frames)
-			this._p.frames = [ [ ] ];
+		// TODO This might be dangerous if we decide to change the internal storage of
+		//      properties. Be careful.
+		if (!this.__frames)
+			this.__frames = [ [ ] ];
 
 		this._frame = 0;
 		this._playing = true;
 	},
-	DisplayObject, 
-	{ frames: null }, 
-	{
 	
 	/**
 	 * Returns current frame objects.
@@ -35,7 +35,7 @@ Class(
 
 	totalFrames  : function() { return this.frames().length; },
 
-	currentFrame : function() { return this._p._frame; },
+	currentFrame : function() { return this.__frame; },
 
 	/**
 	 * Updates frame.
@@ -75,7 +75,7 @@ Class(
 		case 'audio':
 			// Create On the Fly display obejct for audio
 			// TODO We might have an Audio class... If we need to.
-			display_object = { parent: Property('parent'), draw: function() { display_object.play(); } };
+			display_object = { parent: window.property('parent'), draw: function() { display_object.play(); } };
 			break;
 		};
 
@@ -148,4 +148,6 @@ Class(
 			}
 		
 	}
-});
+}).properties(
+	{ frames: null }
+);

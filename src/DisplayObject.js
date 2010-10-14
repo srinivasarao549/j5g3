@@ -2,19 +2,14 @@
 /**
  * Base for all classes
  */
-Class(
-	DisplayObject=function(properties)
+DisplayObject = Class.extend({
+
+	init: function(properties)
 	{
-		//this._p = { }
 		_extend(this, properties);
 		this._dirty = true;
 	}, 
-	Object, 
-	{
-		source: null, parent: null, x: 0, y:0, width: null, height: null, rotation: 0, scaleX: 1, scaleY: 1, alpha: 1
-	}, 
-	{
-	
+
 	/**
 	 * Save Transform Matrix and apply transformations.
 	 */
@@ -82,16 +77,16 @@ Class(
 	 */
 	pos: function(x, y)
 	{
-		this._p.x = x;
-		this._p.y = y;
+		this.__x = x;
+		this.__y = y;
 
 		return this.invalidate();
 	},
 
 	size: function(w, h)
 	{
-		this._p.width = w;
-		this._p.height = h;
+		this.__width = w;
+		this.__height = h;
 		return this.invalidate();
 	},
 
@@ -108,7 +103,9 @@ Class(
 
 	visible: function()
 	{
-		return this._p.alpha > 0;
+		return this.__alpha > 0;
 	}
 	
+}).properties({
+	source: null, parent: null, x: 0, y:0, width: null, height: null, rotation: 0, scaleX: 1, scaleY: 1, alpha: 1
 });

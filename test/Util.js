@@ -1,4 +1,4 @@
-module('Util');
+/*module('Util');
 
 	var Base = function()
 	{
@@ -104,4 +104,4 @@ test('Custom Classes Derived from j5g3 Classes.', function()
 	equals(d.paint(), 'Hello');
 	ok(d.paint != D.prototype.paint);
 
-});
+});*/

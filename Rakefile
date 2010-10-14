@@ -5,7 +5,7 @@ require 'rake/packagetask'
 
 # We have to make sure src/core.js is included first.
 VERSION = "0.1"
-SRC = %w{core Animate Collision Property Util Draw DisplayObject Clip Image Range Rect Physics Sprite Spritesheet Text Tween Action outro}
+SRC = %w{core ../lib/js-class/src/class ../lib/js-class/src/property Animate Collision Property Util Draw DisplayObject Clip Image Range Rect Physics Sprite Spritesheet Text Tween Action outro}
 SRCS = SRC.join(' ')
 
 OUTPUT = 'build/j5g3.js'
@@ -13,12 +13,16 @@ MINOUTPUT = 'build/j5g3-min.js'
 JAVA = 'java'
 JS = 'js'
 
+JS_CLASS_REPO = 'git://github.com/giancarlo/js-class.git'
+
 def read(name)
 	File.read("src/#{name}.js")
 end
 
 desc "Build JS Script"
 task :build do
+	`rm lib/js-class -fr`
+	`git clone #{JS_CLASS_REPO} lib/js-class`
 	directory 'build'
 
 	output = read('intro').gsub!('@VERSION', VERSION).sub!('@DATE', Time.new.to_s)

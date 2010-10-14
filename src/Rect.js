@@ -2,22 +2,21 @@
  * Displays a Rect
  */
 
-Class(
-	Rect = function(properties)
+Rect = DisplayObject.extend({
+
+	init: function(properties)
 	{
 		_extend(this, properties);
 	}, 
-	DisplayObject,
+	paint : function()
 	{
-		fillStyle: null
-	},
-	{
-		paint : function()
-		{
-			if (this._p.fillStyle) context.fillStyle = this._p.fillStyle;
+		if (this.__fillStyle) context.fillStyle = this.__fillStyle;
 
-			context.fillRect(this._p.x, this._p.y, this._p.width, this._p.height);
-		}
+		context.fillRect(this.__x, this.__y, this.__width, this.__height);
 	}
-);
+
+}).properties(
+{
+	fillStyle: null
+});
 

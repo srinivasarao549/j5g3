@@ -19,39 +19,25 @@
  *
  */
 
-Class(Tween = function(properties)
-{
-	if (_typeof(properties) == 'j5g3')
-		properties = { target: properties };
+Tween = Class.extend({
+	
+	init: function(properties)
+	{
+		if (_typeof(properties) == 'j5g3')
+			properties = { target: properties };
 
-	this.draw = this.start;
+		this.draw = this.start;
 
-	_extend(this, properties);
-},
-Object,
-{
-	auto_remove: false,
-	repeat: Infinity,
-	duration: 100,
-	parent: null,
-	is_playing: false,
-	from: null,
-	target: null,
-	to:   null,
-	t: 0,
-	/* EVENTS */
-	on_stop: null,
-	on_remove: null,
-	visible: false
-},
-{
+		_extend(this, properties);
+	},
+
 	pause: function() { this._olddraw = this.draw; this.draw = function() { }; return this; },
 	resume: function() { this.draw = this._olddraw ? this._olddraw : this.start; return this;},
-	rewind: function() { this._p.repeat -= 1; return this.t(0); },
+	rewind: function() { this.__repeat -= 1; return this.t(0); },
 	
-	stop: function() { this.pause(); this.rewind(); if (this._p.on_stop) this._p.on_stop(); return this;},
+	stop: function() { this.pause(); this.rewind(); if (this.__on_stop) this.__on_stop(); return this;},
 	easing: Animate.Easing.None,
-	remove: function() { this.parent().remove_child(this); if (this._p.on_remove) this._p.on_remove(); return this;},
+	remove: function() { this.parent().remove_child(this); if (this.__on_remove) this.__on_remove(); return this;},
 
 	_calculate: function()
 	{
@@ -77,11 +63,11 @@ Object,
 		var to = this.to(), i, target=this.target();
 
 		// Setup function it will be replaced after setting up.
-		if (this._p.from === null)
+		if (this.__from === null)
 		{
-			this._p.from = {};
+			this.__from = {};
 			for (i in to)
-				this._p.from[i] = target[i]();
+				this.__from[i] = target[i]();
 		}
 
 		this.draw = this._calculate;
@@ -91,4 +77,19 @@ Object,
 
 	invalidate: function() { return this; }
 	
+}).properties(
+{
+	auto_remove: false,
+	repeat: Infinity,
+	duration: 100,
+	parent: null,
+	is_playing: false,
+	from: null,
+	target: null,
+	to:   null,
+	t: 0,
+	/* EVENTS */
+	on_stop: null,
+	on_remove: null,
+	visible: false
 });

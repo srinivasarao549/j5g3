@@ -14,12 +14,12 @@ test('Class Constructor', function()
 test('Class Properties', function()
 {
 	var a = new $.Image,
-	    src = '../examples/soccer-ball.gif',
+	    src = 'img',
 	    b = new $.Image({source: src})
 	;
 
-	equals(a.source(), null);
+	equals(a.source(), undefined);
 	ok(b.source());
-	ok(b.source().src.indexOf('soccer-ball.gif'));
+	ok(b.source().src.indexOf('explosion17'));
 });
 

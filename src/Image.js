@@ -8,8 +8,9 @@
  *
  * source: 
  */
-Class(
-	Image= function(properties)
+Image = DisplayObject.extend(
+{
+	init: function(properties)
 	{
 		switch(_typeof(properties)) {
 		case 'string': 
@@ -20,11 +21,9 @@ Class(
 
 		_extend(this, properties);
 
-		if (this._p.source)
-			this.source(this._p.source);
+		if (this.__source)
+			this.source(this.__source);
 	}, 
-	DisplayObject, { }, 
-	{
 
 	paint: Draw.Image,
 
@@ -39,17 +38,17 @@ Class(
 		{
 			if (typeof(src)=='string')
 			{
-				this._p.source = $.id(src);
+				this.__source = $.id(src);
 			} else
-				this._p.source = src;
+				this.__source = src;
 
-			if (this._p.width === null)  this._p.width  = this._p.source.width;
-			if (this._p.height === null) this._p.height = this._p.source.height;
+			if (this.__width === null)  this.width(this.__source.width);
+			if (this.__height === null) this.height(this.__source.height);
 
 			this.invalidate();
 			return this;
 		}
-		return this._p.source;
+		return this.__source;
 	}
 	
 });

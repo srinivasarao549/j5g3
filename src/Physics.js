@@ -7,19 +7,17 @@
  * v       Velocity 2D Vector
  */
 
-Class(Physics = function(properties)
-{
-	_extend(this, properties);
-},
-Object,
-{
-	obj: null, v: null, m: 1, parent: null
-},
-{
+Physics = Class.extend({
+
+	init: function(properties)
+	{
+		_extend(this, properties);
+	},
+
 	draw: function()
 	{
-		var o = this._p.obj,
-		    v = this._p.v
+		var o = this.__obj,
+		    v = this.__v
 		;
 
 		o.x(o.x() + v[0]);
@@ -31,8 +29,8 @@ Object,
 	 */
 	force: function(fx, fy, x, y)
 	{
-		var m = this._p.m,
-		    v = this._p.v
+		var m = this.__m,
+		    v = this.__v
 		; 
 
 		v[0] = (m*v[0]+fx)/m;
@@ -46,5 +44,8 @@ Object,
 	},
 
 	invalidate: function() { }
+}).properties(
+{
+	obj: null, v: null, m: 1, parent: null
 });
 

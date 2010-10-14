@@ -7,7 +7,7 @@ Draw =
 {
 	Image: function ()
 	{
-		context.drawImage(this._p.source, 0, 0);	
+		context.drawImage(this.__source, 0, 0);	
 	},
 	
 	/**

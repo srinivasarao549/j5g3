@@ -12,7 +12,6 @@
 	$.DisplayObject.klass = 'DisplayObject';
 	$.Draw.klass = 'Draw';
 	$.Image.klass = 'Image';
-	$.Property.klass = 'Property';
 	$.Rect.klass = 'Rect';
 	$.Sprite.klass = 'Sprite';
 	$.Spritesheet.klass = 'Spritesheet';

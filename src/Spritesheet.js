@@ -9,8 +9,9 @@
  *
  */
 
-Class(
-	Spritesheet = function(properties)
+Spritesheet = Class.extend({
+
+	init: function(properties)
 	{
 		switch (_typeof(properties)) {
 		case 'string': case 'DOM': case 'j5g3':   
@@ -31,76 +32,74 @@ Class(
 		
 		var p = _extend(this, properties);
 
-		p.sprites = p.sprites || [];
+		p.__sprites = p.__sprites || [];
 
 	},
-	Object, 
+
+	/**
+	 * Creates clip from spritesheet indexes. Takes an Array, Range or a list of arguments.
+	 */
+	clip: function(sprites)
 	{
-		'width':0, 'height':0, 'source':null, 'sprites': undefined, cols: 1, rows:1, type: 'grid'
+		return this.clip_array(arguments); 
 	},
+
+	clip_array: function(sprites)
 	{
+		var s = this.sprites(),
+		    frames = [], i
+		;
 
-		/**
-		 * Creates clip from spritesheet indexes. Takes an Array, Range or a list of arguments.
-		 */
-		clip: function(sprites)
-		{
-			return this.clip_array(arguments); 
-		},
+		for (i = 0; i < sprites.length; i++)
+			frames.push([ s[sprites[i]] ]);
 
-		clip_array: function(sprites)
-		{
-			var s = this.sprites(),
-			    frames = [], i
-			;
+		return new Clip({ 'frames': frames });
+	},
 
-			for (i = 0; i < sprites.length; i++)
-				frames.push([ s[sprites[i]] ]);
+	clip_range: function(sprites)
+	{
+		return this.clip_array(sprites.to_a());
+	},
 
-			return new Clip({ 'frames': frames });
-		},
+	/**
+	 * Returns a Sprite object from a section of the Spritesheet. It also adds it to the sprites list.
+	 *
+	 * @param r Rect structure. { x, y, w, h } or Rect array [ x, y, w, h ]
+	 */
+	cut: function(x, y, w, h)
+	{
+		var s = new Sprite(_typeof(x) == 'object' ? 
+			{ width: x.w, height: x.h, source: { image: this.source().source(), 'x': x.x, 'y': x.y, 'w': x.w, 'h': x.h } }
+		:
+			{ width: w, height: h, source: { image: this.source().source(), 'x': x, 'y': y, 'w': w, 'h': h } }
+		);
 
-		clip_range: function(sprites)
-		{
-			return this.clip_array(sprites.to_a());
-		},
+		this.__sprites.push(s);
 
-		/**
-		 * Returns a Sprite object from a section of the Spritesheet. It also adds it to the sprites list.
-		 *
-		 * @param r Rect structure. { x, y, w, h } or Rect array [ x, y, w, h ]
-		 */
-		cut: function(x, y, w, h)
-		{
-			var s = new Sprite(_typeof(x) == 'object' ? 
-				{ width: x.w, height: x.h, source: { image: this.source().source(), 'x': x.x, 'y': x.y, 'w': x.w, 'h': x.h } }
-			:
-				{ width: w, height: h, source: { image: this.source().source(), 'x': x, 'y': y, 'w': w, 'h': h } }
-			);
+		return s;
+	},
 
-			this._p.sprites.push(s);
+	/**
+	 * Divides spritesheet into a grid of x rows and y columns.
+	 */
+	grid: function(x, y)
+	{
+		var s = this.__sprites = [],
+		    w = this.width() / x,
+		    h = this.height() / y,
+		    r,c,
+		    src = this.source().source()
+		;
 
-			return s;
-		},
+		for (r=0; r < y; r++)
+			for (c=0; c < x; c++)
+				s.push(new Sprite({ source: { image: src, 'x': c * w, 'y': r * h, 'w': w, 'h': h }}));
 
-		/**
-		 * Divides spritesheet into a grid of x rows and y columns.
-		 */
-		grid: function(x, y)
-		{
-			var s = this._p.sprites = [],
-			    w = this.width() / x,
-			    h = this.height() / y,
-			    r,c,
-			    src = this.source().source()
-			;
+		return this;
+	}
 
-			for (r=0; r < y; r++)
-				for (c=0; c < x; c++)
-					s.push(new Sprite({ source: { image: src, 'x': c * w, 'y': r * h, 'w': w, 'h': h }}));
-
-			return this;
-		}
-
+}).properties(
+	{
+		'width':0, 'height':0, 'source':null, 'sprites': null, cols: 1, rows:1, type: 'grid'
 	}
 );

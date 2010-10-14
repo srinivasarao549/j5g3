@@ -3,27 +3,27 @@
  *
  * Constructor takes a property object, or a start and end values.
  */
-Class(
-	Range = function(start, end)
+Range = Class.extend({
+
+	init: function(start, end)
 	{
 		if (typeof start != 'object')
 			start = { 'start': start, 'end': end };
 			
 		_extend(this, start);
 	},
-	Object,
-	{ start: 0, end: 0 },
-	{ 
-		to_a: function()
-		{
-			var p = this._p, i=p.start, result=[];
+	to_a: function()
+	{
+		var i=this.__start, result=[],
+		    e=this.end();
 
-			for (; i < p.end; i++)
-				result.push(i);
+		for (; i < e; i++)
+			result.push(i);
 
-			return result;
-		}
-	
+		return result;
 	}
+	
+}).properties(
+	{ start: 0, end: 0 }
 );
 

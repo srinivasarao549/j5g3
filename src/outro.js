@@ -6,13 +6,11 @@ var f = function(klass)
 /* MODULES */
 $.Animate = Animate;
 $.Draw = Draw;
-$.Property = Property;
 $.Util = Util;
 $.Collision = Collision;
 
 /* CLASSES */
 $.Action = Action;
-$.Class  = Class;
 $.Clip   = Clip;
 $.DisplayObject = DisplayObject;
 $.Image = Image;

@@ -2,13 +2,9 @@
 $ = window.j5g3 = new (function()
 {
 	var 
-		_pg = {
-			version: VERSION
-		},
-
 		/* PRIVATE MEMBERS */
-
 		self = this,
+		callee = arguments.callee,
 
 		getContext= function()
 		{
@@ -16,20 +12,21 @@ $ = window.j5g3 = new (function()
 		},
 		initialize = function(properties)
 		{
-			$.Property.define(self.constructor, { 
+			// TODO this is horrible.
+			Class.properties.apply(callee, [{
 				'canvas' : null,
 				backgroundStyle : 'black',
 				width  : 640,
 				height : 480
-			});
+			}]);	
 			_extend(self, properties);
 
-			if (self._p.canvas === null)
-				self._p.canvas = $.id('screen');
+			if (self.canvas() === null)
+				self.canvas($.id('screen'));
 
-			self._p.fps = 31;
+			self.__fps = 31;
 
-			canvas = self._p.canvas;
+			canvas = self.canvas();
 
 			self.background = new Rect({ 
 				fillStyle: self.backgroundStyle(),
@@ -50,14 +47,14 @@ $ = window.j5g3 = new (function()
 			properties.start($, document);
 		}
 	;
+
 	/**
 	 * Starts the execution.
 	 */
 	this.run= function()
 	{
-		setInterval(this.gameLoop, this._p.fps);
+		setInterval(this.gameLoop, this.__fps);
 	};
-
 
 	this.gameLoop = function()
 	{
@@ -67,8 +64,8 @@ $ = window.j5g3 = new (function()
 
 	this.fps = function(val)
 	{
-		if (val === undefined) return 1000 / this._p.fps;
-		this._p.fps = 1000 / val;
+		if (val === undefined) return 1000 / this.__fps;
+		this.__fps = 1000 / val;
 		return this;
 	};
 
@@ -84,3 +81,4 @@ $ = window.j5g3 = new (function()
 
 	this.id = function(id) { return document.getElementById(id); };
 });
+
