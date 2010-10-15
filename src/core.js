@@ -5,6 +5,7 @@ $ = window.j5g3 = new (function()
 		/* PRIVATE MEMBERS */
 		self = this,
 		callee = arguments.callee,
+		__fps = 31,
 
 		getContext= function()
 		{
@@ -23,8 +24,6 @@ $ = window.j5g3 = new (function()
 
 			if (self.canvas() === null)
 				self.canvas($.id('screen'));
-
-			self.__fps = 31;
 
 			canvas = self.canvas();
 
@@ -53,9 +52,12 @@ $ = window.j5g3 = new (function()
 	 */
 	this.run= function()
 	{
-		setInterval(this.gameLoop, this.__fps);
+		setInterval(this.gameLoop, __fps);
 	};
 
+	/**
+	 * This is here to allow overriding by Debug.js
+	 */
 	this.gameLoop = function()
 	{
 		self.background.draw();
@@ -64,9 +66,7 @@ $ = window.j5g3 = new (function()
 
 	this.fps = function(val)
 	{
-		if (val === undefined) return 1000 / this.__fps;
-		this.__fps = 1000 / val;
-		return this;
+		return val===undefined ? 1000/__fps : (__fps=1000/val, this);
 	};
 
 	/**

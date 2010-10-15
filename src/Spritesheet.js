@@ -63,8 +63,6 @@ Spritesheet = Class.extend({
 
 	/**
 	 * Returns a Sprite object from a section of the Spritesheet. It also adds it to the sprites list.
-	 *
-	 * @param r Rect structure. { x, y, w, h } or Rect array [ x, y, w, h ]
 	 */
 	cut: function(x, y, w, h)
 	{

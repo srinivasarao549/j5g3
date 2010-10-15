@@ -7,7 +7,7 @@
  * Dual licensed under the MIT or GPL Version 2
  * http://jquery.org/license
  *
- * Date: 2010-10-14 19:40:28 -0400
+ * Date: 2010-10-15 00:48:38 -0400
  */
 
 (function(window, document, undefined) {
@@ -45,6 +45,7 @@ $ = window.j5g3 = new (function()
 		/* PRIVATE MEMBERS */
 		self = this,
 		callee = arguments.callee,
+		__fps = 31,
 
 		getContext= function()
 		{
@@ -63,8 +64,6 @@ $ = window.j5g3 = new (function()
 
 			if (self.canvas() === null)
 				self.canvas($.id('screen'));
-
-			self.__fps = 31;
 
 			canvas = self.canvas();
 
@@ -93,9 +92,12 @@ $ = window.j5g3 = new (function()
 	 */
 	this.run= function()
 	{
-		setInterval(this.gameLoop, this.__fps);
+		setInterval(this.gameLoop, __fps);
 	};
 
+	/**
+	 * This is here to allow overriding by Debug.js
+	 */
 	this.gameLoop = function()
 	{
 		self.background.draw();
@@ -104,9 +106,7 @@ $ = window.j5g3 = new (function()
 
 	this.fps = function(val)
 	{
-		if (val === undefined) return 1000 / this.__fps;
-		this.__fps = 1000 / val;
-		return this;
+		return val===undefined ? 1000/__fps : (__fps=1000/val, this);
 	};
 
 	/**
@@ -888,8 +888,6 @@ Spritesheet = Class.extend({
 
 	/**
 	 * Returns a Sprite object from a section of the Spritesheet. It also adds it to the sprites list.
-	 *
-	 * @param r Rect structure. { x, y, w, h } or Rect array [ x, y, w, h ]
 	 */
 	cut: function(x, y, w, h)
 	{
@@ -1064,11 +1062,15 @@ Tween = Class.extend({
 /**
  * Executes code on FrameEnter.
  */
-Action = function(properties)
-{
-	this.draw = (typeof properties == 'function') ? properties : properties.code;
-	this.parent = function() { };
-};
+Action = Class.extend({
+
+	init: function(properties)
+	{
+		this.draw = _typeof(properties)== 'function' ? properties : properties.code;
+	},
+
+	parent: function() { }
+});
 
 /**
  * Rotates object forever. Clockwise by default.

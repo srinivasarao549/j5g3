@@ -5,24 +5,18 @@
 (function($, undefined)
 {
 	var Debug = $.Debug = { },
-	    DebugFPS = new $.Text({ fillStyle: 'green', text: "0 FPS", x: 0, y: 14 });
+	    DebugFPS = new $.Text({ fillStyle: 'green', text: "0 FPS", x: 0, y: 14 }),
+	    i, time
+	;
 
-	$.Action.klass = 'Action';
-	$.Clip.klass   = 'Clip';
-	$.DisplayObject.klass = 'DisplayObject';
-	$.Draw.klass = 'Draw';
-	$.Image.klass = 'Image';
-	$.Rect.klass = 'Rect';
-	$.Sprite.klass = 'Sprite';
-	$.Spritesheet.klass = 'Spritesheet';
-	$.Text.klass = 'Text';
-	$.Util.klass = 'Util';
+	for(i in $)
+		if (typeof($[i])=='function') $[i].klass = i;
 
 	/* Add Timing and FPS */
 	Debug.oldGameLoop = $.gameLoop;
 	$.gameLoop = function()
 	{
-		var time = (new Date).getTime();
+		time = (new Date).getTime();
 		Debug.oldGameLoop.apply(this);
 		time = (new Date).getTime() - time;
 

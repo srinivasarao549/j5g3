@@ -8,25 +8,25 @@
 function game($)
 {
 	
-	var 
-	update = function() 
+	var update = function() 
 	{
-			var objs = $.root.frame(),
+			var 
 			    t = new Date,
-			    secs = t.getSeconds() + t.getMilliseconds() / 1000,
-			    mins = t.getMinutes() + secs / 60,
-			    hours= t.getHours() + mins / 60
+			    pi = Math.PI,
+			    _secs = t.getSeconds() + t.getMilliseconds() / 1000,
+			    _mins = t.getMinutes() + _secs / 60,
+			    _hours= t.getHours() + _mins / 60
 			;
 
-			objs[1].rotation(Math.PI + Math.PI / 6 * hours);
-			objs[2].rotation(Math.PI + Math.PI / 30 * mins);
-			objs[3].rotation(Math.PI + Math.PI / 30 * secs);
-	};
-
-	var clock = new $.Clip( { frames: [[ new $.Image({ source: 'clock', x: -175, y: -175 }) ]] } );
-	var hour = new $.Clip( { frames: [[ new $.Image({ source: 'hour', x: -10, y: 210, scaleY: -1}) ]] } );
-	var mins = new $.Clip( { frames: [[ new $.Image({ source: 'min', x: -10, y: 220, scaleY: -1}) ]] } );
-	var secs = new $.Clip( { frames: [[ new $.Image({ source: 'sec', x: -10, y: 190, scaleY: -1}) ]] } );
+			hour.rotation(pi + pi / 6  * _hours);
+			mins.rotation(pi + pi / 30 * _mins);
+			secs.rotation(pi + pi / 30 * _secs);
+	},
+	clock = $.clip( { frames: [[ $.image({ source: 'clock', x: -175, y: -175 }) ]] } ),
+	hour  = $.clip( { frames: [[ $.image({ source: 'hour', x: -10, y: 210, scaleY: -1}) ]] } ),
+	mins  = $.clip( { frames: [[ $.image({ source: 'min', x: -10, y: 220, scaleY: -1}) ]] } ),
+	secs  = $.clip( { frames: [[ $.image({ source: 'sec', x: -10, y: 190, scaleY: -1}) ]] } )
+	;
 
 	$.root.add([ clock, hour, mins, secs, update ])
 		 .alignChildren('center')

@@ -1,11 +1,15 @@
 /**
  * Executes code on FrameEnter.
  */
-Action = function(properties)
-{
-	this.draw = (typeof properties == 'function') ? properties : properties.code;
-	this.parent = function() { };
-};
+Action = Class.extend({
+
+	init: function(properties)
+	{
+		this.draw = _typeof(properties)== 'function' ? properties : properties.code;
+	},
+
+	parent: function() { }
+});
 
 /**
  * Rotates object forever. Clockwise by default.
