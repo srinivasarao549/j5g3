@@ -27,23 +27,18 @@ Clip = DisplayObject.extend(
 	 */
 	frame : function() 
 	{
-		f = this.frames()[this._frame]; 
+		var f = this.frames()[this._frame]; 
 		if (this._playing)
 			this.nextFrame();
 		return f; 
 	},
 
-	totalFrames  : function() { return this.frames().length; },
-
-	currentFrame : function() { return this.__frame; },
-
 	/**
-	 * Updates frame.
-	 *
+	 * Sets next frame index.
 	 */
 	nextFrame : function() 
 	{
-		this._frame = (this._frame < this.totalFrames()-1) ? this._frame + 1 : 0; 
+		this._frame = (this._frame < this.__frames.length-1) ? this._frame + 1 : 0; 
 	},
 
 	paint : Draw.Container,
@@ -89,36 +84,20 @@ Clip = DisplayObject.extend(
 	/**
 	 * Goes to frame 
 	 */
-	gotoFrame : function(frame)
+	go: function(frame)
 	{
 		this._frame = frame;
 		return this;
 	},
 
-	/**
-	 * Goes To Frame number and plays.
-	 */
-	gotoAndPlay : function(frame)
-	{
-		this.gotoFrame(frame);
-		this.play();
-		return this;
-	},
-
-	gotoAndStop : function(frame)
-	{
-		this.gotoFrame(frame);
-		this.stop();
-		return this;
-	},
-
 	alignChildren : function(alignment)
 	{
-		var frm = this.frame();
+		var frm = this.frame(), i=frm.length;
 
-		for (var i in frm)
+		while (i--)
 			if (frm[i].align)
 				frm[i].align(alignment, this);
+
 		return this;
 	},
 

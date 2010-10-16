@@ -16,7 +16,7 @@ var
 	
 		init: function()
 		{
-			this.source($.id('ball'));
+			this.source('ball');
 
 			var max_speed = 5,
 			    diameter  = this.width(),

@@ -7,7 +7,7 @@
  * Dual licensed under the MIT or GPL Version 2
  * http://jquery.org/license
  *
- * Date: 2010-10-15 00:48:38 -0400
+ * Date: 2010-10-16 18:04:19 -0400
  */
 
 (function(window, document, undefined) {
@@ -421,8 +421,7 @@ DisplayObject = Class.extend({
 
 	/**
 	 * Applies Transformations and paints Object in the screen.
-	 * To define your custom DisplayObject class implement the paint() function. The paint function receives
-	 * the current context for drawing.
+	 * To define your custom DisplayObject class implement the paint() function.
 	 */
 	draw : function()
 	{
@@ -437,7 +436,7 @@ DisplayObject = Class.extend({
 		return this;
 	},
 
-	isDirty : function()  
+	is_dirty : function()  
 	{ 
 		return this._dirty;
 	},
@@ -445,7 +444,7 @@ DisplayObject = Class.extend({
 	/**
 	 * Sets position of the object according to alignment and container.
 	 */
-	align : function(alignment, container) 
+	align: function(alignment, container) 
 	{
 		switch (alignment) {
 		case 'center': 	this.x(container.width() / 2); 	break;
@@ -527,23 +526,18 @@ Clip = DisplayObject.extend(
 	 */
 	frame : function() 
 	{
-		f = this.frames()[this._frame]; 
+		var f = this.frames()[this._frame]; 
 		if (this._playing)
 			this.nextFrame();
 		return f; 
 	},
 
-	totalFrames  : function() { return this.frames().length; },
-
-	currentFrame : function() { return this.__frame; },
-
 	/**
-	 * Updates frame.
-	 *
+	 * Sets next frame index.
 	 */
 	nextFrame : function() 
 	{
-		this._frame = (this._frame < this.totalFrames()-1) ? this._frame + 1 : 0; 
+		this._frame = (this._frame < this.__frames.length-1) ? this._frame + 1 : 0; 
 	},
 
 	paint : Draw.Container,
@@ -589,36 +583,20 @@ Clip = DisplayObject.extend(
 	/**
 	 * Goes to frame 
 	 */
-	gotoFrame : function(frame)
+	go: function(frame)
 	{
 		this._frame = frame;
 		return this;
 	},
 
-	/**
-	 * Goes To Frame number and plays.
-	 */
-	gotoAndPlay : function(frame)
-	{
-		this.gotoFrame(frame);
-		this.play();
-		return this;
-	},
-
-	gotoAndStop : function(frame)
-	{
-		this.gotoFrame(frame);
-		this.stop();
-		return this;
-	},
-
 	alignChildren : function(alignment)
 	{
-		var frm = this.frame();
+		var frm = this.frame(), i=frm.length;
 
-		for (var i in frm)
+		while (i--)
 			if (frm[i].align)
 				frm[i].align(alignment, this);
+
 		return this;
 	},
 

@@ -19,10 +19,14 @@ def read(name)
 	File.read("src/#{name}.js")
 end
 
-desc "Build JS Script"
-task :build do
+desc "Update Libraries"
+task :libs do
 	`rm lib/js-class -fr`
 	`git clone #{JS_CLASS_REPO} lib/js-class`
+end
+
+desc "Build JS Script"
+task :build do
 	directory 'build'
 
 	output = read('intro').gsub!('@VERSION', VERSION).sub!('@DATE', Time.new.to_s)

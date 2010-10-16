@@ -32,8 +32,7 @@ DisplayObject = Class.extend({
 
 	/**
 	 * Applies Transformations and paints Object in the screen.
-	 * To define your custom DisplayObject class implement the paint() function. The paint function receives
-	 * the current context for drawing.
+	 * To define your custom DisplayObject class implement the paint() function.
 	 */
 	draw : function()
 	{
@@ -48,7 +47,7 @@ DisplayObject = Class.extend({
 		return this;
 	},
 
-	isDirty : function()  
+	is_dirty : function()  
 	{ 
 		return this._dirty;
 	},
@@ -56,7 +55,7 @@ DisplayObject = Class.extend({
 	/**
 	 * Sets position of the object according to alignment and container.
 	 */
-	align : function(alignment, container) 
+	align: function(alignment, container) 
 	{
 		switch (alignment) {
 		case 'center': 	this.x(container.width() / 2); 	break;
