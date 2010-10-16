@@ -5,6 +5,8 @@
  */
 Draw =  
 {
+	Void: function() { },
+
 	Image: function ()
 	{
 		context.drawImage(this.__source, 0, 0);	

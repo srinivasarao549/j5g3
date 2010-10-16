@@ -7,7 +7,7 @@
  * Dual licensed under the MIT or GPL Version 2
  * http://jquery.org/license
  *
- * Date: 2010-10-16 18:04:19 -0400
+ * Date: 2010-10-16 18:47:54 -0400
  */
 
 (function(window, document, undefined) {
@@ -20,11 +20,14 @@
 	    Clip,
 	    Collision,
 	    DisplayObject,
+	    Dot,
 	    Draw,
+	    Emitter,
 	    Image,
 	    Physics,
 	    Range,
 	    Rect,
+	    Shape,
 	    Sprite,
 	    Spritesheet,
 	    Text,
@@ -142,7 +145,7 @@ window.Class = function() { };
 window.Class.extend = function(methods)
 {
 	var i,
-	    init   = methods.init ? methods.init : function() { this.__super.apply(this, arguments); }
+	    init   = methods.init ? methods.init : function() { arguments.callee.prototype.__super.apply(this, arguments); }
 	;
 
 	init.prototype = new this();
@@ -354,6 +357,8 @@ _typeof = Util.getType = function(obj)
  */
 Draw =  
 {
+	Void: function() { },
+
 	Image: function ()
 	{
 		context.drawImage(this.__source, 0, 0);	
@@ -629,6 +634,32 @@ Clip = DisplayObject.extend(
 }).properties(
 	{ frames: null }
 );
+/**
+ * Particle Emitter
+ */
+
+Emitter = DisplayObject.extend({
+	
+	init: function(properties)
+	{
+		_extend(this, properties);
+	},
+
+	play: function()
+	{
+		this.paint = this.emit;
+	},
+
+	stop: function()
+	{
+		this.paint = Draw.Void;		
+	},
+
+	paint: Draw.Void
+
+}).properties({
+	source: null, life: 10
+});
 
 /**
  * j5g3 Image Class
@@ -716,24 +747,50 @@ Range = Class.extend({
  * Displays a Rect
  */
 
-Rect = DisplayObject.extend({
+Shape = DisplayObject.extend({
+	begin: function()
+	{
+		DisplayObject.prototype.begin.apply(this);
 
-	init: function(properties)
-	{
-		_extend(this, properties);
-	}, 
-	paint : function()
-	{
 		if (this.__fillStyle) context.fillStyle = this.__fillStyle;
-
-		context.fillRect(this.__x, this.__y, this.__width, this.__height);
+		if (this.__strokeStyle) context.strokeStyle = this.__strokeStyle;
+		if (this.__lineWidth) context.lineWidth = this.__lineWidth;
+		if (this.__lineCap) context.lineCap = this.__lineCap;
+		if (this.__lineJoin) context.lineJoin = this.__lineJoin;
+		if (this.__miterLimit) context.miterLimit = this.__miterLimit;
 	}
-
 }).properties(
 {
-	fillStyle: null
+	fillStyle: undefined, strokeStyle: undefined, lineWidth: undefined, lineCap: undefined, lineJoin: undefined,
+	miterLimit: undefined
 });
 
+Rect = Shape.extend({
+	paint : function()
+	{
+		context.fillRect(this.__x, this.__y, this.__width, this.__height);
+	}
+});
+
+/*
+ * Displays a Dot
+ */
+Dot = Shape.extend({
+	/**
+	 * p can be properties or lineWidth
+	 */
+	init: function(p)
+	{
+		if (typeof(p)!='object')
+			p = { lineWidth: p };
+		_extend(this, p);
+	},
+	paint: function()
+	{
+		context.moveTo(this.x(), this.y());
+		context.lineTo(this.x(), this.y());
+	}
+});
 /**
  * j5g3 Physics Class
  *
@@ -1076,9 +1133,12 @@ $.Collision = Collision;
 $.Action = Action;
 $.Clip   = Clip;
 $.DisplayObject = DisplayObject;
+$.Dot    = Dot;
+$.Emitter = Emitter;
 $.Image = Image;
 $.Range = Range;
 $.Rect = Rect;
+$.Shape = Shape;
 $.Sprite = Sprite;
 $.Spritesheet = Spritesheet;
 $.Text = Text;
@@ -1087,6 +1147,8 @@ $.Physics = Physics;
 
 $.action = f(Action);
 $.clip   = f(Clip);
+$.dot    = f(Dot);
+$.emitter= f(Emitter);
 $.image  = f(Image);
 $.range  = function(a, b) { return new Range(a, b); };
 $.rect   = f(Rect);
