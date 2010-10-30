@@ -34,7 +34,7 @@ DisplayObject = Class.extend({
 	 * Applies Transformations and paints Object in the screen.
 	 * To define your custom DisplayObject class implement the paint() function.
 	 */
-	draw : function()
+	draw: function()
 	{
 		this.begin();
 		this.paint();

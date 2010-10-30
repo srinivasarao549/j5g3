@@ -7,7 +7,7 @@
  * Dual licensed under the MIT or GPL Version 2
  * http://jquery.org/license
  *
- * Date: 2010-10-16 18:47:54 -0400
+ * Date: 2010-10-17 14:43:50 -0400
  */
 
 (function(window, document, undefined) {
@@ -379,10 +379,10 @@ Draw =
 
 	Container: function ()
 	{
-		var frame = this.frame(),i;
+		var frame = this.frame(),i=0,l=frame.length;
 
-		for (i=0; i<frame.length;i++)
-			frame[i].draw(context);
+		for (i=0; i<l;i++)
+			frame[i].draw();
 	},
 
 	Text: function()
@@ -638,27 +638,21 @@ Clip = DisplayObject.extend(
  * Particle Emitter
  */
 
-Emitter = DisplayObject.extend({
+Emitter = Clip.extend({
 	
-	init: function(properties)
+	paint: function()
 	{
-		_extend(this, properties);
-	},
-
-	play: function()
-	{
-		this.paint = this.emit;
-	},
-
-	stop: function()
-	{
-		this.paint = Draw.Void;		
-	},
-
-	paint: Draw.Void
+		var clip = $.clip();
+		clip.add(this.source());
+		clip.frames().length = this.life();
+		clip.frames().push([Action.remove]);
+		this.add(clip);
+		if (this.__on_emit)
+			this.__on_emit(clip);
+	}
 
 }).properties({
-	source: null, life: 10
+	source: null, life: 10, on_emit: null
 });
 
 /**
@@ -761,8 +755,7 @@ Shape = DisplayObject.extend({
 	}
 }).properties(
 {
-	fillStyle: undefined, strokeStyle: undefined, lineWidth: undefined, lineCap: undefined, lineJoin: undefined,
-	miterLimit: undefined
+	fillStyle: 0, strokeStyle: 0, lineWidth: 0, lineCap: 0, lineJoin: 0, miterLimit: 0
 });
 
 Rect = Shape.extend({
@@ -783,14 +776,14 @@ Dot = Shape.extend({
 	{
 		if (typeof(p)!='object')
 			p = { lineWidth: p };
+
 		_extend(this, p);
 	},
 	paint: function()
 	{
-		context.moveTo(this.x(), this.y());
-		context.lineTo(this.x(), this.y());
+		context.strokeRect(this.x(), this.y(), 1, 1);
 	}
-});
+}).properties({ lineCap: 'round', lineJoin: 'round' });
 /**
  * j5g3 Physics Class
  *
@@ -1118,6 +1111,10 @@ Action.rotate = function(obj)
 	};
 }
 
+Action.remove = function()
+{
+	this.parent().remove_child(this);
+}
 var f = function(klass)
 {
 	return function(properties) { return new klass(properties); }

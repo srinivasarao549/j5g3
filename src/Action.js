@@ -22,3 +22,7 @@ Action.rotate = function(obj)
 	};
 }
 
+Action.remove = function()
+{
+	this.parent().remove_child(this);
+}

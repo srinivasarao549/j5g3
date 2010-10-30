@@ -27,10 +27,10 @@ Draw =
 
 	Container: function ()
 	{
-		var frame = this.frame(),i;
+		var frame = this.frame(),i=0,l=frame.length;
 
-		for (i=0; i<frame.length;i++)
-			frame[i].draw(context);
+		for (i=0; i<l;i++)
+			frame[i].draw();
 	},
 
 	Text: function()

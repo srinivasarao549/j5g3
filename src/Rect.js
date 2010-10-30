@@ -16,8 +16,7 @@ Shape = DisplayObject.extend({
 	}
 }).properties(
 {
-	fillStyle: undefined, strokeStyle: undefined, lineWidth: undefined, lineCap: undefined, lineJoin: undefined,
-	miterLimit: undefined
+	fillStyle: 0, strokeStyle: 0, lineWidth: 0, lineCap: 0, lineJoin: 0, miterLimit: 0
 });
 
 Rect = Shape.extend({
@@ -38,11 +37,11 @@ Dot = Shape.extend({
 	{
 		if (typeof(p)!='object')
 			p = { lineWidth: p };
+
 		_extend(this, p);
 	},
 	paint: function()
 	{
-		context.moveTo(this.x(), this.y());
-		context.lineTo(this.x(), this.y());
+		context.strokeRect(this.x(), this.y(), 1, 1);
 	}
-});
+}).properties({ lineCap: 'round', lineJoin: 'round' });
