@@ -103,6 +103,11 @@ DisplayObject = Class.extend({
 	visible: function()
 	{
 		return this.__alpha > 0;
+	},
+
+	getContext: function()
+	{
+		return context;
 	}
 	
 }).properties({
