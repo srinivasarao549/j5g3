@@ -122,7 +122,7 @@ Clip = DisplayObject.extend(
 		for (i=0; i<frames.length; i++)
 			if (a = frames[i].indexOf(child))
 			{
-				frames.splice(a, 1);
+				frames[i].splice(a, 1);
 				return this.invalidate();
 			}
 		
