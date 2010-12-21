@@ -10,10 +10,14 @@ function game($)
 	var ball = $.image('ball'),
 	    F = $.physics({ obj: ball, v: [0, 0] }),
 	    accel = function() { 
-	    	if (ball.y()<420) 
-			F.force(0, 0.98, 0, 0);
-		else
-			F.force(0, -F.v()[1]*2, 0, 0);
+
+	    	if (ball.y()>430)
+		{
+			ball.y(430);
+			F.force(0, -F.v()[1]*1.9, 0, 0);
+		}
+
+		F.force(0, 0.98, 0, 0);
 	    }
 	;
 
