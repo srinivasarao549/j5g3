@@ -6,13 +6,16 @@
  * Properties
  *
  * obj     Object to apply physics to.
- * v       Velocity 2D Vector
+ * v       Velocity 2D Vector. Default [0, 0]
  */
 
 Physics = Class.extend({
 
 	init: function(properties)
 	{
+		if (properties.v==undefined)
+			properties.v=[0, 0];
+
 		_extend(this, properties);
 	},
 
