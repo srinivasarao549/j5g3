@@ -3,17 +3,17 @@
 	<title>JSGE - Bubble Example</title>
 	<script src="../build/j5g3.js"></script>
 	<script src="../src/Debug.js"></script>
-	<style>
-		canvas { width: 640px; height: 480px; border: 1px solid #ccc; }
-	</style>
 	<script>
 
 function game($)
 {
-	var ss = new $.Spritesheet($.id('spritesheet')).grid(5, 5),
-	    range = new $.Range(0, 24),
-	    update = function() { r.x(Math.random() * 600); r.y(Math.random() * 440); },
-	    r = ss.clip_range(range).add(update)
+	// Define our spritesheet as a 5x5 sprites grid.
+	var ss = $.spritesheet('spritesheet').grid(5, 5),
+	// This function will update the position of the explosion
+	// It will be added to the end of the clip
+	    update = function() { r.pos($.rand(600), $.rand(440)); },
+	// Define our clip with sprites 0 to 24 and add the update action to the end
+	    r = ss.clip_range($.range(0, 24)).add(update)
 	;
 
 	$.fps(60);
@@ -22,9 +22,10 @@ function game($)
 }
 
 	</script>
+	<link rel="stylesheet" href="styles.css" />
 </head>
 <body onload="j5g3.start(game);">
-	<div id="assets" style="display: none;">
+	<div id="assets">
 		<img id="spritesheet" src="explosion17.png" />	
 	</div>
 	<canvas id="screen"></canvas>
