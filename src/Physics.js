@@ -1,6 +1,8 @@
 /**
  * j5g3 Physics Class
  *
+ * NOTE: You need to include the physics object to the scene.
+ *
  * Properties
  *
  * obj     Object to apply physics to.
