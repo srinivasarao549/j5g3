@@ -1,7 +1,7 @@
 <html>
 <head>
 	<title>JSGE - Bubble Example</title>
-	<script src="../build/j5g3.js"></script>
+	<script src="../build/j5g3-min.js"></script>
 	<script src="../src/Debug.js"></script>
 	<script>
 
@@ -11,12 +11,14 @@ function game($)
 	    F = $.physics({ obj: ball, v: [0, 0] }),
 	    accel = function() { 
 
-	    	if (ball.y()>430)
+		// Access property directly for better perfomance.
+	    	if (ball.__y>430)
 		{
 			ball.y(430);
 			F.force(0, -F.v()[1]*1.9, 0, 0);
 		}
 
+		// Apply gravity force every frame.
 		F.force(0, 0.98, 0, 0);
 	    }
 	;

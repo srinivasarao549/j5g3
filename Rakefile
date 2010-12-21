@@ -27,7 +27,7 @@ end
 
 desc "Build JS Script"
 task :build do
-	directory 'build'
+	`mkdir -p build`
 
 	output = read('intro').gsub!('@VERSION', VERSION).sub!('@DATE', Time.new.to_s)
 
@@ -50,6 +50,7 @@ end
 desc "Closure Compile"
 task :compile => [:build] do
 	`#{JAVA} -jar tools/compiler.jar --js #{OUTPUT} --js_output_file #{MINOUTPUT} --warning_level VERBOSE`
+	#`#{JAVA} -jar tools/compiler.jar --compilation_level ADVANCED_OPTIMIZATIONS --js #{OUTPUT} --js_output_file #{MINOUTPUT} --warning_level VERBOSE`
 	puts "#{OUTPUT}: " + File.size(OUTPUT).to_s
 	puts "#{MINOUTPUT}: " + File.size(MINOUTPUT).to_s
 end

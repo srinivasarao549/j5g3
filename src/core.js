@@ -1,5 +1,5 @@
 	
-$ = window.j5g3 = new (function()
+$ = window['j5g3']= new (function()
 {
 	var 
 		/* PRIVATE MEMBERS */
@@ -79,6 +79,7 @@ $ = window.j5g3 = new (function()
 
 	this.invalidate = function() { return this; };
 
-	this.id = function(id) { return document.getElementById(id); };
+	this.id = function(id) { return document.getElementById(id); }
+	this.rand = function(max) { return Math.random() * max; }
 });
 
