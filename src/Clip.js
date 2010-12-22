@@ -43,8 +43,8 @@ Clip = DisplayObject.extend(
 
 	paint : Draw.Container,
 
-	stop: function() { this._playing = false;	},
-	play: function() { this._playing = true;	},
+	stop: function() { this._playing = false; return this;},
+	play: function() { this._playing = true; return this; },
 
 	/**
 	 * Adds display_objects to current frame. 
@@ -90,7 +90,7 @@ Clip = DisplayObject.extend(
 		return this;
 	},
 
-	alignChildren : function(alignment)
+	align_children : function(alignment)
 	{
 		var frm = this.frame(), i=frm.length;
 

@@ -39,7 +39,7 @@ Spritesheet = Class.extend({
 	/**
 	 * Creates clip from spritesheet indexes. Takes an Array, Range or a list of arguments.
 	 */
-	clip: function(sprites)
+	clip: function()
 	{
 		return this.clip_array(arguments); 
 	},
@@ -78,7 +78,7 @@ Spritesheet = Class.extend({
 	},
 
 	/**
-	 * Divides spritesheet into a grid of x rows and y columns.
+	 * Divides spritesheet into a grid of y rows and x columns.
 	 */
 	grid: function(x, y)
 	{

@@ -1,6 +1,6 @@
 <html>
 <head>
-	<title>JSGE - Bubble Example</title>
+	<title>JSGE - Animation Example</title>
 	<script src="../build/j5g3.js"></script>
 	<script src="../src/Debug.js"></script>
 	<script>
@@ -9,9 +9,16 @@ function game($)
 {
 	// Define our spritesheet as a 5x5 sprites grid.
 	var ss = $.spritesheet('spritesheet').grid(5, 5),
+	    sound = $.id('explosion'),
+
 	// This function will update the position of the explosion
+	// And play a sound.
 	// It will be added to the end of the clip
-	    update = function() { r.pos($.rand(600), $.rand(440)); },
+	    update = function() { 
+	    	r.pos($.rand(600), $.rand(440)); 
+		sound.play();
+	    },
+
 	// Define our clip with sprites 0 to 24 and add the update action to the end
 	    r = ss.clip_range($.range(0, 24)).add(update)
 	;
@@ -27,6 +34,7 @@ function game($)
 <body onload="j5g3.start(game);">
 	<div id="assets">
 		<img id="spritesheet" src="explosion17.png" />	
+		<audio id="explosion" src="explosion.ogg"></audio>
 	</div>
 	<canvas id="screen"></canvas>
 </body>
