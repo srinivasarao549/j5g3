@@ -1,4 +1,5 @@
 /**
+ * @preserve
  * j5g3 v@VERSION - Javascript Game Engine 
  * http://hackerhosting.com/j5g3
  *
