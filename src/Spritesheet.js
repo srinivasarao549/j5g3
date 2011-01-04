@@ -91,7 +91,7 @@ Spritesheet = Class.extend({
 
 		for (r=0; r < y; r++)
 			for (c=0; c < x; c++)
-				s.push(new Sprite({ source: { image: src, 'x': c * w, 'y': r * h, 'w': w, 'h': h }}));
+				s.push(this.cut(c*w, r*h, w, h));
 
 		return this;
 	}
