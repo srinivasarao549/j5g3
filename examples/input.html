@@ -7,7 +7,7 @@
 
 function game($)
 {
-	// Define our spritesheet as a 5x5 sprites grid.
+	// Define our spritesheet as a 6x7 grid.
 	var ss = $.spritesheet('spritesheet').grid(6, 7),
 
 	    standing = ss.clip(1, 2, 3, 4, 5, 6).x(-65),
@@ -24,7 +24,8 @@ function game($)
 
 	window.onkeydown = function(evt)
 	{
-		({ 37 : left, 38 : up, 39 : right, 40 : down })[evt.keyCode]();	  
+		var a = ({ 37 : left, 38 : up, 39 : right, 40 : down })[evt.keyCode];
+		if (a) a(); 
 	}
 
 	window.onkeyup = function() { r.go(0); }
@@ -41,5 +42,13 @@ function game($)
 	<div id="assets">
 		<img id="spritesheet" src="spritesheet.png" />	
 	</div>
+	<h1>Input Example</h1>
 	<canvas id="screen"></canvas>
+
+	<p>Controls:</p>
+	<dl>
+		<dt>Left</dt><dd>Run Left</dd>
+		<dt>Right</dt><dd>Run Right</dd>
+		<dt>Down</dt><dd>Kneel down</dd>
+	</dl>
 </body>
