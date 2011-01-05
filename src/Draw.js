@@ -36,6 +36,23 @@ Draw =
 	Text: function()
 	{
 		context.fillText(this.text(), 0, 0);
+	},
+
+	Map: function()
+	{
+		var map = this.__map, y = map.length, x, sprites = this.__sprites, s, cm;
+
+		while (y--)
+		{
+			x = map[y].length;
+			cm= map[y];
+
+			while (x--)
+			{
+				s = sprites[cm[x]].__source;
+				context.drawImage(s.image, s.x, s.y, s.w, s.h, x*this.__tw, y*this.__th, this.__tw, this.__th);
+			}
+		}
 	}
 
 };

@@ -45,6 +45,7 @@
 	    Tween,
 	    Util,
 	    J5G3,
+	    Map,
 
 	    canvas,
 	    _extend,

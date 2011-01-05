@@ -78,20 +78,23 @@ Spritesheet = Class.extend({
 	},
 
 	/**
-	 * Divides spritesheet into a grid of y rows and x columns.
+	 * Divides spritesheet into a grid of y rows and x columns and a border of b. By default b is 0.
 	 */
-	grid: function(x, y)
+	grid: function(x, y, b)
 	{
-		var s = this.__sprites = [],
-		    w = this.width() / x,
-		    h = this.height() / y,
+		b = b || 0;
+
+		var
+		    b2= 2*b,
+		    w = this.width() / x - b2,
+		    h = this.height() / y - b2,
 		    r,c,
 		    src = this.source().source()
 		;
 
 		for (r=0; r < y; r++)
 			for (c=0; c < x; c++)
-				s.push(this.cut(c*w, r*h, w, h));
+				this.cut(c*(w+b2)+b, r*(h+b2)+b, w, h);
 
 		return this;
 	}

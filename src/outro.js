@@ -24,6 +24,7 @@ $.Spritesheet = Spritesheet;
 $.Text = Text;
 $.Tween = Tween;
 $.Physics = Physics;
+$.Map = Map;
 
 $.action = f(Action);
 $.clip   = f(Clip);
@@ -37,5 +38,7 @@ $.spritesheet = f(Spritesheet);
 $.text   = f(Text);
 $.tween  = f(Tween);
 $.physics= f(Physics);
+$.map    = f(Map);
+
 
 })(this, document);
