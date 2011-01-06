@@ -5,7 +5,15 @@ body {
 
 a { color: #ddd; }
 
-header > nav { float: right; }
+header > nav { float: right; font-size: 16px; }
 
-#banner { height: 150px; background: #999; }
-.buy-now { background: #c09; color: #ccc; font-size: 16px; }
+#banner { height: 150px; background: #999; margin-bottom: 20px; }
+.buy-now { 
+	background: #c09; color: #ccc; font-size: 20px; 
+	font-weight: bold; border-radius: 4px; border: 1px solid #ccc;
+	text-decoration: none; text-align: center;
+	display: inline-block; padding: 4px 8px;
+	float: right;
+}
+
+footer { text-align: center; line-height: 40px; }
