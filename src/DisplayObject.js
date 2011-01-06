@@ -96,6 +96,16 @@ DisplayObject = Class.extend({
 		return this.scaleY(sy);
 	},
 
+	/**
+	 * Moves Display Object relative to the current position
+	 */
+	move: function(x, y)
+	{
+		this.__x += x;
+		this.__y += y;
+		return this;
+	},
+
 	remove: function()
 	{
 		this.parent().remove_child(this);
