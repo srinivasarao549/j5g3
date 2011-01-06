@@ -11,6 +11,9 @@ Clip = DisplayObject.extend(
 {
 	init: function(properties)
 	{
+		if (properties instanceof Array)
+			properties = { frames: properties };
+
 		_extend(this, properties);
 
 		// TODO This might be dangerous if we decide to change the internal storage of
@@ -25,12 +28,9 @@ Clip = DisplayObject.extend(
 	/**
 	 * Returns current frame objects.
 	 */
-	frame : function() 
+	frame: function() 
 	{
-		var f = this.frames()[this._frame]; 
-		if (this._playing)
-			this.nextFrame();
-		return f; 
+		return this.frames()[this._frame]; 
 	},
 
 	/**
@@ -90,9 +90,28 @@ Clip = DisplayObject.extend(
 		return this;
 	},
 
+	/**
+	 * Returns all children in all frames
+	 */
+	children: function()
+	{
+		var fs = this.frames(), l=fs.length, i=0, a, children=[], cf, cfl;
+		for(;i<l;i++)
+		{
+			cf = fs[i]; cfl=cf.length;			
+			for (a=0; a<cfl; a++)
+				children.push(cf[a]);
+		}
+
+		return children;
+	},
+
+	/**
+	 * Aligns all children
+	 */
 	align_children : function(alignment)
 	{
-		var frm = this.frame(), i=frm.length;
+		var frm = this.children(), i=frm.length;
 
 		while (i--)
 			if (frm[i].align)
@@ -106,7 +125,7 @@ Clip = DisplayObject.extend(
 	 */
 	at: function(x, y)
 	{
-		var frame = this.frame(), i;
+		var frame = this.__frame, i;
 
 		for (i =0;i<frame.length; i++)
 			if (frame[i].visible() && Collision.Point.apply(frame[i], [x, y]))

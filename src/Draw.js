@@ -29,6 +29,9 @@ Draw =
 	{
 		var frame = this.frame(),i=0,l=frame.length;
 
+		if (this._playing)
+			this.nextFrame();
+
 		for (i=0; i<l;i++)
 			frame[i].draw();
 	},
