@@ -31,11 +31,13 @@ function game($)
 	    {
 	    	if (ball.collides(player))
 		{
+			ball.x(player.x()+8);
 			p.v()[0] = maxvx;
 			p.force(0, player.F);
 			sound.play();
 		} else if (ball.collides(computer))
 		{
+			ball.x(computer.x()-8);
 			p.v()[0] = -maxvx;
 			p.force(0, computer.a);
 			sound.play();
