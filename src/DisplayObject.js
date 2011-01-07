@@ -71,6 +71,8 @@ DisplayObject = Class.extend({
 		case 'right':   this.x(container.width() - this.width()); break;
 		case 'middle':  this.y(container.height() / 2); break;
 		case 'origin':  this.pos(-this.width()/2, -this.height()/2); break;
+		case 'origin top': this.pos(-this.width()/2, -this.height()); break;
+		case 'origin bottom': this.pos(-this.width()/2, 0); break;
 		}
 		return this;
 	},
