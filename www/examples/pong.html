@@ -27,6 +27,12 @@ function game($)
 		computer.y(100);
 		computer.v = 0;
 	    },
+	    wall = function(newy)
+	    {
+	    	ball.y(newy);
+		p.force(0, -2 * p.v()[1]);
+		sound.play();
+	    },
 	    update = function()
 	    {
 	    	if (ball.collides(player))
@@ -45,11 +51,11 @@ function game($)
 			restart(score2);
 		else if (ball.x() > 320)
 			restart(score1);
-		else if (ball.y() <= 0 || ball.y() >= 232)
-		{
-			p.force(0, -2 * p.v()[1]);
-			sound.play();
-		}
+		else if (ball.y() <= 0)
+			wall(0);
+		else if (ball.y() >= 232)
+			wall(232);
+
 		player.F = 0;
 	    },
 
