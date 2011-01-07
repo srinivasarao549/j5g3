@@ -24,12 +24,13 @@ var
 		    action = $.action(function() {
 		    	var dx = (320-world.x())-sh.x(), 
 			    dy = (240-world.y())-sh.y(), 
-			    a  = Math.atan(dx/dy)
-			   // h  = Math.abs(Math.cos(a))
+			    a  = Math.atan(dx/dy),
+			    h  = Math.abs(Math.cos(a)/2)
 			;
 
-			sh.scaleY(dy>0 ? 1 : -1).rotation(dy>0 ? -a : a)
-			//.skewX(dy>0 ? a : Math.PI-a)
+			sh.scaleY(dy>0 ? h : -h)
+			 // .rotation(dy>0 ? -a : a)
+			  .skewX(dy>0 ? a : Math.PI-a)
 			;
 		    }),
 		    clip   = $.clip([[ sh, ss.clip(s).pos(x,y).align_children('origin top'), action ]])
