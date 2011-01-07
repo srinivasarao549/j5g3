@@ -25,12 +25,12 @@ var
 		    	var dx = (320-world.x())-sh.x(), 
 			    dy = (240-world.y())-sh.y(), 
 			    a  = Math.atan(dx/dy),
-			    h  = Math.abs(Math.cos(a)/2)
+			    h  = Math.abs(Math.cos(a))
 			;
 
 			sh.scaleY(dy>0 ? h : -h)
-			 // .rotation(dy>0 ? -a : a)
-			  .skewX(dy>0 ? a : Math.PI-a)
+			  .rotation(dy>0 ? -a : a)
+			 // .skewX(dy>0 ? a : Math.PI-a)
 			;
 		    }),
 		    clip   = $.clip([[ sh, ss.clip(s).pos(x,y).align_children('origin top'), action ]])
