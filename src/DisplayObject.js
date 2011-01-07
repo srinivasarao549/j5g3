@@ -8,6 +8,7 @@ DisplayObject = Class.extend({
 	{
 		_extend(this, properties);
 		this._dirty = true;
+		this.__apply_transform = function() { };
 	}, 
 
 	/**
@@ -20,6 +21,13 @@ DisplayObject = Class.extend({
 		context.translate(this.x(), this.y());
 		context.scale(this.scaleX(), this.scaleY());
 		context.rotate(this.rotation());
+
+		if (this.__skewX)
+			context.transform(1, 0, Math.tan(this.__skewX), 1, 0, 0);
+		if (this.__skewY)
+			context.transform(1, Math.tan(this.__skewY), 0, 1, 0, 0);
+
+		this.__apply_transform();
 	},
 
 	/**
@@ -96,6 +104,24 @@ DisplayObject = Class.extend({
 		return this.scaleY(sy);
 	},
 
+	/** 
+	 * Multiplies current Transformation matrix with the passed matrix values. 
+	 * This is applied after rotation, scaling and translation
+	 */
+	transform: function(a, b, c, d, e, f)
+	{
+		this.__apply_transform = function() { context.transform(a, b, c, d, e, f); };		
+		return this;
+	},
+
+	/**
+	 * Skews an Image in the x and y axis. Value is in radians.
+	 */
+	skew: function(x, y)
+	{
+		return this.skewX(x).skewY(y);
+	},
+
 	/**
 	 * Moves Display Object relative to the current position
 	 */
@@ -122,5 +148,6 @@ DisplayObject = Class.extend({
 	}
 	
 }).properties({
-	source: null, parent: null, x: 0, y:0, width: null, height: null, rotation: 0, scaleX: 1, scaleY: 1, alpha: 1
+	source: null, parent: null, x: 0, y:0, width: null, height: null, rotation: 0, scaleX: 1, scaleY: 1, alpha: 1,
+	skewX: null, skewY: null
 });
