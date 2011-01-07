@@ -1,0 +1,94 @@
+<html>
+<head>
+	<title>JSGE - Dynamic Shadows</title>
+	<script src="../../build/j5g3.js"></script>
+	<script src="../../src/Debug.js"></script>
+	<script src="skeleton.js"></script>
+<script>
+
+function game($)
+{
+var
+	/* Generates Random X */
+	rx = function() { return Math.random() * 640; },
+	ry = function() { return Math.random() * 480; },
+
+	shadows = $.spritesheet('skeleton-shadow').grid(9,8),
+
+	/* Creates Shadow */
+	shadow = function(s)
+	{
+		var x = rx(), y = ry(),
+		    sh = shadows.clip(s).align_children('origin top').pos(x,y-9).alpha(0.7)
+		;
+		    action = $.action(function() {
+		    	var dx = (320-world.x())-sh.x(), dy=(240-world.y())-sh.y(), a=Math.atan(dx/dy);
+			sh.scaleY(dy>0 ? 1 : -1)
+			.skewX(dy>0 ? a : Math.PI-a)
+			;
+		    }),
+		    clip   = $.clip([[ sh, ss.clip(s).pos(x,y).align_children('origin top'), action ]])
+		;
+
+		return clip;
+	},
+
+	ss = $.spritesheet('skeleton').grid(9,8),
+	/* Terrain Sprites */
+	ts = $.spritesheet('terrain').grid(12, 12, 1),
+
+	map = [
+		[ 118, 140, 140, 140, 140, 140, 140, 140, 140, 140, 140, 140, 119 ],
+		[ 129, 125, 125, 125, 125, 125, 125, 125, 125, 125, 125, 125, 127 ],
+		[ 129, 125, 125, 125, 125, 125, 125, 125, 125, 125, 125, 125, 127 ],
+		[ 129, 125, 125, 125, 125, 125, 125, 125, 125, 125, 125, 125, 127 ],
+		[ 129, 125, 125, 125, 125, 125, 125, 125, 125, 125, 125, 125, 127 ],
+		[ 129, 125, 125, 125, 125, 125, 125, 125, 125, 125, 125, 125, 127 ],
+		[ 129, 125, 125, 125, 125, 125, 125, 125, 125, 125, 125, 125, 127 ],
+		[ 129, 125, 125, 125, 125, 125, 125, 125, 125, 125, 125, 125, 127 ],
+		[ 129, 125, 125, 125, 125, 125, 125, 125, 125, 125, 125, 125, 127 ],
+		[ 130, 116, 116, 116, 116, 116, 116, 116, 116, 116, 116, 116, 131 ]
+	],
+
+	light   = $.image('light'),
+	player  = new Skeleton(),
+	enemies = $.clip({ frames: [[ 
+		shadow(0), shadow(18), shadow(36), shadow(54)
+	]] }),
+
+	terrain = $.map({ 'map': map, sprites : ts.sprites(), tw: 48, th: 48 }),
+
+	world = $.clip([[terrain, enemies]]),
+
+	keyboard = $.Input.Keyboard,
+
+	input = function()
+	{
+		if (keyboard[37]) world.move(3, 0);
+		if (keyboard[38]) world.move(0, 3); 
+		if (keyboard[39]) world.move(-3, 0); 
+		if (keyboard[40]) world.move(0,-3);  
+	}
+;
+	player.pos(320, 220);
+
+	$.root.add([world, player, light, input]);
+
+	$.run();
+}
+	
+</script>
+	<style>
+		body { margin: 0; }
+		canvas { width: 640px; height: 480px; }
+	</style>
+</head>
+<body onload="j5g3.start(game);">
+	<canvas id="screen"></canvas>
+	<div id="assets" style="display: none;">
+		<img id="skeleton" src="skeleton.png" />
+		<img id="skeleton-shadow" src="skeleton-shadow.png" />
+		<img id="light" src="light.png" />
+		<img id="terrain" src="terrain-low.jpg" />
+	</div>
+</body>
