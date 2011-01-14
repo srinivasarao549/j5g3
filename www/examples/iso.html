@@ -54,11 +54,14 @@ var
 			else
 				continue;
 
-			if (x>0 && y>0) pts.push([x, y-1, pt[2]]);
-			if (y>0 && x<MAP_WIDTH-1) pts.push([x+1, y-1, pt[2]]);
+			i=y%2;
 
-			if (x<MAP_WIDTH-1 && y<MAP_HEIGHT-1) pts.push([x+1, y+1, pt[2]]);
-			if (y<MAP_HEIGHT-1 && x>0) pts.push([x,y+1, pt[2]]);
+
+			if (x>0 && y>0) pts.push([x-i, y-1, pt[2]]);
+			if (y>0 && x<MAP_WIDTH-1+i) pts.push([x+1-i, y-1, pt[2]]);
+
+			if (x<MAP_WIDTH-1+i && y<MAP_HEIGHT-1) pts.push([x+1-i, y+1, pt[2]]);
+			if (y<MAP_HEIGHT-1 && x>0) pts.push([x-i,y+1, pt[2]]);
 		}
 
 		// Refresh screen
@@ -75,7 +78,7 @@ var
 			[ rand(MAP_WIDTH), rand(MAP_HEIGHT), [6, 7]],
 		        [ rand(MAP_WIDTH), rand(MAP_HEIGHT), [2, 3]],
 			[ rand(MAP_WIDTH), rand(MAP_HEIGHT), [4, 5]],
-			[ rand(MAP_WIDTH), rand(MAP_HEIGHT), [8, 0]]
+			[ rand(MAP_WIDTH), rand(MAP_HEIGHT), [8, 9]]
 		]);
 	},
 	map = $.map({ x: -32, y: -16, sprites: terrain.sprites(), th: 32, tw:64, 'map': mapa})
