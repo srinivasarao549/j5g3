@@ -28,8 +28,10 @@ var
 			    h  = Math.abs(Math.cos(a))
 			;
 
-			sh.scaleY(dy>0 ? h : -h)
+			sh//.scaleY(dy>0 ? h : -h)
+			  .scaleY(dy>0 ? 1 : -1)
 			  .rotation(dy>0 ? -a : a)
+			  .alpha(1-Math.abs(dy/h)/300)
 			 // .skewX(dy>0 ? a : Math.PI-a)
 			;
 		    }),
@@ -74,9 +76,13 @@ var
 		if (keyboard[38]) world.move(0, 3); 
 		if (keyboard[39]) world.move(-3, 0); 
 		if (keyboard[40]) world.move(0,-3);  
-	}
+	},
+
+	frames = player.pos(310, 220).frames(),
+	lb = $.image('lightbulb').pos(-9, -48).scale(0.5,0.5)
 ;
-	player.pos(310, 220);
+	frames[0].push(lb);
+	frames[1].push(lb);
 
 	$.root.add([world, player, light, input]);
 
@@ -84,17 +90,19 @@ var
 }
 	
 </script>
-	<style>
-		body { margin: 0; }
-		canvas { width: 640px; height: 480px; }
-	</style>
+	<link rel="stylesheet" href="styles.css" />
 </head>
 <body onload="j5g3.start(game);">
+	<img src="../j5g3.png" />
+	<h1>Shadows</h1>
 	<canvas id="screen"></canvas>
+	<h2>Instructions</h2>
+	<p>Use the arrows to move.</p>
 	<div id="assets" style="display: none;">
 		<img id="skeleton" src="skeleton.png" />
 		<img id="skeleton-shadow" src="skeleton-shadow.png" />
 		<img id="light" src="light.png" />
+		<img id="lightbulb" src="lightbulb.png" />
 		<img id="terrain" src="terrain-low.jpg" />
 	</div>
 </body>
