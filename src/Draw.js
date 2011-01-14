@@ -56,6 +56,24 @@ Draw =
 				context.drawImage(s.image, s.x, s.y, s.w, s.h, x*this.__tw, y*this.__th, this.__tw, this.__th);
 			}
 		}
+	},
+
+	/* TODO Optimize This */
+	Isometric: function()
+	{
+		var map = this.__map, y = map.length, x, sprites = this.__sprites, s, cm, tw2=this.__tw/2, th2=this.__th/2, offset;
+		while (y--)
+		{
+			x = map[y].length;
+			cm= map[y];
+			offset = (y%2)*tw2;
+			while (x--)
+			{
+				s = sprites[cm[x]].__source;
+				context.drawImage(s.image, s.x, s.y, s.w, s.h, x*this.__tw-offset, y*th2, this.__tw, this.__th);
+			}
+		}
+		
 	}
 
 };

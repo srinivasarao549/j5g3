@@ -1,0 +1,103 @@
+<html>
+<head>
+	<title>JSGE - Dynamic Shadows</title>
+	<script src="../../build/j5g3.js"></script>
+	<script src="../../src/Debug.js"></script>
+<script>
+
+function game($)
+{
+var
+	/** @const */ MAP_WIDTH = 11,
+	/** @const */ MAP_HEIGHT= 31,
+
+	terrain = $.spritesheet('terrain').grid(10, 10, 1),
+
+	i, a,
+	pt, x, y
+
+	mapa = (function() { 
+		i=MAP_HEIGHT;
+		a=[];
+		while (i--) 
+		{
+			a[i]= new Array(MAP_WIDTH);
+			x=MAP_WIDTH;
+			while (x--)
+				a[i][x]=0;
+		}
+		return a;
+	})(),
+
+	geti = function(x, y) { return mapa[y][x]; },
+	rand = function(max) { return Math.floor(Math.random() * max); },
+
+	sleep = function(msec)
+	{
+		var start = new Date().getTime();
+		while (new Date().getTime() < start+msec);
+	},
+
+	/**
+	 * points Array of points to modify. [x, y, sprite_index array]
+	 */
+	expand = window.expand = function(points)
+	{
+		var pts = window.pts = [];
+
+		a = points.length;
+		while (a--) {
+			pt = points[a];
+			x  = pt[0]; y=pt[1];
+			if (geti(x, y)==0)
+				mapa[y][x]= pt[2][rand(pt[2].length)];
+			else
+				continue;
+
+			if (x>0 && y>0) pts.push([x, y-1, pt[2]]);
+			if (y>0 && x<MAP_WIDTH-1) pts.push([x+1, y-1, pt[2]]);
+
+			if (x<MAP_WIDTH-1 && y<MAP_HEIGHT-1) pts.push([x+1, y+1, pt[2]]);
+			if (y<MAP_HEIGHT-1 && x>0) pts.push([x,y+1, pt[2]]);
+		}
+
+		// Refresh screen
+		//$.gameLoop();
+
+		if (pts.length)
+			setTimeout("expand(pts)", 250);
+	},
+
+	/* Generate a 11x30 map */
+	genmap = function()
+	{
+		expand([
+			[ rand(MAP_WIDTH), rand(MAP_HEIGHT), [6, 7]],
+		        [ rand(MAP_WIDTH), rand(MAP_HEIGHT), [2, 3]],
+			[ rand(MAP_WIDTH), rand(MAP_HEIGHT), [4, 5]],
+			[ rand(MAP_WIDTH), rand(MAP_HEIGHT), [8, 0]]
+		]);
+	},
+	map = $.map({ x: -32, y: -16, sprites: terrain.sprites(), th: 32, tw:64, 'map': mapa})
+;
+
+	map.paint = $.Draw.Isometric;
+	$.root.add([map]);
+	setTimeout(genmap, 250);
+	$.run();
+}
+
+</script>
+	<link rel="stylesheet" href="styles.css" />
+</head>
+<body onload="j5g3.start(game);">
+	<img src="../j5g3.png" />
+	<h1>Isometric</h1>
+	<canvas id="screen"></canvas>
+	<h2>Instructions</h2>
+	<p>Use the arrows to move.</p>
+
+	<div id="assets"> 
+		<img id="terrain" src="iso.png" />
+	</div>
+</body>
