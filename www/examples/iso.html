@@ -16,6 +16,7 @@ var
 	i, a,
 	pt, x, y
 
+	/* Initialize Map to zero so the animation is possible */
 	mapa = (function() { 
 		i=MAP_HEIGHT;
 		a=[];
@@ -29,14 +30,7 @@ var
 		return a;
 	})(),
 
-	geti = function(x, y) { return mapa[y][x]; },
 	rand = function(max) { return Math.floor(Math.random() * max); },
-
-	sleep = function(msec)
-	{
-		var start = new Date().getTime();
-		while (new Date().getTime() < start+msec);
-	},
 
 	/**
 	 * points Array of points to modify. [x, y, sprite_index array]
@@ -49,7 +43,7 @@ var
 		while (a--) {
 			pt = points[a];
 			x  = pt[0]; y=pt[1];
-			if (geti(x, y)==0)
+			if (mapa[y][x]==0)
 				mapa[y][x]= pt[2][rand(pt[2].length)];
 			else
 				continue;
@@ -63,9 +57,6 @@ var
 			if (x<MAP_WIDTH-1+i && y<MAP_HEIGHT-1) pts.push([x+1-i, y+1, pt[2]]);
 			if (y<MAP_HEIGHT-1 && x>0) pts.push([x-i,y+1, pt[2]]);
 		}
-
-		// Refresh screen
-		//$.gameLoop();
 
 		if (pts.length)
 			setTimeout("expand(pts)", 250);
@@ -94,7 +85,7 @@ var
 	<link rel="stylesheet" href="styles.css" />
 </head>
 <body onload="j5g3.start(game);">
-	<img src="../j5g3.png" />
+	<!--<img src="../j5g3.png" />-->
 	<h1>Isometric</h1>
 	<canvas id="screen"></canvas>
 	<h2>Instructions</h2>
