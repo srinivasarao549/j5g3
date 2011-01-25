@@ -22,16 +22,10 @@ Collision = {
 	{
 		var dx = this.__x - b.__x,
 		    dy = this.__y - b.__y,
-		    w  = this.width(),
-		    d2
+		    w  = this.__width
 		;
 
-		if (Math.abs(dx) > w || Math.abs(dy) > w)
-			return false;
-
-		d2 = dx*dx + dy*dy;
-
-		return (d2 <= w*w);
+		return (dx*dx+dy*dy <= w*w);
 	},
 
 	/**
