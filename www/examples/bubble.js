@@ -41,8 +41,8 @@ var
 
 			    collide = function(obj)
 			    {
-				var dx = self.x() - obj.x(),
-				    dy = self.y() - obj.y(),
+				var dx = self.__x - obj.__x,
+				    dy = self.__y - obj.__y,
 				    dvx = velocity.x - obj.velocity.x,
 				    dvy = velocity.y - obj.velocity.y,
 				    mag = dvx * dx + dvy * dy;
@@ -73,8 +73,8 @@ var
 					
 			this.paint = function()
 			{
-				this.x(this.x() + velocity.x);
-				this.y(this.y() + velocity.y);
+				this.__x = this.__x + velocity.x; 
+				this.__y = this.__y + velocity.y;
 
 				// wall collission
 				checkCollision('x', canvas.width);
