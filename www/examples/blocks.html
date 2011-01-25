@@ -8,13 +8,19 @@ function game($)
 {
 var
 	// CONSTANTS
-	BLOCK_WIDTH = 32,
-	BLOCK_HEIGHT= 32,
+	BLOCK_WIDTH = 24,
+	BLOCK_HEIGHT= 24,
 	BLOCK_PIECES= 7,
+	BLOCK_COLORS=4,
 
 	// Our Spritesheet
-	ss = $.spritesheet('ss'),
-
+	ss = $.spritesheet('spritesheet')
+	      .push(0,130,48,48)
+	      .push(0,15,48,48)
+	      .push(0,15,48,48)
+	      .push(0,15,48,48)
+	      .push(0,15,48,48)
+	,
 	get_map = function(piece, c)
 	{
 		switch (piece) {
@@ -32,10 +38,37 @@ var
 	{
 		var result = $.map({ sprites: ss.sprites(), map: get_map(template, color), tw: BLOCK_WIDTH, th: BLOCK_HEIGHT}); 
 		return result;		
-	}
-;
+	},
 
-	$.root.add([background]);
+	get_next = function()
+	{
+		return piece(Math.floor(Math.random()*BLOCK_PIECES), Math.ceil(Math.random()*BLOCK_COLORS));
+	},
+
+	background = $.image('background'),
+	next = get_next().pos(48,48),
+	board= $.clip().pos(200, 48),
+	current = get_next(),
+
+	gravity = function() {
+		current.__y = (current.__y + 1);
+	},
+	keyboard = function(evt) {
+		switch(evt.keyCode) {
+		case 38: rotate(); break;
+		case 37: left(); break;
+		case 39: right(); break;
+		case 40: down(); break;
+		}
+	},
+	speed = 250
+;
+	board.add(current);
+	setInterval(gravity, speed);
+	window.addEventListener('keypress', keyboard);
+
+	$.background.fillStyle('#006');
+	$.root.add([background, next, board]);
 	$.run();
 }
 </script>
@@ -46,6 +79,7 @@ var
 	<canvas id="screen"></canvas>
 	<h2>Instructions</h2>
 	<div id="assets"> 
-		<img id="terrain" src="iso.png" />
+		<img id="spritesheet" src="blocks-ss.png" />
+		<img id="background" src="light.png">
 	</div>
 </body>

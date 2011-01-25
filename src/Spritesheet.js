@@ -62,6 +62,15 @@ Spritesheet = Class.extend({
 	},
 
 	/**
+	 * Cuts a sprite and returns the ss object.
+	 */
+	push: function(x, y, w, h)
+	{
+		this.cut(x, y, w, h);
+		return this;
+	},
+
+	/**
 	 * Returns a Sprite object from a section of the Spritesheet. It also adds it to the sprites list.
 	 */
 	cut: function(x, y, w, h)
