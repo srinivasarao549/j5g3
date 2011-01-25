@@ -134,12 +134,10 @@ Clip = DisplayObject.extend(
 
 	remove_child: function(child)
 	{
-		var frames = this.frames(),
-		    i,a
-		;
+		var frames = this.frames(), i=frames.length,a ;
 
-		for (i=0; i<frames.length; i++)
-			if (a = frames[i].indexOf(child))
+		while (i--)
+			if (-1 != (a = frames[i].indexOf(child)))
 			{
 				frames[i].splice(a, 1);
 				return this.invalidate();

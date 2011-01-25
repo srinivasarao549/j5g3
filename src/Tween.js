@@ -5,11 +5,11 @@
  *
  * properties can be a DisplayObject or a properties Object.
  *
- * auto_remove Boolean         Removes tween from clip at the end.
+ * auto_remove Boolean         Removes tween from clip at the end. Defaults to false.
  * target    DisplayObject     Object to animate.
  * from      Object            Start Value(s)
  * to        Object            Final Value(s)
- * duration  int               Duration of tween in frames.
+ * duration  int               Duration of tween in frames. Default to 100 frames.
  * repeat    int               How many times to repeat.
  * t         int               Current Time of the animation.
  *

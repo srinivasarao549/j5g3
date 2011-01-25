@@ -137,6 +137,7 @@ DisplayObject = Class.extend({
 	remove: function()
 	{
 		this.parent().remove_child(this);
+		return this;
 	},
 
 	visible: function()

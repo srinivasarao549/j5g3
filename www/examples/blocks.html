@@ -11,16 +11,14 @@ var
 	BLOCK_WIDTH = 24,
 	BLOCK_HEIGHT= 24,
 	BLOCK_PIECES= 7,
-	BLOCK_COLORS=4,
+	BLOCK_COLORS= 9,
+	BOARD_WIDTH = 10,
+	BOARD_HEIGHT= 15,
+	PIECE_WIDTH = [2,1,2,2,2,2,2],
 
 	// Our Spritesheet
-	ss = $.spritesheet('spritesheet')
-	      .push(0,130,48,48)
-	      .push(0,15,48,48)
-	      .push(0,15,48,48)
-	      .push(0,15,48,48)
-	      .push(0,15,48,48)
-	,
+	ss = $.spritesheet('spritesheet').grid(10,2),
+
 	get_map = function(piece, c)
 	{
 		switch (piece) {
@@ -40,19 +38,56 @@ var
 		return result;		
 	},
 
+	/* Gets next piece as a clip, and centers it to its origin */
 	get_next = function()
 	{
-		return piece(Math.floor(Math.random()*BLOCK_PIECES), Math.ceil(Math.random()*BLOCK_COLORS));
+		var t = Math.floor(Math.random()*BLOCK_PIECES),
+		    p = piece(t, Math.ceil(Math.random()*BLOCK_COLORS))
+		;
+		p.width(BLOCK_WIDTH*PIECE_WIDTH[t])
+		 .height(BLOCK_HEIGHT*p.__map.length)
+		;
+
+		return $.clip([[ p ]]).align_children('origin');
 	},
 
 	background = $.image('background'),
-	next = get_next().pos(48,48),
-	board= $.clip().pos(200, 48),
-	current = get_next(),
+	next = get_next(),
+	next_box = $.clip({x: 48, y: 100}).add(next),
+	board= $.clip().pos(200, 48).size(BLOCK_WIDTH*BOARD_WIDTH, BLOCK_HEIGHT*BOARD_HEIGHT),
+	current,
+
+	go_next = function() {
+		board.add(current = next.remove());
+		next_box.add(next = get_next());
+	},
 
 	gravity = function() {
 		current.__y = (current.__y + 1);
+		if (current.__y >= 400)
+			go_next();
 	},
+	rotate = function()
+	{
+		$.root.add($.tween({ target: current, auto_remove: true, duration: 10, from: { rotation: current.__rotation }, to: { rotation: current.__rotation + Math.PI/2} }));
+	},
+
+	left = function()
+	{
+		if (current.__x > 0)
+			$.root.add($.tween({ target: current, auto_remove: true, duration: 3, from: { x: current.__x }, to: { x: current.__x-BLOCK_WIDTH} }));
+	},
+
+	right = function()
+	{
+		if (current.__x < board.__width)
+			$.root.add($.tween({ target: current, auto_remove: true, duration: 3, from: { x: current.__x }, to: { x: current.__x+BLOCK_WIDTH} }));
+	},
+
+	down = function()
+	{
+	},
+
 	keyboard = function(evt) {
 		switch(evt.keyCode) {
 		case 38: rotate(); break;
@@ -61,14 +96,14 @@ var
 		case 40: down(); break;
 		}
 	},
-	speed = 250
+	speed = 10
 ;
-	board.add(current);
+	go_next();
 	setInterval(gravity, speed);
-	window.addEventListener('keypress', keyboard);
+	window.addEventListener('keyup', keyboard);
 
 	$.background.fillStyle('#006');
-	$.root.add([background, next, board]);
+	$.root.add([background, next_box, board]);
 	$.run();
 }
 </script>
