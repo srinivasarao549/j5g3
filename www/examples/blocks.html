@@ -1,0 +1,51 @@
+<html>
+<head>
+	<title>JSGE - Blocks Game</title>
+	<script src="../../build/j5g3.js"></script>
+	<script src="../../src/Debug.js"></script>
+<script>
+function game($)
+{
+var
+	// CONSTANTS
+	BLOCK_WIDTH = 32,
+	BLOCK_HEIGHT= 32,
+	BLOCK_PIECES= 7,
+
+	// Our Spritesheet
+	ss = $.spritesheet('ss'),
+
+	get_map = function(piece, c)
+	{
+		switch (piece) {
+		case 0: return [[c],[c],[c,c]];
+		case 1: return [[c],[c],[c],[c]];
+		case 2: return [[c],[c,c],[c]];
+		case 3: return [[c,c],[c,c]];
+		case 4: return [[0,c],[0,c],[c,c]];
+		case 5: return [[0,c],[c,c],[c]];
+		case 6: return [[c],[c,c],[0,c]];
+		}
+	},
+	// Creates a new map object based on the template and color specified
+	piece = function(template, color)
+	{
+		var result = $.map({ sprites: ss.sprites(), map: get_map(template, color), tw: BLOCK_WIDTH, th: BLOCK_HEIGHT}); 
+		return result;		
+	}
+;
+
+	$.root.add([background]);
+	$.run();
+}
+</script>
+	<link rel="stylesheet" href="styles.css" />
+</head>
+<body onload="j5g3.start(game);">
+	<h1>Blocks</h1>
+	<canvas id="screen"></canvas>
+	<h2>Instructions</h2>
+	<div id="assets"> 
+		<img id="terrain" src="iso.png" />
+	</div>
+</body>
