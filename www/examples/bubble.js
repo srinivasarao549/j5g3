@@ -86,19 +86,24 @@ var
 	}),
 	update = function()
 	{
-		var objs = $.root.frame(), i=0, j;
+		var j, i=max_balls;
 
-		for (; i < max_balls; i++)
-			for (j = i+1; j < max_balls; j++)
+		while (i--)
+		{
+			j=i;
+			while (j--)
 				if (objs[i].collides(objs[j]))
 					objs[i].collide(objs[j]);
-	}
+		}
+	},
+	objs
 
 ;
-	$.fps(60);
+	$.fps(1000);
 
 	for (i = 0; i < max_balls; i++)
 		$.root.add(new Ball());
+	objs = $.root.frame();
 
 	$.root.add(update);
 	$.run();

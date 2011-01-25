@@ -20,15 +20,16 @@ Collision = {
 	 */
 	Circle: function(b) 
 	{
-		var dx = this.x() - b.x(),
-		    dy = this.y() - b.y(),
-		    w  = this.width()
+		var dx = this.__x - b.__x,
+		    dy = this.__y - b.__y,
+		    w  = this.width(),
+		    d2
 		;
 
 		if (Math.abs(dx) > w || Math.abs(dy) > w)
 			return false;
 
-		var d2 = dx*dx + dy*dy;
+		d2 = dx*dx + dy*dy;
 
 		return (d2 <= w*w);
 	},
