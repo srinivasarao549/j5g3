@@ -4,12 +4,16 @@
  */
 DisplayObject = Class.extend({
 
+	/** @constructor */
 	init: function(properties)
 	{
 		_extend(this, properties);
-		this._dirty = true;
-		this.__apply_transform = function() { };
 	}, 
+
+
+	_dirty: true,
+	_apply_transform: function() { },
+
 
 	/**
 	 * Save Transform Matrix and apply transformations.
@@ -27,7 +31,7 @@ DisplayObject = Class.extend({
 		if (this.__skewY)
 			context.transform(1, Math.tan(this.__skewY), 0, 1, 0, 0);
 
-		this.__apply_transform();
+		this._apply_transform();
 	},
 
 	/**
@@ -112,7 +116,7 @@ DisplayObject = Class.extend({
 	 */
 	transform: function(a, b, c, d, e, f)
 	{
-		this.__apply_transform = function() { context.transform(a, b, c, d, e, f); };		
+		this._apply_transform = function() { context.transform(a, b, c, d, e, f); };		
 		return this;
 	},
 

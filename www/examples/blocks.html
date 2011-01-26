@@ -18,37 +18,45 @@ var
 
 	// Our Spritesheet
 	ss = $.spritesheet('spritesheet').grid(10,2),
-
-	get_map = function(piece, c)
-	{
-		switch (piece) {
-		case 0: return [[c],[c],[c,c]];
-		case 1: return [[c],[c],[c],[c]];
-		case 2: return [[c],[c,c],[c]];
-		case 3: return [[c,c],[c,c]];
-		case 4: return [[0,c],[0,c],[c,c]];
-		case 5: return [[0,c],[c,c],[c]];
-		case 6: return [[c],[c,c],[0,c]];
-		}
-	},
-	// Creates a new map object based on the template and color specified
-	piece = function(template, color)
-	{
-		var result = $.map({ sprites: ss.sprites(), map: get_map(template, color), tw: BLOCK_WIDTH, th: BLOCK_HEIGHT}); 
-		result.width(BLOCK_WIDTH*PIECE_WIDTH[template])
-		      .height(BLOCK_HEIGHT*result.__map.length)
-		;
-		return result;		
-	},
-
+	
+	/* CLASSES */
 
 	Piece = $.Clip.extend({
 
+		/* private */
+		_get_map: function(piece, c)
+		{
+			switch (piece) {
+			case 0: return [[c],[c],[c,c]];
+			case 1: return [[c],[c],[c],[c]];
+			case 2: return [[c],[c,c],[c]];
+			case 3: return [[c,c],[c,c]];
+			case 4: return [[0,c],[0,c],[c,c]];
+			case 5: return [[0,c],[c,c],[c]];
+			case 6: return [[c],[c,c],[0,c]];
+			}
+		},
+
+		// Creates a new map object based on the template and color specified
+		_piece: function(template, color)
+		{
+			var result = $.map({ sprites: ss.sprites(), map: this._get_map(template, color), tw: BLOCK_WIDTH, th: BLOCK_HEIGHT}); 
+			result.width(BLOCK_WIDTH*PIECE_WIDTH[template])
+			      .height(BLOCK_HEIGHT*result.__map.length)
+			;
+			return result;		
+		},
+
+		/* constructor */
 		init: function(properties)
 		{
-			properties.map = piece(properties.piece, properties.color);
-			this.add(properties.map);
-			this.__super(properties);
+			var p = this._piece(properties.piece, properties.color);
+
+			this._super(properties);
+			this.add(p)
+			    .size(p.width(), p.height())
+			    .align_children('origin')
+			;
 		},
 
 		tween: function(property, to)
@@ -74,27 +82,19 @@ var
 		}
 	}),
 
-
 	/* Gets next piece as a clip, and centers it to its origin */
 	get_next = function()
 	{
-		var t = Math.floor(Math.random()*BLOCK_PIECES);
-		    p = piece(t, Math.ceil(Math.random()*BLOCK_COLORS))
-		;
-
-		return new Piece({ template: t, color: Math.ceil(Math.random()*BLOCK_COLORS)});
-
-		return $.clip([[ p ]]).x(Math.floor(BOARD_WIDTH/2)*BLOCK_WIDTH).width(p.width()).height(p.height()).align_children('origin');
+		return new Piece({ 
+			piece: Math.floor(Math.random()*BLOCK_PIECES), 
+			color: Math.ceil(Math.random()*BLOCK_COLORS)
+		});
 	},
 
-	background = $.image('background'),
-	next = get_next(),
-	next_box = $.clip({x: -48, y: 100}).add(next),
-	board= $.clip().pos(200, 48).size(BLOCK_WIDTH*BOARD_WIDTH, BLOCK_HEIGHT*BOARD_HEIGHT),
-	current,
 
 	go_next = function() {
-		board.add(current = next.remove());
+		current = next.remove().x(Math.floor(BOARD_WIDTH/2)*BLOCK_WIDTH);
+		board.add(current);
 		next_box.add(next = get_next());
 	},
 
@@ -117,7 +117,15 @@ var
 		case 40: down(); break;
 		}
 	},
-	speed = 10
+	speed = 10,
+
+	// Screen Elementj
+	background = $.image('background'),
+	next = get_next(),
+	current,
+	next_box = $.clip({x: 48, y: 100}).add(next),
+	board= $.clip().pos(200, 48).size(BLOCK_WIDTH*BOARD_WIDTH, BLOCK_HEIGHT*BOARD_HEIGHT)
+
 ;
 	go_next();
 	setInterval(gravity, speed);
