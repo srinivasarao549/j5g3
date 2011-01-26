@@ -61,7 +61,10 @@ var
 
 		tween: function(property, to)
 		{
-			return this.add($.tween({ target: this, auto_remove: true, duration: 10, from: { property: this[property]() }, to: { property: to} }));
+			var from = { }, _to = { };
+			from[property]=this[property]();
+			_to[property] = to;
+			return this.add($.tween({ target: this, auto_remove: true, duration: 5, from: from, to: _to }));
 		},
 
 		rotate: function()
@@ -71,14 +74,17 @@ var
 
 		left: function()
 		{
-			if (current.__x > 0)
-				this.tween('x', this.__x+BLOCK_WIDTH);
+			if (this.__x > 0)
+				this.tween('x', this.__x-BLOCK_WIDTH);
 		},
 
 		right: function()
 		{
-			if (current.__x < board.__width)
-				this.tween('x', this.__x-BLOCK_WIDTH);
+			if (this.__x < board.__width)
+				this.tween('x', this.__x+BLOCK_WIDTH);
+		},
+		down: function()
+		{
 		}
 	}),
 
@@ -90,7 +96,6 @@ var
 			color: Math.ceil(Math.random()*BLOCK_COLORS)
 		});
 	},
-
 
 	go_next = function() {
 		current = next.remove().x(Math.floor(BOARD_WIDTH/2)*BLOCK_WIDTH);
@@ -104,18 +109,18 @@ var
 			go_next();
 	},
 
-
-	down = function()
-	{
-	},
+	moving = false,
 
 	keyboard = function(evt) {
+		if (moving) return;
+		moving = true;
 		switch(evt.keyCode) {
-		case 38: rotate(); break;
-		case 37: left(); break;
-		case 39: right(); break;
-		case 40: down(); break;
+		case 38: current.rotate(); break;
+		case 37: current.left(); break;
+		case 39: current.right(); break;
+		case 40: current.down(); break;
 		}
+		moving = false;
 	},
 	speed = 10,
 
