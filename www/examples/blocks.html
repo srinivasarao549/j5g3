@@ -7,7 +7,7 @@
 function game($)
 {
 var
-	// CONSTANTS
+	/* CONSTANTS */
 	BLOCK_WIDTH = 24,
 	BLOCK_HEIGHT= 24,
 	BLOCK_PIECES= 7,
@@ -18,7 +18,7 @@ var
 
 	// Our Spritesheet
 	ss = $.spritesheet('spritesheet').grid(10,2),
-	
+
 	/* CLASSES */
 
 	Piece = $.Clip.extend({
@@ -109,18 +109,14 @@ var
 			go_next();
 	},
 
-	moving = false,
 
 	keyboard = function(evt) {
-		if (moving) return;
-		moving = true;
 		switch(evt.keyCode) {
 		case 38: current.rotate(); break;
 		case 37: current.left(); break;
 		case 39: current.right(); break;
 		case 40: current.down(); break;
 		}
-		moving = false;
 	},
 	speed = 10,
 

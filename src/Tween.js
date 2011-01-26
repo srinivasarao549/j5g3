@@ -13,6 +13,11 @@
  * repeat    int               How many times to repeat.
  * t         int               Current Time of the animation.
  *
+ * Events
+ *
+ * on_remove 
+ * on_stop
+ *
  * Replaceable Methods: 
  *
  * easing    function
