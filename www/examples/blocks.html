@@ -13,8 +13,8 @@ var
 	BLOCK_PIECES= 7,
 	BLOCK_COLORS= 9,
 	BOARD_WIDTH = 10,
-	BOARD_HEIGHT= 15,
-	PIECE_WIDTH = [2,1,2,2,2,2,2],
+	BOARD_HEIGHT= 18,
+	PIECE_WIDTH = [2,2,2,2,2,2,2],
 
 	// Our Spritesheet
 	ss = $.spritesheet('spritesheet').grid(10,2),
@@ -35,25 +35,61 @@ var
 	piece = function(template, color)
 	{
 		var result = $.map({ sprites: ss.sprites(), map: get_map(template, color), tw: BLOCK_WIDTH, th: BLOCK_HEIGHT}); 
+		result.width(BLOCK_WIDTH*PIECE_WIDTH[template])
+		      .height(BLOCK_HEIGHT*result.__map.length)
+		;
 		return result;		
 	},
+
+
+	Piece = $.Clip.extend({
+
+		init: function(properties)
+		{
+			properties.map = piece(properties.piece, properties.color);
+			this.add(properties.map);
+			this.__super(properties);
+		},
+
+		tween: function(property, to)
+		{
+			return this.add($.tween({ target: this, auto_remove: true, duration: 10, from: { property: this[property]() }, to: { property: to} }));
+		},
+
+		rotate: function()
+		{
+			this.tween('rotation', this.__rotation+Math.PI/2);
+		},
+
+		left: function()
+		{
+			if (current.__x > 0)
+				this.tween('x', this.__x+BLOCK_WIDTH);
+		},
+
+		right: function()
+		{
+			if (current.__x < board.__width)
+				this.tween('x', this.__x-BLOCK_WIDTH);
+		}
+	}),
+
 
 	/* Gets next piece as a clip, and centers it to its origin */
 	get_next = function()
 	{
-		var t = Math.floor(Math.random()*BLOCK_PIECES),
+		var t = Math.floor(Math.random()*BLOCK_PIECES);
 		    p = piece(t, Math.ceil(Math.random()*BLOCK_COLORS))
 		;
-		p.width(BLOCK_WIDTH*PIECE_WIDTH[t])
-		 .height(BLOCK_HEIGHT*p.__map.length)
-		;
 
-		return $.clip([[ p ]]).align_children('origin');
+		return new Piece({ template: t, color: Math.ceil(Math.random()*BLOCK_COLORS)});
+
+		return $.clip([[ p ]]).x(Math.floor(BOARD_WIDTH/2)*BLOCK_WIDTH).width(p.width()).height(p.height()).align_children('origin');
 	},
 
 	background = $.image('background'),
 	next = get_next(),
-	next_box = $.clip({x: 48, y: 100}).add(next),
+	next_box = $.clip({x: -48, y: 100}).add(next),
 	board= $.clip().pos(200, 48).size(BLOCK_WIDTH*BOARD_WIDTH, BLOCK_HEIGHT*BOARD_HEIGHT),
 	current,
 
@@ -64,25 +100,10 @@ var
 
 	gravity = function() {
 		current.__y = (current.__y + 1);
-		if (current.__y >= 400)
+		if (current.__y >= board.__height-current.__height/2)
 			go_next();
 	},
-	rotate = function()
-	{
-		$.root.add($.tween({ target: current, auto_remove: true, duration: 10, from: { rotation: current.__rotation }, to: { rotation: current.__rotation + Math.PI/2} }));
-	},
 
-	left = function()
-	{
-		if (current.__x > 0)
-			$.root.add($.tween({ target: current, auto_remove: true, duration: 3, from: { x: current.__x }, to: { x: current.__x-BLOCK_WIDTH} }));
-	},
-
-	right = function()
-	{
-		if (current.__x < board.__width)
-			$.root.add($.tween({ target: current, auto_remove: true, duration: 3, from: { x: current.__x }, to: { x: current.__x+BLOCK_WIDTH} }));
-	},
 
 	down = function()
 	{
