@@ -12,15 +12,14 @@ var
 	BLOCK_HEIGHT= 24,
 	BLOCK_PIECES= 7,
 	BLOCK_COLORS= 9,
+	PIECE_WIDTHS = [2,1,2,2,2,2,2],
 	BOARD_WIDTH = 10,
 	BOARD_HEIGHT= 18,
-	PIECE_WIDTH = [2,2,2,2,2,2,2],
 
 	// Our Spritesheet
 	ss = $.spritesheet('spritesheet').grid(10,2),
 
 	/* CLASSES */
-
 	Piece = $.Clip.extend({
 
 		/* private */
@@ -41,7 +40,7 @@ var
 		_piece: function(template, color)
 		{
 			var result = $.map({ sprites: ss.sprites(), map: this._get_map(template, color), tw: BLOCK_WIDTH, th: BLOCK_HEIGHT}); 
-			result.width(BLOCK_WIDTH*PIECE_WIDTH[template])
+			result.width(BLOCK_WIDTH*PIECE_WIDTHS[template])
 			      .height(BLOCK_HEIGHT*result.__map.length)
 			;
 			return result;		
@@ -61,10 +60,12 @@ var
 
 		tween: function(property, to)
 		{
+			if (this.__frames[0].length>1) return;
+
 			var from = { }, _to = { };
 			from[property]=this[property]();
 			_to[property] = to;
-			return this.add($.tween({ target: this, auto_remove: true, duration: 5, from: from, to: _to }));
+			return this.add($.tween({ target: this, auto_remove: true, duration: 3, from: from, to: _to }));
 		},
 
 		rotate: function()
@@ -85,6 +86,27 @@ var
 		},
 		down: function()
 		{
+			this.__y = (this.__y + 1);
+		}
+	}),
+
+	Board = $.Clip.extend({
+
+		init: function(properties)
+		{
+			var i = this.HEIGHT;
+
+			this._super(properties);
+
+			// Initialize Map
+			this.__map = [];
+			this.__sprites = ss.sprites();
+			while (i--)
+				this.__map.push([]);
+
+			this.add($.map({sprites: ss.sprites(), map: this.__map, tw: BLOCK_WIDTH, th: BLOCK_HEIGHT }))
+			    .size(BLOCK_WIDTH * BOARD_WIDTH, BLOCK_HEIGHT * BOARD_HEIGHT)
+			;
 		}
 	}),
 
@@ -98,17 +120,17 @@ var
 	},
 
 	go_next = function() {
-		current = next.remove().x(Math.floor(BOARD_WIDTH/2)*BLOCK_WIDTH);
+		current = next.remove().x(Math.floor(BOARD_WIDTH/2)*BLOCK_WIDTH - next.width()/2);
 		board.add(current);
 		next_box.add(next = get_next());
 	},
 
 	gravity = function() {
-		current.__y = (current.__y + 1);
 		if (current.__y >= board.__height-current.__height/2)
 			go_next();
-	},
 
+		current.down();
+	},
 
 	keyboard = function(evt) {
 		switch(evt.keyCode) {
@@ -120,13 +142,12 @@ var
 	},
 	speed = 10,
 
-	// Screen Elementj
+	// Screen Element
 	background = $.image('background'),
 	next = get_next(),
 	current,
 	next_box = $.clip({x: 48, y: 100}).add(next),
-	board= $.clip().pos(200, 48).size(BLOCK_WIDTH*BOARD_WIDTH, BLOCK_HEIGHT*BOARD_HEIGHT)
-
+	board = new Board({ x: 200, y: 48 })
 ;
 	go_next();
 	setInterval(gravity, speed);
