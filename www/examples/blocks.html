@@ -12,7 +12,7 @@ var
 	BLOCK_HEIGHT= 24,
 	BLOCK_PIECES= 7,
 	BLOCK_COLORS= 9,
-	PIECE_WIDTHS = [2,1,2,2,2,2,2],
+	PIECE_WIDTHS = [3,2,3,2,3,3,3],
 	BOARD_WIDTH = 10,
 	BOARD_HEIGHT= 18,
 
@@ -40,13 +40,16 @@ var
 		_piece: function(template, color)
 		{
 			var result = $.map({ sprites: ss.sprites(), map: this._get_map(template, color), tw: BLOCK_WIDTH, th: BLOCK_HEIGHT}); 
-			result.width(BLOCK_WIDTH*PIECE_WIDTHS[template])
-			      .height(BLOCK_HEIGHT*result.__map.length)
+
+			this.__mapWidth = PIECE_WIDTHS[template];
+			this.__mapHeight= result.__map.length;
+
+			result.width(BLOCK_WIDTH*this.__mapWidth)
+			      .height(BLOCK_HEIGHT*this.__mapHeight)
 			;
 			return result;		
 		},
 
-		/* constructor */
 		init: function(properties)
 		{
 			var p = this._piece(properties.piece, properties.color);
@@ -71,6 +74,7 @@ var
 		rotate: function()
 		{
 			this.tween('rotation', this.__rotation+Math.PI/2);
+			this.size(this.__height, this.__width);
 		},
 
 		left: function()
@@ -86,9 +90,9 @@ var
 		},
 		down: function()
 		{
-			this.__y = (this.__y + 1);
+			this.__y++;
 		}
-	}),
+	}).properties({ board: null, mapX: 0, mapY: 0, mapWidth: 0  }),
 
 	Board = $.Clip.extend({
 
@@ -104,8 +108,8 @@ var
 			while (i--)
 				this.__map.push([]);
 
-			this.add($.map({sprites: ss.sprites(), map: this.__map, tw: BLOCK_WIDTH, th: BLOCK_HEIGHT }))
-			    .size(BLOCK_WIDTH * BOARD_WIDTH, BLOCK_HEIGHT * BOARD_HEIGHT)
+			this.size(BLOCK_WIDTH * BOARD_WIDTH, BLOCK_HEIGHT * BOARD_HEIGHT)
+			    .add($.rect({ fillStyle: '#333', alpha: 0.3, width: this.width(), height: this.height() }))
 			;
 		}
 	}),
@@ -115,12 +119,13 @@ var
 	{
 		return new Piece({ 
 			piece: Math.floor(Math.random()*BLOCK_PIECES), 
-			color: Math.ceil(Math.random()*BLOCK_COLORS)
+			color: Math.ceil(Math.random()*BLOCK_COLORS),
+			board: board
 		});
 	},
 
 	go_next = function() {
-		current = next.remove().x(Math.floor(BOARD_WIDTH/2)*BLOCK_WIDTH - next.width()/2);
+		current = next.remove().x(Math.floor(BOARD_WIDTH/2)*BLOCK_WIDTH + next.width()/2);
 		board.add(current);
 		next_box.add(next = get_next());
 	},
@@ -147,7 +152,7 @@ var
 	next = get_next(),
 	current,
 	next_box = $.clip({x: 48, y: 100}).add(next),
-	board = new Board({ x: 200, y: 48 })
+	board = new Board({ x: 200, y: 24 })
 ;
 	go_next();
 	setInterval(gravity, speed);
