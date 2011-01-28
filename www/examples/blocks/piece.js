@@ -6,13 +6,14 @@ game.Piece = $.Clip.extend({
 	_get_map: function(piece, c)
 	{
 		switch (piece) {
-		case 0: return [ [[c],[c],[c,c]], [[c,c,c],[c],[]], [[0,c],[0,c],[c,c]], [[c],[c,c,c],[]] ];
-		case 1: return [ [[c],[c],[c],[c]], [[c,c,c,c]], [[c],[c],[c],[c]], [[c,c,c,c]] ];
+		case 0: return [ [[c],[c],[c,c]], [[c,c,c],[c],[]], [[0,c,c],[0,0,c],[0,0,c]], [[],[0,0,c],[c,c,c]] ];
+		case 1: return [ [[0,c],[0,c],[0,c],[0,c]], [[],[c,c,c,c],[],[]], [[0,0,c],[0,0,c],[0,0,c],[0,0,c]], [[],[],[c,c,c,c],[]] ];
 		case 2: return [ [[c],[c,c],[c]], [[c,c,c],[0,c],[]], [[0,0,c],[0,c,c],[0,0,c]], [[],[0,c],[c,c,c]] ];
 		case 3: return [ [[c,c],[c,c]],[[c,c],[c,c]],[[c,c],[c,c]],[[c,c],[c,c]] ] ;
-		case 4: return [ [[0,c],[0,c],[c,c]], [[],[c],[c,c,c]], [[c,c],[c],[c]], [[c,c,c],[0,0,c],[]] ];
-		case 5: return [ [[0,c],[c,c],[c]], [[c,c],[0,c],[0,c,c]], [[0,c],[c,c],[c]], [[c,c],[0,c],[0,c,c]] ];
-		case 6: return [ [[c],[c,c],[0,c]], [[0,c,c],[c,0],[c,c]], [[c],[c,c],[0,c]], [[0,c,c],[c,0],[c,c]] ];
+		case 4: return [ [[0,c],[0,c],[c,c]], [[c],[c,c,c],[]], [[0,c,c],[0,c],[0,c]], [[],[c,c,c],[0,0,c]] ];
+		case 5: return [ [[0,c],[c,c],[c]], [[c,c],[0,c,c],[]], [[0,0,c],[0,c,c],[0,c]], [[],[c,c],[0,c,c]] ];
+		case 6: return [ [[c],[c,c],[0,c]], [[0,c,c],[c,c],[]], [[0,c],[0,c,c],[0,0,c]], [[],[0,c,c],[c,c]] ];
+		
 		}
 	},
 
@@ -104,7 +105,8 @@ game.Piece = $.Clip.extend({
 		    map=this.__board.__map, piece=this.getCurrentMap();
 		while (srcY--)
 			for (srcX=0; srcX<this.__mapWidth; srcX++)
-				map[destY+srcY][destX+srcX] = piece[srcY][srcX];
+				if (piece[srcY][srcX])
+					map[destY+srcY][destX+srcX] = piece[srcY][srcX];
 		
 	},
 
