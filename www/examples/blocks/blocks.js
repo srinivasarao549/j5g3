@@ -5,7 +5,7 @@ var
 	BLOCK_HEIGHT= 24,
 	BLOCK_PIECES= 7,
 	BLOCK_COLORS= 9,
-	PIECE_WIDTHS = [3,2,3,2,3,3,3],
+	PIECE_WIDTHS = [3,1,3,2,3,3,3],
 	BOARD_WIDTH = 10,
 	BOARD_HEIGHT= 18,
 
@@ -73,7 +73,7 @@ var
 
 	debug_text = $.text().pos(24, 200),
 	debug = function() { 
-		debug_text.text(current.__mapX + ", " + current.__mapY + ": " + current.__mapWidth + ", " + current.__mapHeight);
+		debug_text.text(current.__mapCur);
 	}
 ;
 	go_next();
