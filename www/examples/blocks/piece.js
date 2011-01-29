@@ -50,7 +50,7 @@ game.Piece = $.Clip.extend({
 		var from = { }, _to = { };
 		from[property]=this[property]();
 		_to[property] = to;
-		return this.add($.tween({ target: this, auto_remove: true, duration: 3, from: from, to: _to }));
+		return this.add($.tween({ target: this, auto_remove: true, duration: 2, from: from, to: _to }));
 	},
 
 	_swapDimensions: function() {
@@ -62,9 +62,17 @@ game.Piece = $.Clip.extend({
 
 	rotate: function()
 	{
-		this._swapDimensions();
+		var old = this.__mapCur;
 		this.__mapCur += this.__mapCur==3 ? -3 : 1;
-		this.tween('rotation', this.__rotation+Math.PI/2);
+		this._swapDimensions();
+
+		if (this.verify(0,0))
+			this.tween('rotation', this.__rotation+Math.PI/2);
+		else
+		{
+			this._swapDimensions();
+			this.__mapCur=old;
+		}
 	},
 
 	getCurrentMap: function()
@@ -126,10 +134,6 @@ game.Piece = $.Clip.extend({
 				if (piece[srcY][srcX] && map[destY+srcY][destX+srcX])
 					return false;
 		return true;
-	},
-
-	verifyRotate: function(i)
-	{
-		
 	}
+
 }).properties({ board: null, mapX: 0, mapY: 0, mapWidth: 0, piece: 0, color: 0 });

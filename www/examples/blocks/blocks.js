@@ -62,7 +62,7 @@ var
 		if (i[38]) current.rotate();
 		else if (i[37]) current.left();
 		else if (i[39]) current.right();
-		else if (i[40]) { current.down();current.down();current.down();current.down(); }
+		else if (i[40]) { current.down();current.down();current.down();current.down();current.down();current.down(); }
 	},
 	speed = 15,
 
