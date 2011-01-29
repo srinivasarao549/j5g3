@@ -53,15 +53,18 @@ game.Piece = $.Clip.extend({
 		return this.add($.tween({ target: this, auto_remove: true, duration: 3, from: from, to: _to }));
 	},
 
-	rotate: function()
-	{
+	_swapDimensions: function() {
 		var temp = this.__mapHeight;
 		this.__mapHeight = this.__mapWidth;
 		this.__mapWidth=temp;
-		this.__mapCur += this.__mapCur==3 ? -3 : 1;
-
-		this.tween('rotation', this.__rotation+Math.PI/2);
 		this.size(this.__height, this.__width);
+	},
+
+	rotate: function()
+	{
+		this._swapDimensions();
+		this.__mapCur += this.__mapCur==3 ? -3 : 1;
+		this.tween('rotation', this.__rotation+Math.PI/2);
 	},
 
 	getCurrentMap: function()
@@ -121,5 +124,10 @@ game.Piece = $.Clip.extend({
 				if (piece[srcY][srcX] && map[destY+srcY][destX+srcX])
 					return false;
 		return true;
+	},
+
+	verifyRotate: function(i)
+	{
+		
 	}
 }).properties({ board: null, mapX: 0, mapY: 0, mapWidth: 0, piece: 0, color: 0 });

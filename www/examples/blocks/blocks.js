@@ -46,7 +46,7 @@ var
 		board.add(current);
 		next_box.add(next = get_next());
 
-		debug_text.innerHTML = (board.__map.toString().match(/.{24}/g).toString().replace(/,,/g,"\n"));
+		//debug_text.innerHTML = (board.__map.toString().match(/.{24}/g).toString().replace(/,,/g,"\n"));
 	},
 
 	gravity = function() {
@@ -62,7 +62,7 @@ var
 		if (i[38]) current.rotate();
 		else if (i[37]) current.left();
 		else if (i[39]) current.right();
-		else if (i[40]) current.down();
+		else if (i[40]) { current.down();current.down();current.down();current.down(); }
 	},
 	speed = 15,
 
