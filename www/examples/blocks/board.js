@@ -12,12 +12,13 @@ game.Board = $.Clip.extend({
 
 		this.__sprites = _ss.sprites();
 		while (i--)
-			this.__map.push([1,0,0,0,0,0,0,0,0,0,0,1]);
+			this.__map.push([10,0,0,0,0,0,0,0,0,0,0,10]);
 
-		this.__map.push([1,1,1,1,1,1,1,1,1,1,1,1]);
+		this.__map.push([10,10,10,10,10,10,10,10,10,10,10,10]);
 
 		this.size(BLOCK_WIDTH * BOARD_WIDTH, BLOCK_HEIGHT * BOARD_HEIGHT)
 		    .add($.rect({ fillStyle: '#333', alpha: 0.3, width: this.width(), height: this.height() }))
+		    .add($.map({ x: -BLOCK_WIDTH, y: -BLOCK_HEIGHT*2, sprites: _ss.sprites(), map: this.__map, tw: BLOCK_WIDTH, th: BLOCK_HEIGHT}))
 		;
 	}
 });

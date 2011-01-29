@@ -102,15 +102,16 @@ game.Piece = $.Clip.extend({
 
 	nail: function()
 	{
-		this.__map.__map = this._get_map(this.__piece, this.__color + 10)[0];
 		// Copy to board
 		var srcX, srcY = this.__mapHeight, destX=this.__mapX+1, destY=Math.floor(this.__mapY),
 		    map=this.__board.__map, piece=this.getCurrentMap();
+
+
 		while (srcY--)
 			for (srcX=0; srcX<this.__mapWidth; srcX++)
 				if (piece[srcY][srcX])
-					map[destY+srcY][destX+srcX] = piece[srcY][srcX];
-		
+					map[destY+srcY][destX+srcX] = piece[srcY][srcX]+10;
+		this.remove();
 	},
 
 	verify: function(x, y)
