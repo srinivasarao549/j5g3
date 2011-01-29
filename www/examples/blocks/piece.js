@@ -112,6 +112,7 @@ game.Piece = $.Clip.extend({
 				if (piece[srcY][srcX])
 					map[destY+srcY][destX+srcX] = piece[srcY][srcX]+10;
 		this.remove();
+		this.__board.reduce();
 	},
 
 	verify: function(x, y)
