@@ -61,12 +61,17 @@ Draw =
 	/* TODO Optimize This */
 	Isometric: function()
 	{
-		var map = this.__map, y = map.length, x, sprites = this.__sprites, s, cm, tw2=this.__tw/2, th2=this.__th/2, offset;
-		while (y--)
+		var map = this.__map, y = 0, x, l=map.length,
+		    sprites = this.__sprites, s, cm, 
+		    tw2=this.__tw/2, th2=this.__th/2 + this.__offsetY, offset
+		;
+
+		for (y=0; y<l; y++)
 		{
 			x = map[y].length;
 			cm= map[y];
-			offset = (y%2)*tw2;
+			offset = (y&1)*tw2;
+
 			while (x--)
 			{
 				s = sprites[cm[x]].__source;

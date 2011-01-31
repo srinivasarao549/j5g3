@@ -8,15 +8,18 @@
  * new j5g3.Matrix([1, 3, 4]) => Creates a 1x3 Matrix
  * new j5g3.Matrix([[1, 3, 4], [1,3,4]]) => Creates a 2x3 Matrix
  */
-j5g3.Matrix = function(elements)
-{
-	this._elements = (arguments.length > 1) ? [ arguments ] : elements;
 
+(function(j5g3) {
+
+	var Matrix = j5g3.Matrix = function(elements)
+	{
+		this._elements = (arguments.length > 1) ? [ arguments ] : elements;
+	}
 
 	/**
 	 * A.add(B) - returns A + B
 	 */
-	this.add = function(B)
+	Matrix.prototype.add = function(B)
 	{
 		return this.map(function(v, r, c) { return v + B.e(r,c); });
 	};
@@ -24,7 +27,7 @@ j5g3.Matrix = function(elements)
 	/**
 	 * Appends matrix B to the right hand side
 	 */
-	this.augment = function(B)
+	Matrix.prototype.augment = function(B)
 	{
 		var A = this;
 		return j5g3.Matrix.Func(this.rows(), this.cols() + B.cols(), function(r, c) {
@@ -35,7 +38,7 @@ j5g3.Matrix = function(elements)
 	/**
 	 * Returns Column n as a vector.
 	 */
-	this.col = function(n)
+	Matrix.prototype.col = function(n)
 	{
 		var a = [];
 		for (var i = 0; i < this.rows(); i++)
@@ -47,7 +50,7 @@ j5g3.Matrix = function(elements)
 	/**
 	 * Returns number of columns
 	 */
-	this.cols = function()
+	Matrix.prototype.cols = function()
 	{
 		return this._elements[0].length;
 	};
@@ -55,7 +58,7 @@ j5g3.Matrix = function(elements)
 	/**
 	 * Returns determinant.
 	 */
-	this.determinant = function()
+	Matrix.prototype.determinant = function()
 	{
 		if (this.rows() == 2)
 			return this.e(0,0) * this.e(1,1) - this.e(0, 1)*this.e(1,0);
@@ -67,7 +70,7 @@ j5g3.Matrix = function(elements)
 	/**
 	 * Returns its leading diagonal elements as a vector.
 	 */
-	this.diagonal = function()
+	Matrix.prototype.diagonal = function()
 	{
 		a = [];
 		for (var i = 0; i < this.rows(); i++)
@@ -78,7 +81,7 @@ j5g3.Matrix = function(elements)
 	/**
 	 * Returns a copy of the matrix.
 	 */
-	this.duplicate = function()
+	Matrix.prototype.duplicate = function()
 	{
 		return new j5g3.Matrix(this._elements.slice(0));
 	};
@@ -86,7 +89,7 @@ j5g3.Matrix = function(elements)
 	/**
 	 * Returns elements at nth row and mth column.
 	 */
-	this.e = function(n, m)
+	Matrix.prototype.e = function(n, m)
 	{
 		return this._elements[n][m];
 	};
@@ -94,7 +97,7 @@ j5g3.Matrix = function(elements)
 	/**
 	 * Calls func for every element of the matrix as func(value, row, column)
 	 */
-	this.each = function(func)
+	Matrix.prototype.each = function(func)
 	{
 		for (var r = 0; r < this.rows(); r++)
 			for (var c = 0; c < this.rows(); c++)
@@ -104,7 +107,7 @@ j5g3.Matrix = function(elements)
 	/**
 	 * Returns true if matrix is equal to B
 	 */
-	this.eq = function(B)
+	Matrix.prototype.eq = function(B)
 	{
 		for (var y=0; y < this.rows(); y++)
 			for (var x = 0; x<this.cols(); x++)
@@ -113,7 +116,7 @@ j5g3.Matrix = function(elements)
 		return true;
 	};
 
-	this.gaussian = function()
+	Matrix.prototype.gaussian = function()
 	{	
 		var cols = this.cols();
 		var rows = this.rows();
@@ -143,7 +146,7 @@ j5g3.Matrix = function(elements)
 	/**
 	 * Returns the inverse of the matrix.
 	 */
-	this.inverse = function()
+	Matrix.prototype.inverse = function()
 	{
 		var m = this.augment(new j5g3.Matrix.I(this.rows()));
 		m = m.gaussian();		
@@ -155,7 +158,7 @@ j5g3.Matrix = function(elements)
 	/**
 	 * Returns true if the matrix is singular ( zero determinant )
 	 */
-	this.is_singular = function()
+	Matrix.prototype.is_singular = function()
 	{
 		return this.determinant === 0;
 	};
@@ -163,7 +166,7 @@ j5g3.Matrix = function(elements)
 	/**
 	 * Returns true if the matrix is square
 	 */
-	this.is_square = function()
+	Matrix.prototype.is_square = function()
 	{
 		return this.rows() == this.cols();
 	};
@@ -171,7 +174,7 @@ j5g3.Matrix = function(elements)
 	/**
 	 * Returns a new matrix with the result of func(element, row, col) for every element.
 	 */
-	this.map = function(func)
+	Matrix.prototype.map = function(func)
 	{
 		var result = [];
 		this.each(function(v, r, c) {
@@ -186,7 +189,7 @@ j5g3.Matrix = function(elements)
 	/**
 	 * Returns Max Value
 	 */
-	this.max = function()
+	Matrix.prototype.max = function()
 	{
 		var result;
 		this.each(function(v) { if (v > result) result = v; });
@@ -196,14 +199,14 @@ j5g3.Matrix = function(elements)
 	/**
 	 * Returns minimum value
 	 */
-	this.min = function()
+	Matrix.prototype.min = function()
 	{
 		var result;
 		this.each(function(v) { if (v < result) result = v; });
 		return result;
 	};
 
-	this.multiply = function()
+	Matrix.prototype.multiply = function()
 	{
 		
 	};
@@ -211,7 +214,7 @@ j5g3.Matrix = function(elements)
 	/**
 	 * Returns a copy of the matrix with all its elements rounded
 	 */
-	this.round = function()
+	Matrix.prototype.round = function()
 	{
 		return this.map(function(v) { return Math.round(v); });	
 	};
@@ -219,7 +222,7 @@ j5g3.Matrix = function(elements)
 	/**
 	 * Returns row n as a vector
 	 */
-	this.row = function(n)
+	Matrix.prototype.row = function(n)
 	{
 		return new j5g3.Matrix([this._elements[n]]);
 	};
@@ -227,7 +230,7 @@ j5g3.Matrix = function(elements)
 	/**
 	 * Returns number of rows
 	 */
-	this.rows = function()
+	Matrix.prototype.rows = function()
 	{
 		return this._elements.length;
 	};
@@ -235,24 +238,24 @@ j5g3.Matrix = function(elements)
 	/**
 	 * Slices elements from row r col c to end.
 	 */
-	this.slice = function(r, c)
+	Matrix.prototype.slice = function(r, c)
 	{
 		var rows = this.rows();
 		for (var i = r; i < rows; i++)
 			this._elements[i] = this._elements[i].slice(c);
 	};
 
-	this.substract = function(B)
+	Matrix.prototype.substract = function(B)
 	{		
 		return this.map(function(v, r, c) { return v - B.e(r, c); });
 	};
 
-	this.to_right_triangular = function()
+	Matrix.prototype.to_right_triangular = function()
 	{
 		
 	};
 
-	this.to_str = function(precision)
+	Matrix.prototype.to_str = function(precision)
 	{
 		if (precision===undefined)
 			precision = 4;
@@ -280,11 +283,11 @@ j5g3.Matrix = function(elements)
 		return result;
 	}
 
-	this.trace = function()
+	Matrix.prototype.trace = function()
 	{
 	};
 
-	this.transpose = function()
+	Matrix.prototype.transpose = function()
 	{
 	};
 }
@@ -293,7 +296,7 @@ j5g3.Matrix = function(elements)
  * Constructor.
  * Returns a n * m matrix where all the elements are calculated by function func.
  */
-j5g3.Matrix.Func = function(n, m, func)
+Matrix.Func = function(n, m, func)
 {
 	var a = [];
 	for (var y = 0; y < n; y++)
@@ -303,26 +306,26 @@ j5g3.Matrix.Func = function(n, m, func)
 			a[y].push(func(y,x));
 	}
 
-	return new j5g3.Matrix(a);
+	return new Matrix(a);
 }
 
 /**
  * Constructor.
  * Returns a square matrix whose leading-diagonal elements are the values in the array elements and whose off diagonal elements are zero.
  */
-j5g3.Matrix.Diagonal = function()
+Matrix.Diagonal = function()
 {
 	var elems = arguments;
-	return j5g3.Matrix.Func(arguments.length, arguments.length, function(x,y) { return x == y ? elems[y] : 0; });
+	return Matrix.Func(arguments.length, arguments.length, function(x,y) { return x == y ? elems[y] : 0; });
 }
 
 /**
  * Constructor
  * Returns the n*n identity matrix.
  */
-j5g3.Matrix.I = function(n)
+Matrix.I = function(n)
 {
-	return j5g3.Matrix.Func(n, n, function(x,y) { return x == y ? 1 : 0 });
+	return Matrix.Func(n, n, function(x,y) { return x == y ? 1 : 0 });
 };
 
 /**
@@ -330,16 +333,18 @@ j5g3.Matrix.I = function(n)
  * Returns a matrix with n rows and m columns where all the elements are random numbers between 0 and 1.
  * If m is undefined it will create a n*n matrix.
  */
-j5g3.Matrix.Random = function(n, m)
+Matrix.Random = function(n, m)
 {
-	return j5g3.Matrix.Func(n, m === undefined ? n : m, function() { return Math.random(); });
+	return Matrix.Func(n, m === undefined ? n : m, function() { return Math.random(); });
 }
 
 /**
  * Constructor
  * Returns a matrix with n rows and m columns where all the elements are zero.
  */
-j5g3.Matrix.Zero = function(n, m)
+Matrix.Zero = function(n, m)
 {
-	return j5g3.Matrix.Func(n, m, function() { return 0; });
+	return Matrix.Func(n, m, function() { return 0; });
 }
+
+})(j5g3);
