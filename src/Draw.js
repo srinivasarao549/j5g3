@@ -11,6 +11,11 @@ Draw =
 	{
 		context.drawImage(this.__source, 0, 0);	
 	},
+
+	ImageData: function()
+	{
+		context.putImageData(this.__source, 0, 0);
+	},
 	
 	/**
 	 * Drawing function for Clips

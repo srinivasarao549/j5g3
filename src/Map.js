@@ -35,10 +35,23 @@ getCoord: function(x, y)
 	return [ nx, ny ];
 },
 
-cache: function()
+cache: function(w, h)
 {
+	var pc = context;
 	// TODO This might be dangerous
-	context = cache_ctx;
+	cache.width = this.__x + w;
+	cache.height= this.__y + h;
+	context = cache.getContext('2d');
+
+	if (this._oldPaint)
+		this.paint = this._oldPaint;
+
+	this.draw();
+	this.__source = context.getImageData(this.__x, this.__y, w, h);
+	this._oldPaint= this.paint;
+	this.paint = Draw.ImageData;
+
+	context = pc;
 },
 
 paint: Draw.Map

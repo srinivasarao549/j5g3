@@ -42,6 +42,7 @@ $ = window['j5g3']= new (function()
 			canvas.height = self.height();
 
 			context = canvas.getContext('2d');
+			cache = document.createElement('CANVAS');
 
 			properties.start($, document);
 		}
