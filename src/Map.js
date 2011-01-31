@@ -35,6 +35,12 @@ getCoord: function(x, y)
 	return [ nx, ny ];
 },
 
+cache: function()
+{
+	// TODO This might be dangerous
+	context = cache_ctx;
+},
+
 paint: Draw.Map
 
-}).properties({ sprites: null, map: null, tw: 0, th: 0, offsetY: 0 });
+}).properties({ sprites: null, map: null, tw: 0, th: 0, offsetX: 0, offsetY: 0 });

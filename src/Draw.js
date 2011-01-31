@@ -63,14 +63,14 @@ Draw =
 	{
 		var map = this.__map, y = 0, x, l=map.length,
 		    sprites = this.__sprites, s, cm, 
-		    tw2=this.__tw/2, th2=this.__th/2 + this.__offsetY, offset
+		    tw2=this.__tw/2 + this.__offsetX, th2=this.__th/2+this.__offsetY, offset
 		;
 
-		for (y=0; y<l; y++)
+		for (; y<l; y++)
 		{
 			x = map[y].length;
 			cm= map[y];
-			offset = (y&1)*tw2;
+			offset = (y%2)*tw2;
 
 			while (x--)
 			{
@@ -80,6 +80,5 @@ Draw =
 		}
 		
 	}
-
 };
 
