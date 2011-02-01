@@ -67,8 +67,11 @@ game.Piece = $.Clip.extend({
 		this._swapDimensions();
 
 		if (this.verify(0,0))
+		{
+			audio.rotate.currentTime=0;
+			audio.rotate.play();
 			this.tween('rotation', this.__rotation+Math.PI/2);
-		else
+		} else
 		{
 			this._swapDimensions();
 			this.__mapCur=old;
@@ -113,7 +116,8 @@ game.Piece = $.Clip.extend({
 		// Copy to board
 		var srcX, srcY = this.__mapHeight, destX=this.__mapX+1, destY=Math.floor(this.__mapY),
 		    map=this.__board.__map, piece=this.getCurrentMap();
-
+		audio.pop.currentTime = 0;
+		audio.pop.play(); 
 
 		while (srcY--)
 			for (srcX=0; srcX<this.__mapWidth; srcX++)

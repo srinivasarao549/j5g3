@@ -8,19 +8,54 @@
 	<script src="board.js"></script>
 	<script src="piece.js"></script>
 
+	<script>
+		function load()
+		{
+			j5g3.id('loading').style.display = 'none';
+			j5g3.id('start').style.display = 'block';
+		}
+
+		function start()
+		{
+			j5g3.id('screen').style.display = 'inline-block';
+			j5g3.id('start').style.display = 'none';
+			j5g3.start(game);
+		}
+	</script>
+
+	<style>
+		#loading { font-size: 30px; line-height: 480px; }
+		#start { font-size: 30px; text-align: center; line-height: 480px; }
+		dl { width: 360px; margin: 0 auto; }
+		dt { display: inline-block; width: 120; text-align: right; }
+		dd { display: inline-block; width: 200; text-align: left; }
+		
+	</style>
+
 	<link rel="stylesheet" href="../styles.css" />
 </head>
-<body onload="j5g3.start(game);">
+<body onload="load();">
 	<h1>Blocks</h1>
-	<canvas id="screen"></canvas>
+	<p id="loading">Loading...</p>
+	<a id="start" style="display: none;" href="javascript:start();">Start Game</a>
+	
+	<canvas style="display: none;" id="screen"></canvas>
 	<h2>Instructions</h2>
-	<ul>
-	<li>Up: Rotate Clockwise</li>
-	<li>Left, Right, Down: Move</li>
-	</ul>
+	<dl>
+	<dt>Left Arrow:</dt><dd>Move Left</dd>
+	<dt>Right Arrow:</dt><dd>Move Right</dd>
+	<dt>Up Arrow:</dt><dd>Rotate Clockwise</dd>
+	<dt>Down Arrow:</dt><dd>Soft Drop</dd>
+	<dt>Spacebar:</dt><dd>Hard Drop</dd>
+	</dl>
+
 	<div id="assets"> 
 		<img id="spritesheet" src="blocks-ss.png" />
-		<img id="background" src="../light.png">
+		<img id="background" src="../light.png" />
+
+		<audio id="audio-pop" src="pop.ogg" />
+		<audio id="audio-slide" src="slide.ogg" />
+		<audio id="audio-rotate" src="rotate.ogg" />
+		<audio id="audio-line" src="line.ogg" />
 	</div>
-	<pre id="debug-out"></pre>
 </body>

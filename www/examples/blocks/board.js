@@ -45,6 +45,9 @@ game.Board = $.Clip.extend({
 
 	reduceRow: function(row)
 	{
+		audio.line.currentTime=0;
+		audio.line.play();
+
 		var map = this.__map;
 		for (; row>1; row--)
 		{

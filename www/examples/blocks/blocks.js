@@ -10,15 +10,28 @@ var
 	BOARD_HEIGHT= 18,
 
 	/* Elements */
-	_ss 
+	_ss,
+	audio
 ;
 
 function game($)
 {
 
 	_ss = $.spritesheet('spritesheet').grid(10,2);
+	audio = { 
+		pop   : $.id('audio-pop'),
+		slide : $.id('audio-slide'),
+		rotate: $.id('audio-rotate'),
+		line  : $.id('audio-line')
+	}
 
 var
+
+	game_over = function()
+	{
+		$.root.add(game_over_text);
+
+	},
 
 	/* Gets next piece as a clip, and centers it to its origin */
 	get_next = function()
@@ -54,16 +67,37 @@ var
 			go_next();
 	},
 
+	keyboard_delay,
+
 	keyboard = function(evt) {
 		// Ignore if it is already moving. TODO hack
 		if (current.__frames[0].length>1) return;
 
 		var i = $.Input.Keyboard;
-		if (i[38]) current.rotate();
+		if (i[38])
+		{
+			if (!keyboard_delay--)
+			{
+				current.rotate();
+				keyboard_delay=10;
+			}
+		}
 		else if (i[37]) current.left();
 		else if (i[39]) current.right();
 		else if (i[40]) { current.down();current.down();current.down();current.down();current.down();current.down(); }
+		else if (i[32]) { 
+			if (!keyboard_delay--)
+			{
+				audio.slide.currentTime=0;
+				audio.slide.play();
+				keyboard_delay=10;
+				while (!current.down());
+			}
+		}
+		else
+			keyboard_delay=0;
 	},
+
 	speed = 15,
 
 	// Screen Element
@@ -72,6 +106,7 @@ var
 	next = get_next(),
 	current,
 	next_box = $.clip({x: 48, y: 100}).add(next),
+	game_over_text = $.text('Game Over').font("40px"),
 
 	debug_text = $.id('debug-out')
 ;
@@ -81,6 +116,7 @@ var
 	$.background.fillStyle('#006');
 	$.root.add([background, next_box, board, keyboard]);
 	$.run();
+	$.Input.Keyboard.capture(true);
 }
 
 window.$ = j5g3;
