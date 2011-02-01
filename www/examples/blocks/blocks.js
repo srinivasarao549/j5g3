@@ -94,6 +94,9 @@ var
 				while (!current.down());
 			}
 		}
+		else if (i[90]) {
+			piece.rotateCC();
+		}
 		else
 			keyboard_delay=0;
 	},

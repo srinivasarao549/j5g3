@@ -78,6 +78,25 @@ game.Piece = $.Clip.extend({
 		}
 	},
 
+	rotate: function()
+	{
+		var old = this.__mapCur;
+		this.__mapCur -= this.__mapCur==0 ? -3 : 1;
+		this._swapDimensions();
+
+		if (this.verify(0,0))
+		{
+			audio.rotate.currentTime=0;
+			audio.rotate.play();
+			this.tween('rotation', this.__rotation+Math.PI/2);
+		} else
+		{
+			this._swapDimensions();
+			this.__mapCur=old;
+		}
+		
+	},
+
 	getCurrentMap: function()
 	{
 		return this.__mapData[this.__mapCur];
