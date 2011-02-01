@@ -26,11 +26,25 @@ function game($)
 	}
 
 var
+	
+	restart = window.restart = function()
+	{
+		board.clear();
+		$.id('game-over').style.display = 'none';
+		current.remove();
+		current = 0;
+		go_next();
+		$.root.play();
+		$.Input.Keyboard.capture();
+		$.id('screen').style.display = 'inline-block';
+	},
 
 	game_over = function()
 	{
-		$.root.add(game_over_text);
-
+		$.id('game-over').style.display = 'block';
+		$.canvas().style.display = 'none';
+		$.root.stop();
+		$.Input.Keyboard.release();
 	},
 
 	/* Gets next piece as a clip, and centers it to its origin */
@@ -43,9 +57,18 @@ var
 		});
 	},
 
+	check_game_over = function()
+	{
+		var i=1, map=board.__map[0];
+		for (; i<BOARD_WIDTH; i++)
+			if (map[i])
+				game_over();
+	},
+
 	go_next = function() {
 		// TODO replace this please.
 		var starty = { 2: -1, 3: -.5, 4: 0 }, mapY = { 2: 2, 3: 1, 4: 0 }, mapX = { 2: 0, 3: BLOCK_WIDTH/2, 4: BLOCK_WIDTH };
+		check_game_over();
 
 		if (current)
 			current.nail();
@@ -58,8 +81,6 @@ var
 
 		board.add(current);
 		next_box.add(next = get_next());
-
-		//debug_text.innerHTML = (board.__map.toString().match(/.{24}/g).toString().replace(/,,/g,"\n"));
 	},
 
 	gravity = function() {
@@ -69,11 +90,29 @@ var
 
 	keyboard_delay,
 
+	resume = function()
+	{
+		window.removeEventListener('keypress', resume, true);
+		$.id('pause').style.display='none';
+		$.canvas().style.display = 'inline-block';
+		$.root.play();
+		$.Input.Keyboard.capture();
+	},
+
+	pause = function()
+	{
+		$.Input.Keyboard.release();
+		$.root.stop();
+		$.canvas().style.display = 'none';
+		$.id('pause').style.display = 'block';
+		window.addEventListener('keypress', resume, true);
+	},
+
 	keyboard = function(evt) {
 		// Ignore if it is already moving. TODO hack
 		if (current.__frames[0].length>1) return;
 
-		var i = $.Input.Keyboard;
+		var i = $.Input.Key;
 		if (i[38])
 		{
 			if (!keyboard_delay--)
@@ -95,7 +134,14 @@ var
 			}
 		}
 		else if (i[90]) {
-			piece.rotateCC();
+			if (!keyboard_delay--)
+			{
+				current.rotateCC();
+				keyboard_delay=10;
+			}
+		}
+		else if (i[80]) {
+			pause();
 		}
 		else
 			keyboard_delay=0;
@@ -108,10 +154,7 @@ var
 	background = $.image('background'),
 	next = get_next(),
 	current,
-	next_box = $.clip({x: 48, y: 100}).add(next),
-	game_over_text = $.text('Game Over').font("40px"),
-
-	debug_text = $.id('debug-out')
+	next_box = $.clip({x: 48, y: 100}).add(next)
 ;
 	go_next();
 	setInterval(gravity, speed);

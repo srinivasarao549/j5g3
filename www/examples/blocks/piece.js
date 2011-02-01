@@ -78,7 +78,7 @@ game.Piece = $.Clip.extend({
 		}
 	},
 
-	rotate: function()
+	rotateCC: function()
 	{
 		var old = this.__mapCur;
 		this.__mapCur -= this.__mapCur==0 ? -3 : 1;
@@ -88,7 +88,7 @@ game.Piece = $.Clip.extend({
 		{
 			audio.rotate.currentTime=0;
 			audio.rotate.play();
-			this.tween('rotation', this.__rotation+Math.PI/2);
+			this.tween('rotation', this.__rotation-Math.PI/2);
 		} else
 		{
 			this._swapDimensions();

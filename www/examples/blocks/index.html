@@ -21,10 +21,13 @@
 			j5g3.id('start').style.display = 'none';
 			j5g3.start(game);
 		}
+
 	</script>
 
 	<style>
 		#loading { font-size: 30px; line-height: 480px; }
+		#pause { font-size: 30px; line-height: 480px; }
+		#game-over { font-size: 30px; line-height: 480px; }
 		#start { font-size: 30px; text-align: center; line-height: 480px; }
 		dl { width: 360px; margin: 0 auto; }
 		dt { display: inline-block; width: 120; text-align: right; }
@@ -36,6 +39,8 @@
 </head>
 <body onload="load();">
 	<h1>Blocks</h1>
+	<p style="display: none;" id="pause">Game Paused. Press any key to Resume.</p>
+	<p style="display: none;" id="game-over">Game Over. <a href="javascript: restart();">Restart</a>.</p>
 	<p id="loading">Loading...</p>
 	<a id="start" style="display: none;" href="javascript:start();">Start Game</a>
 	
@@ -47,6 +52,8 @@
 	<dt>Up Arrow:</dt><dd>Rotate Clockwise</dd>
 	<dt>Down Arrow:</dt><dd>Soft Drop</dd>
 	<dt>Spacebar:</dt><dd>Hard Drop</dd>
+	<dt>Z:</dt><dd>Rotate CounterClockwise</dd>
+	<dt>P:</dt><dd>Pause</dd>
 	</dl>
 
 	<div id="assets"> 

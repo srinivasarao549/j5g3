@@ -4,6 +4,9 @@
 
 $.Input = 
 {
+	/* Stores all Key status */
+	Key: null,
+
 	Keyboard:
 	{
 		/**
@@ -11,6 +14,8 @@ $.Input =
 		 */
 		capture: function(preventDefault)
 		{
+			$.Input.Key = [];
+
 			if (preventDefault)
 			{
 				window.addEventListener('keydown', $.Input.Keyboard._onkeydown_pd, true);
@@ -37,23 +42,23 @@ $.Input =
 
 		_onkeydown: function(evt)
 		{
-			$.Input.Keyboard[evt.keyCode] = true;
+			$.Input.Key[evt.keyCode] = true;
 		},
 
 		_onkeydown_pd: function(evt)
 		{
-			$.Input.Keyboard[evt.keyCode] = true;
+			$.Input.Key[evt.keyCode] = true;
 			evt.preventDefault();
 		},
 
 		_onkeyup: function(evt)
 		{
-			$.Input.Keyboard[evt.keyCode] = undefined;
+			$.Input.Key[evt.keyCode] = undefined;
 		},
 
 		_onkeyup_pd: function(evt)
 		{
-			$.Input.Keyboard[evt.keyCode] = undefined;
+			$.Input.Key[evt.keyCode] = undefined;
 			evt.preventDefault();
 		},
 
