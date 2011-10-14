@@ -5,7 +5,7 @@ require 'rake/packagetask'
 
 # We have to make sure src/core.js is included first.
 VERSION = "0.1"
-SRC = %w{core ../lib/js-class/src/class ../lib/js-class/src/property Animate Collision Property Util Draw DisplayObject Clip Emitter Image Input Range Rect Physics Sprite Spritesheet Text Tween Action Map outro}
+SRC = %w{core Class Animate Collision Property Util Draw DisplayObject Clip Emitter Image Input Range Rect Physics Sprite Spritesheet Text Tween Action Map outro}
 SRCS = SRC.join(' ')
 
 OUTPUT = 'build/j5g3.js'

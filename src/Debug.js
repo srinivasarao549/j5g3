@@ -20,7 +20,7 @@
 		Debug.oldGameLoop.apply(this);
 		time = (new Date).getTime() - time;
 
-		var ctx = $.canvas().getContext('2d'),
+		var ctx = $.canvas.getContext('2d'),
 		    afps = 1000/time,
 		    fps = $.fps()
 		;

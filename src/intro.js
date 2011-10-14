@@ -23,35 +23,40 @@
 
 (function(window, document, undefined) {
 
-	var VERSION = "@VERSION",
-	    Action,
-	    Animate,
-	    // Requires js-class library.
-	    Class,
-	    Clip,
-	    Collision,
-	    DisplayObject,
-	    Dot,
-	    Draw,
-	    Emitter,
-	    Image,
-	    Physics,
-	    Range,
-	    Rect,
-	    Shape,
-	    Sprite,
-	    Spritesheet,
-	    Text,
-	    Tween,
-	    Util,
-	    J5G3,
-	    Map,
+var 
+	/* CONSTANTS */
+	VERSION = "@VERSION",
 
-	    canvas,
-	    _extend,
-	    _typeof,
-	    context,
-	    /* This is used by the cache mechanism. It is a canvas element. */
-	    cache,
+	/* Frames per Second */
+	__fps = 31,
+
+	Class,
+
+	Action,
+	Animate,
+	Clip,
+	Collision,
+	DisplayObject,
+	Dot,
+	Draw,
+	Emitter,
+	Image,
+	Physics,
+	Range,
+	Rect,
+	Shape,
+	Sprite,
+	Spritesheet,
+	Text,
+	Tween,
+	Util,
+	Map,
+
+	canvas,
+	_extend,
+	_typeof,
+	context,
+	/* This is used by the cache mechanism. It is a canvas element. */
+	cache,
 
 /* core.js defines $ */

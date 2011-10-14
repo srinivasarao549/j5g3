@@ -1,86 +1,69 @@
 	
-$ = window['j5g3']= new (function()
-{
-	var 
-		/* PRIVATE MEMBERS */
-		self = this,
-		callee = arguments.callee,
-		__fps = 31,
+	initialize= function(properties)
+	{
+		Util.extend($, properties);
 
-		getContext= function()
-		{
-			return context;
-		},
-		initialize = function(properties)
-		{
-			// TODO this is horrible.
-			Class.properties.apply(callee, [{
-				'canvas' : null,
-				backgroundStyle : 'black',
-				width  : 640,
-				height : 480
-			}]);	
-			_extend(self, properties);
+		canvas = $.canvas = properties.canvas || $.id('screen');
 
-			if (self.canvas() === null)
-				self.canvas($.id('screen'));
+		$.background = new Rect({ 
+			fillStyle: $.backgroundStyle,
+			width: $.width, 
+			height: $.height
+		});
+		
+		$.root = new Clip({
+			width: $.width,
+			height: $.height
+		});
 
-			canvas = self.canvas();
+		canvas.width = $.width;
+		canvas.height = $.height;
 
-			self.background = new Rect({ 
-				fillStyle: self.backgroundStyle(),
-				width: self.width(), 
-				height: self.height() 
-			});
-			
-			self.root = new Clip({
-				width: self.width(),
-				height: self.height()
-			});
+		context = canvas.getContext('2d');
+		cache = document.createElement('CANVAS');
 
-			canvas.width = self.width();
-			canvas.height = self.height();
+		properties.start($, document);
+	},
 
-			context = canvas.getContext('2d');
-			cache = document.createElement('CANVAS');
+$ = window.j5g3 = { 
 
-			properties.start($, document);
-		}
-	;
+	canvas: null,
+	backgroundStyle: 'black',
+	width: 640,
+	height: 480,
 
 	/**
 	 * Starts the execution.
 	 */
-	this.run= function()
+	run: function()
 	{
-		setInterval(this.gameLoop, __fps);
-	};
+		setInterval($.gameLoop, __fps);
+	},
 
 	/**
 	 * This is here to allow overriding by Debug.js
 	 */
-	this.gameLoop = function()
+	gameLoop: function()
 	{
-		self.background.draw();
-		self.root.draw();
-	}; 
+		$.background.draw();
+		$.root.draw();
+	},
 
-	this.fps = function(val)
+	fps: function(val)
 	{
-		return val===undefined ? 1000/__fps : (__fps=1000/val, this);
-	};
+		return val===undefined ? 1000/__fps : (__fps=1000/val, $);
+	},
 
 	/**
 	 * You should always call this method first.
 	 */
-	this.start= function(initfunc)
+	start: function(initfunc)
 	{
 		initialize(typeof(initfunc)=='function' ? { start: initfunc } : initfunc);
-	};
+	},
 
-	this.invalidate = function() { return this; };
-
-	this.id = function(id) { return document.getElementById(id); }
-	this.rand = function(max) { return Math.random() * max; }
-});
+	id: function(id) { return document.getElementById(id); },
+	
+	rand: function(max) { return Math.random() * max; }
+};
 

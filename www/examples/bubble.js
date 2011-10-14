@@ -10,7 +10,7 @@ var
 	max_balls = 77,
 
 	/* Elements */
-	canvas = $.canvas(),
+	canvas = $.canvas,
 
 	Ball = Image.extend({
 	
