@@ -5,7 +5,7 @@
 $.Input = 
 {
 	/* Stores all Key status */
-	Key: null,
+	Key: {},
 
 	Keyboard:
 	{
@@ -14,8 +14,6 @@ $.Input =
 		 */
 		capture: function(preventDefault)
 		{
-			$.Input.Key = {};
-
 			if (preventDefault)
 			{
 				window.addEventListener('keydown', $.Input.Keyboard._onkeydown_pd, true);

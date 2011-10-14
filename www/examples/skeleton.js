@@ -50,7 +50,7 @@ var
 		[ss.clip(18)]
 	]),
 
-	keyboard = $.Input.Keyboard,
+	keyboard = $.Input.Key,
 
 	onkeydown = $.action(function(evt)
 	{
