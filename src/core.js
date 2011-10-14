@@ -49,6 +49,9 @@ $ = window.j5g3 = {
 		$.root.draw();
 	},
 
+	/**
+	 * Set the game Frames per Second.
+	 */
 	fps: function(val)
 	{
 		return val===undefined ? 1000/__fps : (__fps=1000/val, $);
@@ -56,14 +59,41 @@ $ = window.j5g3 = {
 
 	/**
 	 * You should always call this method first.
+	 *
+	 * @param initfunc function|object  Initialization settings for the Engine, or a init function.
+	 *
 	 */
 	start: function(initfunc)
 	{
 		initialize(typeof(initfunc)=='function' ? { start: initfunc } : initfunc);
 	},
 
+	/**
+	 * Pauses game execution
+	 */
+	pause: function()
+	{
+		$.Input.Keyboard.release();
+		$.root.stop();
+	},
+
+	/**
+	 * Resume game execution.
+	 */
+	resume: function()
+	{
+		$.root.play();
+		$.Input.Keyboard.capture();
+	},
+
+	/**
+	 * Returns a DOM element by ID.
+	 */
 	id: function(id) { return document.getElementById(id); },
 	
+	/**
+	 * Returns a random number from 0 to max
+	 */
 	rand: function(max) { return Math.random() * max; }
 };
 

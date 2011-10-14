@@ -24,8 +24,7 @@
 (function(window, document, undefined) {
 
 var 
-	/* CONSTANTS */
-	VERSION = "@VERSION",
+	/* @const */ VERSION = "@VERSION",
 
 	/* Frames per Second */
 	__fps = 31,

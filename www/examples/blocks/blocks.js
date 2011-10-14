@@ -34,17 +34,15 @@ var
 		current.remove();
 		current = 0;
 		go_next();
-		$.root.play();
-		$.Input.Keyboard.capture();
+		$.resume();
 		$.id('screen').style.display = 'inline-block';
 	},
 
 	game_over = function()
 	{
 		$.id('game-over').style.display = 'block';
-		$.canvas().style.display = 'none';
-		$.root.stop();
-		$.Input.Keyboard.release();
+		$.canvas.style.display = 'none';
+		$.pause();
 	},
 
 	/* Gets next piece as a clip, and centers it to its origin */
@@ -94,16 +92,14 @@ var
 	{
 		window.removeEventListener('keypress', resume, true);
 		$.id('pause').style.display='none';
-		$.canvas().style.display = 'inline-block';
-		$.root.play();
-		$.Input.Keyboard.capture();
+		$.canvas.style.display = 'inline-block';
+		$.resume();
 	},
 
 	pause = function()
 	{
-		$.Input.Keyboard.release();
-		$.root.stop();
-		$.canvas().style.display = 'none';
+		$.pause();
+		$.canvas.style.display = 'none';
 		$.id('pause').style.display = 'block';
 		window.addEventListener('keypress', resume, true);
 	},

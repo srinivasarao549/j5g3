@@ -10,20 +10,30 @@ $.Input =
 	Keyboard:
 	{
 		/**
-		 * Starts Keyboard Capture.
+		 * Clears keys pressed.
 		 */
-		capture: function(preventDefault)
+		clear: function()
 		{
-			if (preventDefault)
-			{
-				window.addEventListener('keydown', $.Input.Keyboard._onkeydown_pd, true);
-				window.addEventListener('keyup', $.Input.Keyboard._onkeyup_pd, true);
-				window.addEventListener('keypress', $.Input.Keyboard._onkeypress, true);
-			} else
-			{
-				window.addEventListener('keydown', $.Input.Keyboard._onkeydown, true);
-				window.addEventListener('keyup', $.Input.Keyboard._onkeyup, true);
-			}
+		var
+			i, key = $.Input.Key
+		;
+			for (i in key)
+				if (key.hasOwnProperty(i))
+					key[i] = null;
+		},
+		/**
+		 * Starts Keyboard Capture. Clears current keys.
+		 */
+		capture: function()
+		{
+		var
+			keyboard = $.Input.Keyboard
+		;
+			keyboard.clear();
+
+			window.addEventListener('keydown', keyboard._onkeydown_pd, true);
+			window.addEventListener('keyup', keyboard._onkeyup_pd, true);
+			window.addEventListener('keypress', keyboard._onkeypress, true);
 		},
 
 		/**
@@ -31,27 +41,15 @@ $.Input =
 		 */
 		release: function()
 		{
-			window.removeEventListener('keydown', $.Input.Keyboard._onkeydown, true);
-			window.removeEventListener('keyup', $.Input.Keyboard._onkeyup, true);
 			window.removeEventListener('keypress', $.Input.Keyboard._onkeypress, true);
 			window.removeEventListener('keydown', $.Input.Keyboard._onkeydown_pd, true);
 			window.removeEventListener('keyup', $.Input.Keyboard._onkeyup_pd, true);
-		},
-
-		_onkeydown: function(evt)
-		{
-			$.Input.Key[evt.keyCode] = true;
 		},
 
 		_onkeydown_pd: function(evt)
 		{
 			$.Input.Key[evt.keyCode] = true;
 			evt.preventDefault();
-		},
-
-		_onkeyup: function(evt)
-		{
-			$.Input.Key[evt.keyCode] = undefined;
 		},
 
 		_onkeyup_pd: function(evt)
