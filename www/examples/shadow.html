@@ -68,7 +68,7 @@ var
 
 	world = $.clip([[terrain, enemies]]),
 
-	keyboard = $.Input.Key,
+	keyboard,
 
 	input = function()
 	{
@@ -88,6 +88,7 @@ var
 
 	$.run();
 	$.Input.Keyboard.capture();
+	keyboard = $.Input.Key;
 }
 	
 </script>

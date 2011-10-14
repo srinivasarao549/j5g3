@@ -14,7 +14,7 @@ $.Input =
 		 */
 		capture: function(preventDefault)
 		{
-			$.Input.Key = [];
+			$.Input.Key = {};
 
 			if (preventDefault)
 			{
