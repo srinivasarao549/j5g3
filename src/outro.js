@@ -1,31 +1,11 @@
-var f = function(klass)
+
+f = function(klass)
 {
 	return function(properties) { return new klass(properties); }
-};
-
-/* MODULES */
-$.Animate = Animate;
-$.Draw = Draw;
-$.Util = Util;
-$.Collision = Collision;
+}
+;
 
 /* CLASSES */
-$.Action = Action;
-$.Clip   = Clip;
-$.DisplayObject = DisplayObject;
-$.Dot    = Dot;
-$.Emitter = Emitter;
-$.Image = Image;
-$.Range = Range;
-$.Rect = Rect;
-$.Shape = Shape;
-$.Sprite = Sprite;
-$.Spritesheet = Spritesheet;
-$.Text = Text;
-$.Tween = Tween;
-$.Physics = Physics;
-$.Map = Map;
-
 $.action = f(Action);
 $.clip   = f(Clip);
 $.dot    = f(Dot);

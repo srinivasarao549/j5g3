@@ -21,5 +21,6 @@ Animate = {
 			return 0;	
 		}
 	}
-};
+
+},
 

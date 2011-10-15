@@ -2,7 +2,7 @@
  * Displays a Rect
  */
 
-Shape = DisplayObject.extend({
+Shape = $.Shape = DisplayObject.extend({
 	begin: function()
 	{
 		DisplayObject.prototype.begin.apply(this);
@@ -17,19 +17,19 @@ Shape = DisplayObject.extend({
 }).properties(
 {
 	fillStyle: 0, strokeStyle: 0, lineWidth: 0, lineCap: 0, lineJoin: 0, miterLimit: 0
-});
+}),
 
-Rect = Shape.extend({
+Rect = $.Rect = Shape.extend({
 	paint : function()
 	{
 		context.fillRect(this.__x, this.__y, this.__width, this.__height);
 	}
-});
+}),
 
 /*
  * Displays a Dot
  */
-Dot = Shape.extend({
+Dot = $.Dot = Shape.extend({
 	/**
 	 * p can be properties or lineWidth
 	 */
@@ -44,4 +44,5 @@ Dot = Shape.extend({
 	{
 		context.strokeRect(this.x(), this.y(), 1, 1);
 	}
-}).properties({ lineCap: 'round', lineJoin: 'round' });
+
+}).properties({ lineCap: 'round', lineJoin: 'round' }),

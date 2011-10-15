@@ -2,7 +2,7 @@
 /**
  * Base for all classes
  */
-DisplayObject = Class.extend({
+DisplayObject = $.DisplayObject = Class.extend({
 
 	/** @constructor */
 	init: function(properties)
@@ -10,10 +10,8 @@ DisplayObject = Class.extend({
 		_extend(this, properties);
 	}, 
 
-
 	_dirty: true,
 	_apply_transform: function() { },
-
 
 	/**
 	 * Save Transform Matrix and apply transformations.
@@ -157,4 +155,4 @@ DisplayObject = Class.extend({
 }).properties({
 	source: null, parent: null, x: 0, y:0, width: null, height: null, rotation: 0, scaleX: 1, scaleY: 1, alpha: 1,
 	skewX: null, skewY: null
-});
+}),

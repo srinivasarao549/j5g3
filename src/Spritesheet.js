@@ -9,7 +9,7 @@
  *
  */
 
-Spritesheet = Class.extend({
+Spritesheet = $.Spritesheet = Class.extend({
 
 	init: function(properties)
 	{
@@ -112,4 +112,4 @@ Spritesheet = Class.extend({
 	{
 		'width':0, 'height':0, 'source':null, 'sprites': null, cols: 1, rows:1, type: 'grid'
 	}
-);
+),

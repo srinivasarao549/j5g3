@@ -9,7 +9,7 @@
  * v       Velocity 2D Vector. Default [0, 0]
  */
 
-Physics = Class.extend({
+Physics = $.Physics = Class.extend({
 
 	init: function(properties)
 	{
@@ -52,5 +52,5 @@ Physics = Class.extend({
 }).properties(
 {
 	obj: null, v: null, m: 1, parent: null
-});
+}),
 

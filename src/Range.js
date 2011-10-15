@@ -25,5 +25,5 @@ Range = Class.extend({
 	
 }).properties(
 	{ start: 0, end: 0 }
-);
+),
 

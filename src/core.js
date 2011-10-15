@@ -94,6 +94,19 @@ $ = window.j5g3 = {
 	/**
 	 * Returns a random number from 0 to max
 	 */
-	rand: function(max) { return Math.random() * max; }
-};
+	rand: function(max) { return Math.random() * max; },
+
+	/** Creates an array of w*h dimensions initialized with value v */
+	ary: function(w, h, v)
+	{
+		var result = [], x;
+		while (h--)
+		{
+			result[h] = [];
+			for (x=0; x<w; x++)
+				result[h][x]=v;
+		}
+		return result;
+	}
+},
 

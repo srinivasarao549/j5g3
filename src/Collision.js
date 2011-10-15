@@ -42,4 +42,4 @@ Collision = {
 		return (ax+this.width() >= bx && ax <= bx+b.width()) && (ay+this.height() > by && ay <= by+b.height());
 	}
 
-};
+},

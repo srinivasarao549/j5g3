@@ -24,7 +24,7 @@
  *
  */
 
-Tween = Class.extend({
+Tween = $.Tween = Class.extend({
 	
 	init: function(properties)
 	{
@@ -97,4 +97,4 @@ Tween = Class.extend({
 	on_stop: null,
 	on_remove: null,
 	visible: false
-});
+}),

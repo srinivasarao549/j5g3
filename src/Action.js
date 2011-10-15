@@ -9,20 +9,24 @@ Action = Class.extend({
 	},
 
 	parent: function() { }
-});
+}, {
+	/* Static Methods */
 
-/**
- * Rotates object forever. Clockwise by default.
- */
-Action.rotate = function(obj)
-{
-	return function() { 
-		var r = obj.rotation();
-		obj.rotation(r < 6.1 ? r+0.1 : 0);
-	};
-}
+	/**
+	 * Rotates object forever. Clockwise by default.
+	 */
+	rotate: function(obj)
+	{
+		return function() { 
+			var r = obj.rotation();
+			obj.rotation(r < 6.1 ? r+0.1 : 0);
+		};
+	},
 
-Action.remove = function()
-{
-	this.parent().remove_child(this);
-}
+	remove: function()
+	{
+		this.parent().remove_child(this);
+	}
+
+}),
+

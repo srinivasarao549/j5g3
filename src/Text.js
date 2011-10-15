@@ -1,8 +1,5 @@
 
-var 
-	TextOldBegin;
-
-Text = DisplayObject.extend({
+Text = $.Text = DisplayObject.extend({
 
 	init: function(properties)
 	{
@@ -32,7 +29,8 @@ Text = DisplayObject.extend({
 	}
 }).properties(
 	{ text: '', fillStyle: 'white', 'font': null }
-);
+),
 
 /* TODO This is an ugly hack. */
-TextOldBegin = DisplayObject.prototype.begin;
+TextOldBegin = DisplayObject.prototype.begin,
+

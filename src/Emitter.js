@@ -2,7 +2,7 @@
  * Particle Emitter
  */
 
-Emitter = Clip.extend({
+Emitter = $.Emitter = Clip.extend({
 	
 	paint: function()
 	{
@@ -17,4 +17,4 @@ Emitter = Clip.extend({
 
 }).properties({
 	source: null, life: 10, on_emit: null
-});
+}),

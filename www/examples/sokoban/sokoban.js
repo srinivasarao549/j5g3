@@ -131,15 +131,22 @@ var
 
 		world.loadMap(map.value);
 		//world.loadMap("         \n        "); //  \n  \n  \n  ");
-		$.canvas().onmousemove = function(evt) {
-			var p = world.getCoord(evt.offsetX, evt.offsetY); 
+		$.canvas.onmousemove = function(evt) {
+		var 
+			p = world.getCoord(evt.offsetX, evt.offsetY),
+			x = p[0], y = p[1],
+			map = world.__map
+		;
 			if (prevv)
-				world.__map[prev[1]][prev[0]] = prevv;
+				map[prev[1]][prev[0]] = prevv;
 
-			prev = p;
-			prevv= world.__map[p[1]][p[0]];
+			if (y < map.length && x < map[y].length)
+			{
+				prev = p;
+				prevv= map[p[1]][p[0]];
 
-			world.__map[p[1]][p[0]] = 4;
+				map[p[1]][p[0]] = 4;
+			}
 		};
 		$.root.add(world);
 

@@ -51,4 +51,4 @@ Image = DisplayObject.extend(
 		return this.__source;
 	}
 	
-});
+}),

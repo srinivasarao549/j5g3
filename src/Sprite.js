@@ -13,4 +13,4 @@ Sprite = DisplayObject.extend({
 		_extend(this, properties);
 	},
 	paint: Draw.Sprite
-});
+}),

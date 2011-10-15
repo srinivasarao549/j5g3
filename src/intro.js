@@ -29,30 +29,7 @@ var
 	/* Frames per Second */
 	__fps = 31,
 
-	Class,
-
-	Action,
-	Animate,
-	Clip,
-	Collision,
-	DisplayObject,
-	Dot,
-	Draw,
-	Emitter,
-	Image,
-	Physics,
-	Range,
-	Rect,
-	Shape,
-	Sprite,
-	Spritesheet,
-	Text,
-	Tween,
-	Util,
-	Map,
-
 	canvas,
-	_extend,
 	_typeof,
 	context,
 	/* This is used by the cache mechanism. It is a canvas element. */

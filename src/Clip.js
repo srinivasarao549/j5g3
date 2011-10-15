@@ -7,7 +7,7 @@
  *
  */
 
-Clip = DisplayObject.extend(
+Clip = $.Clip = DisplayObject.extend(
 {
 	init: function(properties)
 	{
@@ -146,4 +146,4 @@ Clip = DisplayObject.extend(
 	}
 }).properties(
 	{ frames: null }
-);
+),
