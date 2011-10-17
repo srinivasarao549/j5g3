@@ -8,7 +8,7 @@
  *
  * source: 
  */
-Image = DisplayObject.extend(
+Image = $.Image = DisplayObject.extend(
 {
 	init: function(properties)
 	{

@@ -1,52 +1,49 @@
 
-var game = function($, document, undefined) {
+function game($, document, undefined) {
 
 	/* Classes used */
 var 
-	Image = $.Image,
-
 	/* Functions */
-	rand = Math.random,
+	rand = $.rand,
 	max_balls = 77,
 
 	/* Elements */
 	canvas = $.canvas,
 
-	Ball = Image.extend({
+	Ball = $.Image.extend({
 	
 		init: function()
 		{
-			this.source('ball');
+		var 
+			me = this.source('ball'),
+			max_speed = 5,
+			diameter  = me.width(),
+			velocity  = { x: rand(max_speed), y: rand(max_speed) },
+			radius    = diameter / 2,
+			i=0,
 
-			var max_speed = 5,
-			    diameter  = this.width(),
-			    velocity  = { x: rand() * max_speed, y: rand() * max_speed },
-			    radius    = diameter / 2,
-			    i=0,
-			    self=this,
+			checkCollision = function(coord, limit)
+			{
+			var v = me[coord]();
 
-			    checkCollision = function(coord, limit)
-			    {
-				var v = self[coord]();
-				
 				if (v<0)
-					self[coord](0);
+					me[coord](0);
 				else if (v > limit-diameter)
-					self[coord](limit - diameter);
+					me[coord](limit - diameter);
 				else
 					return;
 
 				velocity[coord] = -velocity[coord]; 
-			    }, 
+			}, 
 
-			    collide = function(obj)
-			    {
-				var dx = self.__x - obj.__x,
-				    dy = self.__y - obj.__y,
-				    dvx = velocity.x - obj.velocity.x,
-				    dvy = velocity.y - obj.velocity.y,
-				    mag = dvx * dx + dvy * dy;
-				;
+			collide = function(obj)
+			{
+			var dx = me.__x - obj.__x,
+			    dy = me.__y - obj.__y,
+			    dvx = velocity.x - obj.velocity.x,
+			    dvy = velocity.y - obj.velocity.y,
+			    mag = dvx * dx + dvy * dy;
+			;
 
 				if (mag > 0)
 					return;
@@ -63,11 +60,11 @@ var
 
 				obj.velocity.x += dvx;
 				obj.velocity.y += dvy;
-			    }
-			;
+			}
+;
 
-			this.x(rand() * (canvas.width  -diameter));
-			this.y(rand() * (canvas.height -diameter));
+			this.x(rand(canvas.width  -diameter));
+			this.y(rand(canvas.height -diameter));
 			this.velocity = velocity;
 			this.collide  = collide;
 					
@@ -96,6 +93,7 @@ var
 					objs[i].collide(objs[j]);
 		}
 	},
+
 	objs
 
 ;
