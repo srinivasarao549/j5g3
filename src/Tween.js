@@ -46,36 +46,42 @@ Tween = $.Tween = Class.extend({
 
 	_calculate: function()
 	{
-		var target=this.target(), i, to=this.to(), t=this.t();
+	var 
+		me = this,
+		target=me.target(), i, to=me.to(), t=me.t()
+	;
 		for (i in to)
-			target[i](this.easing(i, to[i],t ));
+			target[i](me.easing(i, to[i],t ));
 
-		if (t<this.duration())
-			this.t(t+1);
+		if (t<me.duration())
+			me.t(t+1);
 		else 
 		{
-			if (this.auto_remove())
-				this.remove();
-			else if (this.repeat())
-				this.rewind();
+			if (me.auto_remove())
+				me.remove();
+			else if (me.repeat())
+				me.rewind();
 			else
-				this.stop();
+				me.stop();
 		}
 	},
 
 	start: function()
 	{
-		var to = this.to(), i, target=this.target();
+	var 
+		me = this,
+		to = me.to(), i, target=me.target()
+	;
 
 		// Setup function it will be replaced after setting up.
-		if (this.__from === null)
+		if (me.__from === null)
 		{
-			this.__from = {};
+			me.__from = {};
 			for (i in to)
-				this.__from[i] = target[i]();
+				me.__from[i] = target[i]();
 		}
 
-		this.draw = this._calculate;
+		me.draw = me._calculate;
 	},
 
 	draw: null,

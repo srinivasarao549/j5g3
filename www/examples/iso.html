@@ -17,37 +17,25 @@ var
 	pt, x, y, prev,
 
 	/* Initialize Map to zero so the animation is possible */
-	mapa = (function() { 
-		i=MAP_HEIGHT;
-		a=[];
-		while (i--) 
-		{
-			a[i]= new Array(MAP_WIDTH);
-			x=MAP_WIDTH;
-			while (x--)
-				a[i][x]=0;
-		}
-		return a;
-	})(),
-
-	rand = function(max) { return Math.floor(Math.random() * max); },
+	mapa = $.ary(MAP_WIDTH, MAP_HEIGHT, 0), 
+	rand = $.irand,
 
 	/**
 	 * points Array of points to modify. [x, y, sprite_index array]
 	 */
-	expand = window.expand = function(points)
+	expand = function(points)
 	{
-		var pts = window.pts = [];
+		var pts = [];
 
 		a = points.length;
 		while (a--) {
 			pt = points[a];
 			x  = pt[0]; y=pt[1];
-			if (mapa[y][x]==0)
-				mapa[y][x]= pt[2][rand(pt[2].length)];
-			else
+
+			if (mapa[y][x])
 				continue;
 
+			mapa[y][x]= pt[2][rand(pt[2].length)];
 			i=y%2;
 
 
@@ -59,7 +47,7 @@ var
 		}
 
 		if (pts.length)
-			setTimeout("expand(pts)", 250);
+			setTimeout(function() { expand(pts); }, 250);
 	},
 
 	/* Generate a 11x30 map */
@@ -76,7 +64,7 @@ var
 	map = $.map({ x: -32, y: -16, sprites: terrain.sprites(), th: 32, tw:64, 'map': mapa})
 ;
 	
-	$.canvas().onmousemove = function(evt)
+	$.canvas.onmousemove = function(evt)
 	{
 		var p = map.getCoord(evt.offsetX, evt.offsetY); 
 		if (prev)
@@ -101,6 +89,7 @@ var
 <body onload="j5g3.start(game);">
 	<!--<img src="../j5g3.png" />-->
 	<h1>Isometric</h1>
+	<p>Random terrain generation.</p>
 	<canvas id="screen"></canvas>
 	<h2>Instructions</h2>
 

@@ -9,14 +9,16 @@ Shape = $.Shape = DisplayObject.extend({
 
 	begin: function()
 	{
-		DisplayObject.prototype.begin.apply(this);
+		var me = this;
 
-		if (this.__fillStyle) context.fillStyle = this.__fillStyle;
-		if (this.__strokeStyle) context.strokeStyle = this.__strokeStyle;
-		if (this.__lineWidth) context.lineWidth = this.__lineWidth;
-		if (this.__lineCap) context.lineCap = this.__lineCap;
-		if (this.__lineJoin) context.lineJoin = this.__lineJoin;
-		if (this.__miterLimit) context.miterLimit = this.__miterLimit;
+		DisplayObject.prototype.begin.apply(me);
+
+		if (me.__fillStyle) context.fillStyle = me.__fillStyle;
+		if (me.__strokeStyle) context.strokeStyle = me.__strokeStyle;
+		if (me.__lineWidth) context.lineWidth = me.__lineWidth;
+		if (me.__lineCap) context.lineCap = me.__lineCap;
+		if (me.__lineJoin) context.lineJoin = me.__lineJoin;
+		if (me.__miterLimit) context.miterLimit = me.__miterLimit;
 	}
 
 }).properties(

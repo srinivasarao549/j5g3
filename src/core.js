@@ -96,6 +96,11 @@ $ = window.j5g3 = {
 	 */
 	rand: function(max) { return Math.random() * max; },
 
+	/**
+	 * Returns a random integer from 0 to max
+	 */
+	irand: function(max) { return Math.floor(Math.random() * max); },
+
 	/** Creates an array of w*h dimensions initialized with value v */
 	ary: function(w, h, v)
 	{
