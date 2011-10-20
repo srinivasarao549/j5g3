@@ -1,5 +1,5 @@
 /**
- * @preserve
+ * @license
  * j5g3 v@VERSION - Javascript Game Engine 
  * http://hackerhosting.com/j5g3
  *
@@ -19,18 +19,26 @@
  * along with Foobar. If not, see <http://www.gnu.org/licenses/>.
  *
  * Date: @DATE
+ *
  */
 
-(function(window, document, undefined) {
+(
+
+/**
+ * @suppress {missingProperties}
+ * @param {Window} window
+ * @param document
+ * @param {undefined=} undefined
+ */
+function(window, document, undefined) {
 
 var 
-	/* @const */ VERSION = "@VERSION",
+	/** @const */ VERSION = "@VERSION",
 
 	/* Frames per Second */
 	__fps = 31,
 
 	canvas,
-	_typeof,
 	context,
 	/* This is used by the cache mechanism. It is a canvas element. */
 	cache,

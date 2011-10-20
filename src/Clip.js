@@ -1,14 +1,17 @@
 /**
- * j5g3 Clip
+ * j5g3.Clip
  *
  * Properties:
  *
  * frames	Array of array      Frames of clip.
  *
+ *
  */
-
 Clip = $.Clip = DisplayObject.extend(
 {
+	/**
+	 * @constructor
+	 */
 	init: function(properties)
 	{
 		if (properties instanceof Array)

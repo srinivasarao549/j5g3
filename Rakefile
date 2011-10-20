@@ -40,13 +40,6 @@ task :build do
 	end
 end
 
-desc "Minify script"
-task :minify => [:build] do
-	`#{JAVA} -jar tools/yuicompressor.jar #{OUTPUT} -o #{MINOUTPUT}`	
-	puts "#{OUTPUT}: " + File.size(OUTPUT).to_s
-	puts "#{MINOUTPUT}: " + File.size(MINOUTPUT).to_s
-end
-
 desc "Closure Compile"
 task :compile => [:build] do
 	`#{JAVA} -jar tools/compiler.jar --js #{OUTPUT} --js_output_file #{MINOUTPUT} --warning_level VERBOSE`

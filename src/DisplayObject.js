@@ -18,18 +18,21 @@ DisplayObject = $.DisplayObject = Class.extend({
 	 */
 	begin: function()
 	{
+	var
+		me = this
+	;
 		context.save();
-		context.globalAlpha *= this.alpha();
-		context.translate(this.x(), this.y());
-		context.scale(this.scaleX(), this.scaleY());
-		context.rotate(this.rotation());
+		context.globalAlpha *= me.__alpha;
+		context.translate(me.__x, me.__y);
+		context.scale(me.__scaleX, me.__scaleY);
+		context.rotate(me.__rotation);
 
-		if (this.__skewX)
-			context.transform(1, 0, Math.tan(this.__skewX), 1, 0, 0);
-		if (this.__skewY)
-			context.transform(1, Math.tan(this.__skewY), 0, 1, 0, 0);
+		if (me.__skewX)
+			context.transform(1, 0, Math.tan(me.__skewX), 1, 0, 0);
+		if (me.__skewY)
+			context.transform(1, Math.tan(me.__skewY), 0, 1, 0, 0);
 
-		this._apply_transform();
+		me._apply_transform();
 	},
 
 	/**

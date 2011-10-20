@@ -25,31 +25,38 @@ Map = $.Map = DisplayObject.extend({
 	getCoord: function(x, y)
 	{
 		var 
-		    w  = this.__map[0].length,
-		    h  = this.__map.length,
+	            me = this,
+		    map= me.__map,
+		    w  = map[0].length,
+		    h  = map.length,
 
-		    nx = Math.round(x / this.__tw),
-		    ny = Math.round(y / (this.__th/2 + this.__offsetY))
+		    nx = Math.round(x / me.__tw),
+		    ny = Math.round(y / (me.__th/2 + me.__offsetY))
 		;
 
 		return [ nx, ny ];
 	},
 
+	// TODO Why is this function here?
 	cache: function(w, h)
 	{
-		var pc = context;
+	var 
+		me = this,
+		pc = context
+	;
 		// TODO This might be dangerous
-		cache.width = this.__x + w;
-		cache.height= this.__y + h;
+		cache.width = me.__x + w;
+		cache.height= me.__y + h;
+
 		context = cache.getContext('2d');
 
-		if (this._oldPaint)
-			this.paint = this._oldPaint;
+		if (me._oldPaint)
+			me.paint = me._oldPaint;
 
-		this.draw();
-		this.__source = context.getImageData(this.__x, this.__y, w, h);
-		this._oldPaint= this.paint;
-		this.paint = Draw.ImageData;
+		me.draw();
+		me.__source = context.getImageData(me.__x, me.__y, w, h);
+		me._oldPaint= me.paint;
+		me.paint = Draw.ImageData;
 
 		context = pc;
 	},
