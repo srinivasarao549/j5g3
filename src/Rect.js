@@ -11,19 +11,12 @@ Shape = $.Shape = DisplayObject.extend({
 	{
 		DisplayObject.prototype.begin.apply(this);
 
-		/*if (this.__fillStyle) context.fillStyle = this.__fillStyle;
+		if (this.__fillStyle) context.fillStyle = this.__fillStyle;
 		if (this.__strokeStyle) context.strokeStyle = this.__strokeStyle;
 		if (this.__lineWidth) context.lineWidth = this.__lineWidth;
 		if (this.__lineCap) context.lineCap = this.__lineCap;
 		if (this.__lineJoin) context.lineJoin = this.__lineJoin;
 		if (this.__miterLimit) context.miterLimit = this.__miterLimit;
-		*/
-		context.fillStyle = this.__fillStyle;
-		context.strokeStyle = this.__strokeStyle;
-		context.lineWidth = this.__lineWidth;
-		context.lineCap = this.__lineCap;
-		context.lineJoin = this.__lineJoin;
-		context.miterLimit = this.__miterLimit;
 	}
 
 }).properties(

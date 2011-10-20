@@ -37,7 +37,7 @@ Spritesheet = $.Spritesheet = Class.extend({
 	},
 
 	/**
-	 * Creates clip from spritesheet indexes. Takes an Array, Range or a list of arguments.
+	 * Creates clip from spritesheet indexes. Takes a variable number of arguments.
 	 */
 	clip: function()
 	{
@@ -56,6 +56,10 @@ Spritesheet = $.Spritesheet = Class.extend({
 		return new Clip({ 'frames': frames });
 	},
 
+	/**
+	 * Creates a clip from a range
+	 *
+	 */
 	clip_range: function(sprites)
 	{
 		return this.clip_array(sprites.to_a());

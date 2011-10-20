@@ -15,6 +15,7 @@ function game($)
 	// And play a sound.
 	// It will be added to the end of the clip
 	    update = function() { 
+	    	sound.currentTime = 0;
 	    	r.pos($.rand(600), $.rand(440)); 
 		sound.play();
 	    },
@@ -23,7 +24,7 @@ function game($)
 	    r = ss.clip_range($.range(0, 24)).add(update)
 	;
 
-	$.fps(60);
+	$.fps(30);
 	$.root.add([ r ]);
 	$.run();
 }
