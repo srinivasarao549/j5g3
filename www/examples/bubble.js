@@ -1,7 +1,6 @@
 
 function game($, document, undefined) {
 
-	/* Classes used */
 var 
 	/* Functions */
 	rand = $.rand,
@@ -63,21 +62,21 @@ var
 			}
 ;
 
-			this.x(rand(canvas.width  -diameter));
-			this.y(rand(canvas.height -diameter));
-			this.velocity = velocity;
-			this.collide  = collide;
+			me.x(rand(canvas.width  -diameter));
+			me.y(rand(canvas.height -diameter));
+			me.velocity = velocity;
+			me.collide  = collide;
 					
-			this.paint = function()
+			me.paint = function()
 			{
-				this.__x = this.__x + velocity.x; 
-				this.__y = this.__y + velocity.y;
+				me.__x = me.__x + velocity.x; 
+				me.__y = me.__y + velocity.y;
 
 				// wall collission
 				checkCollision('x', canvas.width);
 				checkCollision('y', canvas.height);
 				
-				$.Draw.Image.apply(this);
+				$.Draw.Image.apply(me);
 			};
 		}
 	}),
