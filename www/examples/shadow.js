@@ -1,11 +1,5 @@
-<html>
-<head>
-	<title>JSGE - Dynamic Shadows</title>
-	<script src="../j5g3-dbg.js"></script>
-	<script src="skeleton.js"></script>
-<script>
 
-function game($)
+(function ($)
 {
 var
 	/* Generates Random X */
@@ -88,22 +82,4 @@ var
 	$.run();
 	$.Input.Keyboard.capture();
 	keyboard = $.Input.Key;
-}
-	
-</script>
-	<link rel="stylesheet" href="styles.css" />
-</head>
-<body onload="j5g3.start(game);">
-	<img src="../j5g3.png" />
-	<h1>Shadows</h1>
-	<canvas id="screen"></canvas>
-	<h2>Instructions</h2>
-	<p>Use the arrows to move.</p>
-	<div id="assets" style="display: none;">
-		<img id="skeleton" src="skeleton.png" />
-		<img id="skeleton-shadow" src="skeleton-shadow.png" />
-		<img id="light" src="light.png" />
-		<img id="lightbulb" src="lightbulb.png" />
-		<img id="terrain" src="terrain-low.jpg" />
-	</div>
-</body>
+})

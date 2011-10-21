@@ -1,7 +1,5 @@
-<script src="../j5g3-dbg.js"></script>
-<script src="../src/Monkey.js"></script>
-<script>
-function game($)
+
+(function ($)
 {
 	var ROWS = 4, COLS=4,
 	    ss = $.spritesheet($.id('pic')).grid(ROWS, COLS),
@@ -56,21 +54,4 @@ function game($)
 	$.background.fillStyle('black');
 	$.root.add(pieces);
 	$.run();
-}
-</script>
-<style>
-	canvas { border: 4px solid black; width: 500px; height: 400px; }
-	#assets { display:none;}
-	#thumb { float: right; border: 1px solid #ccc; }
-</style>
-
-<body onload="j5g3.start({ start: game, width: 500, height: 400});" style="width: 800px; margin: 10px auto;">
-	<h1>Spritesheet Demo</h1>
-	<label>Enter Image URL: <input id="img"> <button onclick="load">Load</button> </label>
-	<canvas id="screen"></canvas>
-	<img width="280" src="sn.jpg" id="thumb"/>
-	<div id="assets">
-		<img src="sn.jpg" id="pic"/>
-	</div>
-		
-</body>
+})

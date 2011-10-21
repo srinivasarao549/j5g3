@@ -1,16 +1,11 @@
-<html>
-<head>
-	<title>JSGE - Dynamic Shadows</title>
-	<script src="../j5g3-dbg.js"></script>
-<script>
 
-function game($)
+(function ($)
 {
 var
 	/** @const */ MAP_WIDTH = 11,
 	/** @const */ MAP_HEIGHT= 31,
 
-	terrain = $.spritesheet('terrain').grid(10, 10, 1),
+	terrain = $.spritesheet('iso-terrain').grid(10, 10, 1),
 
 	i, a,
 	pt, x, y, prev,
@@ -80,19 +75,4 @@ var
 	$.root.add([map]);
 	setTimeout(genmap, 250);
 	$.run();
-}
-
-</script>
-	<link rel="stylesheet" href="styles.css" />
-</head>
-<body onload="j5g3.start(game);">
-	<!--<img src="../j5g3.png" />-->
-	<h1>Isometric</h1>
-	<p>Random terrain generation.</p>
-	<canvas id="screen"></canvas>
-	<h2>Instructions</h2>
-
-	<div id="assets"> 
-		<img id="terrain" src="iso.png" />
-	</div>
-</body>
+})

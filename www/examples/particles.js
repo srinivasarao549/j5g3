@@ -1,13 +1,5 @@
-<html>
-<head>
-	<title>JSGE - Bubble Example</title>
-	<script src="../build/j5g3.js"></script>
-	<script src="../src/Debug.js"></script>
-	<link rel="stylesheet" href="styles.css" />
-	<script>
-	/* NOTE not complete yet */
 
-function game($)
+(function ($)
 {
 var 
 	particles,
@@ -74,13 +66,4 @@ var
 	$.root.add(p).add(update);
 	$.run();						
 
-};
-	</script>
-</head>
-<body onload="j5g3.start(game);">
-	<canvas id="screen"></canvas>
-	<div id="assets">
-		<img src="particles.png" id="particles" />
-	</div>
-</body>
-</html>
+})

@@ -1,7 +1,7 @@
 /**
  * Executes code on FrameEnter.
  */
-Action = Class.extend({
+Action = $.Action = Class.extend({
 
 	init: function(properties)
 	{

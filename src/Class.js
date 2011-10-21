@@ -38,7 +38,7 @@ Class.extend = function(methods, static_methods)
 			init.prototype[i] = methods[i];
 
 	if (static_methods)
-		Util.extend(_super, static_methods);
+		Util.extend(init, static_methods);
 
 	init.properties = Class.properties;
 	init.extend = Class.extend;
