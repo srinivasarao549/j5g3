@@ -49,8 +49,8 @@ var
 	get_next = function()
 	{
 		return new game.Piece({ 
-			piece: Math.floor(Math.random()*BLOCK_PIECES), 
-			color: Math.ceil(Math.random()*BLOCK_COLORS),
+			piece: $.irand(BLOCK_PIECES),
+			color: $.irand(BLOCK_COLORS)+1,
 			board: board
 		});
 	},

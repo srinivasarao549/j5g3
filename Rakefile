@@ -9,6 +9,7 @@ SRC = %w{core Class Animate Collision Property Util Draw DisplayObject Clip Emit
 SRCS = SRC.join(' ')
 
 OUTPUT = 'build/j5g3.js'
+DBGOUTPUT = 'build/j5g3-dbg.js'
 MINOUTPUT = 'build/j5g3-min.js'
 JAVA = 'java'
 JS = 'js'
@@ -38,12 +39,15 @@ task :build do
 	File.open(OUTPUT, 'w') do |f|
 		f.write output
 	end
+
+	# Build Debug file
+	`cp #{OUTPUT} #{DBGOUTPUT} && cat src/Debug.js >> #{DBGOUTPUT}`
 end
 
 desc "Closure Compile"
 task :compile => [:build] do
 	`#{JAVA} -jar tools/compiler.jar --js #{OUTPUT} --js_output_file #{MINOUTPUT} --warning_level VERBOSE`
-	`cp #{OUTPUT} #{MINOUTPUT} www`
+	`cp #{OUTPUT} #{MINOUTPUT} #{DBGOUTPUT} www`
 	#`#{JAVA} -jar tools/compiler.jar --compilation_level ADVANCED_OPTIMIZATIONS --js #{OUTPUT} --js_output_file #{MINOUTPUT} --warning_level VERBOSE`
 	puts "#{OUTPUT}: " + File.size(OUTPUT).to_s
 	puts "#{MINOUTPUT}: " + File.size(MINOUTPUT).to_s
