@@ -13,20 +13,15 @@ Physics = $.Physics = Class.extend({
 
 	init: function(properties)
 	{
-		if (properties.v==undefined)
-			properties.v=[0, 0];
-
 		_extend(this, properties);
 	},
 
 	draw: function()
 	{
-		var o = this.__obj,
-		    v = this.__v
-		;
+		var o = this.__obj;
 
-		o.x(o.x() + v[0]);
-		o.y(o.y() + v[1]);
+		o.__x = (o.__x + this.__vx);
+		o.__y = (o.__y + this.__vy);
 	},
 
 	/**
@@ -35,11 +30,12 @@ Physics = $.Physics = Class.extend({
 	force: function(fx, fy, x, y)
 	{
 		var m = this.__m,
-		    v = this.__v
+		    vx = this.__vx,
+		    vy = this.__vy
 		; 
 
-		v[0] = (m*v[0]+fx)/m;
-		v[1] = (m*v[1]+fy)/m;
+		this.__vx = (m*vx+fx)/m;
+		this.__vy = (m*vy+fy)/m;
 
 		return this;
 	},
@@ -51,6 +47,6 @@ Physics = $.Physics = Class.extend({
 	invalidate: function() { }
 }).properties(
 {
-	obj: null, v: null, m: 1, parent: null
+	obj: null, vx: 0, vy: 0, m: 1, parent: null
 }),
 

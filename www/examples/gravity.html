@@ -16,7 +16,7 @@ function game($)
 			ball.y(430);
 
 			// Apply a force in ball if it hits the ground
-			F.force(0, -F.v()[1]*1.9, 0, 0);
+			F.force(0, -F.vy()*1.9, 0, 0);
 		}
 
 		// Apply gravity force every frame.

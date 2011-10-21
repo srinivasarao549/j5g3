@@ -27,7 +27,6 @@
 
 $ = window.j5g3 = { 
 
-	canvas: null,
 	backgroundStyle: 'black',
 	width: 640,
 	height: 480,
