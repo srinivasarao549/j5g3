@@ -1,5 +1,4 @@
-<script src="../build/j5g3.js"></script>
-<script src="../src/Debug.js"></script>
+<script src="../j5g3-dbg.js"></script>
 <script src="../src/Monkey.js"></script>
 <script>
 function game($)
@@ -8,12 +7,12 @@ function game($)
 	    ss = $.spritesheet($.id('pic')).grid(ROWS, COLS),
 	    pieces= ss.sprites(),
 	    r, c,
-	    w=$.canvas().width / COLS,
-	    h=$.canvas().height / ROWS,
+	    w=$.canvas.width / COLS,
+	    h=$.canvas.height / ROWS,
 	    last = pieces[8]
 	;
 
-	pieces.shuffle();
+	$.shuffle(pieces);
 
 	for (r=0; r<ROWS; r++)
 		for (c=0; c<COLS; c++)
@@ -21,16 +20,16 @@ function game($)
 
 	pieces.splice(pieces.indexOf(last), 1);
 
-	$.canvas().onmousemove = function(evt)
+	$.canvas.onmousemove = function(evt)
 	{
-		pieces.each(function() { this.alpha(1); });
+		$.each(pieces, function() { this.alpha(1); });
 		var piece = $.root.at(evt.offsetX, evt.offsetY);
 		if (piece) piece.alpha(0.5);
 	};
 
-	var onclick = $.canvas().onclick = function(evt)
+	var onclick = $.canvas.onclick = function(evt)
 	{
-		$.canvas().onclick = null;
+		$.canvas.onclick = null;
 		var piece = $.root.at(evt.offsetX, evt.offsetY);
 
 		if (piece)
@@ -47,10 +46,10 @@ function game($)
 			else if (x < w*(COLS-1) && !$.root.at(x+w, y+4))
 				tween = $.tween(piece).to({x: piece.x()+w});
 
-			tween.on_remove(function() { $.canvas().onclick = onclick; });
+			tween.on_remove(function() { $.canvas.onclick = onclick; });
 			$.root.add(tween.auto_remove(true).duration(16));
 		}
-		else return $.canvas().onclick = onclick;
+		else return $.canvas.onclick = onclick;
 
 	}
 

@@ -111,6 +111,24 @@ $ = window.j5g3 = {
 				result[h][x]=v;
 		}
 		return result;
+	},
+
+	shuffle: function(ary)
+	{
+		var l=ary.length, i=l, t, b;
+
+		while (i--)
+		{
+			t = ary[i];
+			ary[i] = ary[b = $.irand(l)];
+			ary[b] = t;
+		}
+	},
+
+	each: function(ary, fn)
+	{
+		for (var i=0; i<ary.length; i++)
+			fn.apply(ary[i], [i]);
 	}
 },
 

@@ -128,7 +128,7 @@ Clip = $.Clip = DisplayObject.extend(
 	 */
 	at: function(x, y)
 	{
-		var frame = this.__frame, i;
+		var frame = this.frame(), i;
 
 		for (i =0;i<frame.length; i++)
 			if (frame[i].visible() && Collision.Point.apply(frame[i], [x, y]))
