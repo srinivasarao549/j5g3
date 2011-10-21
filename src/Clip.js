@@ -49,6 +49,8 @@ Clip = $.Clip = DisplayObject.extend(
 	stop: function() { this._playing = false; return this;},
 	play: function() { this._playing = true; return this; },
 
+	is_playing: function() { return this._playing; },
+
 	/**
 	 * Adds display_objects to current frame. 
 	 * If function is passed it converts it to an Action object.

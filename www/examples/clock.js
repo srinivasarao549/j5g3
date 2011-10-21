@@ -1,13 +1,6 @@
-<html>
-<head>
-	<title> j5g3 - Clock Example</title>
-	<link rel="stylesheet" href="styles.css" />
-	<script src="../j5g3-dbg.js"></script>
-	<script>
 
-function game($)
+(function ($)
 {
-	
 	var update = function() 
 	{
 			var 
@@ -36,15 +29,4 @@ function game($)
 	$.background.fillStyle('white');
 	
 	$.fps(60).run();
-};
-	</script>
-</head>
-<body onload="j5g3.start(game);">
-	<canvas id="screen"></canvas>
-	<div id="assets">
-		<img id="clock" src="clock.jpg" />
-		<img id="hour" src="HourHand.png" />
-		<img id="min" src="MinuteHand.png" />
-		<img id="sec" src="SecondHand.png" />
-	</div>
-</body>
+})

@@ -30,3 +30,8 @@ header > nav > a:hover { background: rgba(255, 255, 255, 0.2); }
 }
 
 footer { text-align: center; line-height: 40px; }
+
+canvas { width: 640px; height: 480px; margin: 30px auto; display: block; background: #000; }
+
+#assets { display: none; }
+

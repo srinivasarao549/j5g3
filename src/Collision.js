@@ -2,7 +2,7 @@
  * Collision Module Algorithsm
  */
 
-Collision = {
+Collision = $.Collision = {
 	
 	/**
 	 * Determines if point is inside object.

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>JSGE - Blocks Game</title>
+	<script src="../j5g3-dbg.js"></script>
+	<script src="skeleton.js"></script>
+
+	<link rel="stylesheet" href="../styles.css" />
+
+	<script>
+	function onload()
+	{
+	var
+		$ = j5g3,
+		list = $.id('demos'),
+		ajax = new XMLHttpRequest,
+		url, game
+	;
+
+		ajax.onreadystatechange = function()
+		{
+			if (ajax.readyState===4)
+			{
+				game = eval(ajax.responseText);
+
+				if ($.root) $.pause();
+				$.start(game);
+			}
+		}
+
+		list.onchange = function()
+		{
+			url = this.value.toLowerCase() + '.js';
+			ajax.open('GET', url);
+			ajax.send();
+		}
+
+		list.onchange();
+	}
+	</script>
+
+</head>
+<body onload="onload()">
+	<header>
+		<nav>
+			<a href="buy.html">Buy</a>
+			<a href="docs">Documentation</a>
+			<a href="https://github.com/giancarlo/j5g3">Source</a>
+			<a href="blog">Blog</a>
+		</nav>
+		<img id="logo" src="../j5g3.png" alt="j5g3" />
+	</header>
+
+<div style="text-align: center">
+	<h1>Demos</h1>
+	<p>Select a demo from the list to start.</p>
+	<select id="demos">
+		<optgroup label="Demos">
+			<option>Impulse</option>
+			<option>Clock</option>
+			<option>Easing</option>
+			<option>Fire</option>
+			<option>Font</option>
+			<option>Input</option>
+			<option>Gravity</option>
+			<option>Particles</option>
+			<option>Shadow</option>
+			<option>Spritesheet</option>
+			<option>Isometric</option>
+		</optgroup>
+		<optgroup label="Games">
+			<option>Pong</option>
+			<option>Blocks</option>
+		</optgroup>
+	</select>
+</div>
+
+	<canvas id="screen"></canvas>
+
+	<div id="assets">
+		<img id="clock" src="clock.jpg" />
+		<img id="hour" src="HourHand.png" />
+		<img id="min" src="MinuteHand.png" />
+		<img id="sec" src="SecondHand.png" />
+		<img id="ball" src="soccer-ball.gif" />
+		<img src="spritesheet.png" id="spritesheet" />
+		<img id="logo" src="j5g3.png" />
+		<img id="skeleton" src="skeleton.png" />
+		<img id="skeleton-shadow" src="skeleton-shadow.png" />
+		<img id="light" src="light.png" />
+		<img id="lightbulb" src="lightbulb.png" />
+		<img id="terrain" src="terrain-low.jpg" />
+		<img id="iso-terrain" src="iso.png" />
+		<img src="sn.jpg" id="pic"/>
+		<img id="pong-ss" src="pong.png" />
+		<audio id="pong" src="pong.ogg" preload="true"></audio>
+	</div>
+
+</body>
+</html>

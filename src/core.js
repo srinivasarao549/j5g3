@@ -22,8 +22,10 @@
 		context = canvas.getContext('2d');
 		cache = document.createElement('CANVAS');
 
-		properties.start($, document);
+		properties.startFn($, document);
 	},
+
+	process,
 
 $ = window.j5g3 = { 
 
@@ -36,7 +38,10 @@ $ = window.j5g3 = {
 	 */
 	run: function()
 	{
-		setInterval($.gameLoop, __fps);
+		if (process)
+			clearInterval(process);
+
+		process = setInterval($.gameLoop, __fps);
 	},
 
 	/**
@@ -64,7 +69,7 @@ $ = window.j5g3 = {
 	 */
 	start: function(initfunc)
 	{
-		initialize(typeof(initfunc)=='function' ? { start: initfunc } : initfunc);
+		initialize(typeof(initfunc)=='function' ? { startFn: initfunc } : initfunc);
 	},
 
 	/**
