@@ -1,5 +1,7 @@
+Map = 
+
 /**
- * Maps an array to a spritesheet.
+ * @class Maps an array to a spritesheet.
  *
  * Properties:
  *
@@ -7,9 +9,11 @@
  * map: 2D Array containing the indexes of the sprites
  * tw: Tile Width
  * th: Tile Height
+ *
+ * @extends j5g3.DisplayObject
+ *
  */
-
-Map = $.Map = DisplayObject.extend({
+j5g3.Map = DisplayObject.extend(/**@scope j5g3.Map.prototype */ {
 
 	init: function(p)
 	{

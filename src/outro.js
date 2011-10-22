@@ -6,19 +6,19 @@ f = function(klass)
 ;
 
 /* CLASSES */
-$.action = f(Action);
-$.clip   = f(Clip);
-$.dot    = f(Dot);
-$.emitter= f(Emitter);
-$.image  = f(Image);
-$.range  = function(a, b) { return new Range(a, b); };
-$.rect   = f(Rect);
-$.sprite = f(Sprite);
-$.spritesheet = f(Spritesheet);
-$.text   = f(Text);
-$.tween  = f(Tween);
-$.physics= f(Physics);
-$.map    = f(Map);
+j5g3.action = f(Action);
+j5g3.clip   = f(Clip);
+j5g3.dot    = f(Dot);
+j5g3.emitter= f(Emitter);
+j5g3.image  = f(Image);
+j5g3.range  = function(a, b) { return new Range(a, b); };
+j5g3.rect   = f(Rect);
+j5g3.sprite = f(Sprite);
+j5g3.spritesheet = f(Spritesheet);
+j5g3.text   = f(Text);
+j5g3.tween  = f(Tween);
+j5g3.physics= f(Physics);
+j5g3.map    = f(Map);
 
 
 })(this, document);

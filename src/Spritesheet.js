@@ -1,5 +1,7 @@
+Spritesheet = 
+
 /**
- * j5g3 Spritesheet Class
+ * @class Spritesheet Class
  *
  * Constructor can take properties object, a string with the filename, an HTML Image or j5g3 Image.
  *
@@ -8,8 +10,7 @@
  * source	Image of the spritesheet. If a string passed it will be converted to a j5g3.Image
  *
  */
-
-Spritesheet = $.Spritesheet = Class.extend({
+j5g3.Spritesheet = Class.extend(/** @scope j5g3.Spritesheet.prototype */ {
 
 	init: function(properties)
 	{

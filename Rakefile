@@ -15,6 +15,7 @@ JAVA = 'java'
 JS = 'js'
 
 JS_CLASS_REPO = 'git://github.com/giancarlo/js-class.git'
+JSDOC = 'java -jar tools/jsdoc/jsrun.jar tools/jsdoc/app/run.js -a -t=tools/jsdoc/templates/jsdoc -d=www/docs '
 
 def read(name)
 	File.read("src/#{name}.js")
@@ -42,12 +43,13 @@ task :build do
 
 	# Build Debug file
 	`cp #{OUTPUT} #{DBGOUTPUT} && cat src/Debug.js >> #{DBGOUTPUT}`
+	`cp #{OUTPUT} #{DBGOUTPUT} www`
 end
 
 desc "Closure Compile"
 task :compile => [:build] do
 	`#{JAVA} -jar tools/compiler.jar --js #{OUTPUT} --js_output_file #{MINOUTPUT} --warning_level VERBOSE`
-	`cp #{OUTPUT} #{MINOUTPUT} #{DBGOUTPUT} www`
+	`cp #{MINOUTPUT} www`
 	#`#{JAVA} -jar tools/compiler.jar --compilation_level ADVANCED_OPTIMIZATIONS --js #{OUTPUT} --js_output_file #{MINOUTPUT} --warning_level VERBOSE`
 	puts "#{OUTPUT}: " + File.size(OUTPUT).to_s
 	puts "#{MINOUTPUT}: " + File.size(MINOUTPUT).to_s
@@ -68,6 +70,11 @@ task :test do
 	puts `#{JS} test/*.js`
 end
 
+desc "Generae Documentation"
+task :docs do
+	puts `#{JSDOC} #{DBGOUTPUT}`
+end
+
 desc "Default Action"
-task :default => [:compile]
+task :default => [:build]
 

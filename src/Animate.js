@@ -1,12 +1,22 @@
+
+Animate = 
+
 /**
  * j5g3 Animation Module.
- * This is the first module included.
+ *
+ * @namespace
  */
+j5g3.Animate = { 
 
-Animate = { 
-
+	/**
+	 * @namespace
+	 */
 	Easing:
 	{
+
+		/**
+		 * No Easing
+		 */
 		None: function( prop, to, t)
 		{
 			var start = this.from(),

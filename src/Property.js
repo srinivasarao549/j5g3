@@ -1,11 +1,3 @@
-/**
- * Property Functions
- *
- */
-/*
- * Property emulation for Javascript
- */
-
 
 /**
  * Define a property.
@@ -19,11 +11,13 @@ property = function(name)
 	}
 },
 
+properties = 
+
 /**
  * Define properties in props.
  * { name: default_value }
  */
-properties = Class.properties = function(props)
+j5g3.Class.properties = function(props)
 {
 	var i;
 

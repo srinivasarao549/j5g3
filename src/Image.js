@@ -1,15 +1,15 @@
 
+Image = 
+
 /**
- * j5g3 Image Class
+ * @class Image Class
  *
  * Constructor takes properties object, a string with the id of an Image or an HTML Image Element.
  *
- * Properties
- *
- * source: 
+ * @extends j5g3.DisplayObject
  */
-Image = $.Image = DisplayObject.extend(
-{
+j5g3.Image = DisplayObject.extend(
+/** @scope j5g3.Image.prototype */ {
 	init: function(properties)
 	{
 		switch(_typeof(properties)) {

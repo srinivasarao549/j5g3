@@ -1,5 +1,8 @@
+
+Physics = 
+
 /**
- * j5g3 Physics Class
+ * @class Physics Engine
  *
  * NOTE: You need to include the physics object to the scene.
  *
@@ -8,8 +11,7 @@
  * obj     Object to apply physics to.
  * v       Velocity 2D Vector. Default [0, 0]
  */
-
-Physics = $.Physics = Class.extend({
+j5g3.Physics = Class.extend(/**@scope j5g3.Physics.prototype */{
 
 	init: function(properties)
 	{

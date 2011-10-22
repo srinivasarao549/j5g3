@@ -1,5 +1,8 @@
+
+Tween = 
+
 /**
- * j5g3 Tween Class
+ * @class Tween Class
  *
  * Properties
  *
@@ -23,8 +26,7 @@
  * easing    function
  *
  */
-
-Tween = $.Tween = Class.extend({
+j5g3.Tween = Class.extend(/**@scope j5g3.Tween.prototype */ {
 	
 	init: function(properties)
 	{

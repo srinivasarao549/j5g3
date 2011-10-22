@@ -7,7 +7,7 @@
 	var 
 		MAXW = 640,
 		MAXH = 480,
-	    maxvx = 8,
+	    maxvx = 12,
 	    ss = $.spritesheet($.id('pong-ss')),
 	    player   = ss.cut(8, 8, 8, 40).pos(20, MAXH/2-10),
 	    computer = ss.cut(8, 54, 8, 40 ).pos(MAXW-20, MAXH/2-10),
@@ -74,8 +74,8 @@
 		{
 			if (computer.y() <5) computer.y(5);
 			else if (computer.y()>MAXH-20) computer.y(MAXH-20);
-			else if (by > y+4) a = 1;
-			else if (by < y-4) a = -1;
+			else if (by > y+4) a = 2;
+			else if (by < y-4) a = -2;
 
 			if (a)
 			{

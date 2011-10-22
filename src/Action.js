@@ -1,7 +1,14 @@
+
+Action = 
+
 /**
  * Executes code on FrameEnter.
+ *
+ * @class
+ * @extends j5g3.Class
  */
-Action = $.Action = Class.extend({
+j5g3.Action = Class.extend(
+/** @scope j5g3.Action.prototype */ {
 
 	init: function(properties)
 	{
@@ -9,8 +16,7 @@ Action = $.Action = Class.extend({
 	},
 
 	parent: function() { }
-}, {
-	/* Static Methods */
+}, /** @scope j5g3.Action */ {
 
 	/**
 	 * Rotates object forever. Clockwise by default.
@@ -23,6 +29,8 @@ Action = $.Action = Class.extend({
 		};
 	},
 
+	/**
+	 */
 	remove: function()
 	{
 		this.parent().remove_child(this);

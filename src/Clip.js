@@ -1,17 +1,11 @@
+Clip = 
+
 /**
- * j5g3.Clip
- *
- * Properties:
- *
- * frames	Array of array      Frames of clip.
- *
- *
+ * @class Clip
  */
-Clip = $.Clip = DisplayObject.extend(
-{
-	/**
-	 * @constructor
-	 */
+j5g3.Clip = DisplayObject.extend(
+/** @scope j5g3.Clip.prototype */ {
+
 	init: function(properties)
 	{
 		if (properties instanceof Array)
@@ -30,6 +24,8 @@ Clip = $.Clip = DisplayObject.extend(
 	
 	/**
 	 * Returns current frame objects.
+	 * @function
+	 * @memberOf j5g3.Clip
 	 */
 	frame: function() 
 	{

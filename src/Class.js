@@ -1,14 +1,17 @@
 
+
+Class = 
+
 /**
- * js-class
  *
  * Object Oriented Class Implementation in Javascript.
  *
  * To create a class use Object.extend({ methods });
  *
+ * @class
+ *
  */
-
-Class = function() { },
+j5g3.Class = function() { },
 
 class_extend = 
 
@@ -21,12 +24,12 @@ class_extend =
  * @param {Object=} static_methods
  * 
  */
-Class.extend = function(methods, static_methods)
+j5g3.Class.extend = function(methods, static_methods)
 {
 	var i,
 	    _super  = this, 
 	    init   = methods.init || function() { _super.apply(this, arguments); },
-	    /** @constructor */
+	    /** @ignore @constructor */
 	    subclass= function() { }
 	;
 

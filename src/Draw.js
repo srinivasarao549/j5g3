@@ -1,9 +1,13 @@
 
 
+Draw = 
+
 /**
  * This are all the core drawing algorithms. "this" will point to the DisplayObject.
+ *
+ * @namespace
  */
-Draw = $.Draw = 
+j5g3.Draw = 
 {
 	Void: function() { },
 

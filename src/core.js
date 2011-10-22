@@ -27,7 +27,7 @@
 
 	process,
 
-$ = window.j5g3 = { 
+$ = window.j5g3 = /** @namespace */ j5g3 =  { 
 
 	backgroundStyle: 'black',
 	width: 640,

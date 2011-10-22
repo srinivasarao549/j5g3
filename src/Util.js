@@ -1,10 +1,14 @@
+
+Util = 
+
 /**
  *
  * j5g3 Utilities
  *
+ * @namespace
+ *
  */
-
-Util = $.Util = {
+j5g3.Util = {
 
 	/**
 	 * Extends object a with b
@@ -35,7 +39,7 @@ Util = $.Util = {
 
 },
 
-_typeof = Util.getType = function(obj)
+_typeof = j5g3.Util.getType = function(obj)
 {
 	var result = typeof(obj);
 

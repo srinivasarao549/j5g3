@@ -1,8 +1,11 @@
-/**
- * Particle Emitter
- */
+Emitter = 
 
-Emitter = $.Emitter = Clip.extend({
+/**
+ * @class Particle Emitter
+ * 
+ * @extends j5g3.Clip
+ */
+j5g3.Emitter = Clip.extend(/**@scope j5g3.Emitter.prototype */ {
 	
 	paint: function()
 	{

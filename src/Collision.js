@@ -1,8 +1,12 @@
+
+Collision = 
+
 /**
  * Collision Module Algorithsm
+ *
+ * @namespace
  */
-
-Collision = $.Collision = {
+j5g3.Collision = {
 	
 	/**
 	 * Determines if point is inside object.

@@ -1,12 +1,18 @@
+Input = 
+
 /**
  * Handle Input Output
+ *
+ * @namespace
  */
-
-Input = $.Input = 
+j5g3.Input = 
 {
-	/* Stores all Key status */
+	/** Stores all Key status */
 	Key: {},
 
+	/**
+	 * @namespace
+	 */
 	Keyboard:
 	{
 		/**

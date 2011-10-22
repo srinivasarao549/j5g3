@@ -19,6 +19,7 @@
  * along with Foobar. If not, see <http://www.gnu.org/licenses/>.
  *
  * Date: @DATE
+ * @author Giancarlo Bellido
  *
  */
 
@@ -33,7 +34,7 @@
 function(window, document, undefined) {
 
 var 
-	/** @const */ VERSION = "@VERSION",
+	/** @const @constant */ VERSION = "@VERSION",
 
 	/* Frames per Second */
 	__fps = 31,
@@ -42,5 +43,7 @@ var
 	context,
 	/* This is used by the cache mechanism. It is a canvas element. */
 	cache,
+
+	j5g3,
 
 /* core.js defines $ */

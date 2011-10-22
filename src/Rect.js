@@ -1,11 +1,17 @@
+Shape = 
+
 /**
  *
  * j5g3.Shape
  *
  * Base class for all shapes.
+ *
+ * @class
+ * @extends j5g3.DisplayObject
  * 
  */
-Shape = $.Shape = DisplayObject.extend({
+j5g3.Shape = DisplayObject.extend(
+/** @scope j5g3.Shape.prototype */ {
 
 	begin: function()
 	{
@@ -26,14 +32,19 @@ Shape = $.Shape = DisplayObject.extend({
 	fillStyle: 0, strokeStyle: 0, lineWidth: 0, lineCap: 0, lineJoin: 0, miterLimit: 0
 }),
 
+Rect = 
+
 /**
  *
  * j5g3.Rect
  *
  * Displays a Rect
  *
+ * @class
+ * @extends j5g3.Shape
+ *
  */
-Rect = $.Rect = Shape.extend({
+j5g3.Rect = Shape.extend(/**@scope j5g3.Rect.prototype */{
 
 	paint : function()
 	{
@@ -42,10 +53,14 @@ Rect = $.Rect = Shape.extend({
 
 }),
 
-/*
+Dot = 
+/**
  * Displays a Dot
+ *
+ * @class
+ * @extends j5g3.Shape
  */
-Dot = $.Dot = Shape.extend({
+j5g3.Dot = Shape.extend(/**@scope j5g3.Dot.prototype */{
 	/**
 	 * p can be properties or lineWidth
 	 */

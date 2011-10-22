@@ -1,10 +1,12 @@
 
-/**
- * Base for all classes
- */
-DisplayObject = $.DisplayObject = Class.extend({
+DisplayObject = 
 
-	/** @constructor */
+/**
+ * @class Base for all classes
+ *
+ */
+j5g3.DisplayObject = Class.extend(/** @scope j5g3.DisplayObject.prototype */ {
+
 	init: function(properties)
 	{
 		_extend(this, properties);
