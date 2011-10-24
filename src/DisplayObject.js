@@ -56,6 +56,11 @@ j5g3.DisplayObject = Class.extend(/** @scope j5g3.DisplayObject.prototype */ {
 		this.end();
 	},
 
+	/**
+	 * Sets object to dirty and forces paint
+	 *
+	 * @returns this
+	 */
 	invalidate : function()  
 	{ 
 		this._dirty = true;
@@ -86,6 +91,8 @@ j5g3.DisplayObject = Class.extend(/** @scope j5g3.DisplayObject.prototype */ {
 
 	/**
 	 * Default collision Algorithm is Circle (Collision Module)
+	 *
+	 * @type {Function}
 	 */
 	collides: Collision.Circle,
 
@@ -150,14 +157,33 @@ j5g3.DisplayObject = Class.extend(/** @scope j5g3.DisplayObject.prototype */ {
 	visible: function()
 	{
 		return this.__alpha > 0;
-	},
-
-	getContext: function()
-	{
-		return context;
 	}
 	
-}).properties({
-	source: null, parent: null, x: 0, y:0, width: null, height: null, rotation: 0, scaleX: 1, scaleY: 1, alpha: 1,
-	skewX: null, skewY: null
+}).properties(/**@scope j5g3.DisplayObject.prototype */{
+	
+	/** @type {Image} Used by the draw function to paint the object */
+	source: null, 
+
+	/** @type {j5g3.DisplayObject} Parent */
+	parent: null, 
+	/** @type {Number} X position */
+	x: 0, 
+	/** @type {number} Y position */
+	y:0, 
+	/** @type {Number} Width */
+	width: null, 
+	/** @type {Number} Height */
+	height: null, 
+	/** @type {Number} Rotation */
+	rotation: 0, 
+	/** @type {Number} X Scale */
+	scaleX: 1, 
+	/** @type {Number} Y Scale */
+	scaleY: 1, 
+	/** @type {Number} Alpha transparency value */
+	alpha: 1,
+	/** @type {Number} Skew the object horizontally */
+	skewX: null, 
+	/** @type {Number} Skew the object vertically */
+	skewY: null
 }),

@@ -4,30 +4,23 @@ Tween =
 /**
  * @class Tween Class
  *
- * Properties
+ * @property {Boolean}             auto_remove    Removes tween from clip at the end. Defaults to false.
+ * @property {j5g3.DisplayObject}  target         Object to animate.
+ * @property {Object}              from           Start Value(s)
+ * @property {Object}              to             Final Value(s)
+ * @property {Number}              duration       Duration of tween in frames. Default to 100 frames.
+ * @property {Number}              repeat         How many times to repeat.
+ * @property {Number}              t              Current Time of the animation.
  *
- * properties can be a DisplayObject or a properties Object.
- *
- * auto_remove Boolean         Removes tween from clip at the end. Defaults to false.
- * target    DisplayObject     Object to animate.
- * from      Object            Start Value(s)
- * to        Object            Final Value(s)
- * duration  int               Duration of tween in frames. Default to 100 frames.
- * repeat    int               How many times to repeat.
- * t         int               Current Time of the animation.
- *
- * Events
- *
- * on_remove 
- * on_stop
- *
- * Replaceable Methods: 
- *
- * easing    function
+ * @property {function}   on_remove 
+ * @property {function}   on_stop
  *
  */
 j5g3.Tween = Class.extend(/**@scope j5g3.Tween.prototype */ {
 	
+	/**
+	 * @param properties  DisplayObject or an Object containing properties.
+	 */
 	init: function(properties)
 	{
 		if (_typeof(properties) == 'j5g3')
@@ -91,6 +84,7 @@ j5g3.Tween = Class.extend(/**@scope j5g3.Tween.prototype */ {
 	invalidate: function() { return this; }
 	
 }).properties(
+/** @scope j5g3.Tween.prototype */
 {
 	auto_remove: false,
 	repeat: Infinity,

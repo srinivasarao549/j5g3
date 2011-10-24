@@ -6,6 +6,7 @@ Action =
  *
  * @class
  * @extends j5g3.Class
+ *
  */
 j5g3.Action = Class.extend(
 /** @scope j5g3.Action.prototype */ {

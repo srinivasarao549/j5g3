@@ -1,4 +1,5 @@
 
+/** @ignore */
 f = function(klass)
 {
 	return function(properties) { return new klass(properties); }
@@ -19,6 +20,8 @@ j5g3.text   = f(Text);
 j5g3.tween  = f(Tween);
 j5g3.physics= f(Physics);
 j5g3.map    = f(Map);
+
+j5g3.version= VERSION;
 
 
 })(this, document);

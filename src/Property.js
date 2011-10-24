@@ -1,6 +1,7 @@
 
-/**
+/*
  * Define a property.
+ * @ignore
  */
 property = function(name)
 {
@@ -31,10 +32,11 @@ j5g3.Class.properties = function(props)
 	return this;
 },
 
-/**
+/*
  * Extends Properties by initializing the _p object.
  *
  * @return obj._p Object
+ * @ignore
  */
 _extend = function(obj, p)
 {

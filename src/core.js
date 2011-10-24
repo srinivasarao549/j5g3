@@ -1,5 +1,8 @@
 	
-	initialize= function(properties)
+	/**
+	 * @ignore
+	 */
+	initialize = function(properties)
 	{
 		Util.extend($, properties);
 
@@ -29,8 +32,11 @@
 
 $ = window.j5g3 = /** @namespace */ j5g3 =  { 
 
+	/** fillStyle for background */
 	backgroundStyle: 'black',
+	/** Width of the screen */
 	width: 640,
+	/** Height of the screen */
 	height: 480,
 
 	/**
@@ -64,7 +70,7 @@ $ = window.j5g3 = /** @namespace */ j5g3 =  {
 	/**
 	 * You should always call this method first.
 	 *
-	 * @param initfunc function|object  Initialization settings for the Engine, or a init function.
+	 * @param {function|object} initfunc Initialization settings for the Engine, or a init function.
 	 *
 	 */
 	start: function(initfunc)
@@ -92,6 +98,8 @@ $ = window.j5g3 = /** @namespace */ j5g3 =  {
 
 	/**
 	 * Returns a DOM element by ID.
+	 *
+	 * @param {String} id
 	 */
 	id: function(id) { return document.getElementById(id); },
 	
@@ -118,6 +126,11 @@ $ = window.j5g3 = /** @namespace */ j5g3 =  {
 		return result;
 	},
 
+	/**
+	 * Shuffles array ary.
+	 *
+	 * @param {Array} ary
+	 */
 	shuffle: function(ary)
 	{
 		var l=ary.length, i=l, t, b;
@@ -130,6 +143,12 @@ $ = window.j5g3 = /** @namespace */ j5g3 =  {
 		}
 	},
 
+	/**
+	 * Iterates through ary and runs the fn function for each element
+	 *
+	 * @param {Array} ary
+	 * @param {Function} fn
+	 */
 	each: function(ary, fn)
 	{
 		for (var i=0; i<ary.length; i++)

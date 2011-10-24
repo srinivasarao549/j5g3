@@ -39,7 +39,12 @@ j5g3.Util = {
 
 },
 
-_typeof = j5g3.Util.getType = function(obj)
+_typeof = 
+
+/**
+ * Returns the actual type of obj
+ */
+j5g3.Util.getType = function(obj)
 {
 	var result = typeof(obj);
 
