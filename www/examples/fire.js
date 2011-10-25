@@ -7,8 +7,7 @@
 		on_emit: function(clip) { 
 			txt.text(this.frames()[0].length);
 			clip.pos(Math.random() * 640, Math.random() * 480);
-		},
-		y: 380
+		}
 	}),
 	    txt = $.text({ y: 20});
 
