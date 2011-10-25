@@ -5,10 +5,6 @@ Map =
  *
  * Properties:
  *
- * sprites: Array of sprites 
- * map: 2D Array containing the indexes of the sprites
- * tw: Tile Width
- * th: Tile Height
  *
  * @extends j5g3.DisplayObject
  *
@@ -67,4 +63,16 @@ j5g3.Map = DisplayObject.extend(/**@scope j5g3.Map.prototype */ {
 
 	paint: Draw.Map
 
-}).properties({ sprites: null, map: null, tw: 0, th: 0, offsetX: 0, offsetY: 0 }),
+}).properties(
+/**@scope j5g3.Map.prototype */{ 
+ 	/** Spritesheet */
+	sprites: null, 
+	/** 2D Array containing the indexes of the sprites */
+	map: null, 
+	/** Tile Width */
+	tw: 0, 
+	/** Tile Height */
+	th: 0, 
+	offsetX: 0, 
+	offsetY: 0 
+}),

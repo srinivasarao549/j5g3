@@ -35,6 +35,7 @@
 			ajax.send();
 		}
 
+		list.value = location.hash.substr(1);
 		list.onchange();
 	}
 	</script>
@@ -68,6 +69,7 @@
 			<option>Shadow</option>
 			<option>Spritesheet</option>
 			<option>Isometric</option>
+			<option>AI</option>
 		</optgroup>
 		<optgroup label="Games">
 			<option>Pong</option>
@@ -94,6 +96,11 @@
 		<img id="iso-terrain" src="iso.png" />
 		<img src="sn.jpg" id="pic"/>
 		<img id="pong-ss" src="pong.png" />
+
+		<img id="pacman-walls" src="pacman-walls.png" />
+		<img id="pacman-characters" src="pacman-characters.png" />
+		<img id="pacman-fruits" src="pacman-fruits.png" />
+
 		<audio id="pong" src="pong.ogg" preload="true"></audio>
 	</div>
 
