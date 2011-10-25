@@ -172,26 +172,29 @@ j5g3.DisplayObject = Class.extend(/** @scope j5g3.DisplayObject.prototype */ {
 	/** @type {Image} Used by the draw function to paint the object */
 	source: null, 
 
-	/** @type {j5g3.DisplayObject} Parent */
+	/** 
+	 * Parent
+	 * @type Object
+	 */
 	parent: null, 
-	/** @type {Number} X position */
+	/** @type {number} X position */
 	x: 0, 
 	/** @type {number} Y position */
-	y:0, 
-	/** @type {Number} Width */
+	y: 0, 
+	/** @type {number|null} Width */
 	width: null, 
-	/** @type {Number} Height */
+	/** @type {number|null} Height */
 	height: null, 
-	/** @type {Number} Rotation */
+	/** @type {number} Rotation */
 	rotation: 0, 
-	/** @type {Number} X Scale */
+	/** @type {number} X Scale */
 	scaleX: 1, 
-	/** @type {Number} Y Scale */
+	/** @type {number} Y Scale */
 	scaleY: 1, 
-	/** @type {Number} Alpha transparency value */
+	/** @type {number} Alpha transparency value */
 	alpha: 1,
-	/** @type {Number} Skew the object horizontally */
+	/** @type {number|null} Skew the object horizontally */
 	skewX: null, 
-	/** @type {Number} Skew the object vertically */
+	/** @type {number|null} Skew the object vertically */
 	skewY: null
 }),

@@ -66,11 +66,12 @@ j5g3.Dot = Shape.extend(/**@scope j5g3.Dot.prototype */{
 	 */
 	init: function(p)
 	{
-		if (typeof(p)!='object')
+		if (typeof(p) == 'number' )
 			p = { lineWidth: p };
 
 		_extend(this, p);
 	},
+
 	paint: function()
 	{
 		context.strokeRect(this.x(), this.y(), 1, 1);

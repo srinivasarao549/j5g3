@@ -70,7 +70,7 @@ $ = window.j5g3 = /** @namespace */ j5g3 =  {
 	/**
 	 * You should always call this method first.
 	 *
-	 * @param {function|object} initfunc Initialization settings for the Engine, or a init function.
+	 * @param {Function|Object} initfunc Initialization settings for the Engine, or a init function.
 	 *
 	 */
 	start: function(initfunc)

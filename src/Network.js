@@ -9,8 +9,8 @@ j5g3.Network = {
 	/**
 	 * Gets url using ajax.
 	 *
-	 * @param {String} url 
-	 * @param {function} fn Callback function
+	 * @param {string} url 
+	 * @param {Function} fn Callback function
 	 */
 	get: function(url, fn)
 	{

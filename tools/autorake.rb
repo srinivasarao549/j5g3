@@ -36,7 +36,7 @@ while true do
 		if (file.modified != mtime)
 			puts "AutoRake: #{file} modified."
 			talk "Executing Rake"
-			puts `rake`
+			puts `rake compile`
 
 			talk $?.exitstatus==1 ? "Rake Failed" : "Rake successful"
 			break
