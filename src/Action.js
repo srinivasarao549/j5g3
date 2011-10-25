@@ -16,7 +16,8 @@ j5g3.Action = Class.extend(
 		this.draw = _typeof(properties)== 'function' ? properties : properties.code;
 	},
 
-	parent: function() { }
+	remove: DisplayObject.prototype.remove
+
 }, /** @scope j5g3.Action */ {
 
 	/**
@@ -37,5 +38,7 @@ j5g3.Action = Class.extend(
 		this.parent().remove_child(this);
 	}
 
+}).properties({
+	parent: null
 }),
 

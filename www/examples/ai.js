@@ -47,7 +47,18 @@ var
 	th = $.height/(yl-1),
 	background,
 	//pacman = $.clip([ chars.__sprites[11] ])
-	pacman = chars.__sprites[11]
+	pacman = $.clip([
+		[ chars.__sprites[10] ],
+		[ chars.__sprites[10] ],
+		[ chars.__sprites[10] ],
+		[ chars.__sprites[10] ],
+		[ chars.__sprites[10] ],
+		[ chars.__sprites[11] ],
+		[ chars.__sprites[11] ],
+		[ chars.__sprites[11] ],
+		[ chars.__sprites[11] ],
+		[ chars.__sprites[11] ]
+	]);
 ;
 /*	$.id('html').innerHTML = 
 		'<p><label>Map</label><select><option>Normal</option></select></p>'

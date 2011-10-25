@@ -157,6 +157,14 @@ j5g3.DisplayObject = Class.extend(/** @scope j5g3.DisplayObject.prototype */ {
 	visible: function()
 	{
 		return this.__alpha > 0;
+	},
+
+	/**
+	 * Sets the scaleX and scaleY properties according to w and h
+	 */
+	stretch: function(w, h)
+	{
+		return this.scale(w / this.__width, h/this.__height);
 	}
 	
 }).properties(/**@scope j5g3.DisplayObject.prototype */{

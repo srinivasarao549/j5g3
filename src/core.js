@@ -84,7 +84,8 @@ $ = window.j5g3 = /** @namespace */ j5g3 =  {
 	pause: function()
 	{
 		$.Input.Keyboard.release();
-		$.root.stop();
+		if ($.root)
+			$.root.stop();
 	},
 
 	/**
@@ -92,7 +93,8 @@ $ = window.j5g3 = /** @namespace */ j5g3 =  {
 	 */
 	resume: function()
 	{
-		$.root.play();
+		if ($.root)
+			$.root.play();
 		$.Input.Keyboard.capture();
 	},
 

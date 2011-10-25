@@ -145,6 +145,28 @@ j5g3.Clip = DisplayObject.extend(
 			}
 		
 	}
+
+	/**
+	 * Scales the time coordinate of the clip.
+	 */
+	/*
+	scaleT: function(t)
+	{
+	var
+		frames = [],
+		of = this._oframes || (this._oframes = this.__frames),
+		l = of.length, i=0
+	;
+		for (; i<l; i++)
+			
+		if (!this._oframes)
+			this._oframes = this.frames
+
+
+
+		
+	}*/
+
 }).properties(
 	{ frames: null }
 ),

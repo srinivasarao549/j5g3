@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>j5g3 - Demos</title>
+	<script src="../../j5g3-dbg.js"></script>
+	<script src="ai.js"></script>
+	<script src="graph.js"></script>
+	<script src="pacman.js"></script>
+	<script src="layout.js"></script>
+
+	<link rel="stylesheet" href="../../styles.css" />
+</head>
+<body onload="j5g3.start(game)">
+	<header>
+		<nav>
+			<a href="../buy.html">Buy</a>
+			<a href="../docs">Documentation</a>
+			<a href="https://github.com/giancarlo/j5g3">Source</a>
+			<a href="blog">Blog</a>
+		</nav>
+		<a href="../.."><img id="logo" src="../../j5g3.png" alt="j5g3" /></a>
+	</header>
+
+<div style="text-align: center">
+	<h1>AI Demo</h1>
+	<div>
+		<label>Map: <select id="map">
+			<option>smallMaze.lay</option>
+			<option>bigMaze.lay</option>
+			<option>bigCorners.lay</option>
+		</select></label>
+		<label>Algorithm: <select id="algo">
+			<option value="dfs">Depth-First Search</option>
+			<option value="bfs">Breadth-First Search</option>
+		</select></label>
+	</div>
+	<canvas id="screen"></canvas>
+
+	<div id="assets">
+		<img id="pacman-walls" src="pacman-walls.png" />
+		<img id="pacman-characters" src="pacman-characters.png" />
+		<img id="pacman-fruits" src="pacman-fruits.png" />
+	</div>
+</div>
+</body>
+</html>
