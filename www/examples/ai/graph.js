@@ -7,7 +7,7 @@ var
 	i = data.search('P'),
 	w = me.w = map[0].length,
 	y = Math.floor(i / w),
-	x = i % w - y,
+	x = i % (w+1),
 	root = me.root = {x: x, y: y}
 ;
 	console.log('Starting at ' + x + ',' + y);
