@@ -4,7 +4,7 @@
 require 'rake/packagetask'
 
 # We have to make sure src/core.js is included first.
-VERSION = "0.1"
+VERSION = "0.2"
 SRC = %w{core Class Animate Collision Util Draw DisplayObject Clip Emitter Image Input Range Rect Physics Sprite Spritesheet Text Tween Action Map Network outro}
 SRCS = SRC.join(' ')
 
@@ -73,6 +73,11 @@ end
 desc "Generae Documentation"
 task :docs do
 	puts `#{JSDOC} #{DBGOUTPUT}`
+end
+
+desc "Create Release"
+task :release do
+	puts `tar -cvzf www/j5g3-#{VERSION}.tar.gz build`
 end
 
 desc "Default Action"

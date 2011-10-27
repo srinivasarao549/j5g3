@@ -1,21 +1,30 @@
 body { 
 	font-family: Nobile, Verdana, sans-serif; font-size: 12px; 
-	background: #222 url(bg.png) repeat-x; 
-	color: #ddd; margin: 0 auto; width: 960px;
+	background: #ccc url(bg.png) repeat-x; 
+	color: #333; margin: 0 auto; width: 800px;
+	padding-top: 8px;
 }
 
 h1, h2 { color: #ff6e40; }
 
-a { color: #ddd; }
+a { color: #555; }
 
-header { padding: 8px; display: block; }
+header { padding: 0px; display: block; margin-bottom: 18px; }
 header > nav { float: right; font-size: 16px; line-height: 60px; }
-header > nav > a { display: inline-block; padding: 0 8px; text-decoration: none; }
+header > nav > a { color: #ccc; display: inline-block; padding: 0 8px; text-decoration: none; }
 header > nav > a:hover { background: rgba(255, 255, 255, 0.2); }
+
+section { padding: 10px; }
+#compatibility { font-size: 10px; width: 200px; float: left; display: block; }
 
 #logo { height: 60px; cursor: pointer; border: 0; }
 
-#banner { height: 150px; background: #999; margin-bottom: 20px; }
+#banner { 
+	height: 300px; width: 780px; margin: 0;	
+}
+#content {
+	background: #eee; padding: 10px;
+}
 
 .buy-now { 
 	background: #a62800; color: #ccc; font-size: 20px; 

@@ -10,7 +10,6 @@ var
 	x = i % (w+1),
 	root = me.root = {x: x, y: y}
 ;
-	console.log('Starting at ' + x + ',' + y);
 	me.nodes = {};
 	me.load(root);
 }
@@ -35,9 +34,6 @@ j5g3.Util.extend(game.Graph.prototype, {
 		x  = node.x, y = node.y,
 		children,
 		map = me.data
-		//key = x+'-'+y, 
-		//node = me.current = (me.nodes[key] || (me.nodes[key]={}))
-		// Populate children clockwise
 	;
 		if (!node.visited)
 		{
