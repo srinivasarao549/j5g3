@@ -18,12 +18,12 @@ j5g3.Emitter = Clip.extend(/**@scope j5g3.Emitter.prototype */ {
 		while(i--)
 			frames.push([ this.__source ]);
 
-		frames.push([ $.action(function() { to_remove.push(clip); }) ]);
+		frames.push([ $.action(function() { 
+			to_remove.push(clip); 
+		}) ]);
 
 		this.add(clip);
-
-		//if (this.__on_emit)
-			this.__on_emit(clip);
+		this.__on_emit(clip);
 
 		Draw.Container.apply(this);
 

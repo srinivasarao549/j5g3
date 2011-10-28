@@ -18,7 +18,7 @@ j5g3.Text = DisplayObject.extend({
 		TextOldBegin.apply(this);
 
 		if (this.__fillStyle) context.fillStyle = this.__fillStyle;
-	//	if (this.__strokeStyle) context.strokeStyle = this.__strokeStyle;
+		if (this.__strokeStyle) context.strokeStyle = this.__strokeStyle;
 		if (this.__font) context.font = this.__font;
 	},
 

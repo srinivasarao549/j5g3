@@ -50,9 +50,12 @@ j5g3.Draw =
 		context.fillText(this.__text, 0, 0);
 	},
 
-	TextKern: function()
+	/**
+	 * Draws text using strokeText function.
+	 */
+	TextStroke: function()
 	{
-		context.fillText(this.__text, 0, 0);
+		context.strokeText(this.__text, 0, 0);
 	},
 
 	Map: function()

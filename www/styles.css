@@ -11,6 +11,8 @@ a { color: #555; }
 
 table { border: 1px solid #ccc; width: 100%; }
 th { border: 1px solid #ccc; }
+td { text-align: center; }
+tr { border: 1px solid #eee; }
 
 header { padding: 0px; display: block; margin-bottom: 18px; }
 header > nav { float: right; font-size: 16px; line-height: 60px; }

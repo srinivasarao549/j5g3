@@ -72,7 +72,8 @@ properties =
 
 /**
  * Define properties for class. Properties are stored in the instance prepended by "__" to allow direct access. A setter/getter function is created. If a value is passed it will store it, invalidate the object for repaint and return this.
- * { name: default_value }
+ *
+ * @param {Object} props The key will be used as the name of the property and the value as its default value.
  */
 j5g3.Class.properties = function(props)
 {
