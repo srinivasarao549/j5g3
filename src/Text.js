@@ -1,5 +1,9 @@
 
-Text = $.Text = DisplayObject.extend({
+Text = 
+/**
+ * @class j5g3.Text
+ */
+j5g3.Text = DisplayObject.extend({
 
 	init: function(properties)
 	{
@@ -14,6 +18,7 @@ Text = $.Text = DisplayObject.extend({
 		TextOldBegin.apply(this);
 
 		if (this.__fillStyle) context.fillStyle = this.__fillStyle;
+	//	if (this.__strokeStyle) context.strokeStyle = this.__strokeStyle;
 		if (this.__font) context.font = this.__font;
 	},
 
@@ -28,7 +33,7 @@ Text = $.Text = DisplayObject.extend({
 		return metrics.width;
 	}
 }).properties(
-	{ text: '', fillStyle: 'white', 'font': null }
+	{ text: '', strokeStyle: null, fillStyle: 'white', font: null }
 ),
 
 /* TODO This is an ugly hack. */

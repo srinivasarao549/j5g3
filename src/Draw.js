@@ -47,7 +47,12 @@ j5g3.Draw =
 
 	Text: function()
 	{
-		context.fillText(this.text(), 0, 0);
+		context.fillText(this.__text, 0, 0);
+	},
+
+	TextKern: function()
+	{
+		context.fillText(this.__text, 0, 0);
 	},
 
 	Map: function()

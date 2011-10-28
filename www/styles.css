@@ -9,13 +9,16 @@ h1, h2 { color: #ff6e40; }
 
 a { color: #555; }
 
+table { border: 1px solid #ccc; width: 100%; }
+th { border: 1px solid #ccc; }
+
 header { padding: 0px; display: block; margin-bottom: 18px; }
 header > nav { float: right; font-size: 16px; line-height: 60px; }
 header > nav > a { color: #ccc; display: inline-block; padding: 0 8px; text-decoration: none; }
 header > nav > a:hover { background: rgba(255, 255, 255, 0.2); }
 
 section { padding: 10px; }
-#compatibility { font-size: 10px; width: 200px; float: left; display: block; }
+#compatibility { font-size: 10px; width: 200px; float: right; display: block; }
 
 #logo { height: 60px; cursor: pointer; border: 0; }
 
@@ -38,7 +41,9 @@ section { padding: 10px; }
 	background: #ff6e40;
 }
 
-footer { text-align: center; line-height: 40px; }
+footer { text-align: center; }
+footer > img { margin: 10px 0 4px 0; }
+footer > p { padding: 0; margin: 0; font-size: 10px; }
 
 canvas { width: 640px; height: 480px; margin: 30px auto; display: block; background: #000; }
 

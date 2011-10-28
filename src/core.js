@@ -6,21 +6,24 @@
 	{
 		Util.extend($, properties);
 
-		canvas = $.canvas = properties.canvas || $.id('screen');
+		canvas = $.canvas = typeof(properties.canvas)=='string' ?
+			$.id(properties.canvas) : 
+			(properties.canvas || $.id('screen'))
+		;
+
+		canvas.width = $.width || ($.width = canvas.clientWidth);
+		canvas.height = $.height || ($.height = canvas.clientHeight);
 
 		$.background = new Rect({ 
 			fillStyle: $.backgroundStyle,
-			width: $.width, 
-			height: $.height
+			width: canvas.width, 
+			height: canvas.height
 		});
 		
 		$.root = new Clip({
 			width: $.width,
 			height: $.height
 		});
-
-		canvas.width = $.width;
-		canvas.height = $.height;
 
 		context = canvas.getContext('2d');
 		cache = document.createElement('CANVAS');
@@ -35,9 +38,9 @@ $ = window.j5g3 = /** @namespace */ j5g3 =  {
 	/** fillStyle for background */
 	backgroundStyle: 'black',
 	/** Width of the screen */
-	width: 640,
+	width: null,
 	/** Height of the screen */
-	height: 480,
+	height: null,
 
 	/**
 	 * Starts the execution.

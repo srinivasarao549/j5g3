@@ -4,6 +4,7 @@
 <title>j5g3</title>
 <link rel="stylesheet" href="styles.css" />
 <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Nobile:regular" />
+
 <script type="text/javascript">
 
   var _gaq = _gaq || [];
@@ -18,8 +19,11 @@
 
 </script>
 
+<script src="j5g3-min.js"></script>
+<script src="banner.js"></script>
+
 </head>
-<body>
+<body onload="j5g3.start(banner)">
 <header>
 	<nav>
 		<a href="buy.html">Buy</a>
@@ -39,7 +43,6 @@
 	<!--
 	<a class="buy-now" href="buy.html">Buy Now!</a>
 	-->
-	<h2>Open Source HTML5 Canvas Game Engine</h2>
 	<section id="compatibility">
 		<h3>Compatibility</h3>
 		<p>j5g3 is compatible with most HTML5 browsers. Including mobile versions. </p>
@@ -55,7 +58,6 @@
 			</tbody>
 		</table>
 
-		<img src="screenshot1.png" />
 	</section>
 
 	<section id="features">
@@ -88,10 +90,11 @@
 
 
 <footer>
+		<img src="coaxial-logo.png" width="200" /><br/>
+		<p>
 	Coaxial IT Services &copy; 2010 Giancarlo Bellido - <a href="mailto: giancarlo.bellido@gmail.com">Contact</a>
+	</p>
 </footer>
-
-<script src="http://ph.coaxialhost.com/ui/carousel.js"></script>
 
 </body>
 </html>
