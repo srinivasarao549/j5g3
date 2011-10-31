@@ -15,7 +15,7 @@ var
 		{
 			clip.pos(x+$.rand(30)-15, y+$.rand(30)-15);
 
-			emitter.add($.tween({ target: clip, duration: 32, to: { alpha: 0 } }))
+			emitter.add($.tween({ auto_remove: true, target: clip, duration: 32, to: { alpha: 0 } }))
 		}
 	}),
 
@@ -29,6 +29,6 @@ var
 	$.canvas.addEventListener('mousemove', mouse);
 
 	$.root.add([ emitter ]);
-	$.run();						
+	$.fps(60).run();						
 
 })

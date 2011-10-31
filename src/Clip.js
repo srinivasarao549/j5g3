@@ -133,7 +133,7 @@ j5g3.Clip = DisplayObject.extend(
 				return frame[i];
 	},
 
-	remove_child: function(child)
+	_do_remove_child: function(child)
 	{
 		var frames = this.frames(), i=frames.length,a ;
 
@@ -143,7 +143,23 @@ j5g3.Clip = DisplayObject.extend(
 				frames[i].splice(a, 1);
 				return this.invalidate();
 			}
-		
+	},
+
+	/**
+	 * Removes child.
+	 */
+	remove_child: function(child)
+	{
+	var 
+		paint = this.paint
+	;
+		/* Replace original paint function with this, so the removal happens 
+		 * before painting and it doesn't affect rendering.
+		 */
+		this.paint = function() {
+			this._do_remove_child(child);
+			this.paint = paint;
+		}		
 	}
 
 	/**
