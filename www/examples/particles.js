@@ -2,10 +2,6 @@
 (function ($)
 {
 var
-/*	tween = $.tween({
-		to: { alpha: 0 }
-	}),
-	*/
 	x=0, y=0,
 
 	emitter = $.emitter({
@@ -21,7 +17,6 @@ var
 
 	mouse = function(evt)
 	{
-		//emitter.pos(evt.offsetX, evt.offsetY);
 		x = evt.offsetX; y = evt.offsetY;
 	}
 ;

@@ -159,6 +159,7 @@ j5g3.Clip = DisplayObject.extend(
 		this.paint = function() {
 			this._do_remove_child(child);
 			this.paint = paint;
+			this.paint();
 		}		
 	}
 

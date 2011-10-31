@@ -1,28 +1,32 @@
 
 var
-	history = [],
-
 	Algorithms = {
 
 		dfs: function() 
 		{
 		var
 			node = game.graph.current,
-			i = 0, l = node.length
+			i, l,
+			history = []
 		;
-			this.remove();
+			while (!node.destination)
+			{
+				l = node.length;
 
-			if (node.destination)
-				return history;
+				for (i=0;i<l; i++)
+					if (!node.children[i].visited)
+					{
+						history.push(node);
+						node = game.graph.load(node.children[i]); //return go(node.children[i]);
+						break;
+					}
 
-			for (;i<l; i++)
-				if (!node.children[i].visited)
-				{
-					history.push(node);
-					return go(node.children[i]);
-				}
+				if (i==l)
+					node = history.pop();
+			}
+			history.push(node);
 
-			go(history.pop());
+			return history;
 			// Run out of children go back to previous node in history!
 		},
 
@@ -32,14 +36,13 @@ var
 			graph = game.graph,
 			node = graph.root,
 			i, child,
-			Q = [], path = [node]
+			Q = [node], path
 		;
-			Q.push(node);
-
 			while (node = Q.shift())
 			{
 				graph.load(node);
-				path.push(node);
+
+				if (node.destination) break;
 
 				i=node.length;
 				while (i--)
@@ -47,7 +50,7 @@ var
 					child = node.children[i];
 					if (!child.visited)
 					{
-						node.path = path;
+						child.parent = node;
 						Q.push(child);
 					}
 					
@@ -55,7 +58,11 @@ var
 				
 			}
 
-			
+			path = [node];
 
+			while (node = node.parent)
+				path.unshift(node);
+
+			return path;
 		}
 	}

@@ -2,16 +2,11 @@
 game.Graph = function(data)
 {
 var
-	me = this,
-	map= me.data = data.split("\n"),
-	i = data.search('P'),
-	w = me.w = map[0].length,
-	y = Math.floor(i / w),
-	x = i % (w+1),
-	root = me.root = {x: x, y: y}
+	me = this, xy = game.pacman.XY
 ;
+	me.data = data.split("\n")
 	me.nodes = {};
-	me.load(root);
+	me.root = me.load(this.getNode(xy[0], xy[1]));
 }
 
 j5g3.Util.extend(game.Graph.prototype, {

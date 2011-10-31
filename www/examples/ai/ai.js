@@ -9,19 +9,30 @@ var
 	data,
 	
 	pacman = game.pacman = new game.Pacman(),
-	graph, background,
+	background, moves,
 
 	reset = function()
 	{
-		graph  = game.graph = new game.Graph(data);
 		background = new game.Layout(data.split("\n"));
-		history = [];
+		game.graph = new game.Graph(data);
+
+		moves  = algorithm();
 
 		$.root.__frames = [[ 
-			background, pacman, 
-			$.action(algorithm).parent($.root)
+			background, pacman, run
 		]];
 	},
+
+	run = $.action(function()
+	{
+	var
+		piece = moves.shift()
+	;
+		$.root.remove_child(run);
+
+		if (piece)
+			go(piece);
+	}),
 
 	loadmap = function()
 	{
@@ -37,35 +48,26 @@ var
 		if (data) reset();
 	},
 
-	go = function(steps)
+	go = function(node)
 	{
 	var
-		x, y, node,
-		i = 0, l = steps.length
-
+		x, y, node
 	;
-		for (;i<l;i++)
-		{
-			node = steps[i];
-			x = node.x * background.__tw;
-			y = node.y * background.__th;
+		x = node.x * background.__tw;
+		y = node.y * background.__th;
 
-			$.root.add($.tween({
-				auto_remove: true,
-				duration: 2,
-				target: pacman,
-				to: { x: x, y: y },
-				on_remove: function()
-				{
-					$.root.add(algorithm);
-				}
-			}));
-		}
-		
-
-
-		return graph.load(child);
+		$.root.add($.tween({
+			auto_remove: true,
+			duration: 2,
+			target: pacman,
+			to: { x: x, y: y },
+			on_remove: function()
+			{
+				$.root.add(run);
+			}
+		}));
 	}
+
 ;
 
 	algo.addEventListener('change', loadalgo);

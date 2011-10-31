@@ -63,6 +63,7 @@ game.Layout = j5g3.Map.extend({
 					else if (s==='P')
 					{
 						game.pacman.pos(x*tw, y*th).stretch(tw, th);
+						game.pacman.XY = [ x, y];
 						s = 29;
 					} else if (s==='.')
 						s = 30;
@@ -79,8 +80,6 @@ game.Layout = j5g3.Map.extend({
 		walls.__sprites.push(fruits.__sprites[10]);
 		me.__sprites = walls.__sprites;
 		me.__map = translate_map();
-
-		console.log(me.__map);
 	},
 
 
