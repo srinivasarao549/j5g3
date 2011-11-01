@@ -36,6 +36,7 @@ game.Layout = j5g3.Map.extend({
 		x, y,
 		row, s, smap=[], srow,
 		me = this,
+		ghost,
 
 		tw = me.__tw = (me.__width || $.width) /(xl),
 		th = me.__th = (me.__height || $.height) /(yl),
@@ -57,9 +58,15 @@ game.Layout = j5g3.Map.extend({
 						    (x > 0 ? data[y][x-1] : ' ') + 
 						    (x < xl-1? data[y][x+1] : ' ') + 
 						    (y < yl-1? data[y+1][x] : ' ');
-						s = s.replace(/[P\.]/g, ' ');
+						s = s.replace(/[P\.G]/g, ' ');
 						s = mapsprites[s] || 0;
 					} 
+					else if (s==='G')
+					{
+						ghost = new game.Ghost({ x: x*tw, y: y*th });
+						game.ghosts.add(ghost.stretch(tw, th));
+						s = 29;
+					}
 					else if (s==='P')
 					{
 						game.pacman.pos(x*tw, y*th).stretch(tw, th);

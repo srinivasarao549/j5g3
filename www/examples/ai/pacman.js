@@ -8,7 +8,7 @@ game.Pacman = j5g3.Clip.extend({
 	{
 	var
 		$ = j5g3,
-		chars = $.spritesheet('pacman-characters').grid(14,4)
+		chars = game.chars = $.spritesheet('pacman-characters').grid(14,4)
 	;
 		this.__frames = [
 			[ chars.__sprites[10] ],

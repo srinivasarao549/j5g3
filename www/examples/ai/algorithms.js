@@ -30,14 +30,14 @@ var
 			// Run out of children go back to previous node in history!
 		},
 
-		bfs: function()
+		bfs: function(Q)
 		{
 		var
 			graph = game.graph,
-			node = graph.root,
-			i, child,
-			Q = [node], path
+			node, i, child, path
 		;
+			Q = Q || [graph.root];
+
 			while (node = Q.shift())
 			{
 				graph.load(node);
@@ -64,5 +64,31 @@ var
 				path.unshift(node);
 
 			return path;
+		},
+
+		ucs: function()
+		{
+		var 
+			Q = [game.graph.root], 
+			cost = function(node)
+			{
+				return (node.char==='G') ? 150 : 1;
+			}
+		;
+
+			Q.shift = function()
+			{
+				result = game.graph.load(this.splice(result, 1)[0]);
+				result.cost = (result.parent ? result.parent.cost : 0) + cost(result);
+
+				var i = this.length, result=0;
+				while (i--)
+					if (this[i].cost < this[result].cost)
+						result = i;
+
+				return result;
+			}
+	
+			return Algorithms.bfs(Q);
 		}
 	}

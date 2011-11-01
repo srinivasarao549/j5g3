@@ -13,13 +13,14 @@ var
 
 	reset = function()
 	{
+		game.ghosts = $.clip();
 		background = new game.Layout(data.split("\n"));
 		game.graph = new game.Graph(data);
 
 		moves  = algorithm();
 
 		$.root.__frames = [[ 
-			background, pacman, run
+			background, pacman, game.ghosts, run
 		]];
 	},
 

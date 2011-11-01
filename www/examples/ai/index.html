@@ -6,6 +6,7 @@
 	<script src="algorithms.js"></script>
 	<script src="ai.js"></script>
 	<script src="graph.js"></script>
+	<script src="ghost.js"></script>
 	<script src="pacman.js"></script>
 	<script src="layout.js"></script>
 
@@ -29,10 +30,12 @@
 			<option>smallMaze.lay</option>
 			<option>bigMaze.lay</option>
 			<option>bigCorners.lay</option>
+			<option>mediumScaryMaze.lay</option>
 		</select></label>
 		<label>Algorithm: <select id="algo">
 			<option value="dfs">Depth-First Search</option>
 			<option value="bfs">Breadth-First Search</option>
+			<option value="ucs">Uniform Cost Search</option>
 		</select></label>
 	</div>
 	<canvas id="screen"></canvas>

@@ -43,10 +43,11 @@ j5g3.Util.extend(game.Graph.prototype, {
 			if (map[y][x-1] !== '%')
 				children.push(me.getNode(x-1, y));
 
-			if (map[y][x]===DESTINATION)
+			if ((node.char = map[y][x])===DESTINATION)
 				node.destination = true;
 
 			node.length = children.length;
+			node.cost = 0;
 			node.visited = true;
 		}
 
