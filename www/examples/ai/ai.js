@@ -11,17 +11,42 @@ var
 	pacman = game.pacman = new game.Pacman(),
 	background, moves,
 
+	update_stats = function()
+	{
+		for(var i in game.stats)
+			$.id(i).innerHTML = game.stats[i];
+	},
+
+	do_move = function()
+	{
+		moves  = algorithm();
+		game.stats.moves += moves.length;
+		update_stats();
+	},
+
 	reset = function()
 	{
+		$.pause();
+
+		game.stats = {
+			nodes: 0,
+			collected : 0,
+			visited: 0,
+			points: 0,
+			moves: 0
+		}
+
 		game.ghosts = $.clip();
 		background = new game.Layout(data.split("\n"));
 		game.graph = new game.Graph(data);
 
-		moves  = algorithm();
+		do_move();
 
 		$.root.__frames = [[ 
 			background, pacman, game.ghosts, run
 		]];
+
+		$.resume();
 	},
 
 	run = $.action(function()
@@ -49,6 +74,19 @@ var
 		if (data) reset();
 	},
 
+	check_points= function(node)
+	{
+		if (node.char=='.')
+		{
+			game.stats.collected++;
+			node.char = ' ';
+			node.destination = false;
+			background.__map[node.y][node.x] = background.SPRITE_SPACE;
+
+			do_move();
+		}
+	},
+
 	go = function(node)
 	{
 	var
@@ -65,6 +103,7 @@ var
 			on_remove: function()
 			{
 				$.root.add(run);
+				check_points(node);
 			}
 		}));
 	}

@@ -3,6 +3,7 @@
 <head>
 	<title>j5g3 - Demos</title>
 	<script src="../../j5g3-dbg.js"></script>
+	<script src="../../j5g3-ai.js"></script>
 	<script src="algorithms.js"></script>
 	<script src="ai.js"></script>
 	<script src="graph.js"></script>
@@ -31,12 +32,20 @@
 			<option>bigMaze.lay</option>
 			<option>bigCorners.lay</option>
 			<option>mediumScaryMaze.lay</option>
+			<option>mediumDottedMaze.lay</option>
 		</select></label>
 		<label>Algorithm: <select id="algo">
 			<option value="dfs">Depth-First Search</option>
 			<option value="bfs">Breadth-First Search</option>
 			<option value="ucs">Uniform Cost Search</option>
 		</select></label>
+	</div>
+	<div>
+		<label>Nodes: <span id="nodes"></span></label>
+		<label>Visited: <span id="visited"></span></label>
+		<label>Points: <span id="points"></span></label>
+		<label>Collected: <span id="collected"></span></label>
+		<label>Moves: <span id="moves"></span></label>
 	</div>
 	<canvas id="screen"></canvas>
 

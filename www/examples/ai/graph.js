@@ -33,6 +33,7 @@ j5g3.Util.extend(game.Graph.prototype, {
 		if (!node.visited)
 		{
 			children = node.children = [];
+			game.stats.visited++;
 
 			if (map[y-1] && map[y-1][x] !== '%')
 				children.push(me.getNode(x, y-1));

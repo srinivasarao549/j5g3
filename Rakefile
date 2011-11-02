@@ -11,6 +11,10 @@ SRCS = SRC.join(' ')
 OUTPUT = 'build/j5g3.js'
 DBGOUTPUT = 'build/j5g3-dbg.js'
 MINOUTPUT = 'build/j5g3-min.js'
+
+AIOUTPUT = 'build/j5g3-ai.js'
+AIMINOUTPUT = 'build/j5g3-ai-min.js'
+
 JAVA = 'java'
 JS = 'js'
 
@@ -44,15 +48,28 @@ task :build do
 	# Build Debug file
 	`cp #{OUTPUT} #{DBGOUTPUT} && cat src/Debug.js >> #{DBGOUTPUT}`
 	`cp #{OUTPUT} #{DBGOUTPUT} www`
+
+	`cp src/ai.js #{AIOUTPUT}`
+	`cp #{AIOUTPUT} www`
+end
+
+def compile(file, output)
+	#`#{JAVA} -jar tools/compiler.jar --compilation_level ADVANCED_OPTIMIZATIONS --js #{OUTPUT} --js_output_file #{MINOUTPUT} --warning_level VERBOSE`
+	`#{JAVA} -jar tools/compiler.jar --js #{file} --js_output_file #{output} --warning_level VERBOSE`
 end
 
 desc "Closure Compile"
 task :compile => [:build] do
-	`#{JAVA} -jar tools/compiler.jar --js #{OUTPUT} --js_output_file #{MINOUTPUT} --warning_level VERBOSE`
+
+	compile(OUTPUT, MINOUTPUT)
 	`cp #{MINOUTPUT} www`
-	#`#{JAVA} -jar tools/compiler.jar --compilation_level ADVANCED_OPTIMIZATIONS --js #{OUTPUT} --js_output_file #{MINOUTPUT} --warning_level VERBOSE`
+
+	compile(AIOUTPUT, AIMINOUTPUT)
+	`cp #{AIMINOUTPUT} www`
+
 	puts "#{OUTPUT}: " + File.size(OUTPUT).to_s
 	puts "#{MINOUTPUT}: " + File.size(MINOUTPUT).to_s
+	puts "#{AIOUTPUT}: " + File.size(AIMINOUTPUT).to_s
 end
 
 desc "Lint"

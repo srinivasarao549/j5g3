@@ -2,48 +2,19 @@
 var
 	Algorithms = {
 
-		dfs: function() 
-		{
-		var
-			node = game.graph.current,
-			i, l,
-			history = []
-		;
-			while (!node.destination)
-			{
-				l = node.length;
-
-				for (i=0;i<l; i++)
-					if (!node.children[i].visited)
-					{
-						history.push(node);
-						node = game.graph.load(node.children[i]); //return go(node.children[i]);
-						break;
-					}
-
-				if (i==l)
-					node = history.pop();
-			}
-			history.push(node);
-
-			return history;
-			// Run out of children go back to previous node in history!
-		},
-
-		bfs: function(Q)
+		/**
+		 * Q is the storage object. Needs to implement the pop and push methods.
+		 */
+		search: function(Q)
 		{
 		var
 			graph = game.graph,
-			node, i, child, path
+			start,
+			node = start = graph.current, 
+			i, child, path
 		;
-			Q = Q || [graph.root];
-
-			while (node = Q.shift())
+			while (!node.destination)
 			{
-				graph.load(node);
-
-				if (node.destination) break;
-
 				i=node.length;
 				while (i--)
 				{
@@ -53,42 +24,48 @@ var
 						child.parent = node;
 						Q.push(child);
 					}
-					
 				}
-				
+
+				if (node = Q.pop())
+					graph.load(node)
+				else
+					return [];
 			}
 
 			path = [node];
 
-			while (node = node.parent)
+			while ((node = node.parent) && (node !== start))
 				path.unshift(node);
 
 			return path;
 		},
 
+		dfs: function() 
+		{
+			return Algorithms.search(new j5g3.AI.Stack);
+		},
+
+		bfs: function(Q)
+		{
+			return Algorithms.search(new j5g3.AI.Queue);
+		},
+
 		ucs: function()
 		{
 		var 
-			Q = [game.graph.root], 
-			cost = function(node)
-			{
-				return (node.char==='G') ? 150 : 1;
-			}
+			Q = new j5g3.AI.PriorityQueue
 		;
-
-			Q.shift = function()
+			Q.priority = function(node)
 			{
-				result = game.graph.load(this.splice(result, 1)[0]);
-				result.cost = (result.parent ? result.parent.cost : 0) + cost(result);
-
-				var i = this.length, result=0;
-				while (i--)
-					if (this[i].cost < this[result].cost)
-						result = i;
-
-				return result;
+				game.graph.load(node);
+				return node.cost = (node.parent ? node.parent.cost : 0) + (node.char==='G' ? -50: -1);
 			}
 	
-			return Algorithms.bfs(Q);
+			return Algorithms.search(Q);
+		},
+
+		a_star: function()
+		{
+			
 		}
 	}

@@ -65,17 +65,25 @@ game.Layout = j5g3.Map.extend({
 					{
 						ghost = new game.Ghost({ x: x*tw, y: y*th });
 						game.ghosts.add(ghost.stretch(tw, th));
-						s = 29;
+						s = me.SPRITE_SPACE;
+						game.stats.nodes++;
 					}
 					else if (s==='P')
 					{
 						game.pacman.pos(x*tw, y*th).stretch(tw, th);
 						game.pacman.XY = [ x, y];
-						s = 29;
+						s = me.SPRITE_SPACE;
+						game.stats.nodes++;
 					} else if (s==='.')
-						s = 30;
-					else
-						s = 29;
+					{
+						s = me.SPRITE_DOT;
+						game.stats.nodes++;
+						game.stats.points += 1;
+					} else
+					{
+						s = me.SPRITE_SPACE;
+						game.stats.nodes++;
+					}
 
 					srow.push(s);
 				}
@@ -84,6 +92,9 @@ game.Layout = j5g3.Map.extend({
 			return smap;
 		}
 	;
+		me.SPRITE_SPACE = 29;
+		me.SPRITE_DOT   = 30;
+
 		walls.__sprites.push(fruits.__sprites[10]);
 		me.__sprites = walls.__sprites;
 		me.__map = translate_map();
