@@ -58,7 +58,12 @@ var
 			Q.priority = function(node)
 			{
 				game.graph.load(node);
-				return node.cost = (node.parent ? node.parent.cost : 0) + (node.char==='G' ? -50: -1);
+				return node.cost = (node.parent ? node.parent.cost : 0) + ({
+					'P': -1,
+					'G': -50,
+					' ': -1,
+					'.': 1
+				})[node.char];
 			}
 	
 			return Algorithms.search(Q);
@@ -66,6 +71,39 @@ var
 
 		a_star: function()
 		{
-			
+		var
+			Q = new j5g3.AI.PriorityQueue(function(node) {
+			var 
+				p = game.dotpos, i, h, heuristic=Infinity, 
+				geth = function(x, y) {
+					//return Math.sqrt(x*x + y*y);
+					return Math.abs(x) + Math.abs(y);
+				}
+			;
+				game.graph.load(node);
+				console.log(game.dotpos);
+
+				for (i in game.dotpos)
+				{
+					h = geth(p[i].x - node.x, p[i].y - node.y);
+					if (h < heuristic)
+						heuristic = h;
+				}
+				if (heuristic===Infinity)
+					heuristic = 0;
+
+				return heuristic;
+
+				node.cost = (node.parent ? node.parent.cost : 0) + ({
+					'P': -1,
+					'G': -50,
+					' ': -1,
+					'.': 1
+				})[node.char] + (heuristic);
+
+				return node.cost;
+			})
+		;
+			return Algorithms.search(Q);			
 		}
 	}

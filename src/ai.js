@@ -13,13 +13,41 @@ j5g3.AI = {
 
 	Stack: Array,
 
+	/**
+	 * @constructor
+	 */
 	Queue: function() { },
 
-	PriorityQueue: function()
+	/**
+	 * A Priority Queue implementation.
+	 *
+	 * @constructor
+	 * @param {Function} priorityFn Function that returns the priority of the node.
+	 */
+	PriorityQueue: function(priorityFn)
 	{
 		this.data = []
+		if (priorityFn) this.priority = priorityFn;
+	},
+
+	/**
+	 * @constructor
+	 */
+	Graph: function()
+	{
+		this.root = []
+	},
+
+	/**
+	 * @namespace
+	 */
+	Util: {
+
+		
+
 	}
-}
+
+};
 
 AI.Queue.prototype = new Array();
 AI.Queue.prototype.pop = Array.prototype.shift;
@@ -38,6 +66,9 @@ j5g3.Util.extend(AI.PriorityQueue.prototype, {
 		return node && node.node; 
 	},
 
+	/**
+	 * Replace this function with your own priority algorithm. By default it will behave as a Queue.
+	 */
 	priority: function(node)
 	{
 		return 0;
@@ -51,5 +82,10 @@ j5g3.Util.extend(AI.PriorityQueue.prototype, {
 		});
 	}
 });
+
+j5g3.Util.extend(AI.Graph.prototype, {
+
+});
+
 
 })(window, window.j5g3);

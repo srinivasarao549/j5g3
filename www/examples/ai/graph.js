@@ -5,11 +5,18 @@ var
 	me = this, xy = game.pacman.XY
 ;
 	me.data = data.split("\n")
-	me.nodes = {};
-	me.root = me.load(this.getNode(xy[0], xy[1]));
+	// UGLY HACK
+
+	me.reset(xy[0], xy[1]);
 }
 
 j5g3.Util.extend(game.Graph.prototype, {
+
+	reset: function(x, y)
+	{
+		this.nodes = {}
+		this.root = this.load(this.getNode(x, y));		
+	},
 
 	getNode: function(x, y)
 	{
@@ -17,6 +24,14 @@ j5g3.Util.extend(game.Graph.prototype, {
 		key = x+' '+y
 	;
 		return this.nodes[key] || (this.nodes[key] = { x: x, y: y });
+	},
+
+	replace: function(x, y, what)
+	{
+	var
+		str = this.data[y]
+	;
+		this.data[y] = str.substr(0, x) + what + str.substr(x+1);
 	},
 
 	load: function(node)

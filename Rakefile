@@ -51,6 +51,9 @@ task :build do
 
 	`cp src/ai.js #{AIOUTPUT}`
 	`cp #{AIOUTPUT} www`
+
+	puts "#{OUTPUT}: " + File.size(OUTPUT).to_s
+	puts "#{AIOUTPUT}: " + File.size(AIOUTPUT).to_s
 end
 
 def compile(file, output)
@@ -67,7 +70,6 @@ task :compile => [:build] do
 	compile(AIOUTPUT, AIMINOUTPUT)
 	`cp #{AIMINOUTPUT} www`
 
-	puts "#{OUTPUT}: " + File.size(OUTPUT).to_s
 	puts "#{MINOUTPUT}: " + File.size(MINOUTPUT).to_s
 	puts "#{AIOUTPUT}: " + File.size(AIMINOUTPUT).to_s
 end
@@ -89,7 +91,7 @@ end
 
 desc "Generae Documentation"
 task :docs do
-	puts `#{JSDOC} #{DBGOUTPUT}`
+	puts `#{JSDOC} #{DBGOUTPUT} #{AIOUTPUT}`
 end
 
 desc "Create Release"

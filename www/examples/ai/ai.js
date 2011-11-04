@@ -19,6 +19,7 @@ var
 
 	do_move = function()
 	{
+		game.graph.reset(game.graph.current.x, game.graph.current.y);
 		moves  = algorithm();
 		game.stats.moves += moves.length;
 		update_stats();
@@ -79,8 +80,9 @@ var
 		if (node.char=='.')
 		{
 			game.stats.collected++;
-			node.char = ' ';
-			node.destination = false;
+			game.graph.replace(node.x, node.y, ' ');
+			delete game.dotpos[node.x+' '+node.y];
+
 			background.__map[node.y][node.x] = background.SPRITE_SPACE;
 
 			do_move();

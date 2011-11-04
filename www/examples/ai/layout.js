@@ -31,18 +31,14 @@ game.Layout = j5g3.Map.extend({
 		},
 		
 		// Assume rectangular map
-		xl = data[0].length,
-		yl = data.length,
-		x, y,
+		x, y, xl, yl, tw, th,
 		row, s, smap=[], srow,
 		me = this,
 		ghost,
 
-		tw = me.__tw = (me.__width || $.width) /(xl),
-		th = me.__th = (me.__height || $.height) /(yl),
-
 		translate_map= function()
 		{
+			game.dotpos = {}
 			// Translate Map
 			for (y=0; y<yl; y++)
 			{
@@ -79,6 +75,7 @@ game.Layout = j5g3.Map.extend({
 						s = me.SPRITE_DOT;
 						game.stats.nodes++;
 						game.stats.points += 1;
+						game.dotpos[x+' '+y] = { x:x, y: y }
 					} else
 					{
 						s = me.SPRITE_SPACE;
@@ -94,6 +91,15 @@ game.Layout = j5g3.Map.extend({
 	;
 		me.SPRITE_SPACE = 29;
 		me.SPRITE_DOT   = 30;
+
+		if (data[data.length-1]=='')
+			data.splice(data.length-1);
+
+		xl = data[0].length;
+		yl = data.length;
+
+		tw = me.__tw = (me.__width || $.width) /(xl);
+		th = me.__th = (me.__height || $.height) /(yl);
 
 		walls.__sprites.push(fruits.__sprites[10]);
 		me.__sprites = walls.__sprites;
