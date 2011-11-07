@@ -81,7 +81,6 @@ var
 				}
 			;
 				game.graph.load(node);
-				console.log(game.dotpos);
 
 				for (i in game.dotpos)
 				{
@@ -89,17 +88,20 @@ var
 					if (h < heuristic)
 						heuristic = h;
 				}
+
 				if (heuristic===Infinity)
 					heuristic = 0;
 
-				return heuristic;
+				//heuristic = node.length;
+
+				//return heuristic;
 
 				node.cost = (node.parent ? node.parent.cost : 0) + ({
 					'P': -1,
 					'G': -50,
 					' ': -1,
-					'.': 1
-				})[node.char] + (heuristic);
+					'.': 0
+				})[node.char] - (heuristic);
 
 				return node.cost;
 			})
