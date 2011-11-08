@@ -5,7 +5,7 @@ game.World = j5g3.Clip.extend({
 	{
 	var
 		me = this,
-		ss = j5g3.spritesheet('ss').grid(12,6),
+		ss = game.ss,
 		walls = me.walls = j5g3.map({ sprites: ss.__sprites, tw: 54, th: 49, offsetY: -11 }),
 		floor = me.floor = j5g3.map({ sprites: j5g3.Util.fill(30, ss.__sprites[11]), tw: 54, th: 49, offsetY: -11 })
 	;
@@ -17,6 +17,7 @@ game.World = j5g3.Clip.extend({
 		this._super(p);
 
 		this.__frames = [ [ floor, walls ] ];
+		this.startPos = [0, 0];
 	},
 
 	transform: function(_in, out)

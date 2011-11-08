@@ -23,6 +23,9 @@ j5g3.Map = DisplayObject.extend(/**@scope j5g3.Map.prototype */ {
 		return this.__map[p[1]][p[0]];
 	},
 
+	/**
+	 * Gets the top left coordinate of the tile at x,y
+	 */
 	getCoord: function(x, y)
 	{
 		var 

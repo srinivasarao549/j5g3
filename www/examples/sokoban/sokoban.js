@@ -6,6 +6,7 @@ function game($, document, undefined)
 {
 var
 	_map = $.id('map'),
+	ss = game.ss = j5g3.spritesheet('ss').grid(12,6),
 
 	/* Game Objects */
 	player, world
@@ -19,7 +20,7 @@ var
 
 	player.pos(world.startPos[0], world.startPos[1]);
 
-	$.root.add(world);
+	$.root.add([world, player]);
 	$.run();
 }
 
