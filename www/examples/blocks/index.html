@@ -16,7 +16,7 @@
 
 		function start()
 		{
-			j5g3.id('screen').style.display = 'inline-block';
+			j5g3.id('screen').style.display = 'block';
 			j5g3.id('start').style.display = 'none';
 			j5g3.start(game);
 		}
@@ -34,16 +34,30 @@
 		
 	</style>
 
-	<link rel="stylesheet" href="../styles.css" />
+	<link rel="stylesheet" href="../../styles.css" />
 </head>
 <body onload="load();">
+<header>
+	<nav>
+		<a href="../../buy.html">Buy</a>
+		<a href="../../docs">Documentation</a>
+		<a href="https://github.com/giancarlo/j5g3">Source</a>
+		<a href="http://bellido.us">Blog</a>
+	</nav>
+	<img id="logo" src="../../j5g3.png" alt="j5g3" />
+</header>
+
+<div style="text-align: center">
 	<h1>Blocks</h1>
+</div>
 	<p style="display: none;" id="pause">Game Paused. Press any key to Resume.</p>
 	<p style="display: none;" id="game-over">Game Over. <a href="javascript: restart();">Restart</a>.</p>
 	<p id="loading">Loading...</p>
 	<a id="start" style="display: none;" href="javascript:start();">Start Game</a>
 	
 	<canvas style="display: none;" id="screen"></canvas>
+
+<div style="text-align: center">
 	<h2>Instructions</h2>
 	<dl>
 	<dt>Left Arrow:</dt><dd>Move Left</dd>
@@ -54,6 +68,7 @@
 	<dt>Z:</dt><dd>Rotate CounterClockwise</dd>
 	<dt>P:</dt><dd>Pause</dd>
 	</dl>
+</div>
 
 	<div id="assets"> 
 		<img id="spritesheet" src="blocks-ss.png" />
