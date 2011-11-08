@@ -1,17 +1,22 @@
 
-game.World = j5g3.Map.extend({
-	init: function(p) {
+game.World = j5g3.Clip.extend({
+
+	init: function(p)
+	{
 	var
-		ss = j5g3.spritesheet('ss').grid(12,6)
+		me = this,
+		ss = j5g3.spritesheet('ss').grid(12,6),
+		walls = me.walls = j5g3.map({ sprites: ss.__sprites, tw: 54, th: 49, offsetY: -11 }),
+		floor = me.floor = j5g3.map({ sprites: j5g3.Util.fill(30, ss.__sprites[11]), tw: 54, th: 49, offsetY: -11 })
 	;
+
+		walls.paint = floor.paint = j5g3.Draw.Isometric;
+		floor.__sprites[20]=ss.__sprites[20];
+		ss.__sprites[11]=ss.__sprites[20];
 
 		this._super(p);
 
-		this.sprites(ss.sprites()).tw(54).th(49);
-		this.__map = [];
-		this.paint = j5g3.Draw.Isometric;
-		this.__offsetY = -11;
-		this.__offsetX = 0;
+		this.__frames = [ [ floor, walls ] ];
 	},
 
 	transform: function(_in, out)
@@ -40,8 +45,9 @@ game.World = j5g3.Map.extend({
 		/* Constants */
 		SPRITES= {
 			0   : 20,
-			" " : 11,
-			"$" : 12, "." : 13,
+			//" " : 11,
+			" " : 11, '@': 11,
+			"$" : 12, "." : 13, '*': 13,
 			"l" : 9, "r": 9, "lr" : 9,
 			"lt": 7, "lrt": 3, "rt":6,
 			"lb": 8, "lrb": 1, "rb":5,
@@ -71,6 +77,10 @@ game.World = j5g3.Map.extend({
 						sprite += 'b';
 					if (sprite=='')
 						sprite = 't';
+				} else if (map[i]=='@')
+				{
+					this.startPos = [ x, y ];
+					sprite = map[i];
 				} else
 					sprite = map[i];
 
@@ -90,11 +100,16 @@ game.World = j5g3.Map.extend({
 			out.unshift([]);
 
 		// Prepare array for rotation
-		this.__map = j5g3.ary(l+maxx, l+maxx, SPRITES[0]);
+		this.walls.__map = this.floor.__map = j5g3.ary(l+maxx+1, l+maxx+1, SPRITES[0]);
 
 		// Make it Isometric. Magic happens here.
-		this.transform(out, this.__map);
-		// Cache the Image
-		this.cache((l+maxx)*this.__tw, (l+maxx)*(this.__th/2));
+		this.transform(out, this.walls.__map);
+
+		// Cache the Images
+		//this.walls.cache((l+maxx)*this.walls.__tw, (l+maxx)*(this.walls.__th/2));
+		//this.floor.cache((l+maxx)*this.walls.__tw, (l+maxx)*(this.walls.__th/2));
+		//this.floor.cache((l+maxx)*this.__tw, (l+maxx)*(this.__th/2));
 	}
+
 });
+

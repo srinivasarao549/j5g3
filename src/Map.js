@@ -13,6 +13,7 @@ j5g3.Map = DisplayObject.extend(/**@scope j5g3.Map.prototype */ {
 
 	init: function(p)
 	{
+		this.__map = []
 		_extend(this, p);
 	},
 

@@ -22,6 +22,25 @@ j5g3.Util = {
 		return a;
 	},
 
+	/**
+	 * Fills array ary with what.
+	 *
+	 * @param {number|array} ary Array to be filled or a number indicating how many times "what" should be
+	 *                           repeated.
+	 * @param what What to fill the array with.
+	 */
+	fill: function(ary, what)
+	{
+		if (typeof(ary)==='number')
+			ary = new Array(ary);
+
+		var i = ary.length;
+		while (i--)
+			ary[i] = what;
+
+		return ary;
+	},
+
 	inherit: function(a, b)
 	{
 		for (var i in b)
