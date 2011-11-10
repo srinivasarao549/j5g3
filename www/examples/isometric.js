@@ -71,7 +71,7 @@ var
 		//console.log(p[0] + ", " + p[1]);
 	}
 
-	map.paint = $.Draw.Isometric;
+	map.paint = $.Paint.Isometric;
 	$.root.add([map]);
 	setTimeout(genmap, 250);
 	$.run();

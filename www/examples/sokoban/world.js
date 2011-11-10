@@ -1,6 +1,9 @@
 
 game.World = j5g3.Clip.extend({
 
+	TH: 49,
+	TW: 54,
+
 	init: function(p)
 	{
 	var
@@ -10,9 +13,9 @@ game.World = j5g3.Clip.extend({
 		floor = me.floor = j5g3.map({ sprites: j5g3.Util.fill(30, ss.__sprites[11]), tw: 54, th: 49, offsetY: -11 })
 	;
 
-		walls.paint = floor.paint = j5g3.Draw.Isometric;
-		floor.__sprites[20]=ss.__sprites[20];
-		ss.__sprites[11]=ss.__sprites[20];
+		walls.paint = floor.paint = j5g3.Paint.Isometric;
+		floor.__sprites[71]=ss.__sprites[71];
+		ss.__sprites[11]=ss.__sprites[71];
 
 		this._super(p);
 
@@ -37,15 +40,27 @@ game.World = j5g3.Clip.extend({
 			}
 	},
 
+	getXY: function(x, y, maxy)
+	{
+	var
+		ny = x+y,
+		nx = Math.floor((maxy-y)/2) + Math.round(x/2)
+	;
+		if ((y&1) && !(ny&1)) 
+			nx--;
+
+		return [ nx, ny ]
+	},
+
 	loadMap: function(map)
 	{
 	var 
 		i=0, x=0, y=0, l=map.length, out=[[]], maxx=0, sprite,
 		// Last Start, Current Line Start, End
-		ls = null, s = 0, e
+		ls = null, s = 0, e, startPos,
 		/* Constants */
 		SPRITES= {
-			0   : 20,
+			0   : 71,
 			//" " : 11,
 			" " : 11, '@': 11,
 			"$" : 12, "." : 13, '*': 13,
@@ -80,7 +95,8 @@ game.World = j5g3.Clip.extend({
 						sprite = 't';
 				} else if (map[i]=='@')
 				{
-					this.startPos = [ x, y ];
+					// TODO clean up
+					startPos = [ x, y ]
 					sprite = map[i];
 				} else
 					sprite = map[i];
@@ -105,6 +121,15 @@ game.World = j5g3.Clip.extend({
 
 		// Make it Isometric. Magic happens here.
 		this.transform(out, this.walls.__map);
+
+		// Set Player Position
+		if (startPos)
+		{
+			startPos = this.getXY(startPos[0], startPos[1]+(out.length-l), out.length);
+			startPos = this.walls.getIsometricCoords(startPos[0], startPos[1]);
+			game.player.pos(startPos[0], startPos[1]-4);
+		} else
+			game.player.pos(-100, -100);
 
 		// Cache the Images
 		//this.walls.cache((l+maxx)*this.walls.__tw, (l+maxx)*(this.walls.__th/2));

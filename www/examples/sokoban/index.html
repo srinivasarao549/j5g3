@@ -1,6 +1,6 @@
 <html>
 <head>
-	<title>JSGE - Blocks Game</title>
+	<title>JSGE - Sokoban</title>
 	<script src="../../j5g3-dbg.js"></script>
 
 	<script src="sokoban.js"></script>
@@ -23,22 +23,33 @@
 	</nav>
 	<img id="logo" src="../../j5g3.png" alt="j5g3" />
 </header>
+
+<div style="text-align: center">
 	<h1>Sokoban</h1>
 	<canvas id="screen"></canvas>
+
 	<textarea id="map">
-#######
-#######
-#######
-#######
-	</textarea>
+  #####
+###   ###
+#  $..$ #
+# # ##  #
+# # ##@##
+#  $..$#
+### #$ #
+  # . .#
+  #$# .#
+  #  $ #
+  ###  #
+    ####</textarea>
 	<h2>Map</h2>
 	<dl>
 		<dt>#</dt><dd>Wall</dd>
 		<dt>Space</dt><dd>Floor</dd>
 		<dt>$</dt><dd>Box</dd>		
-	</ul>
+	</dl>
 	<div id="assets"> 
-		<img id="ss" src="ss.png">
+		<img id="ss" src="ss.png" />
 	</div>
 	<pre id="debug-out"></pre>
+</div>
 </body>

@@ -3,13 +3,42 @@
 Draw = 
 
 /**
- * This are all the core drawing algorithms. "this" will point to the DisplayObject.
+ * This are all the core drawing algorithms. "this" will point to the current object.
  *
  * @namespace
  */
 j5g3.Draw = 
 {
 	Void: function() { },
+
+	Default: function()
+	{
+		this.begin();
+		this.paint();
+		this.end();
+	},
+
+	/**
+	 * It will call the keyboard() function before drawing.
+	 */
+	Keyboard: function()
+	{
+		this.keyboard($.Input.Key, $.Input.Keyboard);
+		this.begin();
+		this.paint();
+		this.end();
+	}
+
+},
+
+Paint = 
+
+/**
+ * Paint Algorithms. Use this to draw you custom objects after all transformation are applied. Replace the Draw function
+ * to add extra steps to the draw process.
+ * @namespace
+ */
+j5g3.Paint = {
 
 	Image: function ()
 	{
@@ -22,7 +51,7 @@ j5g3.Draw =
 	},
 	
 	/**
-	 * Drawing function for Clips
+	 * Drawing function for Sprites
 	 */
 	Sprite: function () 
 	{
@@ -34,6 +63,9 @@ j5g3.Draw =
 		context.drawImage(src.image, src.x, src.y, src.w, src.h, 0, 0, w ? w : src.w, h ? h : src.h);
 	},
 
+	/**
+	 * Paint function for Clips and other containers.
+	 */
 	Container: function ()
 	{
 		var frame = this.frame(),i=0,l=frame.length;
@@ -80,7 +112,7 @@ j5g3.Draw =
 	{
 		var map = this.__map, y = 0, x, l=map.length,
 		    sprites = this.__sprites, s, cm, 
-		    tw2=this.__tw/2 + this.__offsetX, th2=this.__th/2+this.__offsetY, offset
+		    tw2=Math.floor(this.__tw/2) + this.__offsetX, th2=Math.floor(this.__th/2)+this.__offsetY, offset
 		;
 
 		for (; y<l; y++)
@@ -92,10 +124,13 @@ j5g3.Draw =
 			while (x--)
 			{
 				s = sprites[cm[x]].__source;
-				context.drawImage(s.image, s.x, s.y, s.w, s.h, x*this.__tw-offset, y*th2, this.__tw, this.__th);
+				context.drawImage(s.image, s.x, s.y, s.w, s.h, 	x*this.__tw-offset, y*th2, this.__tw, this.__th);
 			}
 		}
 		
 	}
+
+
+
 },
 

@@ -76,7 +76,7 @@ var
 				checkCollision('x', canvas.width);
 				checkCollision('y', canvas.height);
 				
-				$.Draw.Image.apply(me);
+				$.Paint.Image.apply(me);
 			};
 		}
 	}),

@@ -40,7 +40,7 @@ j5g3.Clip = DisplayObject.extend(
 		this._frame = (this._frame < this.__frames.length-1) ? this._frame + 1 : 0; 
 	},
 
-	paint : Draw.Container,
+	paint : Paint.Container,
 
 	stop: function() { this._playing = false; return this;},
 	play: function() { this._playing = true; return this; },
@@ -76,8 +76,10 @@ j5g3.Clip = DisplayObject.extend(
 		};
 
 		display_object.parent(this);
-		var f = this.frames();
-		f[f.length-1].push(display_object);
+		//var f = this.frames();
+		//f[f.length-1].push(display_object);
+		//f[this._frame].push(display_object);
+		this.frame().push(display_object);
 
 		return this;
 	},

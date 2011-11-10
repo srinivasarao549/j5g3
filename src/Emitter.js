@@ -24,7 +24,7 @@ j5g3.Emitter = Clip.extend(/**@scope j5g3.Emitter.prototype */ {
 		this.add(clip);
 		this.__on_emit(clip);
 
-		Draw.Container.apply(this);
+		Paint.Container.apply(this);
 	}
 
 }).properties({

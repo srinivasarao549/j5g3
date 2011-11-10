@@ -47,14 +47,10 @@ j5g3.DisplayObject = Class.extend(/** @scope j5g3.DisplayObject.prototype */ {
 
 	/**
 	 * Applies Transformations and paints Object in the screen.
-	 * To define your custom DisplayObject class implement the paint() function.
+	 * To define your custom DisplayObject class implement the paint() function. Replace this function if 
+	 * you need to add extra functionality to the draw process, ie: transformations or keyboard handling.
 	 */
-	draw: function()
-	{
-		this.begin();
-		this.paint();
-		this.end();
-	},
+	draw: Draw.Default,
 
 	/**
 	 * Sets object to dirty and forces paint

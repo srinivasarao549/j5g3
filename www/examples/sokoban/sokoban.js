@@ -9,18 +9,18 @@ var
 	ss = game.ss = j5g3.spritesheet('ss').grid(12,6),
 
 	/* Game Objects */
-	player, world
+	world  = game.world  = new game.World(),
+	player = game.player = new game.Player()
 ;
 	_map.onkeyup = function() { world.loadMap(_map.value); }
-
-	player = new game.Player();
-	world  = new game.World();
+	_map.onfocus = $.Input.Keyboard.release;
+	_map.onblur  = $.Input.Keyboard.capture;
 
 	world.loadMap(_map.value);
 
-	player.pos(world.startPos[0], world.startPos[1]);
-
 	$.root.add([world, player]);
 	$.run();
+
+	$.Input.Keyboard.capture();
 }
 

@@ -19,23 +19,30 @@ j5g3.Map = DisplayObject.extend(/**@scope j5g3.Map.prototype */ {
 
 	getTileAt: function(x, y)
 	{
-		var p = this.getCoord(x, y);
-		return this.__map[p[1]][p[0]];
-	},
-
-	/**
-	 * Gets the top left coordinate of the tile at x,y
-	 */
-	getCoord: function(x, y)
-	{
 		var 
 	            me = this,
-		    map= me.__map,
-		    w  = map[0].length,
-		    h  = map.length,
 
 		    nx = Math.round(x / me.__tw),
 		    ny = Math.round(y / (me.__th/2 + me.__offsetY))
+		;
+
+		return this.__map[ny][nx]; //p[1]][p[0]];
+	},
+
+	/**
+	 * Gets the top left coordinate of the tile at x,y for isometric maps.
+	 * TODO 
+	 */
+	getIsometricCoords: function(x, y)
+	{
+	var 
+		me = this,
+		tw2=Math.floor(this.__tw/2) + this.__offsetX, 
+		th2=Math.floor(this.__th/2)+this.__offsetY, 
+		offset = (y%2)*tw2,
+
+		nx = Math.round(x * me.__tw - offset),
+		ny = Math.round(y * th2) /// (me.__th/2 + me.__offsetY))
 		;
 
 		return [ nx, ny ];
@@ -60,12 +67,12 @@ j5g3.Map = DisplayObject.extend(/**@scope j5g3.Map.prototype */ {
 		me.draw();
 		me.__source = context.getImageData(me.__x, me.__y, w, h);
 		me._oldPaint= me.paint;
-		me.paint = Draw.ImageData;
+		me.paint = Paint.ImageData;
 
 		context = pc;
 	},
 
-	paint: Draw.Map
+	paint: Paint.Map
 
 }).properties(
 /**@scope j5g3.Map.prototype */{ 

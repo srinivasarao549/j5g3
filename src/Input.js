@@ -7,8 +7,19 @@ Input =
  */
 j5g3.Input = 
 {
+	/** Key Constants */
+	KEYS: {
+
+		numpad9: 105,
+		numpad3: 99,
+		numpad1: 97,
+		numpad7: 103
+
+	},
+
 	/** Stores all Key status */
 	Key: {},
+
 
 	/**
 	 * @namespace

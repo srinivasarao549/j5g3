@@ -8,9 +8,10 @@
  */
 Sprite = $.Sprite = DisplayObject.extend({
 
-	init: function(properties)
+	/*init: function(properties)
 	{
 		_extend(this, properties);
-	},
-	paint: Draw.Sprite
+	},*/
+
+	paint: Paint.Sprite
 }),

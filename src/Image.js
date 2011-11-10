@@ -25,7 +25,7 @@ j5g3.Image = DisplayObject.extend(
 			this.source(this.__source);
 	}, 
 
-	paint: Draw.Image,
+	paint: Paint.Image,
 
 	/**
 	 * Sets the source. If src is a string it will create an Image object.

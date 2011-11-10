@@ -22,7 +22,7 @@ j5g3.Text = DisplayObject.extend({
 		if (this.__font) context.font = this.__font;
 	},
 
-	paint : Draw.Text,
+	paint : Paint.Text,
 
 	width : function()
 	{
