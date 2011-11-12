@@ -71,6 +71,7 @@ game.World = j5g3.Clip.extend({
 			"lrtb": 0, "rtb": 2, "ltb": 4
 		}
 	;
+		this.omap = map.split('\n');
 
 		for (; i<l; i++)
 		{
@@ -125,6 +126,9 @@ game.World = j5g3.Clip.extend({
 		// Set Player Position
 		if (startPos)
 		{
+			game.player.mapX = startPos[0];
+			game.player.mapY = startPos[1];
+
 			startPos = this.getXY(startPos[0], startPos[1]+(out.length-l), out.length);
 			startPos = this.walls.getIsometricCoords(startPos[0], startPos[1]);
 			game.player.pos(startPos[0], startPos[1]-4);

@@ -71,30 +71,56 @@ game.Player = j5g3.Clip.extend({
 		},
 
 		me = this,
+		world = game.world,
+
+		check_direction = function(direction)
+		{
+		var
+			nx = me.mapX, ny = me.mapY, objects = {
+				'#': true,
+				'$': true
+			}
+		;
+			switch (direction)
+			{
+			case 'ne': ny--; break;
+			case 'nw': nx--; break;
+			case 'se': nx++; break;
+			case 'sw': ny++; break;
+			}
+
+			return (world.omap[ny] && (!objects[world.omap[ny][nx]])) ? [ nx, ny ] : false;
+		},
 
 		go = function(action, direction) {
 			return function() { 
 				if (me.moving)
 					return;
 
-				var dirs = directions[direction];
+				var dirs = directions[direction], newpos;
 
-				me.moving = true;
-				me.go_state(action + '_' + direction);
+				if (newpos = check_direction(direction))
+				{
+					me.moving = true;
+					me.go_state(action + '_' + direction);
+					me.mapX = newpos[0];
+					me.mapY = newpos[1];
 
-				me.add(j5g3.tween({ 
-					target: me,
-					to: { 
-						x: me.__x + TW * dirs[0], 
-						y: me.__y + TH * dirs[1]
-					}, 
-					auto_remove: true, 
-					duration: 10,
-					on_remove: function() { 
-						me.go_state('idle_' + direction); 
-						me.moving = false;
-					} 
-				}));
+					me.add(j5g3.tween({ 
+						target: me,
+						to: { 
+							x: me.__x + TW * dirs[0], 
+							y: me.__y + TH * dirs[1]
+						}, 
+						auto_remove: true, 
+						duration: 10,
+						on_remove: function() { 
+							me.go_state('idle_' + direction); 
+							me.moving = false;
+						} 
+					}));
+				} else
+					me.go_state('idle_' + direction);
 			}
 		},
 
