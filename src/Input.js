@@ -9,12 +9,15 @@ j5g3.Input =
 {
 	/** Key Constants */
 	KEYS: {
-
-		numpad9: 105,
-		numpad3: 99,
 		numpad1: 97,
-		numpad7: 103
-
+		numpad2: 98,
+		numpad3: 99,
+		numpad4: 100,
+		numpad5: 101,
+		numpad6: 102,
+		numpad7: 103,
+		numpad8: 104,
+		numpad9: 105
 	},
 
 	/** Stores all Key status */

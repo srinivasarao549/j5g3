@@ -45,7 +45,7 @@ game.Player = j5g3.Clip.extend({
 		ss = game.ss,
 
 		// Tile width and height
-		TH = game.world.TH * 0.25, //0.433012702,
+		TH = game.world.TH * 0.25, 
 		TW = game.world.TW * 0.5,
 
 		states = {
@@ -128,9 +128,11 @@ game.Player = j5g3.Clip.extend({
 			numpad9: go('walk', 'ne'),
 			numpad3: go('walk', 'se'),
 			numpad1: go('walk', 'sw'),
-			numpad7: go('walk', 'nw')
+			numpad7: go('walk', 'nw'),
+			numpad5: go('push')
 		}
 	;
+		me.direction = 'ne';
 		this.__frames = this.states(ss, states);
 		this._super(p);
 		this._playing = false;
