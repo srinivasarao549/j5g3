@@ -36,9 +36,16 @@
 			ajax.send();
 		}
 
+		window.view_source = function()
+		{
+			url = list.value.toLowerCase() + '.js';
+			window.open(url, '_blank');			
+		}
+
 		list.value = location.hash.substr(1);
 		list.onchange();
 	}
+
 	</script>
 
 </head>
@@ -75,6 +82,7 @@
 			<option>Pong</option>
 		</optgroup>
 	</select>
+	<a href="javascript: view_source();">View Source</a>
 </div>
 
 	<canvas id="screen"></canvas>
