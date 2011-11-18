@@ -15,6 +15,9 @@ MINOUTPUT = 'build/j5g3-min.js'
 AIOUTPUT = 'build/j5g3-ai.js'
 AIMINOUTPUT = 'build/j5g3-ai-min.js'
 
+GDKOUTPUT = 'build/j5g3-gdk.js'
+GDKMINOUTPUT = 'build/j5g3-gdk-min.js'
+
 JAVA = 'java'
 JS = 'js'
 
@@ -52,26 +55,25 @@ task :build do
 	`cp src/ai.js #{AIOUTPUT}`
 	`cp #{AIOUTPUT} www`
 
-	puts "#{OUTPUT}: " + File.size(OUTPUT).to_s
-	puts "#{AIOUTPUT}: " + File.size(AIOUTPUT).to_s
+	`cp src/gdk.js #{GDKOUTPUT}`
+	`cp #{GDKOUTPUT} www`
 end
 
 def compile(file, output)
 	#`#{JAVA} -jar tools/compiler.jar --compilation_level ADVANCED_OPTIMIZATIONS --js #{OUTPUT} --js_output_file #{MINOUTPUT} --warning_level VERBOSE`
 	`#{JAVA} -jar tools/compiler.jar --js #{file} --js_output_file #{output} --warning_level VERBOSE`
+	`cp #{output} www`
+	o = File.size(output)
+	i = File.size(file)
+	p = "%3.2f" % (o.to_f / i.to_f * 100)
+	puts "#{output}: #{o.to_s}/#{i.to_s}(#{p}%)"
 end
 
 desc "Closure Compile"
 task :compile => [:build] do
-
 	compile(OUTPUT, MINOUTPUT)
-	`cp #{MINOUTPUT} www`
-
 	compile(AIOUTPUT, AIMINOUTPUT)
-	`cp #{AIMINOUTPUT} www`
-
-	puts "#{MINOUTPUT}: " + File.size(MINOUTPUT).to_s
-	puts "#{AIOUTPUT}: " + File.size(AIMINOUTPUT).to_s
+	compile(GDKOUTPUT, GDKMINOUTPUT)
 end
 
 desc "Lint"
@@ -91,7 +93,7 @@ end
 
 desc "Generae Documentation"
 task :docs do
-	puts `#{JSDOC} #{DBGOUTPUT} #{AIOUTPUT}`
+	puts `#{JSDOC} #{DBGOUTPUT} #{AIOUTPUT} #{GDKOUTPUT}`
 end
 
 desc "Create Release"

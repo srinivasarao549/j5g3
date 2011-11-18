@@ -1,0 +1,37 @@
+<html>
+<head>
+	<title>JSGE - Gorilla.JS</title>
+	<script src="../../j5g3-dbg.js"></script>
+	<script src="gorilla.js"></script>
+
+	<link rel="stylesheet" href="../../styles.css" />
+</head>
+<body onload="j5g3.start(game);">
+<header>
+	<nav>
+		<a href="../../buy.html">Buy</a>
+		<a href="../../docs">Documentation</a>
+		<a href="https://github.com/giancarlo/j5g3">Source</a>
+		<a href="http://bellido.us">Blog</a>
+	</nav>
+	<img id="logo" src="../../j5g3.png" alt="j5g3" />
+</header>
+
+<div style="text-align: center">
+	<h1>Gorilla.JS</h1>
+</div>
+	<p style="display: none;" id="pause">Game Paused. Press any key to Resume.</p>
+	<p style="display: none;" id="game-over">Game Over. <a href="javascript: restart();">Restart</a>.</p>
+	<p id="loading">Loading...</p>
+	<a id="start" style="display: none;" href="javascript:start();">Start Game</a>
+	
+	<canvas id="screen"></canvas>
+
+<div style="text-align: center">
+	<h2>Instructions</h2>
+</div>
+
+	<div id="assets"> 
+		<img id="ss" src="gorilla.png" />
+	</div>
+</body>

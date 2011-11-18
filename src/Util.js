@@ -25,7 +25,7 @@ j5g3.Util = {
 	/**
 	 * Fills array ary with what.
 	 *
-	 * @param {number|array} ary Array to be filled or a number indicating how many times "what" should be
+	 * @param {number|Array} ary Array to be filled or a number indicating how many times "what" should be
 	 *                           repeated.
 	 * @param what What to fill the array with.
 	 */

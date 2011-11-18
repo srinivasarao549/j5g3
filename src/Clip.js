@@ -75,10 +75,7 @@ j5g3.Clip = DisplayObject.extend(
 			break;
 		};
 
-		display_object.parent(this);
-		//var f = this.frames();
-		//f[f.length-1].push(display_object);
-		//f[this._frame].push(display_object);
+		display_object.__parent = this;
 		this.frame().push(display_object);
 
 		return this;
