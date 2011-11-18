@@ -163,28 +163,25 @@ j5g3.Clip = DisplayObject.extend(
 			this.paint = paint;
 			this.paint();
 		}		
-	}
+	},
 
 	/**
-	 * Scales the time coordinate of the clip.
+	 * Scales the time coordinate of the clip. Stretches or reduces frames.
 	 */
-	/*
 	scaleT: function(t)
 	{
 	var
 		frames = [],
 		of = this._oframes || (this._oframes = this.__frames),
-		l = of.length, i=0
+		l = Math.floor(of.length*t), 
+		i=0
 	;
 		for (; i<l; i++)
+			frames.push(of[Math.floor(i/t)]);
 			
-		if (!this._oframes)
-			this._oframes = this.frames
-
-
-
-		
-	}*/
+		this.__frames = frames;
+		return this;
+	}
 
 }).properties(
 	{ frames: null }

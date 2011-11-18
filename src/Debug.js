@@ -20,14 +20,14 @@
 		Debug.oldGameLoop.apply(this);
 		time = (new Date).getTime() - time;
 
-		var ctx = $.canvas.getContext('2d'),
+		var 
 		    afps = 1000/time,
 		    fps = $.fps()
 		;
 
 		DebugFPS.text(Math.round(fps < afps ? fps : afps) + " FPS");
 
-		DebugFPS.draw(ctx); 
+		DebugFPS.draw(); //$.context); 
 	};
 
 })(j5g3);

@@ -25,7 +25,7 @@
 			height: $.height
 		});
 
-		context = canvas.getContext('2d');
+		context = $.context = canvas.getContext('2d');
 		cache = document.createElement('CANVAS');
 
 		properties.startFn($, document);
