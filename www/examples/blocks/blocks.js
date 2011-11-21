@@ -60,7 +60,7 @@ var
 		var i=1, map=board.__map[0];
 		for (; i<BOARD_WIDTH; i++)
 			if (map[i])
-				game_over();
+				return game_over();
 	},
 
 	go_next = function() {
@@ -82,7 +82,7 @@ var
 	},
 
 	gravity = function() {
-		if (current.down())
+		if ($.root.is_playing() && current.down())
 			go_next();
 	},
 
