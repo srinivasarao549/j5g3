@@ -17,7 +17,11 @@ j5g3.Input =
 		numpad6: 102,
 		numpad7: 103,
 		numpad8: 104,
-		numpad9: 105
+		numpad9: 105,
+		left: 37,
+		down: 40,
+		right: 39,
+		up: 38
 	},
 
 	/** Stores all Key status */

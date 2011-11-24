@@ -19,7 +19,8 @@ j5g3.GDK = {
 
 		init: function(p)
 		{
-			this.STATES = {};
+			this.STATES = {}
+			this.KEYS = {}
 			this._super(p);
 		},
 
@@ -45,13 +46,18 @@ j5g3.GDK = {
 			frames = [],
 			STATES = me.STATES, 
 			i,
-			ss = me.__spritesheet
+			ss = me.__spritesheet,
+			state
 		;
 			for (i in states)
 				if (states.hasOwnProperty(i))
 				{
 					STATES[i] = frames.length;
-					frames.push([ ss.clip_array(states[i]) ]);
+					state = states[i];
+					if (state instanceof Array)
+						state = ss.clip_array(state);
+
+					frames.push([ state ]);
 				}
 
 			return me.__frames = frames;
@@ -59,7 +65,7 @@ j5g3.GDK = {
 
 		go_state: function(name)
 		{
-			this.go(this.STATES[name] || 0);
+			return this.go(this.STATES[name] || 0);
 		}
 
 	}).properties({
