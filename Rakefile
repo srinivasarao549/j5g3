@@ -78,7 +78,17 @@ end
 
 desc "Lint"
 task :lint do
-	puts `#{JS} tools/jslint.js #{SRCS}`
+	require 'tempfile'
+
+	code = File.read(OUTPUT)
+	code.gsub!("\t", '  ');
+	f = Tempfile.new(['j5g3', '.js'])
+	f.write code
+	f.close
+	puts "Linting #{f.path}"
+	puts `fixjsstyle #{f.path}`
+	puts `gjslint --custom_jsdoc_tags=scope #{f.path}`
+	f.unlink
 end
 
 desc "Syntax Check"
