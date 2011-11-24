@@ -108,17 +108,17 @@ $ = window.j5g3 = /** @namespace */ j5g3 =  {
 	/**
 	 * Returns a DOM element by ID.
 	 *
-	 * @param {String} id
+	 * @param {String} id Id of DOM Element
 	 */
 	id: function(id) { return document.getElementById(id); },
 	
 	/**
-	 * Returns a random number from 0 to max
+	 * @return A random number from 0 to max
 	 */
 	rand: function(max) { return Math.random() * max; },
 
 	/**
-	 * Returns a random integer from 0 to max
+	 * @return A random integer from 0 to max
 	 */
 	irand: function(max) { return Math.floor(Math.random() * max); },
 
@@ -138,7 +138,7 @@ $ = window.j5g3 = /** @namespace */ j5g3 =  {
 	/**
 	 * Shuffles array ary.
 	 *
-	 * @param {Array} ary
+	 * @param {Array} ary Array to shuffle
 	 */
 	shuffle: function(ary)
 	{
@@ -155,8 +155,8 @@ $ = window.j5g3 = /** @namespace */ j5g3 =  {
 	/**
 	 * Iterates through ary and runs the fn function for each element
 	 *
-	 * @param {Array} ary
-	 * @param {Function} fn
+	 * @param {Array} ary Array to Iterate through
+	 * @param {Function} fn Function to execute on each iteration
 	 */
 	each: function(ary, fn)
 	{
