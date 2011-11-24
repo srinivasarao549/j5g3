@@ -53,6 +53,10 @@ $ = window.j5g3 = /** @namespace */ j5g3 =  {
 		process = setInterval($.gameLoop, __fps);
 	},
 
+	warning: function()
+	{
+	},
+
 	/**
 	 * This is here to allow overriding by Debug.js
 	 */

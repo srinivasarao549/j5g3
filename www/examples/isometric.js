@@ -60,7 +60,7 @@ var
 	
 	$.canvas.onmousemove = function(evt)
 	{
-		var p = map.getCoord(evt.offsetX, evt.offsetY); 
+		var p = map.getIsometricCoords(evt.offsetX, evt.offsetY); 
 		if (prev)
 			map.__map[prev[1]][prev[0]] = prevv;
 

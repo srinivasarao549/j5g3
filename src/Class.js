@@ -48,8 +48,9 @@ j5g3.Class.extend = function(methods, static_methods)
 	init.properties = Class.properties;
 	init.extend = Class.extend;
 
+	init.parent = _super;
 	init.prototype._super = function() { 
-		return _super.apply(this, arguments);
+		return arguments.callee.caller.parent.apply(this, arguments);
 	}
 
 	return init;

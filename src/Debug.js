@@ -30,6 +30,11 @@
 		DebugFPS.draw(); //$.context); 
 	};
 
+	$.warning = function(msg)
+	{
+		window.console.warn(msg);
+	}
+
 })(j5g3);
 
 
