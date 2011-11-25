@@ -76,7 +76,7 @@ j5g3.GDK = {
 		{
 		var 
 			me = this,
-			frames = [],
+			frames = me.__frames = [],
 			STATES = me.STATES, 
 			i,
 			ss = me.__spritesheet,
@@ -89,21 +89,35 @@ j5g3.GDK = {
 					state = states[i];
 					if (state instanceof Array)
 						state = ss.clip_array(state);
-
-					frames.push([ state ]);
+					me.add_frame(state);
+					//frames.push([ state ]);
 				}
 
-			return me.frames(frames);
+			return me;
 		},
 
+		/**
+		 * Gets the clip of the state.
+		 */
+		get_state: function(name)
+		{
+			return this.__frames[this.STATES[name]][0];
+		},
+
+		/**
+		 * Goes to the frame of the state
+		 *
+		 * @param name Name of the state.
+		 */
 		go_state: function(name)
 		{
-			return this.go(this.STATES[name] || 0);
+			return this.go(this.STATES[this.__state = name] || 0);
 		}
 
 	}).properties({
 		spritesheet: null,
-		gravity: 0
+		gravity: 0,
+		state: null
 	})
 
 };

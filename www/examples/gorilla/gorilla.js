@@ -11,6 +11,11 @@ var
 		}
 	},
 
+	stop= function()
+	{
+		this.__parent.stop();
+	},
+
 	rect = $.rect({ strokeStyle: 'white', fillStyle: 'none' }),
 
 	Gorilla = $.GDK.User.extend({
@@ -21,7 +26,10 @@ var
 			    .states({
 				idle_l: [ 60, 61, 62, 63, 64 ],
 				idle_r: [ 80, 81, 82, 83, 84 ],
-				shoot: [ 20, 21, 22, 23, 24, 23, 22, 21 ]
+				fall_l: [ 40, 41, 42, 43, 44 ], // [ ss.sprite(44), stop ] ],
+				fall_r: [ 51, 50, 49, 48, 47 ], //[ ss.sprite(47), stop ] ],
+				shoot: [ 20, 21, 22, 23, 24, 23, 22, 21 ],
+				platform_l: [ 45, 45, 45, [ ss.sprite(45), function() { this.parent().parent().go_state('idle_l') } ] ]
 			    }).keys({
 				left: go('idle_l', -2),
 				right: go('idle_r', 2)
@@ -33,6 +41,7 @@ var
 
 			this.__frames[0][0].scaleT(3);
 			this.__frames[1][0].scaleT(3);
+			this.__frames[2][0].scaleT(3);
 		},
 
 		update: function()
@@ -43,8 +52,14 @@ var
 				this.__gravity = 0;
 				this.g.__vy = 0;
 				this.__y = platform.__y - this.__height;
+				if (this.__state=='fall_l')
+					this.go_state('platform_l');
 			} else
+			{
+			//	if (this.__state!='fall_l')
+					this.go_state('fall_l');
 				this.__gravity = 1;
+			}
 		}
 
 	}),
