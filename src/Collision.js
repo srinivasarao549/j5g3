@@ -44,6 +44,15 @@ j5g3.Collision = {
 		;
 
 		return (ax+this.width() >= bx && ax <= bx+b.width()) && (ay+this.height() > by && ay <= by+b.height());
+	},
+
+	Box: function(b)
+	{
+		return !((b.__x > this.__x+this.__width) || 
+		       (b.__x+b.__width < this.__x) ||
+		       (b.__y > this.__y+this.__height) ||
+		       (b.__y + b.__height < this.__y))
+		;
 	}
 
 },

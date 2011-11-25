@@ -29,7 +29,7 @@ j5g3.Clip = DisplayObject.extend(
 	 */
 	frame: function() 
 	{
-		return this.frames()[this._frame]; 
+		return this.__frames[this._frame]; 
 	},
 
 	/**

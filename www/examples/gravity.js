@@ -2,7 +2,7 @@
 (function ($)
 {
 	var ball = $.image('ball'),
-	    F = $.physics({ obj: ball }),
+	    F = $.physics({ target: ball }),
 	    accel = function() { 
 
 		// Access property directly for better perfomance.

@@ -16,12 +16,25 @@ j5g3.GDK = {
 	User: $.Clip.extend({
 
 		draw: $.Draw.Keyboard,
+		collides: $.Collision.Box,
+
+		initGravity: function()
+		{
+			this.g = $.physics({ target: this });
+		},
 
 		init: function(p)
 		{
 			this.STATES = {}
 			this.KEYS = {}
 			this._super(p);
+			this.initGravity();
+
+			this.setup();
+		},
+
+		setup: function()
+		{
 		},
 
 		keyboard: function(key)
@@ -33,6 +46,26 @@ j5g3.GDK = {
 			for (i in KEYS)
 				if (key[j5g3.Input.KEYS[i]])
 					KEYS[i].apply(this);
+
+			// Apply gravity if not zero.
+			if (this.__gravity)
+				// Manually Draw
+				this.g.force(0, this.__gravity).draw();
+
+			this.update();
+		},
+
+		update: function() { },
+		
+		/**
+		 * Set Key Handlers.
+		 *
+		 * @param {Object} ks Key objects.
+		 */
+		keys: function(ks)
+		{
+			this.KEYS = ks;
+			return this;
 		},
 
 		/**
@@ -60,7 +93,7 @@ j5g3.GDK = {
 					frames.push([ state ]);
 				}
 
-			return me.__frames = frames;
+			return me.frames(frames);
 		},
 
 		go_state: function(name)
@@ -69,7 +102,8 @@ j5g3.GDK = {
 		}
 
 	}).properties({
-		spritesheet: null
+		spritesheet: null,
+		gravity: 0
 	})
 
 };

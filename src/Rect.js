@@ -48,7 +48,8 @@ j5g3.Rect = Shape.extend(/**@scope j5g3.Rect.prototype */{
 
 	paint : function()
 	{
-		context.fillRect(this.__x, this.__y, this.__width, this.__height);
+		context.fillRect(0, 0, this.__width, this.__height);
+		context.strokeRect(0, 0, this.__width, this.__height);
 	}
 
 }),

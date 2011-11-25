@@ -73,11 +73,14 @@ j5g3.DisplayObject = Class.extend(/** @scope j5g3.DisplayObject.prototype */ {
 	 */
 	align: function(alignment, container) 
 	{
+		container = container || this.__parent;
+
 		switch (alignment) {
 		case 'center': 	this.x(container.width() / 2); 	break;
 		case 'left':    this.x(0); break;
 		case 'right':   this.x(container.width() - this.width()); break;
 		case 'middle':  this.y(container.height() / 2); break;
+		case 'center middle': this.pos(container.width()/2, container.height()/2); break;
 		case 'origin':  this.pos(-this.width()/2, -this.height()/2); break;
 		case 'origin top': this.pos(-this.width()/2, -this.height()); break;
 		case 'origin bottom': this.pos(-this.width()/2, 0); break;
@@ -161,6 +164,14 @@ j5g3.DisplayObject = Class.extend(/** @scope j5g3.DisplayObject.prototype */ {
 	stretch: function(w, h)
 	{
 		return this.scale(w / this.__width, h/this.__height);
+	},
+
+	/**
+	 * Encloses Object into a Clip.
+	 */
+	to_clip: function()
+	{
+		return $.clip([[ this ]]);
 	}
 	
 }).properties(/**@scope j5g3.DisplayObject.prototype */{

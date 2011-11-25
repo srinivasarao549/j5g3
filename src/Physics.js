@@ -8,7 +8,7 @@ Physics =
  *
  * Properties
  *
- * obj     Object to apply physics to.
+ * target  Object to apply physics to.
  * v       Velocity 2D Vector. Default [0, 0]
  */
 j5g3.Physics = Class.extend(/**@scope j5g3.Physics.prototype */{
@@ -20,7 +20,7 @@ j5g3.Physics = Class.extend(/**@scope j5g3.Physics.prototype */{
 
 	draw: function()
 	{
-		var o = this.__obj;
+		var o = this.__target;
 
 		o.__x = (o.__x + this.__vx);
 		o.__y = (o.__y + this.__vy);
@@ -49,6 +49,6 @@ j5g3.Physics = Class.extend(/**@scope j5g3.Physics.prototype */{
 	invalidate: function() { }
 }).properties(
 {
-	obj: null, vx: 0, vy: 0, m: 1, parent: null
+	target: null, vx: 0, vy: 0, m: 1, parent: null
 }),
 
