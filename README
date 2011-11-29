@@ -1,19 +1,38 @@
-J5G3 - Javascript Game Engine
 
-Tasks:
+J5G3 
+====
 
-rake - Will build  to 'build/j5g3.js'
-rake minify - Will build and minify to 'build/j5g3-min.js'. Requires java command line utility.
-rake lint - Will run jslint on source files. Requires a js interpreter (js).
-rake syntax - Will do a syntax check. Requires a js interpreter(js).
-rake test - Will execute tests in test folder
+#### Javascript Game Engine ####
 
-Dependencies:
+J5G3 is an easy to use, extendable and fast canvas-based Javascript game engine.
 
-Rake - To build the library.
+Building j5g3
+-------------
 
-Optional:
+### Rakefile Tasks ###
 
-A command line JS interpreter like Rhino( sudo apt-get rhino ) for lint and syntax check.
-Java for YUI Compressor
+rake
+	Will build 'build/j5g3.js' and 'build/j5g3-dbg.js'
+rake compile
+	Will build and minify to 'build/j5g3-min.js'. Requires java command line utility.
+rake lint
+	Will run jslint on source files. Requires a js interpreter (js).
+rake test
+	Will execute tests in test folder
+rake docs
+	Generates Documentation
+rake release
+	Generates Release file to build folder.
+
+### Dependencies ###
+
+- Ruby/Rake - To build the library.
+- Java for the google closure compiler (Optional)
+
+
+Documentation
+-------------
+
+Online documentation at <http://j5g3.coaxialhost.com/docs>
+
 

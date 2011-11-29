@@ -16,7 +16,7 @@
 	    score1 = $.text({ text: "0", x: MAXW/2 - 50, y: 10, font: '14px' }),
 	    score2 = $.text({ text: "0", x: MAXW/2 + 50, y: 10, font: '14px' }),
 
-	    p = $.physics({ obj: ball, vx: -maxvx, vy: 0 }),
+	    p = $.physics({ target: ball, vx: -maxvx, vy: 0 }),
 	    restart = function(winner)
 	    {
 	    	winner.text(parseInt(winner.text()) + 1);
