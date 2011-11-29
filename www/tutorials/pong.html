@@ -1,0 +1,212 @@
+<html>
+<head>
+<link rel="stylesheet" href="styles.css" />
+<title>j5g3 - Pong Tutorial</title>
+</head>
+<body onload="j5g3.start(pong)">
+
+	<h1>j5g3 - Pong Tutorial</h1>
+
+	<h2>Introduction</h2>
+	<p>This tutorial will guide you through creating a simple Pong Game using the j5g3 Engine.</p>
+	<canvas id="screen"></canvas>
+	<p><small>Click on the box to start the game.</small></p>
+
+	<h2>Setting Up</h2>
+	<p>Download the latest engine release at <a href="https://github.com/giancarlo/j5g3/downloads">Github</a>. Unzip and place the files in a new folder. We will use this folder to place all the game files. The structure of this folder is entirely up to you and your game needs.</p> 
+	<p>We will create a new file called <code>pong.html</code> where we will put our canvas object and our assets.</p>
+
+<pre>
+&lt;body onload="j5g3.start(pong)">
+	&lt;canvas id="screen">&lt;/canvas>
+	&lt;div id="assets">
+		&lt;img id="pong-ss" src="pong.png" />
+		&lt;audio id="pong-sound" src="pong.ogg" preload="true">&lt;/audio>
+	&lt;/div>
+
+	&lt;script src="j5g3-dbg.js">&lt;/script>
+	&lt;script src="pong.js">&lt;/script>
+&lt;/body>
+</pre>
+
+	<p>The engine by default will use the canvas with id <code>screen</code> to do all the drawing. For the purposes of the demo we will use the Debug version (<code>j5g3-dbg.js</code>) of the library (Not minimized and with extra debugging functions). You can get the <code>pong.png</code> file from <a href="pong.png">here</a> and the <code>pong.ogg</code> file <a href="pong.ogg">here</a>.</p>
+	<img src="pong.png" id="pong-ss" />
+	<p>NOTE: To use a different canvas object you will need to pass a string or DOM object to the j5g3.start function like this:</p>
+<pre>
+	j5g3.start({ startFn: pong, canvas: 'id' });
+</pre>
+
+	<h2>Writing the game</h2>
+
+	<p>The file <code>pong.js</code> will contain all the game logic and our entry function <code>pong()</code> which will be run by the document <code>onload</code> event.</p>
+
+<pre>
+function pong($, document)
+{
+var
+	// Constants
+	MAXW = $.width,
+	MAXH = $.height,
+	MAXVX = 8
+;
+
+	// We will add the game code here
+}
+</pre>
+<p>For convenience we will use $ to refer to j5g3. j5g3 will pass itself and the current window document as parameters to the startFn function.</p>
+
+<h3>Creating the Game Elements</h3>
+
+<p>Now we will add our entities. First we will define our Spritesheet and add it to the <code>var</code> statement.</p>
+<pre>
+	ss = $.spritesheet('pong-ss'),
+</pre>
+<p>j5g3 will define shortcut functions to create objects. These are the lowercase names of the classes. In this case we will create a <code>j5g3.Spritesheet</code> object. All j5g3 class constructors take a <code>properties</code> object containing the initialization values for properties. Some classes accept other objects for convenience.</p>
+<p>The following code will have the same effect as the previous line:</p>
+<pre>
+	ss = new $.Spritesheet('pong-ss')
+	ss = new $.Spritesheet($.id('pong-ss'))
+	ss = new $.Spritesheet({ source: 'pong-ss' })
+</pre>
+<p>Now we will proceed to define our Game entities. We will create <code>j5g3.Clip</code>'s from the sprites in our Spritesheet. The <code>cut()</code> function will return a j5g3.Clip object.</p>
+<p>j5g3 objects have setter and getter methods for their properties. All j5g3 property setters return <code>this</code> for chaining. To set the value of a property directly you prepend it with two underscores(<code>__</code>).</p>
+<pre>
+	player   = ss.cut(8, 8, 8, 40).x(20),
+	computer = ss.cut(8, 54, 8, 40 ).x(MAXW-20),
+
+	// Later we will override the ball collision algorithm with 
+	// ball.collides = $.Collision.AABB;
+	ball     = ss.cut(24, 8, 8, 8),
+</pre>
+<p>We will also create two <code>j5g3.Text</code> objects to display the players score</p>
+<pre>
+	score1 = $.text({ text: "0", x: MAXW/2 - 50, y: 10, font: '14px' }),
+	score2 = $.text({ text: "0", x: MAXW/2 + 50, y: 10, font: '14px' }),
+</pre>
+<p>To control the ball movement we will create a <code>j5g3.Physics</code> object.</p>
+<pre>
+	p = $.physics({ target: ball }),
+</pre>
+<p>We will also get our Audio object. The j5g3 engine does not manage audio clips. To play sound you need to use the HTML Audio/Media elements. The <code>$.id()</code> function return the DOM element with the specified id.</p>
+<pre>
+	sound = $.id('pong-sound'),
+</pre>
+<p>We will create a function to setup the initial state of the game. If a winner is passed it will update its score.</p>
+<pre>
+	start = function(winner)
+	{
+		if (winner) winner.text(parseInt(winner.text()) + 1);
+
+		ball.pos(MAXW/2, MAXH/2);
+		p.v(-MAXVX, 0);
+
+		player.y(MAXH/2-10);
+		computer.y(MAXH/2-10);
+
+		player.F = 0;
+		computer.v = 0;
+	},
+</pre>
+<h3>Collision Detection</h3>
+<p>Now we will define our <code>update</code> function. Here we will add most of the game logic.</p>
+<pre>
+	update = function()
+	{
+		// Check collission with players
+	    	if (ball.collides(player))
+		{
+			ball.x(player.x()+8);
+			p.vx(MAXVX).force(0, player.F);
+			sound_play();
+
+		} else if (ball.collides(computer))
+		{
+			ball.x(computer.x()-8);
+			p.vx(-MAXVX).force(0, computer.a);
+			sound_play();
+
+		} 
+		// Check winning condition
+		else if (ball.x() &lt; 0)
+			start(score2);
+		else if (ball.x() > MAXW)
+			start(score1);
+		// Check collission with walls
+		else if (ball.y() &lt;= 0)
+			wall(0);
+		else if (ball.y() >= MAXH)
+			wall(MAXH);
+
+		player.F = 0;
+	},
+</pre>
+<p>Collision detection is integrated into all <code>j5g3.DisplayObject</code>'s. The collision algorithm can be set by overriding the <code>collides()</code> function with your own or one of the default ones in the <code>j5g3.Collision</code> module. To simplify collision with walls we just use the y property of the ball.</p>
+<p>If a collision is detected we will set the x direction of the velocity and apply the force calculated by the mouse event handler and the <code>ai()</code> function which will be defined later.
+
+<h3>Artificial Intelligence</h3>
+<p>Now we will add the AI code for the computer player. The computer behavior is simple. To make it fair to the human player we will add to the computer a maximum velocity and acceleration.</p>
+<pre>
+	ai = function()
+	{
+		var by = ball.y(), vx = p.__vx, y = computer.y()+computer.height()/2, a=0;
+
+		if (vx > 0)
+		{
+			if (computer.y() &lt;5) computer.y(5);
+			else if (computer.y()>MAXH-20) computer.y(MAXH-20);
+			else if (by > y+4) a = 2;
+			else if (by &lt; y-4) a = -2;
+
+			if (a)
+			{
+				computer.v += a;
+				computer.y(computer.y() + computer.v);
+				computer.a = a;
+				return;
+			}
+		} 
+
+		computer.v = 0;
+		computer.a = 0;
+	},
+</pre>
+<h3>Input Handling</h3>
+<p>The player will control the pad with the mouse. To keep things simple we will add a event listener to the canvas onmousemove event.</p>
+<pre>
+	mouse = function(evt)
+	{
+		var yi = player.y(), yf;
+		player.y(yf = evt.offsetY-20);
+		// Calculate force, t = 1 frame, m = 1
+		player.F = (yf-yi)/3; 
+	}
+
+	// Add our mouse event listener to the canvas.
+	$.canvas.addEventListener('mousemove', mouse);
+</pre>
+<p>We have direct access to the <code>canvas</code> element at all times through <code>j5g3.canvas</code>. The mouse event listener will position the player's pad at the mouse Y position and calculate the force with which the pad hits the ball.</p>
+
+<h3>Adding the Entities to the Game</h3>
+<p>The root clip (<code>j5g3.root</code>) will contain all of the game objects, including Clips, Actions and Shapes. To add elements to a <code>j5g3.Clip</code> we use the <code>add()</code> function. We can add multiple elements to the current frame by putting them into an array.</p>
+<pre>
+	$.root.add([ player, computer, score1, score2, ball, p, ai, update ]);
+</pre>
+<p>The <code>add()</code> function will convert <code>strings</code> to <code>j5g3.Image</code>'s and functions to <code>j5g3.Action</code>'s. The engine will call the <code>paint</code> function of all the objects in the frame.
+</p>
+
+<h3>Running the Game</h3>
+<p>Nothing will happen in the game if you don't call the <code>run()</code> function.</p>
+<pre>
+	$.run();
+</pre>
+
+<p>And that's it. If you followed the tutorial, you have created your first j5g3 game. Click <a href="pong.js">here</a> to see the complete source code. To see a demo of the game click on the gray rectangle at the top of this tutorial.</p>
+
+
+
+<audio id="pong-sound" src="pong.ogg" preload="true"></audio>
+<script src="../j5g3-dbg.js"></script>
+<script src="pong.js"></script>
+
+</body>
+</html>
