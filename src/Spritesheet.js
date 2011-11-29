@@ -48,13 +48,16 @@ j5g3.Spritesheet = Class.extend(/** @scope j5g3.Spritesheet.prototype */ {
 	clip_array: function(sprites)
 	{
 		var s = this.sprites(),
-		    frames = [], i
+		    i,
+		    sprite, 
+		    // Make sure clip starts with no frames...
+		    clip = new Clip({ frames: [] })
 		;
 
 		for (i = 0; i < sprites.length; i++)
-			frames.push([ s[sprites[i]] ]);
+			clip.add_frame([(typeof(sprite=sprites[i]) === 'number') ? s[sprite] : sprite ]);
 
-		return new Clip({ 'frames': frames });
+		return clip;
 	},
 
 	/**
@@ -111,6 +114,14 @@ j5g3.Spritesheet = Class.extend(/** @scope j5g3.Spritesheet.prototype */ {
 				this.cut(c*(w+b2)+b, r*(h+b2)+b, w, h);
 
 		return this;
+	},
+
+	/**
+	 * Returns sprite at index 
+	 */
+	sprite: function(index)
+	{
+		return this.__sprites[index];
 	}
 
 }).properties(

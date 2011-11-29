@@ -2,6 +2,7 @@
 function game($, doc)
 {
 var
+<<<<<<< HEAD
 	ss = $.spritesheet('ss').grid(20,10),
 
 	go= function(state, offset)
@@ -52,13 +53,16 @@ var
 	}),
 
 	gorilla = (new Gorilla()).pos(100,100),
+=======
+	gorilla = (new game.Gorilla()).pos(100,100),
+>>>>>>> c6449ca86e1e9e8c0deeba98640c284add7c0ecf
 	platform = $.rect({ x: 100, y: 300, width: 100, height: 10, fillStyle: 'white' })
 ;
 
 	$.id('loading').style.display = 'none';
 	$.canvas.style.display = '';
 
-	$.root.add([gorilla, rect, platform]);
+	$.root.add([gorilla, platform]);
 
 	$.run();
 
