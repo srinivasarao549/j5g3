@@ -32,10 +32,11 @@ j5g3.Action = Class.extend(
 	},
 
 	/**
+	 * Removes the clip
 	 */
 	remove: function()
 	{
-		this.parent().remove_child(this);
+		this.__parent.remove();
 	}
 
 }).properties({
