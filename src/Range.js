@@ -1,9 +1,11 @@
+Range =
+
 /*
  * j5g3 Range Class
  *
  * Constructor takes a property object, or a start and end values.
  */
-Range = Class.extend({
+j5g3.Range = Class.extend({
 
 	init: function(start, end)
 	{
