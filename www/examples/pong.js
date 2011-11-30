@@ -101,8 +101,6 @@
 	    sound = $.id('pong');
 	;
 
-	window.toggleSound = function() { sound.volume = this.checked ? 0 : 0.25 ; }
-
 	player.F = 0;
 	computer.v = 0;
 	sound.volume = 0.2;

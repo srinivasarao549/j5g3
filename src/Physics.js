@@ -46,6 +46,16 @@ j5g3.Physics = Class.extend(/**@scope j5g3.Physics.prototype */{
 	{
 	},
 
+	/**
+	 * Sets vx and vy properties.
+	 */
+	v: function(vx, vy)
+	{
+		this.__vx = vx;
+		this.__vy = vy;
+		return this;
+	},
+
 	invalidate: function() { }
 }).properties(
 {
