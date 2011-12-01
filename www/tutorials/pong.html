@@ -1,7 +1,9 @@
 <html>
 <head>
-<link rel="stylesheet" href="styles.css" />
-<title>j5g3 - Pong Tutorial</title>
+	<link rel="stylesheet" href="styles.css" />
+	<link type="text/css" rel="stylesheet" href="http://syntaxhighlighter.googlecode.com/svn/trunk/Styles/SyntaxHighlighter.css" />
+	<title>j5g3 - Pong Tutorial</title>
+		
 </head>
 <body onload="j5g3.start(pong)">
 
@@ -207,6 +209,19 @@ var
 <audio id="pong-sound" src="pong.ogg" preload="true"></audio>
 <script src="../j5g3-dbg.js"></script>
 <script src="pong.js"></script>
+<script src="http://syntaxhighlighter.googlecode.com/svn/trunk/Scripts/shCore.js"></script>
+<script src="http://syntaxhighlighter.googlecode.com/svn/trunk/Scripts/shBrushJScript.js"></script>
+<script>
+var 
+	pres = document.getElementsByTagName('pre'),
+	i = pres.length
+;
+	while(i--)
+		pres[i].className = 'javascript';
+	
+	dp.SyntaxHighlighter.ClipboardSwf = 'http://syntaxhighlighter.googlecode.com/svn/trunk/Scripts/clipboard.swf';
+	dp.SyntaxHighlighter.HighlightAll(); //'pre');	
+</script>
 
 </body>
 </html>
