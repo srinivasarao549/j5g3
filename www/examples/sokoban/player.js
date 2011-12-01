@@ -1,13 +1,16 @@
 
+j5g3.module(function($) {
+
+var
+	TH = game.World.TH * 0.25,
+	TW = game.World.TW * 0.5
+;
+
 game.Player = j5g3.GDK.User.extend({
 
 	setup: function()
 	{
 	var
-		// Tile width and height
-		TH = game.world.TH * 0.25, 
-		TW = game.world.TW * 0.5,
-
 		directions= {
 			ne: [ 1, -1 ],
 			nw: [ -1, -1],
@@ -128,4 +131,7 @@ game.Player = j5g3.GDK.User.extend({
 	}
 
 });
+
+});
+
 

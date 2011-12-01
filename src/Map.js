@@ -72,6 +72,15 @@ j5g3.Map = DisplayObject.extend(/**@scope j5g3.Map.prototype */ {
 		context = pc;
 	},
 
+	/**
+	 * Sets the map to Isometric
+	 */
+	set_iso: function()
+	{
+		this.paint = Paint.Isometric;
+		return this;
+	},
+
 	paint: Paint.Map
 
 }).properties(

@@ -162,6 +162,14 @@ $ = window.j5g3 = /** @namespace */ j5g3 =  {
 	{
 		for (var i=0; i<ary.length; i++)
 			fn.apply(ary[i], [i]);
+	},
+
+	/**
+	 * Defines a user Module. fn will be passed the j5g3 object and the window.document
+	 */
+	module: function(fn)
+	{
+		fn($, document);
 	}
 },
 

@@ -122,10 +122,18 @@ j5g3.Spritesheet = Class.extend(/** @scope j5g3.Spritesheet.prototype */ {
 	sprite: function(index)
 	{
 		return this.__sprites[index];
+	},
+
+	/**
+	 * Returns a map with the sprites property set and the tw and th specified.
+	 */
+	map: function(tw, th)
+	{
+		return new Map({ sprites: this.__sprites, tw: tw, th: th });
 	}
 
 }).properties(
 	{
-		'width':0, 'height':0, 'source':null, 'sprites': null, cols: 1, rows:1, type: 'grid'
+		'width':0, 'height':0, 'source':null, 'sprites': null 
 	}
 ),

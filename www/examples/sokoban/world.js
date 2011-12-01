@@ -1,27 +1,27 @@
 
-game.World = j5g3.Clip.extend({
+j5g3.module(function($)
+{
 
-	TH: 49,
-	TW: 54,
+game.World = $.Clip.extend({
+
 
 	init: function(p)
 	{
 	var
 		me = this,
-		ss = game.spritesheet,
-		walls = me.walls = j5g3.map({ sprites: ss.__sprites, tw: 54, th: 49, offsetY: -11 }),
-		floor = me.floor = j5g3.map({ sprites: j5g3.Util.fill(30, ss.__sprites[11]), tw: 54, th: 49, offsetY: -11 }),
-		boxes = j5g3.clip()
+		ss = game.spritesheet
 	;
-
-		walls.paint = floor.paint = j5g3.Paint.Isometric;
-		floor.__sprites[71]=ss.__sprites[71];
-		ss.__sprites[11]=ss.__sprites[71];
-
 		this._super(p);
 
-		this.__frames = [ [ floor, boxes, walls ] ];
-		this.startPos = [0, 0];
+		this.add([ 
+			me.floor = $.map({ sprites: j5g3.Util.fill(30, ss.__sprites[11]), tw: 54, th: 49, offsetY: -11 }).set_iso(),
+			me.boxes = $.clip(),
+			game.player = new game.Player(),
+			me.walls = ss.map(54, 49).offsetY(-11).set_iso()
+		]);
+
+		me.floor.__sprites[71]=ss.__sprites[71];
+		ss.__sprites[11]=ss.__sprites[71];
 	},
 
 	transform: function(_in, out)
@@ -123,7 +123,6 @@ game.World = j5g3.Clip.extend({
 
 		// Make it Isometric. Magic happens here.
 		this.transform(out, this.walls.__map);
-		console.log(out);
 
 		// Set Player Position
 		if (startPos)
@@ -137,6 +136,11 @@ game.World = j5g3.Clip.extend({
 		} else
 			game.player.pos(-100, -100);
 	}
+
+});
+
+game.World.TH = 49;
+game.World.TW = 54;
 
 });
 
