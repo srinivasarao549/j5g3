@@ -13,15 +13,6 @@ j5g3.Text = DisplayObject.extend({
 		_extend(this, properties);
 	},
 
-	begin : function()
-	{
-		TextOldBegin.apply(this);
-
-		if (this.__fillStyle) context.fillStyle = this.__fillStyle;
-		if (this.__strokeStyle) context.strokeStyle = this.__strokeStyle;
-		if (this.__font) context.font = this.__font;
-	},
-
 	paint : Paint.Text,
 
 	width : function()
@@ -33,9 +24,6 @@ j5g3.Text = DisplayObject.extend({
 		return metrics.width;
 	}
 }).properties(
-	{ text: '', strokeStyle: null, fillStyle: 'white', font: null }
+	{ text: '' }
 ),
-
-/* TODO This is an ugly hack. */
-TextOldBegin = DisplayObject.prototype.begin,
 

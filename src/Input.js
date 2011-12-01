@@ -85,6 +85,20 @@ j5g3.Input =
 		_onkeypress: function(evt)
 		{
 			evt.preventDefault();
+		},
+
+		/**
+		 * Waits for key press.
+		 */
+		waitForKey: function(onKeyPress)
+		{
+		var
+			listener = function() {
+				onKeyPress();
+				window.removeEventListener('keyup', listener, true);
+			}
+		;
+			window.addEventListener('keyup', listener); 
 		}
 	}
 },

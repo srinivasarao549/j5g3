@@ -39,6 +39,7 @@ j5g3.Action = Class.extend(
 		this.__parent.remove();
 	}
 
+
 }).properties({
 	parent: null
 }),
