@@ -8,9 +8,10 @@ game.World = j5g3.Clip.extend({
 	{
 	var
 		me = this,
-		ss = game.ss,
+		ss = game.spritesheet,
 		walls = me.walls = j5g3.map({ sprites: ss.__sprites, tw: 54, th: 49, offsetY: -11 }),
-		floor = me.floor = j5g3.map({ sprites: j5g3.Util.fill(30, ss.__sprites[11]), tw: 54, th: 49, offsetY: -11 })
+		floor = me.floor = j5g3.map({ sprites: j5g3.Util.fill(30, ss.__sprites[11]), tw: 54, th: 49, offsetY: -11 }),
+		boxes = j5g3.clip()
 	;
 
 		walls.paint = floor.paint = j5g3.Paint.Isometric;
@@ -19,7 +20,7 @@ game.World = j5g3.Clip.extend({
 
 		this._super(p);
 
-		this.__frames = [ [ floor, walls ] ];
+		this.__frames = [ [ floor, boxes, walls ] ];
 		this.startPos = [0, 0];
 	},
 
@@ -122,6 +123,7 @@ game.World = j5g3.Clip.extend({
 
 		// Make it Isometric. Magic happens here.
 		this.transform(out, this.walls.__map);
+		console.log(out);
 
 		// Set Player Position
 		if (startPos)
@@ -134,11 +136,6 @@ game.World = j5g3.Clip.extend({
 			game.player.pos(startPos[0], startPos[1]-4);
 		} else
 			game.player.pos(-100, -100);
-
-		// Cache the Images
-		//this.walls.cache((l+maxx)*this.walls.__tw, (l+maxx)*(this.walls.__th/2));
-		//this.floor.cache((l+maxx)*this.walls.__tw, (l+maxx)*(this.walls.__th/2));
-		//this.floor.cache((l+maxx)*this.__tw, (l+maxx)*(this.__th/2));
 	}
 
 });

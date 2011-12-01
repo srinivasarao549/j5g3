@@ -98,7 +98,7 @@ j5g3.Input =
 				window.removeEventListener('keyup', listener, true);
 			}
 		;
-			window.addEventListener('keyup', listener); 
+			window.addEventListener('keyup', listener, true); 
 		}
 	}
 },

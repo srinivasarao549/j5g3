@@ -1,67 +1,12 @@
 
-game.Player = j5g3.Clip.extend({
+game.Player = j5g3.GDK.User.extend({
 
-	states: function(ss, states)
+	setup: function()
 	{
 	var
-		me = this,
-		frames = [],
-		STATES = me.STATES = {}, 
-		i
-	;
-		for (i in states)
-			if (states.hasOwnProperty(i))
-			{
-				STATES[i] = frames.length;
-				frames.push([ ss.clip_array(states[i]) ]);
-			}
-
-		return frames;
-	},
-
-	go_state: function(name)
-	{
-		this.go(this.STATES[name] || 0);
-	},
-
-	keyboard: function(key, keyboard)
-	{
-	var
-		KEYS = this.KEYS,
-		i
-	;
-		for (i in KEYS)
-			if (KEYS.hasOwnProperty(i) && key[j5g3.Input.KEYS[i]])
-			{
-				KEYS[i].apply(this);
-			}
-	},
-
-	draw: j5g3.Draw.Keyboard,
-
-	init: function(p)
-	{
-	var
-		ss = game.ss,
-
 		// Tile width and height
 		TH = game.world.TH * 0.25, 
 		TW = game.world.TW * 0.5,
-
-		states = {
-			idle_ne: [15],
-			idle_se: [16],
-			idle_sw: [17],
-			idle_nw: [14],
-			push_ne: [18, 19, 20, 21, 22],
-			push_nw: [23, 24, 25, 26, 27],
-			push_se: [28, 29, 30, 31, 32],
-			push_sw: [33, 34, 35, 36, 37],
-			walk_ne: [38, 39, 40, 41, 42],
-			walk_nw: [43, 44, 45, 46, 47],
-			walk_se: [48, 49, 50, 51, 52],
-			walk_sw: [53, 54, 55, 56, 57]
-		},
 
 		directions= {
 			ne: [ 1, -1 ],
@@ -73,13 +18,10 @@ game.Player = j5g3.Clip.extend({
 		me = this,
 		world = game.world,
 
-		check_direction = function(direction)
+		get_direction = function(direction, x, y)
 		{
 		var
-			nx = me.mapX, ny = me.mapY, objects = {
-				'#': true,
-				'$': true
-			}
+			nx = x || me.mapX, ny = y || me.mapY
 		;
 			switch (direction)
 			{
@@ -89,7 +31,36 @@ game.Player = j5g3.Clip.extend({
 			case 'sw': ny++; break;
 			}
 
-			return (world.omap[ny] && (!objects[world.omap[ny][nx]])) ? [ nx, ny ] : false;
+			return [ nx, ny ]
+		},
+
+		check_direction = function(direction)
+		{
+		var
+			nxy = get_direction(direction), nbxy,
+			objects = {
+				'#': function() { return false; },
+				'$': function() {
+					// move the damn box
+					nbxy = get_direction(direction, nxy[0], nxy[1]);
+
+					if (!world.omap[nbxy[1]] || objects.hasOwnProperty(world.omap[nbxy[1]][nbxy[0]]))
+						return false;
+
+					world.omap[nbxy[1]][nbxy[0]] = '$';
+					world.omap[nxy[1]][nxy[0]] = ' ';
+
+					return nxy;
+				}
+			}, ns
+		;
+
+			if (!world.omap[nxy[1]])
+				return false;
+
+			ns = objects[world.omap[nxy[1]][nxy[0]]];
+
+			return  ns ? ns() : nxy;
 		},
 
 		go = function(action, direction) {
@@ -102,6 +73,7 @@ game.Player = j5g3.Clip.extend({
 				if (newpos = check_direction(direction))
 				{
 					me.moving = true;
+					game.stats.addMoves(1);
 					me.go_state(action + '_' + direction);
 					me.mapX = newpos[0];
 					me.mapY = newpos[1];
@@ -122,20 +94,37 @@ game.Player = j5g3.Clip.extend({
 				} else
 					me.go_state('idle_' + direction);
 			}
-		},
-
-		keys = this.KEYS = {
-			numpad9: go('walk', 'ne'),
-			numpad3: go('walk', 'se'),
-			numpad1: go('walk', 'sw'),
-			numpad7: go('walk', 'nw'),
-			numpad5: go('push')
 		}
+
 	;
 		me.direction = 'ne';
-		this.__frames = this.states(ss, states);
-		this._super(p);
-		this._playing = false;
+
+
+		this.spritesheet(game.spritesheet)
+			.keys({
+				numpad9: go('walk', 'ne'),
+				numpad3: go('walk', 'se'),
+				numpad1: go('walk', 'sw'),
+				numpad7: go('walk', 'nw'),
+				numpad5: go('push')
+			})
+			.states({
+				idle_ne: [15],
+				idle_se: [16],
+				idle_sw: [17],
+				idle_nw: [14],
+				push_ne: [18, 19, 20, 21, 22],
+				push_nw: [23, 24, 25, 26, 27],
+				push_se: [28, 29, 30, 31, 32],
+				push_sw: [33, 34, 35, 36, 37],
+				walk_ne: [38, 39, 40, 41, 42],
+				walk_nw: [43, 44, 45, 46, 47],
+				walk_se: [48, 49, 50, 51, 52],
+				walk_sw: [53, 54, 55, 56, 57]
+			})
+			.stop()
+			.go_state('idle_ne')
+		;
 	}
 
 });

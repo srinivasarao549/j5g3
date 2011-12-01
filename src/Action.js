@@ -37,6 +37,31 @@ j5g3.Action = Class.extend(
 	remove: function()
 	{
 		this.__parent.remove();
+	},
+
+	/**
+	 * Runs fn every n frames.
+	 *
+	 * @param {Number} n Number of frames
+	 * @param {function) fn Function to run
+	 */
+	every_n_frames: function(n, fn)
+	{
+		var i = n;
+		return $.action(function() { 
+
+		});
+	},
+
+	/**
+	 * Action to run once and remove itself
+	 */
+	once: function(fn)
+	{
+		return $.action(function() {
+			fn();
+			this.remove();
+		})
 	}
 
 
