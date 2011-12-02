@@ -2,17 +2,14 @@
 j5g3.module(function($)
 {
 
-game.World = $.Clip.extend({
+game.World = $.GDK.Scene.extend({
 
-
-	init: function(p)
+	setup: function()
 	{
 	var
 		me = this,
 		ss = game.spritesheet
 	;
-		this._super(p);
-
 		this.add([ 
 			me.floor = $.map({ sprites: j5g3.Util.fill(30, ss.__sprites[11]), tw: 54, th: 49, offsetY: -11 }).set_iso(),
 			me.boxes = $.clip(),
@@ -37,18 +34,13 @@ game.World = $.Clip.extend({
 
 	transform: function(_in, out)
 	{
-		var x, y=_in.length, nx, ny;
+		var x, y=_in.length, l=y, n;
 
 		while (y--)
 			for (x=0; x<_in[y].length; x++)
 			{
-				ny = x+y;
-				nx = Math.floor((_in.length-y)/2) + Math.round(x/2);
-
-				if ((y&1) && !(ny&1)) 
-					nx--;
-
-				out[ny][nx] = _in[y][x]; 
+				n = this.getXY(x, y, l);
+				out[n.y][n.x] = _in[y][x]; 
 			}
 	},
 
@@ -61,7 +53,7 @@ game.World = $.Clip.extend({
 		if ((y&1) && !(ny&1)) 
 			nx--;
 
-		return [ nx, ny ]
+		return { x: nx, y: ny }
 	},
 
 	loadMap: function(map)
@@ -73,7 +65,6 @@ game.World = $.Clip.extend({
 		/* Constants */
 		SPRITES= {
 			0   : 71,
-			//" " : 11,
 			" " : 11, '@': 11,
 			"$" : 12, "." : 13, '*': 13,
 			"l" : 9, "r": 9, "lr" : 9,
@@ -83,7 +74,7 @@ game.World = $.Clip.extend({
 			"lrtb": 0, "rtb": 2, "ltb": 4
 		}
 	;
-		this.omap = map.split('\n');
+		this.omap = map.split("\n");
 
 		for (; i<l; i++)
 		{
@@ -139,15 +130,16 @@ game.World = $.Clip.extend({
 
 	setPlayerPosition: function(x, y)
 	{
+	var
+		l = this.omap.length,
+		startPos = this.getXY(x, y, l)
+	;
 		game.player.mapX = x;
 		game.player.mapY = y;
+		this.walls.getIsometricCoords(startPos.x, startPos.y);
+		//startPos = { x: startPos.x * game.World.TW / 2, y: startPos.y * game.World.TH / 4 }
 
-		//game.player.pos(x
-
-		var startPos = this.getXY(x, y+(out.length-l), out.length);
-		startPos = this.walls.getIsometricCoords(startPos[0], startPos[1]);
-
-		game.player.pos(startPos[0], startPos[1]-4);
+		game.player.pos(startPos.x, startPos.y-4);
 	}
 
 });

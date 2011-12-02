@@ -8,6 +8,27 @@ var
 
 game.Player = j5g3.GDK.User.extend({
 
+	walkTo: function(x, y)
+	{
+	var
+		me = this
+	;
+		me.moving = true;
+		game.stats.addMoves(1);
+		me.go_state('walk_' + me.direction);
+
+		this.add(j5g3.tween({ 
+			target: me,
+			to: { x: x, y: y }, 
+			auto_remove: true, 
+			duration: 10,
+			on_remove: function() { 
+				me.go_state('idle_' + me.direction); 
+				me.moving = false;
+			} 
+		}));
+	},
+
 	setup: function()
 	{
 	var
@@ -40,7 +61,7 @@ game.Player = j5g3.GDK.User.extend({
 		check_direction = function(direction)
 		{
 		var
-			n = get_direction(direction), nbxy,
+			n = get_direction(direction), nb,
 			objects = {
 				'#': function() { return false; },
 				'$': function() {
@@ -78,25 +99,10 @@ game.Player = j5g3.GDK.User.extend({
 
 				if (newpos = check_direction(direction))
 				{
-					me.moving = true;
-					game.stats.addMoves(1);
-					me.go_state(action + '_' + direction);
 					me.mapX = newpos.x;
 					me.mapY = newpos.y;
 
-					me.add(j5g3.tween({ 
-						target: me,
-						to: { 
-							x: me.__x + TW * dirs[0], 
-							y: me.__y + TH * dirs[1]
-						}, 
-						auto_remove: true, 
-						duration: 10,
-						on_remove: function() { 
-							me.go_state('idle_' + direction); 
-							me.moving = false;
-						} 
-					}));
+					me.walkTo(me.__x + TW * dirs[0], me.__y + TH * dirs[1]);
 				} else
 					me.go_state('idle_' + direction);
 			}

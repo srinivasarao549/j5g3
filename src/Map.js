@@ -26,7 +26,7 @@ j5g3.Map = DisplayObject.extend(/**@scope j5g3.Map.prototype */ {
 		    ny = Math.round(y / (me.__th/2 + me.__offsetY))
 		;
 
-		return this.__map[ny][nx]; //p[1]][p[0]];
+		return this.__map[ny][nx]; 
 	},
 
 	/**
@@ -42,10 +42,10 @@ j5g3.Map = DisplayObject.extend(/**@scope j5g3.Map.prototype */ {
 		offset = (y%2)*tw2,
 
 		nx = Math.round(x * me.__tw - offset),
-		ny = Math.round(y * th2) /// (me.__th/2 + me.__offsetY))
+		ny = Math.round(y * th2) 
 		;
 
-		return [ nx, ny ];
+		return { x: nx, y: ny };
 	},
 
 	// TODO Why is this function here?

@@ -3,6 +3,8 @@
 var 
 	$ = j5g3,
 
+	GDK =
+	
 	/**
 	 * Game Development Kit
 	 *
@@ -10,8 +12,21 @@ var
 	 *
 	 * @namespace
 	 */
-	GDK = j5g3.GDK = {}
+	j5g3.GDK = {}
 ;
+	GDK.Scene = $.Clip.extend({
+		
+		init: function(p)
+		{
+			this._super(p);
+			this.setup();
+		},
+
+		setup: function()
+		{
+		}
+
+	});
 
 	GDK.Thing = $.Clip.extend({
 		
@@ -26,6 +41,7 @@ var
 		{
 			this.STATES = {}
 			this.initGravity();
+			this._super(p);
 			this.setup();
 		},
 
