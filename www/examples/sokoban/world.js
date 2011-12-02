@@ -16,12 +16,23 @@ game.World = $.Clip.extend({
 		this.add([ 
 			me.floor = $.map({ sprites: j5g3.Util.fill(30, ss.__sprites[11]), tw: 54, th: 49, offsetY: -11 }).set_iso(),
 			me.boxes = $.clip(),
-			game.player = new game.Player(),
 			me.walls = ss.map(54, 49).offsetY(-11).set_iso()
 		]);
 
 		me.floor.__sprites[71]=ss.__sprites[71];
 		ss.__sprites[11]=ss.__sprites[71];
+	},
+
+	get: function(x, y)
+	{
+		return this.omap[y][x];
+	},
+
+	set: function(x, y, val)
+	{
+		var s = this.omap[y];
+		this.omap[y] = s.substr(0, x) + val + s.substr(x+1);
+		return this;
 	},
 
 	transform: function(_in, out)
@@ -98,7 +109,7 @@ game.World = $.Clip.extend({
 				} else if (map[i]=='@')
 				{
 					// TODO clean up
-					startPos = [ x, y ]
+					this.setPlayerPosition(x, y);
 					sprite = map[i];
 				} else
 					sprite = map[i];
@@ -124,17 +135,19 @@ game.World = $.Clip.extend({
 		// Make it Isometric. Magic happens here.
 		this.transform(out, this.walls.__map);
 
-		// Set Player Position
-		if (startPos)
-		{
-			game.player.mapX = startPos[0];
-			game.player.mapY = startPos[1];
+	},
 
-			startPos = this.getXY(startPos[0], startPos[1]+(out.length-l), out.length);
-			startPos = this.walls.getIsometricCoords(startPos[0], startPos[1]);
-			game.player.pos(startPos[0], startPos[1]-4);
-		} else
-			game.player.pos(-100, -100);
+	setPlayerPosition: function(x, y)
+	{
+		game.player.mapX = x;
+		game.player.mapY = y;
+
+		//game.player.pos(x
+
+		var startPos = this.getXY(x, y+(out.length-l), out.length);
+		startPos = this.walls.getIsometricCoords(startPos[0], startPos[1]);
+
+		game.player.pos(startPos[0], startPos[1]-4);
 	}
 
 });

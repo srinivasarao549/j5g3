@@ -14,7 +14,8 @@ function game($, document, undefined)
 		/* LEVEL SCENE */
 		[
 			game.world  = new game.World(),
-			game.stats = new game.Stats()
+			game.stats = new game.Stats(),
+			game.player = new game.Player(),
 		]
 	]).stop();
 

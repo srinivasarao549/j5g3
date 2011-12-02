@@ -34,36 +34,39 @@ game.Player = j5g3.GDK.User.extend({
 			case 'sw': ny++; break;
 			}
 
-			return [ nx, ny ]
+			return { x: nx, y: ny }
 		},
 
 		check_direction = function(direction)
 		{
 		var
-			nxy = get_direction(direction), nbxy,
+			n = get_direction(direction), nbxy,
 			objects = {
 				'#': function() { return false; },
 				'$': function() {
 					// move the damn box
-					nbxy = get_direction(direction, nxy[0], nxy[1]);
+					nb = get_direction(direction, n.x, n.y);
 
-					if (!world.omap[nbxy[1]] || objects.hasOwnProperty(world.omap[nbxy[1]][nbxy[0]]))
+					if (!world.omap[n.y] || objects.hasOwnProperty(world.get(nb.x, nb.y)))
 						return false;
 
-					world.omap[nbxy[1]][nbxy[0]] = '$';
-					world.omap[nxy[1]][nxy[0]] = ' ';
+					game.stats.addPushes(1);
 
-					return nxy;
+					world.set(nb.x, nb.y, '$') 
+					     .set(n.x, n.y, ' ')
+					;
+
+					return n;
 				}
 			}, ns
 		;
 
-			if (!world.omap[nxy[1]])
+			if (!world.omap[n.y])
 				return false;
 
-			ns = objects[world.omap[nxy[1]][nxy[0]]];
+			ns = objects[world.get(n.x, n.y)];
 
-			return  ns ? ns() : nxy;
+			return  ns ? ns() : n;
 		},
 
 		go = function(action, direction) {
@@ -78,8 +81,8 @@ game.Player = j5g3.GDK.User.extend({
 					me.moving = true;
 					game.stats.addMoves(1);
 					me.go_state(action + '_' + direction);
-					me.mapX = newpos[0];
-					me.mapY = newpos[1];
+					me.mapX = newpos.x;
+					me.mapY = newpos.y;
 
 					me.add(j5g3.tween({ 
 						target: me,
