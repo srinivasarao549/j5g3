@@ -8,14 +8,41 @@ var
 
 game.Player = j5g3.GDK.User.extend({
 
-	walkTo: function(x, y)
+	setPlayerPosition: function(x, y)
+	{
+	var
+		l = this.omap.length,
+		startPos = this.getXY(x, y, l)
+	;
+		game.player.mapX = x;
+		game.player.mapY = y;
+		this.walls.getIsometricCoords(startPos.x, startPos.y);
+
+		game.player.pos(startPos.x, startPos.y-4);
+	},
+
+	walk: function(direction)
+	{
+		
+	},
+
+	push: function(direction)
+	{
+
+	},
+
+	move: function()
+	{
+	},
+
+	animateTo: function(x, y, state)
 	{
 	var
 		me = this
 	;
 		me.moving = true;
+		me.go_state(state);
 		game.stats.addMoves(1);
-		me.go_state('walk_' + me.direction);
 
 		this.add(j5g3.tween({ 
 			target: me,
