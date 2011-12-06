@@ -16,7 +16,7 @@ Sokoban.World = j5g3.GDK.Element.extend({
 		me.floor.__sprites[71]=ss.__sprites[71];
 		ss.__sprites[11]=ss.__sprites[71];
 
-		me.loadMap(j5g3.id('map').value);
+		me.loadMap(Sokoban.LEVELS[0]); //j5g3.id('map').value);
 	},
 
 	loadMap: function(map)
@@ -79,10 +79,12 @@ Sokoban.World = j5g3.GDK.Element.extend({
 		if (maxx==0)
 			maxx=map.length;
 
+		/*
 		l = out.length;
-		out.unshift([]);
+		out.unshift(new Array(maxx));
 		if ((l&1))
 			out.unshift([]);
+		*/
 
 		// Create Our Map object
 		this.map = new Sokoban.Map(out);

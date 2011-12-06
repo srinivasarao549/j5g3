@@ -13,14 +13,23 @@ Sokoban.Map = j5g3.Class.extend({
 		//this._super(p);
 	},
 
+	getIsoSize: function()
+	{
+	var
+		map = this.__data,
+		w = map[0].length, h = map.length
+	;
+		return { w: w+h+1, h: Math.ceil(y/2+x/2)+1 }
+	},
+
 	/** Transform 2D Map to Isometric */
 	transform: function()
 	{
 	var 
 		map = this.__data,
-		x, y = map.length, 
+		x = map[0].length, y = map.length, 
 		l = y, n,
-		out = j5g3.ary(l*2, l*2, 71) 
+		out = j5g3.ary(Math.ceil(y/2 + x/2)+2, x+y+1, 71) 
 	;
 		while (y--)
 			for (x=0; x < map[y].length; x++)
@@ -48,14 +57,17 @@ Sokoban.Map = j5g3.Class.extend({
 	/** Gets Data at X, Y */
 	get: function(x, y)
 	{
-		return this.omap[y][x];
+		return this.__data[y][x];
 	},
 
 	/** Sets Data at x, y */
 	set: function(x, y, val)
 	{
-		var s = this.omap[y];
-		this.omap[y] = s.substr(0, x) + val + s.substr(x+1);
+		this.__data[y][x] = val;
+		/*
+		var s = this.__data[y];
+		this.__data[y] = s.substr(0, x) + val + s.substr(x+1);
+		*/
 		return this;
 	}
 
