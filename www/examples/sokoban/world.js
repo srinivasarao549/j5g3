@@ -50,9 +50,9 @@ Sokoban.World = j5g3.GDK.Element.extend({
 				s = i+1;
 			} else
 			{
-				current = map[i];
+				sprite = map[i];
 
-				switch (current) 
+				switch (sprite) 
 				{
 				case '#': 
 					sprite = (map[i-1]=='#') ? 'l' : '';
@@ -87,7 +87,7 @@ Sokoban.World = j5g3.GDK.Element.extend({
 		// Create Our Map object
 		this.map = new Sokoban.Map(out);
 		// Make it Isometric. Magic happens here.
-		this.walls.__map = this.map.transform();
+		this.floor.__map = this.walls.__map = this.map.transform();
 	}
 
 });

@@ -18,10 +18,9 @@ Sokoban.Map = j5g3.Class.extend({
 	{
 	var 
 		map = this.__data,
-		ss = Sokoban.assets.spritesheet.__sprites,
 		x, y = map.length, 
-		l = y*2-1, n,
-		out = j5g3.ary(l, l, 71) 
+		l = y, n,
+		out = j5g3.ary(l*2, l*2, 71) 
 	;
 		while (y--)
 			for (x=0; x < map[y].length; x++)
