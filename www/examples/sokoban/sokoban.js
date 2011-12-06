@@ -2,32 +2,14 @@
  * Sokoban Game
  */
 
-function game($, document, undefined)
-{
-	game.spritesheet = $.spritesheet('ss').grid(12, 6);
+var Sokoban = j5g3.GDK.game({
 
-	$.root.frames([
-		/* SPLASH SCREEN */
-		[ 
-			splash = $.image('splash').stretch(640, 480)
-		],
-		/* LEVEL SCENE */
-		[
-			game.world  = new game.World(),
-			game.stats = new game.Stats(),
-			game.player = new game.Player(),
-		]
-	]).stop();
+	//scenes: [ 'Splash' ] //, 'Level' ]
 
-	game.world.loadMap($.id('map').value);
+	setup: function()
+	{
+		Sokoban.assets.spritesheet.grid(12, 6);
+	}
 
-	$.Input.Keyboard.waitForKey(function() { 
-		start_time = new Date;
-		$.root.go(1); 
-	})
-
-	$.run();
-
-	$.Input.Keyboard.capture();
-}
+});
 

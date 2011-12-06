@@ -1,25 +1,23 @@
 
-j5g3.module(function($)
-{
-
-game.World = $.GDK.Scene.extend({
+Sokoban.World = j5g3.GDK.Element.extend({
 
 	setup: function()
 	{
 	var
 		me = this,
-		ss = game.spritesheet
+		ss = Sokoban.assets.spritesheet
 	;
 		this.add([ 
-			me.floor = $.map({ sprites: j5g3.Util.fill(30, ss.__sprites[11]), tw: 54, th: 49, offsetY: -11 }).set_iso(),
-			me.boxes = $.clip(),
+			me.floor = j5g3.map({ sprites: j5g3.Util.fill(30, ss.__sprites[11]), tw: 54, th: 49, offsetY: -11 }).set_iso(),
+			me.boxes = j5g3.clip(),
 			me.walls = ss.map(54, 49).offsetY(-11).set_iso()
 		]);
 
 		me.floor.__sprites[71]=ss.__sprites[71];
 		ss.__sprites[11]=ss.__sprites[71];
-	},
 
+		me.loadMap(j5g3.id('map').value);
+	},
 
 	loadMap: function(map)
 	{
@@ -67,7 +65,7 @@ game.World = $.GDK.Scene.extend({
 
 					break;
 				case '@':
-					game.player.move(x, y);
+				//	game.player.move(x, y);
 					break;
 				case '$':
 					// Add Box
@@ -87,17 +85,10 @@ game.World = $.GDK.Scene.extend({
 			out.unshift([]);
 
 		// Create Our Map object
-		this.map = new game.Map(out);
-
+		this.map = new Sokoban.Map(out);
 		// Make it Isometric. Magic happens here.
 		this.walls.__map = this.map.transform();
 	}
-
-
-});
-
-game.World.TH = 49;
-game.World.TW = 54;
 
 });
 

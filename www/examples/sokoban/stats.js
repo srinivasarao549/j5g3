@@ -1,7 +1,7 @@
 
-game.Stats = j5g3.Clip.extend({
+Sokoban.Stats = j5g3.GDK.Element.extend({
 
-	init: function(p)
+	setup: function()
 	{
 		var time = this.time  = j5g3.text('Time: 0').pos(40, 60);
 
@@ -14,11 +14,10 @@ game.Stats = j5g3.Clip.extend({
 				time.text('Time: ' + Math.floor(t/1000));
 			})
 		]]
+
 		this.fillStyle('white').font('12px Arial');
 		this._moves = 0;
 		this._push  = 0;
-
-		this._super(p);
 	},
 
 	addMoves: function(n) { this.moves.text('Moves: ' + (this._moves += n)); },

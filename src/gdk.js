@@ -12,23 +12,96 @@ var
 	 *
 	 * @namespace
 	 */
-	j5g3.GDK = {}
+	j5g3.GDK = {},
+
+	get_dom_class = function(node)
+	{
+	var
+		klass = node.getAttribute('j5g3-class'),
+		classes = {
+			IMG: 'Image'
+		}
+	;
+		if (!klass)
+			klass = classes[node.tagName];
+
+		return klass;
+	},
+
+	initialize_assets = function(assets_dom)
+	{
+	var
+		node, klass, id, assets={}
+	;
+		if (assets_dom)
+			$.each(assets_dom.children, function(node)
+			{
+				klass = get_dom_class(node);
+				id = node.getAttribute('id');
+
+				assets[id] = klass ? new j5g3[klass](id) : node;
+			});
+
+		return assets;
+	}
+
+
+
 ;
-	GDK.Scene = $.Clip.extend({
-		
-		init: function(p)
+	/**
+	 * @param config An object with the options for the game. Options are:
+	 *
+	 * - setup     function     A function to setup the game. Passed the j5g3 object as a parameter.
+	 * - assets_id string       The ID of the assets container.
+	 */
+	GDK.game = function(config)
+	{
+	var
+		game = function()
 		{
-			this._super(p);
-			this.setup();
+			game.assets = initialize_assets($.id(config.assets_id || 'assets'));
+			init_scenes();
+			config.setup && config.setup($, game);
+
+			$.root.stop();
+			$.run();
+			$.Input.Keyboard.capture();
 		},
 
-		setup: function()
+		scene, frames,
+
+		init_scenes = function()
 		{
+			frames = [];
+			for (scene in game.scene)
+				if (game.scene.hasOwnProperty(scene))
+				{
+					frames.push([ game.scene[scene] ]);
+				}
+
+			$.root.frames(frames);
+		}
+	;
+		game.scene = {};
+
+		return game;
+	}
+
+	/**
+	 * Scenes are initialized on their first PAINT.
+	 */
+	GDK.Scene = $.Clip.extend({
+		
+		draw: function()
+		{
+			this.__on_enter();
+			this.draw = $.Clip.prototype.draw;
+			this.draw();
 		}
 
-	});
+	}).properties({ on_enter: function() {} });
 
-	GDK.Thing = $.Clip.extend({
+	GDK.Element = $.Clip.extend({
 		
 		collides: $.Collision.Box,
 
@@ -70,8 +143,8 @@ var
 					state = states[i];
 					if (state instanceof Array)
 						state = ss.clip_array(state);
+
 					me.add_frame(state);
-					//frames.push([ state ]);
 				}
 
 			return me;
@@ -97,7 +170,7 @@ var
 
 	}),
 
-	GDK.User= GDK.Thing.extend({
+	GDK.User= GDK.Element.extend({
 
 		draw: $.Draw.Keyboard,
 		collides: $.Collision.Box,

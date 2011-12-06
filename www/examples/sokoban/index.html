@@ -5,10 +5,16 @@
 	<script src="../../j5g3-gdk.js"></script>
 
 	<script src="sokoban.js"></script>
-	<script src="world.js"></script>
+
+<!-- 
 	<script src="player.js"></script>
-	<script src="stats.js"></script>
 	<script src="box.js"></script>
+-->
+
+	<script src="world.js"></script>
+	<script src="stats.js"></script>
+	<script src="scene/splash.js"></script>
+	<script src="scene/level.js"></script>
 	<script src="map.js"></script>
 
 	<link rel="stylesheet" href="../../styles.css" />
@@ -17,7 +23,7 @@
 		textarea { width: 80%; height: 150px; background: #333; color: #ddd; border: 1px solid #999; }
 	</style>
 </head>
-<body onload="j5g3.start(game);">
+<body onload="j5g3.start(Sokoban);">
 <header>
 	<nav>
 		<a href="../../buy.html">Buy</a>
@@ -53,7 +59,7 @@
 	</dl>
 	<div id="assets"> 
 		<img id="splash" src="splash.png" />
-		<img id="ss" src="ss.png" />
+		<img j5g3-class="Spritesheet" id="spritesheet" src="ss.png" />
 	</div>
 	<pre id="debug-out"></pre>
 </div>
