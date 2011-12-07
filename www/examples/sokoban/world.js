@@ -5,24 +5,24 @@ Sokoban.World = j5g3.GDK.Element.extend({
 	{
 	var
 		me = this,
-		ss = Sokoban.assets.spritesheet
+		ss = Sokoban.assets.spritesheet,
+		floor = me.floor = j5g3.map({ sprites: j5g3.Util.fill(30, ss.__sprites[11]), tw: 54, th: 49, offsetY: -11 }).set_iso(),
+		player = me.player = new Sokoban.Player({ world: this }),
+		walls = me.walls = ss.map(54, 49).offsetY(-11).set_iso(),
+		boxes = me.boxes = j5g3.clip()
 	;
-		this.add([ 
-			me.floor = j5g3.map({ sprites: j5g3.Util.fill(30, ss.__sprites[11]), tw: 54, th: 49, offsetY: -11 }).set_iso(),
-			me.boxes = j5g3.clip(),
-			me.walls = ss.map(54, 49).offsetY(-11).set_iso()
-		]);
+		me.loadMap(Sokoban.LEVELS[0]); //j5g3.id('map').value);
+
+		this.add([ floor, boxes, walls, player ]);
 
 		me.floor.__sprites[71]=ss.__sprites[71];
 		ss.__sprites[11]=ss.__sprites[71];
-
-		me.loadMap(Sokoban.LEVELS[0]); //j5g3.id('map').value);
 	},
 
 	loadMap: function(map)
 	{
 	var 
-		i=0, x=0, y=0, l=map.length, out=[[]], maxx=0, sprite,
+		i=0, x=0, y=0, l=map.length, out=[[]], sprite,
 		// Last Start, Current Line Start, End
 		ls = null, s = 0, e, startPos,
 		/* Constants */
@@ -42,8 +42,6 @@ Sokoban.World = j5g3.GDK.Element.extend({
 		{
 			if (map[i]=="\n")
 			{
-				if (x>maxx)
-					maxx=x;
 				x=0; y++;
 				out[y] = [];
 				ls = s;
@@ -66,6 +64,8 @@ Sokoban.World = j5g3.GDK.Element.extend({
 					break;
 				case '@':
 				//	game.player.move(x, y);
+					this.player.mapX = x;
+					this.player.mapY = y;
 					break;
 				case '$':
 					// Add Box
@@ -76,18 +76,9 @@ Sokoban.World = j5g3.GDK.Element.extend({
 			}
 		}
 
-		if (maxx==0)
-			maxx=map.length;
-
-		/*
-		l = out.length;
-		out.unshift(new Array(maxx));
-		if ((l&1))
-			out.unshift([]);
-		*/
-
 		// Create Our Map object
 		this.map = new Sokoban.Map(out);
+		this.player.setPlayerPosition(this.player.mapX, this.player.mapY);
 		// Make it Isometric. Magic happens here.
 		this.floor.__map = this.walls.__map = this.map.transform();
 	}

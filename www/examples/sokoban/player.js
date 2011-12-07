@@ -1,38 +1,51 @@
 
-j5g3.module(function($) {
 
 var
-	TH = game.World.TH * 0.25,
-	TW = game.World.TW * 0.5
+	TH = 48 * 0.25,
+	TW = 54 * 0.5
 ;
 
-game.Player = j5g3.GDK.User.extend({
+Sokoban.Player = j5g3.GDK.User.extend({
 
 	setPlayerPosition: function(x, y)
 	{
 	var
-		l = this.omap.length,
-		startPos = this.getXY(x, y, l)
+		world = this.__world,
+		l = world.map.data().length,
+		startPos = world.map.getXY(x, y, l)
 	;
-		game.player.mapX = x;
-		game.player.mapY = y;
-		this.walls.getIsometricCoords(startPos.x, startPos.y);
+		this.mapPos = { x: x, y:y }
+		startPos = world.walls.getIsometricCoords(startPos.x, startPos.y);
 
-		game.player.pos(startPos.x, startPos.y-4);
+		this.pos(startPos.x, startPos.y-4);
 	},
 
-	walk: function(direction)
+	walk: function(position)
 	{
+		this.animateTo(this.__x + position.mx, this.__y + position.my, 'walk_' + this.direction);
 		
 	},
 
-	push: function(direction)
+	push: function(position)
 	{
+		Sokoban.scene.Level.stats.addPushes(1);
+// TODO Use constants
+		this.__world.map.set(position.next.x, position.next.y, 12) 
+		     .set(position.x, position.y, 11)
+		;
+
+		this.animateTo(this.__x + position.mx, this.__y + position.my, 'push_' + this.direction);
 
 	},
 
-	move: function()
+	move: function(direction)
 	{
+		if (this.mapPos = this.check_direction(direction))
+		{
+			this[this.mapPos.action](this.mapPos);
+				
+		} else
+			this.go_state('idle_' + direction);
 	},
 
 	animateTo: function(x, y, state)
@@ -42,7 +55,8 @@ game.Player = j5g3.GDK.User.extend({
 	;
 		me.moving = true;
 		me.go_state(state);
-		game.stats.addMoves(1);
+
+		Sokoban.scene.Level.stats.addMoves(1);
 
 		this.add(j5g3.tween({ 
 			target: me,
@@ -56,96 +70,70 @@ game.Player = j5g3.GDK.User.extend({
 		}));
 	},
 
+	get_direction: function(direction, x, y)
+	{
+	var
+		nx = x || this.mapPos.x, ny = y || this.mapPos.y,
+		mx = TW, my = TH
+	;
+		switch (direction)
+		{
+		case 'ne': ny--; my*=-1; break;
+		case 'nw': nx--; mx*=-1; my*=-1; break;
+		case 'se': nx++; break;
+		case 'sw': ny++; mx*=-1; break;
+		}
+
+		return { x: nx, y: ny, mx: mx, my: my }
+	},
+
+	check_direction: function(direction)
+	{
+	var
+		map = this.__world.map,
+		n = this.get_direction(direction), nb, 
+		sprite = map.get(n.x, n.y)
+	;
+		if (sprite >= 0 && sprite <= 10)
+			return false;
+		if (sprite == 12)
+		{
+			// move the damn box
+			nb = this.get_direction(direction, n.x, n.y);
+
+			sprite = map.get(nb.x, nb.y);
+
+			if (sprite != 11 && sprite != 13)
+				return false;
+
+			n.action = 'push';
+			n.next = nb;
+		}
+		
+		return n;
+	},
+
 	setup: function()
 	{
 	var
-		directions= {
-			ne: [ 1, -1 ],
-			nw: [ -1, -1],
-			se: [ 1, 1  ],
-			sw: [ -1, 1 ]
-		},
 
 		me = this,
-		world = game.world,
 
-		get_direction = function(direction, x, y)
-		{
-		var
-			nx = x || me.mapX, ny = y || me.mapY
-		;
-			switch (direction)
-			{
-			case 'ne': ny--; break;
-			case 'nw': nx--; break;
-			case 'se': nx++; break;
-			case 'sw': ny++; break;
-			}
-
-			return { x: nx, y: ny }
-		},
-
-		check_direction = function(direction)
-		{
-		var
-			n = get_direction(direction), nb,
-			objects = {
-				'#': function() { return false; },
-				'$': function() {
-					// move the damn box
-					nb = get_direction(direction, n.x, n.y);
-
-					if (!world.omap[n.y] || objects.hasOwnProperty(world.get(nb.x, nb.y)))
-						return false;
-
-					game.stats.addPushes(1);
-
-					world.set(nb.x, nb.y, '$') 
-					     .set(n.x, n.y, ' ')
-					;
-
-					return n;
-				}
-			}, ns
-		;
-
-			if (!world.omap[n.y])
-				return false;
-
-			ns = objects[world.get(n.x, n.y)];
-
-			return  ns ? ns() : n;
-		},
-
-		go = function(action, direction) {
+		go = function(direction) {
 			return function() { 
-				if (me.moving)
-					return;
-
-				var dirs = directions[direction], newpos;
-
-				if (newpos = check_direction(direction))
-				{
-					me.mapX = newpos.x;
-					me.mapY = newpos.y;
-
-					me.walkTo(me.__x + TW * dirs[0], me.__y + TH * dirs[1]);
-				} else
-					me.go_state('idle_' + direction);
+				me.move(direction); 
 			}
 		}
 
 	;
 		me.direction = 'ne';
 
-
-		this.spritesheet(game.spritesheet)
+		this.spritesheet(Sokoban.assets.spritesheet)
 			.keys({
-				numpad9: go('walk', 'ne'),
-				numpad3: go('walk', 'se'),
-				numpad1: go('walk', 'sw'),
-				numpad7: go('walk', 'nw'),
-				numpad5: go('push')
+				numpad9: go('ne'),
+				numpad3: go('se'),
+				numpad1: go('sw'),
+				numpad7: go('nw')
 			})
 			.states({
 				idle_ne: [15],
@@ -166,8 +154,5 @@ game.Player = j5g3.GDK.User.extend({
 		;
 	}
 
-});
-
-});
-
+}).properties({ world: null });
 

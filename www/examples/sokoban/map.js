@@ -29,7 +29,7 @@ Sokoban.Map = j5g3.Class.extend({
 		map = this.__data,
 		x = map[0].length, y = map.length, 
 		l = y, n,
-		out = j5g3.ary(Math.ceil(y/2 + x/2)+2, x+y+1, 71) 
+		out = j5g3.ary(Math.ceil(y/2 + x/2), x+y, 71) 
 	;
 		while (y--)
 			for (x=0; x < map[y].length; x++)
