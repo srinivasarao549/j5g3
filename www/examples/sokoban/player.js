@@ -40,6 +40,7 @@ Sokoban.Player = j5g3.GDK.User.extend({
 
 	move: function(direction)
 	{
+		this.direction = direction;
 		if (this.mapPos = this.check_direction(direction))
 		{
 			this[this.mapPos.action](this.mapPos);
@@ -108,7 +109,8 @@ Sokoban.Player = j5g3.GDK.User.extend({
 
 			n.action = 'push';
 			n.next = nb;
-		}
+		} else
+			n.action = 'walk';
 		
 		return n;
 	},
@@ -121,7 +123,8 @@ Sokoban.Player = j5g3.GDK.User.extend({
 
 		go = function(direction) {
 			return function() { 
-				me.move(direction); 
+				if (!me.moving)
+					me.move(direction); 
 			}
 		}
 

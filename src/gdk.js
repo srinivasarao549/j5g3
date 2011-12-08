@@ -168,7 +168,11 @@ var
 			return this.go(this.STATES[this.__state = name] || 0);
 		}
 
-	}),
+	}).properties({
+		spritesheet: null,
+		gravity: 0,
+		state: null
+	});
 
 	GDK.User= GDK.Element.extend({
 
@@ -214,10 +218,6 @@ var
 		},
 
 
-	}).properties({
-		spritesheet: null,
-		gravity: 0,
-		state: null
 	});
 
 })(window, window.j5g3);

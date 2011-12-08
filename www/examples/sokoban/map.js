@@ -44,6 +44,7 @@ Sokoban.Map = j5g3.Class.extend({
 	/** Translates X and Y to Isometric */
 	getXY: function(x, y, maxy)
 	{
+		maxy = maxy || this.__data.length
 	var
 		ny = x+y,
 		nx = Math.floor((maxy-y)/2) + Math.round(x/2)
