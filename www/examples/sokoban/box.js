@@ -21,6 +21,43 @@ Sokoban.Box = j5g3.GDK.Element.extend({
 			.go_state('normal')
 			.pos(startPos.x, startPos.y)
 		;
+	},
+
+	push: function(position)
+	{
+	var
+		me = this,
+		map = this.__world.map,
+		destination = map.get(position.next.x, position.next.y)
+		x = this.__x + position.mx,
+		y = this.__y + position.my
+	;
+		this.mapPos = position.next;
+		this.go_state('normal');
+		this.add(j5g3.tween({ 
+			target: me,
+			to: { x: x, y: y }, 
+			auto_remove: true, 
+			duration: 10,
+			on_remove: function() { 
+				if (destination == 13)
+					me.go_state('placed');
+			} 
+		}));
+			
+		map.set(position.next.x, position.next.y, destination == 13 ? 58 : 12)
+		   .set(position.x, position.y, position.current==58 ? 13 : 11)
+		;
+		this.__world.setBox(position.x, position.y, undefined);
+		this.__world.setBox(position.next.x, position.next.y, this);
+
+	},
+
+	y: function(val)
+	{
+		this.__world.updateBoxesZ();
+		return val!==undefined ? ((this.__y = val), this) : this.__y;
+		//return this._super.prototype.y.apply(this, [val]);
 	}
 
 }).properties({ mapPos: null, world: null });

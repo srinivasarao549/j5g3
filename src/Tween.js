@@ -43,7 +43,7 @@ j5g3.Tween = Class.extend(/**@scope j5g3.Tween.prototype */ {
 	{
 	var 
 		me = this,
-		target=me.target(), i, to=me.to(), t=me.t()
+		target=me.__target, i, to=me.__to, t=me.__t
 	;
 		for (i in to)
 			target[i](me.easing(i, to[i],t ));

@@ -17,7 +17,7 @@ Sokoban.Player = j5g3.GDK.User.extend({
 		this.mapPos = { x: x, y:y }
 		startPos = world.walls.getIsometricCoords(startPos.x, startPos.y);
 
-		this.pos(startPos.x, startPos.y-4);
+		this.pos(startPos.x, startPos.y-5);
 	},
 
 	walk: function(position)
@@ -29,21 +29,21 @@ Sokoban.Player = j5g3.GDK.User.extend({
 	push: function(position)
 	{
 		Sokoban.scene.Level.stats.addPushes(1);
-// TODO Use constants
-		this.__world.map.set(position.next.x, position.next.y, 12) 
-		     .set(position.x, position.y, 11)
-		;
+		
+		this.__world.getBox(position.x, position.y).push(position);
 
 		this.animateTo(this.__x + position.mx, this.__y + position.my, 'push_' + this.direction);
-
 	},
 
 	move: function(direction)
 	{
+		var pos;
+
 		this.direction = direction;
-		if (this.mapPos = this.check_direction(direction))
+		if (pos = this.check_direction(direction))
 		{
-			this[this.mapPos.action](this.mapPos);
+			this.mapPos = pos;
+			this[pos.action](pos);
 				
 		} else
 			this.go_state('idle_' + direction);
@@ -97,11 +97,12 @@ Sokoban.Player = j5g3.GDK.User.extend({
 	;
 		if (sprite >= 0 && sprite <= 10)
 			return false;
-		if (sprite == 12)
-		{
-			// move the damn box
-			nb = this.get_direction(direction, n.x, n.y);
 
+		n.current = sprite;
+		if (sprite == 12 || sprite == 58)
+		{
+			// Check if box can be moved
+			nb = this.get_direction(direction, n.x, n.y);
 			sprite = map.get(nb.x, nb.y);
 
 			if (sprite != 11 && sprite != 13)
@@ -118,7 +119,6 @@ Sokoban.Player = j5g3.GDK.User.extend({
 	setup: function()
 	{
 	var
-
 		me = this,
 
 		go = function(direction) {
@@ -127,8 +127,8 @@ Sokoban.Player = j5g3.GDK.User.extend({
 					me.move(direction); 
 			}
 		}
-
 	;
+
 		me.direction = 'ne';
 
 		this.spritesheet(Sokoban.assets.spritesheet)

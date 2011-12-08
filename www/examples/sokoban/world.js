@@ -6,13 +6,14 @@ Sokoban.World = j5g3.GDK.Element.extend({
 	var
 		me = this,
 		ss = Sokoban.assets.spritesheet,
-		floor = me.floor = j5g3.map({ sprites: j5g3.Util.fill(30, ss.__sprites[11]), tw: 54, th: 49, offsetY: -11 }).set_iso(),
-		shadows = me.shadows = j5g3.map({ sprites: j5g3.Util.fill(30, ss.__sprites[71]), tw: 54, th: 49, offsetY: -11 }).set_iso(),
+		floor = me.floor = j5g3.map({ sprites: j5g3.Util.fill(30, ss.__sprites[11]), tw: 54, th: 48, offsetY: -10 }).set_iso(),
+		shadows = me.shadows = j5g3.map({ sprites: j5g3.Util.fill(30, ss.__sprites[71]), tw: 54, th: 48, offsetY: -10 }).set_iso(),
 		player = me.player = new Sokoban.Player({ world: this }),
-		walls = me.walls = ss.map(54, 49).offsetY(-11).set_iso(),
+		walls = me.walls = ss.map(54, 48).offsetY(-10).set_iso(),
 		boxes = me.boxes = j5g3.clip(),
 		i = 11
 	;
+		boxes.map = {}
 		me.loadMap(Sokoban.LEVELS[0]); //j5g3.id('map').value);
 
 		this.add([ floor, shadows, boxes, walls, player ]);
@@ -23,14 +24,35 @@ Sokoban.World = j5g3.GDK.Element.extend({
 		while (i--)
 			me.shadows.__sprites[i] = ss.__sprites[i+60];
 
-		ss.__sprites[11]=ss.__sprites[71];
-		ss.__sprites[13]=ss.__sprites[71];
+		ss.__sprites[11]= ss.__sprites[13] = ss.__sprites[12] = ss.__sprites[71];
 	},
 
 	addBox: function(x, y)
 	{
-		// Add Box
-		this.boxes.add(new Sokoban.Box({ mapPos: { x: x, y: y }, world: this }));
+	var
+		box = new Sokoban.Box({ mapPos: { x: x, y: y }, world: this });
+	;
+		this.boxes.add(box);
+		this.setBox(x, y, box);
+	},
+
+	getBox: function(x, y)
+	{
+		// TODO figure out if this is ok
+		return this.boxes.map[x+'-'+y];
+	},
+
+	setBox: function(x, y, box)
+	{
+		this.boxes.map[x+'-'+y] = box;
+	},
+
+	updateBoxesZ: function()
+	{
+	var
+		boxes = this.boxes.__frames[0]
+	;
+		boxes.sort(function(a, b) { return a.__y - b.__y });
 	},
 
 	loadMap: function(map)
@@ -88,7 +110,6 @@ Sokoban.World = j5g3.GDK.Element.extend({
 					break;
 				case '$':
 					this.addBox(x, y);
-					sprite = ' ';
 					break;
 				}
 
@@ -98,6 +119,7 @@ Sokoban.World = j5g3.GDK.Element.extend({
 
 		// Make it Isometric. Magic happens here.
 		this.shadows.__map = this.floor.__map = this.walls.__map = this.map.transform();
+		this.updateBoxesZ();
 	}
 
 });
