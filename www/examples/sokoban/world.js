@@ -6,10 +6,10 @@ Sokoban.World = j5g3.GDK.Element.extend({
 	var
 		me = this,
 		ss = Sokoban.assets.spritesheet,
-		floor = me.floor = j5g3.map({ sprites: j5g3.Util.fill(30, ss.__sprites[11]), tw: 54, th: 48, offsetY: -10 }).set_iso(),
-		shadows = me.shadows = j5g3.map({ sprites: j5g3.Util.fill(30, ss.__sprites[71]), tw: 54, th: 48, offsetY: -10 }).set_iso(),
+		floor = me.floor = j5g3.map({ sprites: j5g3.Util.fill(30, ss.__sprites[11]), tw: 54, th: 48, offsetY: -12 }).set_iso(),
+		shadows = me.shadows = j5g3.map({ sprites: j5g3.Util.fill(30, ss.__sprites[71]), tw: 54, th: 48, offsetY: -12 }).set_iso(),
 		player = me.player = new Sokoban.Player({ world: this }),
-		walls = me.walls = ss.map(54, 48).offsetY(-10).set_iso(),
+		walls = me.walls = ss.map(54, 48).offsetY(-12).set_iso(),
 		boxes = me.boxes = j5g3.clip(),
 		i = 11
 	;
