@@ -15,8 +15,8 @@ Sokoban.Box = j5g3.GDK.Element.extend({
 		this.spritesheet(Sokoban.assets.spritesheet)
 			.stop()
 			.states({
-				normal: [ 12 ],
-				placed: [ 58 ]
+				normal: [ 24 ],
+				placed: [ 25 ]
 			})
 			.go_state('normal')
 			.pos(startPos.x, startPos.y)
@@ -40,13 +40,13 @@ Sokoban.Box = j5g3.GDK.Element.extend({
 			auto_remove: true, 
 			duration: 10,
 			on_remove: function() { 
-				if (destination == 13)
+				if (destination == Sokoban.TARGET)
 					me.go_state('placed');
 			} 
 		}));
 			
-		map.set(position.next.x, position.next.y, destination == 13 ? 58 : 12)
-		   .set(position.x, position.y, position.current==58 ? 13 : 11)
+		map.set(position.next.x, position.next.y, destination == Sokoban.TARGET ? Sokoban.PLACED_BOX : Sokoban.BOX)
+		   .set(position.x, position.y, position.current==Sokoban.PLACED_BOX ? Sokoban.TARGET : Sokoban.FREE)
 		;
 		this.__world.setBox(position.x, position.y, undefined);
 		this.__world.setBox(position.next.x, position.next.y, this);

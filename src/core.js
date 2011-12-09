@@ -14,16 +14,19 @@
 		canvas.width = $.width || ($.width = canvas.clientWidth);
 		canvas.height = $.height || ($.height = canvas.clientHeight);
 
-		$.background = new Rect({ 
+/*		$.background = new Rect({ 
 			fillStyle: $.backgroundStyle,
 			width: canvas.width, 
 			height: canvas.height
 		});
+		*/
 		
 		$.root = new Clip({
 			width: $.width,
 			height: $.height
 		});
+
+		$.root.draw = Draw.Root;
 
 		context = $.context = canvas.getContext('2d');
 		cache = document.createElement('CANVAS');
@@ -62,7 +65,7 @@ $ = window.j5g3 = /** @namespace */ j5g3 =  {
 	 */
 	gameLoop: function()
 	{
-		$.background.draw();
+		//$.background.draw();
 		$.root.draw();
 	},
 
@@ -126,12 +129,18 @@ $ = window.j5g3 = /** @namespace */ j5g3 =  {
 	ary: function(w, h, v)
 	{
 		var result = [], x;
-		while (h--)
-		{
-			result[h] = [];
-			for (x=0; x<w; x++)
-				result[h][x]=v;
-		}
+
+		if (h)
+			while (h--)
+			{
+				result[h] = [];
+				for (x=0; x<w; x++)
+					result[h][x]=v;
+			}
+		else
+			while (w--)
+				result.push(v);
+			
 		return result;
 	},
 

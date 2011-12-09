@@ -34,6 +34,12 @@ j5g3.Tween = Class.extend(/**@scope j5g3.Tween.prototype */ {
 	pause: function() { this._olddraw = this.draw; this.draw = function() { }; return this; },
 	resume: function() { this.draw = this._olddraw ? this._olddraw : this.start; return this;},
 	rewind: function() { this.__repeat -= 1; return this.t(0); },
+
+	/** Recalculates Tween */
+	restart: function()
+	{
+		return this.stop().start();
+	},
 	
 	stop: function() { this.pause(); this.rewind(); if (this.__on_stop) this.__on_stop(); return this;},
 	easing: Animate.Easing.None,
@@ -61,6 +67,9 @@ j5g3.Tween = Class.extend(/**@scope j5g3.Tween.prototype */ {
 		}
 	},
 
+	/**
+	 * Sets up Tween to act on next Frame draw
+	 */
 	start: function()
 	{
 	var 
@@ -77,6 +86,7 @@ j5g3.Tween = Class.extend(/**@scope j5g3.Tween.prototype */ {
 		}
 
 		me.draw = me._calculate;
+		return this;
 	},
 
 	draw: null,

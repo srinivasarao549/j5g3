@@ -1,10 +1,5 @@
 
 
-var
-	TH = 48 * 0.25,
-	TW = 54 * 0.5
-;
-
 Sokoban.Player = j5g3.GDK.User.extend({
 
 	setPlayerPosition: function(x, y)
@@ -17,7 +12,7 @@ Sokoban.Player = j5g3.GDK.User.extend({
 		this.mapPos = { x: x, y:y }
 		startPos = world.walls.getIsometricCoords(startPos.x, startPos.y);
 
-		this.pos(startPos.x, startPos.y-5);
+		this.pos(startPos.x+16, startPos.y+64);
 	},
 
 	walk: function(position)
@@ -95,17 +90,17 @@ Sokoban.Player = j5g3.GDK.User.extend({
 		n = this.get_direction(direction), nb, 
 		sprite = map.get(n.x, n.y)
 	;
-		if (sprite >= 0 && sprite <= 10)
+		if (sprite >= Sokoban.WALLS[0] && sprite <= Sokoban.WALLS[1])
 			return false;
 
 		n.current = sprite;
-		if (sprite == 12 || sprite == 58)
+		if (sprite == Sokoban.BOX || sprite == Sokoban.PLACED_BOX)
 		{
 			// Check if box can be moved
 			nb = this.get_direction(direction, n.x, n.y);
 			sprite = map.get(nb.x, nb.y);
 
-			if (sprite != 11 && sprite != 13)
+			if (sprite != Sokoban.FREE && sprite != Sokoban.TARGET)
 				return false;
 
 			n.action = 'push';
@@ -131,7 +126,7 @@ Sokoban.Player = j5g3.GDK.User.extend({
 
 		me.direction = 'ne';
 
-		this.spritesheet(Sokoban.assets.spritesheet)
+		this.spritesheet(Sokoban.assets.spritesheet_player)
 			.keys({
 				numpad9: go('ne'),
 				numpad3: go('se'),
@@ -139,18 +134,18 @@ Sokoban.Player = j5g3.GDK.User.extend({
 				numpad7: go('nw')
 			})
 			.states({
-				idle_ne: [15],
-				idle_se: [16],
-				idle_sw: [17],
-				idle_nw: [14],
-				push_ne: [18, 19, 20, 21, 22],
-				push_nw: [23, 24, 25, 26, 27],
-				push_se: [28, 29, 30, 31, 32],
-				push_sw: [33, 34, 35, 36, 37],
-				walk_ne: [38, 39, 40, 41, 42],
-				walk_nw: [43, 44, 45, 46, 47],
-				walk_se: [48, 49, 50, 51, 52],
-				walk_sw: [53, 54, 55, 56, 57]
+				idle_ne: [65],
+				idle_se: [91],
+				idle_sw: [78],
+				idle_nw: [52],
+				push_ne: [65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77],
+				push_nw: [52,53,54,55,56,57,58,59,60,61,62,63,64],
+				push_se: [91,92,93,94,95,96,97,98,99,100, 101,102,103],
+				push_sw: [78,79,80,81,82,83,84,85,86,87,88,89,90],
+				walk_ne: [13, 14, 15, 16, 17, 18, 19],
+				walk_nw: [0, 1, 2, 3, 4, 5, 6, 7],
+				walk_se: [39, 40, 41, 42, 43, 44, 45],
+				walk_sw: [26, 27, 28, 29, 30, 31, 32]
 			})
 			.stop()
 			.go_state('idle_ne')

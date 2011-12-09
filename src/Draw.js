@@ -27,6 +27,17 @@ j5g3.Draw =
 		this.begin();
 		this.paint();
 		this.end();
+	},
+
+	/**
+	 * Draw Method for the Root Clip.
+	 */
+	Root: function()
+	{
+		context.clearRect(0, 0, canvas.width, canvas.height);
+		this.begin();
+		this.paint();
+		this.end();
 	}
 
 },
@@ -112,8 +123,8 @@ j5g3.Paint = {
 	{
 		var map = this.__map, y = 0, x, l=map.length,
 		    sprites = this.__sprites, s, cm, 
-		    tw2 = Math.floor(this.__tw/2) + this.__offsetX,
-		    th2 = Math.floor(this.__th/2) + this.__offsetY, 
+		    tw2 = Math.round(this.__tw/2) + this.__offsetX,
+		    th2 = Math.round(this.__th/2) + this.__offsetY, 
 		    offset
 		;
 

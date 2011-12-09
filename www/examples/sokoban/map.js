@@ -19,7 +19,7 @@ Sokoban.Map = j5g3.Class.extend({
 		map = this.__data,
 		w = map[0].length, h = map.length
 	;
-		return { w: w+h+1, h: Math.ceil(y/2+x/2)+1 }
+		return { w: w+h+1, h: Math.ceil(h/2+w/2)+1 }
 	},
 
 	/** Transform 2D Map to Isometric */
