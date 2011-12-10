@@ -24,11 +24,11 @@ j5g3.DisplayObject = Class.extend(/** @scope j5g3.DisplayObject.prototype */ {
 		me = this
 	;
 		context.save();
-		context.globalAlpha *= me.__alpha;
 		context.translate(me.__x, me.__y);
 		context.scale(me.__scaleX, me.__scaleY);
-		context.rotate(me.__rotation);
 
+		if (me.__alpha!==undefined) context.globalAlpha *= me.__alpha;
+		if (me.__rotation) context.rotate(me.__rotation);
 		if (this.__fillStyle) context.fillStyle = this.__fillStyle;
 		if (this.__strokeStyle) context.strokeStyle = this.__strokeStyle;
 		if (this.__font) context.font = this.__font;

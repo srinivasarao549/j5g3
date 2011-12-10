@@ -66,9 +66,9 @@ j5g3.Paint = {
 	 */
 	Sprite: function () 
 	{
-		var src = this.source(), 
-		    w = this.width(), 
-		    h = this.height()
+		var src = this.__source,
+		    w = this.__width, 
+		    h = this.__height
 		;
 
 		context.drawImage(src.image, src.x, src.y, src.w, src.h, 0, 0, w ? w : src.w, h ? h : src.h);
