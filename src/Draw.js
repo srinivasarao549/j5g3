@@ -123,21 +123,51 @@ j5g3.Paint = {
 	{
 		var map = this.__map, y = 0, x, l=map.length,
 		    sprites = this.__sprites, s, cm, 
-		    tw2 = Math.round(this.__tw/2) + this.__offsetX,
-		    th2 = Math.round(this.__th/2) + this.__offsetY, 
-		    offset
+		    dx = Math.round(this.__tw/2) + this.__offsetX,
+		    dy = Math.round(this.__th/2) + this.__offsetY, 
+		    offset 
+		;
+
+		context.translate(-dx, -dy);
+
+		for (; y<l; y++)
+		{
+			x = map[y].length;
+			cm= map[y];
+			offset = (y%2) ? dx : -dx;
+
+			context.translate(x*this.__tw-offset, dy);
+
+			while (x--)
+			{
+				context.translate(-this.__tw, 0);
+				sprites[cm[x]].draw();
+			}
+
+		}
+		
+	},
+
+	/* TODO Optimize This */
+	IsometricTest: function()
+	{
+		var map = this.__map, y = 0, x, l=map.length,
+		    sprites = this.__sprites, s, cm, 
+		    dx = Math.round(this.__tw/2) + this.__offsetX,
+		    dy = Math.round(this.__th/2) + this.__offsetY, 
+		    offset 
 		;
 
 		for (; y<l; y++)
 		{
 			x = map[y].length;
 			cm= map[y];
-			offset = (y%2)*tw2;
+			offset = (y%2)*dx;
 
 			while (x--)
 			{
-				s = sprites[cm[x]].__source;
-				context.drawImage(s.image, s.x, s.y, s.w, s.h, 	x*this.__tw-offset, y*th2, this.__tw, this.__th);
+				context.moveTo(x*this.__tw-offset, y*dy);
+				sprites[cm[x]].draw();
 			}
 		}
 		

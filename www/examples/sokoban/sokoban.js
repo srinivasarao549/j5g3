@@ -53,9 +53,17 @@ Sokoban.TH = 192;
 Sokoban.TW = 128;
 Sokoban.TO = -48;
 
+Sokoban.BOX = 24;
+Sokoban.PLAYER = 40;
+Sokoban.PLACED_BOX = 25;
+Sokoban.TARGET = 32;
+Sokoban.FREE = 33;
+Sokoban.WALLS = [ 0, 23];
+Sokoban.EMPTY = 71;
+
 Sokoban.SPRITES = {
 	0   : 71,
-	" " : 33, '@': 33,
+	" " : 33, '@': Sokoban.PLAYER,
 	"$" : 24, "." : 32, '*': 13,
 	"l" : 10, "r": 10, "lr" : 10,
 	"lt": 7, "lrt": 3, "rt":6,
@@ -64,12 +72,6 @@ Sokoban.SPRITES = {
 	"lrtb": 0, "rtb": 2, "ltb": 4
 }
 
-Sokoban.BOX = 24;
-Sokoban.PLACED_BOX = 25;
-Sokoban.TARGET = 32;
-Sokoban.FREE = 33;
-Sokoban.WALLS = [ 0, 23];
-Sokoban.EMPTY = 71;
 
 var
 	TH = Sokoban.TH * 0.25,

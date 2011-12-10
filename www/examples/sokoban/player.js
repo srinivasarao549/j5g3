@@ -4,15 +4,15 @@ Sokoban.Player = j5g3.GDK.User.extend({
 
 	setPlayerPosition: function(x, y)
 	{
-	var
-		world = this.__world,
-		l = world.map.data().length,
-		startPos = world.map.getXY(x, y, l)
-	;
+//	var
+		//world = this.__world,
+		//l = world.map.data().length,
+		//startPos = world.map.getXY(x, y, l)
+//	;
 		this.mapPos = { x: x, y:y }
-		startPos = world.walls.getIsometricCoords(startPos.x, startPos.y);
+		//startPos = world.walls.getIsometricCoords(startPos.x, startPos.y);
 
-		this.pos(startPos.x+16, startPos.y+64);
+		//this.pos(startPos.x+16, startPos.y+64);
 	},
 
 	walk: function(position)
@@ -30,6 +30,25 @@ Sokoban.Player = j5g3.GDK.User.extend({
 		this.animateTo(this.__x + position.mx, this.__y + position.my, 'push_' + this.direction);
 	},
 
+	setMapXY: function()
+	{
+	var
+		world = this.__world,
+		map   = world.walls.__map,
+		pos = world.map.getXY(this.mapPos.x, this.mapPos.y),
+		nextPos = world.map.getXY(this.nextPos.x, this.nextPos.y)
+	;
+	
+		map[pos.y][pos.x] = Sokoban.FREE;
+		map[nextPos.y][nextPos.x] = Sokoban.PLAYER;
+		this.mapPos = this.nextPos;
+		/*	
+		map.set(position.next.x, position.next.y, destination == Sokoban.TARGET ? Sokoban.PLACED_BOX : Sokoban.BOX)
+		   .set(position.x, position.y, position.current==Sokoban.PLACED_BOX ? Sokoban.TARGET : Sokoban.FREE)
+		;
+		*/
+	},
+
 	move: function(direction)
 	{
 		var pos;
@@ -37,7 +56,7 @@ Sokoban.Player = j5g3.GDK.User.extend({
 		this.direction = direction;
 		if (pos = this.check_direction(direction))
 		{
-			this.mapPos = pos;
+			this.nextPos = pos;
 			this[pos.action](pos);
 				
 		} else
@@ -60,6 +79,8 @@ Sokoban.Player = j5g3.GDK.User.extend({
 			auto_remove: true, 
 			duration: 10,
 			on_remove: function() { 
+				me.setMapXY();
+				me.resetPos();
 				me.go_state('idle_' + me.direction); 
 				me.moving = false;
 			} 
@@ -100,7 +121,7 @@ Sokoban.Player = j5g3.GDK.User.extend({
 			nb = this.get_direction(direction, n.x, n.y);
 			sprite = map.get(nb.x, nb.y);
 
-			if (sprite != Sokoban.FREE && sprite != Sokoban.TARGET)
+			if (sprite < 32)
 				return false;
 
 			n.action = 'push';
@@ -149,7 +170,13 @@ Sokoban.Player = j5g3.GDK.User.extend({
 			})
 			.stop()
 			.go_state('idle_ne')
+			.resetPos()
 		;
+	},
+
+	resetPos: function()
+	{
+		this.pos(16, 64);
 	}
 
 }).properties({ world: null });

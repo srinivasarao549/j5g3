@@ -174,6 +174,20 @@ $ = window.j5g3 = /** @namespace */ j5g3 =  {
 	},
 
 	/**
+	 * Clones Array
+	 */
+	clone: function(ary)
+	{
+	var
+		i = 0, l=ary.length, current, result=[]
+	;
+		for (;i < l; i++)
+			result.push((current=ary[i]) instanceof Array ? $.clone(current) : current);
+
+		return result;
+	},
+
+	/**
 	 * Defines a user Module. fn will be passed the j5g3 object and the window.document
 	 */
 	module: function(fn)

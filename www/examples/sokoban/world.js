@@ -11,7 +11,12 @@ Sokoban.World = j5g3.GDK.Element.extend({
 	var
 		me = this,
 		ss = Sokoban.assets.spritesheet,
-		floor = me.floor = j5g3.map({ sprites: j5g3.Util.fill(35, ss.__sprites[11]), tw: Sokoban.TW, th: Sokoban.TH, offsetY: Sokoban.TO }).set_iso(),
+		floor = me.floor = j5g3.map({ 
+			sprites: j5g3.ary(45, 0, ss.__sprites[Sokoban.FREE]),
+			tw: Sokoban.TW, 
+			th: Sokoban.TH, 
+			offsetY: Sokoban.TO 
+		}).set_iso(),
 		player = me.player = new Sokoban.Player({ world: this }),
 		walls = me.walls = ss.map(Sokoban.TW, Sokoban.TH).offsetY(Sokoban.TO).set_iso(),
 		boxes = me.boxes = j5g3.clip(),
@@ -20,12 +25,14 @@ Sokoban.World = j5g3.GDK.Element.extend({
 		boxes.map = {}
 		me.loadMap(Sokoban.LEVELS[0]); //j5g3.id('map').value);
 
-		this.add([ floor, boxes, walls, player ]);
+		this.add([ floor, boxes, walls ]);
 
 		me.floor.__sprites[Sokoban.EMPTY]=ss.__sprites[Sokoban.EMPTY];
 		me.floor.__sprites[Sokoban.TARGET]=ss.__sprites[Sokoban.TARGET];
 		
 		ss.__sprites[Sokoban.TARGET]= ss.__sprites[Sokoban.FREE] = ss.__sprites[Sokoban.BOX] = ss.__sprites[71];
+		ss.__sprites[Sokoban.PLAYER]= player;
+	//	me.floor.__sprites[Sokoban.PLAYER]= player;
 	},
 
 	addBox: function(x, y)
@@ -108,7 +115,9 @@ Sokoban.World = j5g3.GDK.Element.extend({
 		}
 
 		// Make it Isometric. Magic happens here.
-		this.floor.__map = this.walls.__map = this.map.transform();
+
+		this.walls.__map = this.map.transform();
+		this.floor.__map = j5g3.clone(this.walls.__map);
 		this.updateBoxesZ();
 		// Set Width And Height 
 		e = this.map.getIsoSize();
