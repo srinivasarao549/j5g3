@@ -10,26 +10,17 @@
 			$.id(properties.canvas) : 
 			(properties.canvas || $.id('screen'))
 		;
+		cache = document.createElement('CANVAS');
+		render= document.createElement('CANVAS');
 
-		canvas.width = $.width || ($.width = canvas.clientWidth);
-		canvas.height = $.height || ($.height = canvas.clientHeight);
-
-/*		$.background = new Rect({ 
-			fillStyle: $.backgroundStyle,
-			width: canvas.width, 
-			height: canvas.height
-		});
-		*/
-		
-		$.root = new Clip({
-			width: $.width,
-			height: $.height
-		});
+		$.root = new Clip();
+		$.resolution($.width || ($.width = canvas.clientWidth), $.height || ($.height = canvas.clientHeight));
 
 		$.root.draw = Draw.Root;
 
-		context = $.context = canvas.getContext('2d');
-		cache = document.createElement('CANVAS');
+
+		screen  = canvas.getContext('2d');
+		context = $.context = render.getContext('2d'); //canvas.getContext('2d');
 
 		properties.startFn($, document);
 	},
@@ -185,6 +176,15 @@ $ = window.j5g3 = /** @namespace */ j5g3 =  {
 			result.push((current=ary[i]) instanceof Array ? $.clone(current) : current);
 
 		return result;
+	},
+
+	/** Sets Screen Resolution and Root Width and Height */
+	resolution: function(w, h)
+	{
+		canvas.width = render.width = cache.width = w;
+		canvas.height= render.height= cache.height= h;
+
+		$.root.size(w, h);
 	},
 
 	/**

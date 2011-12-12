@@ -18,6 +18,11 @@
 		html, body { height: 100%; margin: 0; padding: 0; background: #000; }
 		#screen { width: 100%; margin: auto; }
 		#assets { display: none; }
+		#toolbar { color: #eee; position: absolute; top: 10px; left: 10px; background: rgba(128,128,128,0.5); padding: 5px; }
+		a { color: #eee; text-decoration: none; }
+		a:hover { text-decoration: underline; }
+
+		#choose-level { position: absolute; top: 20px; left: 5px; width: 200px; height: 150px; display: none; }
 	</style>
 
 </head>
@@ -25,6 +30,16 @@
 
 <div style="text-align: center">
 
+	<div id="toolbar">
+		<a href="javascript:Sokoban.restart()">Restart</a>
+		<a href="javascript:Sokoban.chooseLevel()">Level</a>
+	</div>
+	<div id="choose-level">
+		<h1>Choose Level</h1>
+		<select id="level-list" size=10>
+			
+		</select>
+	</div>
 	<canvas id="screen"></canvas>
 
 	<div id="assets"> 
@@ -34,6 +49,7 @@
 		-->
 		<img j5g3-class="Spritesheet" id="spritesheet" src="spritesheet.png" />
 		<img j5g3-class="Spritesheet" id="spritesheet_player" src="spritesheet-player.png" />
+		<audio id="drag" src="drag.ogg" />
 	</div>
 </div>
 </body>

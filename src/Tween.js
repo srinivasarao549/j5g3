@@ -55,7 +55,7 @@ j5g3.Tween = Class.extend(/**@scope j5g3.Tween.prototype */ {
 			target[i](me.easing(i, to[i],t ));
 
 		if (t<me.duration())
-			me.t(t+1);
+			me.__t++;
 		else 
 		{
 			if (me.auto_remove())
@@ -85,6 +85,7 @@ j5g3.Tween = Class.extend(/**@scope j5g3.Tween.prototype */ {
 				me.__from[i] = target[i]();
 		}
 
+		me.__t = 0;
 		me.draw = me._calculate;
 		return this;
 	},

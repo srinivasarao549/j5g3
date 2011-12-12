@@ -11,6 +11,8 @@ Sokoban.scene.Level = new j5g3.GDK.Scene({
 			this.stats = new Sokoban.Stats() 
 		]);
 
+		// TODO ...
+		Sokoban.restart();
 	}
 
 });

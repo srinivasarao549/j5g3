@@ -43,6 +43,8 @@ var
 	context,
 	/* This is used by the cache mechanism. It is a canvas element. */
 	cache,
+	screen,
+	render,
 
 	j5g3,
 

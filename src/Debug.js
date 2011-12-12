@@ -4,8 +4,7 @@
 
 (function($, undefined)
 {
-	var Debug = $.Debug = { },
-	    DebugFPS = new $.Text({ fillStyle: 'green', text: "0 FPS", x: 0, y: 14 }),
+	var Debug = $.Debug = { }, screen,
 	    i, time
 	;
 
@@ -24,10 +23,13 @@
 		    afps = 1000/time,
 		    fps = $.fps()
 		;
+		    screen = screen || $.canvas.getContext('2d');
 
-		DebugFPS.text(Math.round(fps < afps ? fps : afps) + " FPS");
-
-		DebugFPS.draw(); //$.context); 
+		screen.save();
+		screen.fillStyle = 'green';
+		screen.translate(0, 14);
+		screen.fillText(Math.round(fps < afps ? fps : afps) + " FPS", 0, 0);
+		screen.restore();
 	};
 
 	$.warning = function(msg)

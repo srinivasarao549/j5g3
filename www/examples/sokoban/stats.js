@@ -25,3 +25,4 @@ Sokoban.Stats = j5g3.GDK.Element.extend({
 	addPushes: function(n) { this.pushes.text('Pushes: ' + (this._push  += n)); }
 
 });
+

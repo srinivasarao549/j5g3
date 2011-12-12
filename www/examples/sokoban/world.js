@@ -23,7 +23,6 @@ Sokoban.World = j5g3.GDK.Element.extend({
 		i = 11
 	;
 		boxes.map = {}
-		me.loadMap(Sokoban.LEVELS[0]); //j5g3.id('map').value);
 
 		this.add([ floor, boxes, walls ]);
 
@@ -32,7 +31,6 @@ Sokoban.World = j5g3.GDK.Element.extend({
 		
 		ss.__sprites[Sokoban.TARGET]= ss.__sprites[Sokoban.FREE] = ss.__sprites[Sokoban.BOX] = ss.__sprites[71];
 		ss.__sprites[Sokoban.PLAYER]= player;
-	//	me.floor.__sprites[Sokoban.PLAYER]= player;
 	},
 
 	addBox: function(x, y)

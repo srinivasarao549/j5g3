@@ -19,8 +19,8 @@ j5g3.Animate = {
 		 */
 		None: function( prop, to, t)
 		{
-			var start = this.from(),
-			    v = (to - start[prop]) / this.duration()
+			var start = this.__from,
+			    v = (to - start[prop]) / this.__duration
 			;
 
 			return start[prop] + v*t;

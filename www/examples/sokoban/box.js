@@ -44,6 +44,7 @@ Sokoban.Box = j5g3.GDK.Element.extend({
 					me.go_state('placed');
 			} 
 		}));
+		Sokoban.assets.drag.play();
 			
 		map.set(position.next.x, position.next.y, destination == Sokoban.TARGET ? Sokoban.PLACED_BOX : Sokoban.BOX)
 		   .set(position.x, position.y, position.current==Sokoban.PLACED_BOX ? Sokoban.TARGET : Sokoban.FREE)

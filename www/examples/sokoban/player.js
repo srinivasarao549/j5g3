@@ -15,19 +15,33 @@ Sokoban.Player = j5g3.GDK.User.extend({
 		//this.pos(startPos.x+16, startPos.y+64);
 	},
 
-	walk: function(position)
+	on_remove: function()
 	{
-		this.animateTo(this.__x + position.mx, this.__y + position.my, 'walk_' + this.direction);
-		
+		this.setMapXY();
+		this.resetPos();
+		this.go_state('idle_' + this.direction); 
+		this.moving = false;
 	},
 
-	push: function(position)
+	walk: function(position)
+	{
+		this.animateTo(this.__x + position.mx, this.__y + position.my, 'walk_' + this.direction, 10, this.on_remove);
+	},
+
+	push: function(pos)
 	{
 		Sokoban.scene.Level.stats.addPushes(1);
 		
-		this.__world.getBox(position.x, position.y).push(position);
+		this.animateTo(this.__x + pos.mx/2, this.__y + pos.my/2, 'walk_' + this.direction, 5, function() {
+			this.animateTo(this.__x, this.__y, 'push_' + this.direction, 5, function() {
+				this.__world.getBox(pos.x, pos.y).push(pos);
+				this.animateTo(this.__x, this.__y, 'push_' + this.direction, 5, function()
+				{
+					this.animateTo(this.__x + pos.mx/2, this.__y + pos.my/2, 'walk_' + this.direction, 5, this.on_remove);
+				});
+			});
+		});
 
-		this.animateTo(this.__x + position.mx, this.__y + position.my, 'push_' + this.direction);
 	},
 
 	setMapXY: function()
@@ -63,7 +77,7 @@ Sokoban.Player = j5g3.GDK.User.extend({
 			this.go_state('idle_' + direction);
 	},
 
-	animateTo: function(x, y, state)
+	animateTo: function(x, y, state, duration, on_remove)
 	{
 	var
 		me = this
@@ -77,12 +91,9 @@ Sokoban.Player = j5g3.GDK.User.extend({
 			target: me,
 			to: { x: x, y: y }, 
 			auto_remove: true, 
-			duration: 10,
+			duration: duration || 10,
 			on_remove: function() { 
-				me.setMapXY();
-				me.resetPos();
-				me.go_state('idle_' + me.direction); 
-				me.moving = false;
+				on_remove && on_remove.apply(me);
 			} 
 		}));
 	},

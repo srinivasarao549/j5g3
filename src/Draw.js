@@ -38,6 +38,8 @@ j5g3.Draw =
 		this.begin();
 		this.paint();
 		this.end();
+		screen.clearRect(0, 0, canvas.width, canvas.height);
+		screen.drawImage(render, 0, 0);
 	}
 
 },

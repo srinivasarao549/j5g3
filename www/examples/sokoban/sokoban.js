@@ -27,22 +27,45 @@ var Sokoban = j5g3.GDK.game({
 				// Center Vertically!
 				canvas.style.marginTop = (window.innerHeight - height)/2 + 'px';
 			}
-		}
+		},
+		levelList = j5g3.id('level-list'),
+		temp = ''
 	;
 		window.addEventListener('resize', resize);
 		resize();
-		canvas.width = Sokoban.WIDTH;
-		canvas.height= Sokoban.HEIGHT;
+
+		j5g3.resolution(Sokoban.WIDTH, Sokoban.HEIGHT);
 
 		Sokoban.assets.spritesheet.grid(8, 10);
 		Sokoban.assets.spritesheet_player.grid(13, 10);
+
+		j5g3.each(Sokoban.LEVELS, function(level, i)
+		{
+			temp += "<option value=" + i + ">Level " + (i+1) + "</option>";
+		});
+
+		levelList.innerHTML = temp;
+		levelList.addEventListener('change', function() { 
+			Sokoban.restart(this.value);
+		});
+
+		//j5g3.fps(100);
 	}
 
 });
 
 Sokoban.LEVELS = [
 	
-"  #####  \n###   ###\n#  $..$ #\n# # ##  #\n# # ##@##\n#  $..$# \n### #$ # \n  # . .# \n  #$# .# \n  #  $ # \n  ###  # \n    #### \n"
+"  #####  \n###   ###\n#  $..$ #\n# # ##  #\n# # ##@##\n#  $..$# \n### #$ # \n  # . .# \n  #$# .# \n  #  $ # \n  ###  # \n    #### \n",
+"###################\n#   ...  @  ...   #\n# $$$  #####  $$$ #\n##   ###   ###   ##\n ##  #       ##  #\n  ####        ####\n",
+"  ####\n###  ##\n#   $ #\n# #.#@#\n# #$ .#\n#  .$ #\n##   ##\n #####\n",
+"  #####\n###   ###\n# . $ . #\n# #.$.# #\n# $ # $ #\n### @ ###\n  #####",
+"  #####\n  #   ###\n###.#   #\n# $.$ # #\n# #* $  #\n#@ . ####\n######",
+"  #####\n  #   ##\n###$   ##\n#  .$.$ #\n# #.#.# #\n#  *$*  #\n###   ###\n  # @ #\n  #####",
+"  #####\n  #   #\n### #$#\n#  .$.###\n# #$+$  #\n#  .$ # #\n### #.  #\n  #   ###\n  #####",
+"###########\n#@$   ....##\n# $$$$#....#\n# $  $..***##\n##   # ##.. #\n# $$$#  ##  #\n#    ## #  ##\n#  $$ #    #\n#     ###  #\n####### ####",
+" ######\n##    ##\n#  ##  #\n# #  # #\n#.  .#$##\n# # * $ #\n# # * $@#\n#  .. $ #\n#########",
+"####\n#  ####\n#     ###\n#  #$ . #\n## #.#$ #\n#  # @* #\n#   *  ##\n####  ##\n   ####"
 
 ];
 
@@ -72,6 +95,22 @@ Sokoban.SPRITES = {
 	"lrtb": 0, "rtb": 2, "ltb": 4
 }
 
+Sokoban.currentLevel = 0;
+Sokoban.restart = function(l)
+{
+	if (l)
+		Sokoban.currentLevel = l;
+
+	Sokoban.scene.Level.world.loadMap(Sokoban.LEVELS[Sokoban.currentLevel]); //j5g3.id('map').value);
+}
+
+Sokoban.chooseLevel = function()
+{
+var
+	list = j5g3.id('choose-level')
+;
+	list.style.display = list.style.display ? '' : 'block';
+}
 
 var
 	TH = Sokoban.TH * 0.25,
