@@ -10,7 +10,7 @@ Sokoban.World = j5g3.GDK.Element.extend({
 	{
 	var
 		me = this,
-		ss = Sokoban.assets.spritesheet,
+		ss = j5g3.spritesheet({ sprites: j5g3.clone(Sokoban.assets.spritesheet.__sprites) }),
 		floor = me.floor = j5g3.map({ 
 			sprites: j5g3.ary(45, 0, ss.__sprites[Sokoban.FREE]),
 			tw: Sokoban.TW, 
@@ -27,10 +27,11 @@ Sokoban.World = j5g3.GDK.Element.extend({
 		this.add([ floor, boxes, walls ]);
 
 		me.floor.__sprites[Sokoban.EMPTY]=ss.__sprites[Sokoban.EMPTY];
-		me.floor.__sprites[Sokoban.TARGET]=ss.__sprites[Sokoban.TARGET];
+		me.floor.__sprites[Sokoban.PLACED_BOX] = me.floor.__sprites[Sokoban.PLAYER_TARGET] = me.floor.__sprites[Sokoban.TARGET]=ss.__sprites[Sokoban.TARGET];
 		
-		ss.__sprites[Sokoban.TARGET]= ss.__sprites[Sokoban.FREE] = ss.__sprites[Sokoban.BOX] = ss.__sprites[71];
-		ss.__sprites[Sokoban.PLAYER]= player;
+		ss.__sprites[Sokoban.PLACED_BOX] = ss.__sprites[Sokoban.TARGET]= ss.__sprites[Sokoban.FREE] = ss.__sprites[Sokoban.BOX] = ss.__sprites[71];
+		ss.__sprites[Sokoban.PLAYER]= ss.__sprites[Sokoban.PLAYER_TARGET] = player;
+
 	},
 
 	addBox: function(x, y)
@@ -74,6 +75,7 @@ Sokoban.World = j5g3.GDK.Element.extend({
 	;
 		// Create Our Map object
 		out[0] = [];
+		this.boxes.__frames = [[]];
 		this.map = new Sokoban.Map(out);
 
 		for (; i<l; i++)
@@ -100,9 +102,14 @@ Sokoban.World = j5g3.GDK.Element.extend({
 						sprite = 't';
 
 					break;
+				case '+':
 				case '@':
 					this.player.setPlayerPosition(x, y); 
 					break;
+				case '*':
+					out[y][x++] = Sokoban.SPRITES[sprite];// || 0;
+					this.addBox(x-1, y);
+					continue;
 				case '$':
 					this.addBox(x, y);
 					break;

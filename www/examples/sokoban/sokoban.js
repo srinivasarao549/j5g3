@@ -47,6 +47,7 @@ var Sokoban = j5g3.GDK.game({
 		levelList.innerHTML = temp;
 		levelList.addEventListener('change', function() { 
 			Sokoban.restart(this.value);
+			Sokoban.chooseLevel();
 		});
 
 		//j5g3.fps(100);
@@ -62,7 +63,7 @@ Sokoban.LEVELS = [
 "  #####\n###   ###\n# . $ . #\n# #.$.# #\n# $ # $ #\n### @ ###\n  #####",
 "  #####\n  #   ###\n###.#   #\n# $.$ # #\n# #* $  #\n#@ . ####\n######",
 "  #####\n  #   ##\n###$   ##\n#  .$.$ #\n# #.#.# #\n#  *$*  #\n###   ###\n  # @ #\n  #####",
-"  #####\n  #   #\n### #$#\n#  .$.###\n# #$+$  #\n#  .$ # #\n### #.  #\n  #   ###\n  #####",
+"  #####  \n  #   #  \n### #$#  \n#  .$.###\n# #$+$  #\n#  .$ # #\n### #.  #\n  #   ###\n  #####  ",
 "###########\n#@$   ....##\n# $$$$#....#\n# $  $..***##\n##   # ##.. #\n# $$$#  ##  #\n#    ## #  ##\n#  $$ #    #\n#     ###  #\n####### ####",
 " ######\n##    ##\n#  ##  #\n# #  # #\n#.  .#$##\n# # * $ #\n# # * $@#\n#  .. $ #\n#########",
 "####\n#  ####\n#     ###\n#  #$ . #\n## #.#$ #\n#  # @* #\n#   *  ##\n####  ##\n   ####"
@@ -78,6 +79,7 @@ Sokoban.TO = -48;
 
 Sokoban.BOX = 24;
 Sokoban.PLAYER = 40;
+Sokoban.PLAYER_TARGET = 34;
 Sokoban.PLACED_BOX = 25;
 Sokoban.TARGET = 32;
 Sokoban.FREE = 33;
@@ -87,7 +89,8 @@ Sokoban.EMPTY = 71;
 Sokoban.SPRITES = {
 	0   : 71,
 	" " : 33, '@': Sokoban.PLAYER,
-	"$" : 24, "." : 32, '*': 13,
+	"+" : Sokoban.PLAYER_TARGET,
+	"$" : 24, "." : 32, '*': Sokoban.PLACED_BOX,
 	"l" : 10, "r": 10, "lr" : 10,
 	"lt": 7, "lrt": 3, "rt":6,
 	"lb": 8, "lrb": 1, "rb":5,

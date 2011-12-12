@@ -56,11 +56,6 @@ Sokoban.Player = j5g3.GDK.User.extend({
 		map[pos.y][pos.x] = Sokoban.FREE;
 		map[nextPos.y][nextPos.x] = Sokoban.PLAYER;
 		this.mapPos = this.nextPos;
-		/*	
-		map.set(position.next.x, position.next.y, destination == Sokoban.TARGET ? Sokoban.PLACED_BOX : Sokoban.BOX)
-		   .set(position.x, position.y, position.current==Sokoban.PLACED_BOX ? Sokoban.TARGET : Sokoban.FREE)
-		;
-		*/
 	},
 
 	move: function(direction)

@@ -15,12 +15,15 @@ Sokoban.Box = j5g3.GDK.Element.extend({
 		this.spritesheet(Sokoban.assets.spritesheet)
 			.stop()
 			.states({
-				normal: [ 24 ],
-				placed: [ 25 ]
+				normal: [ Sokoban.BOX ],
+				placed: [ Sokoban.PLACED_BOX ]
 			})
 			.go_state('normal')
 			.pos(startPos.x, startPos.y)
 		;
+
+		if (this.__world.map.get(this.__mapPos.x, this.__mapPos.y) == Sokoban.PLACED_BOX)
+			this.go_state('placed');
 	},
 
 	push: function(position)
