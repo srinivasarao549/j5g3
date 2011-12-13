@@ -25,7 +25,7 @@ var
 	do_skew = $.action(function() { skew.skewX(sx+=0.05); skew2.skewY(sy+=0.05); })
 ;
 
-	$.background.fillStyle('white');
+	$.canvas.style.backgroundColor = 'white';
 	$.root.add(['logo', {source: 'logo', y:200, scaleY:-1}, rotate, update, img, skew, skew2, do_skew]);
 	$.run();
 })

@@ -30,7 +30,8 @@
 
 		list.onchange = function()
 		{
-			url = this.value.toLowerCase() + '.js';
+			url = this.value.toLowerCase() + '.js?rnd=' + (new Date()).getTime();
+			$.id('screen').style.backgroundColor = '';
 			location.hash = '#' + this.value;
 			ajax.open('GET', url);
 			ajax.send();

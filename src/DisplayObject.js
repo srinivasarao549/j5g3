@@ -27,7 +27,7 @@ j5g3.DisplayObject = Class.extend(/** @scope j5g3.DisplayObject.prototype */ {
 		context.translate(me.__x, me.__y);
 		context.scale(me.__scaleX, me.__scaleY);
 
-		if (me.__alpha!==undefined) context.globalAlpha *= me.__alpha;
+		if (me.__alpha!==1) context.globalAlpha *= me.__alpha;
 		if (me.__rotation) context.rotate(me.__rotation);
 		if (this.__fillStyle) context.fillStyle = this.__fillStyle;
 		if (this.__strokeStyle) context.strokeStyle = this.__strokeStyle;
@@ -209,5 +209,5 @@ j5g3.DisplayObject = Class.extend(/** @scope j5g3.DisplayObject.prototype */ {
 	/** @type {number|null} Skew the object vertically */
 	skewY: null,
 	
-	strokeStyle: null, fillStyle: 'white', font: null 
+	strokeStyle: null, fillStyle: null, font: null 
 }),

@@ -23,7 +23,8 @@
 		    afps = 1000/time,
 		    fps = $.fps()
 		;
-		    screen = screen || $.canvas.getContext('2d');
+		if (!screen)
+		    screen = $.canvas.getContext('2d');
 
 		screen.save();
 		screen.fillStyle = 'green';

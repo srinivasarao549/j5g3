@@ -20,7 +20,7 @@
 
 	$.canvas.onmousemove = function(evt)
 	{
-		$.each(pieces, function() { this.alpha(1); });
+		$.each(pieces, function(piece) { piece.alpha(1); });
 		var piece = $.root.at(evt.offsetX, evt.offsetY);
 		if (piece) piece.alpha(0.5);
 	};
@@ -51,7 +51,6 @@
 
 	}
 
-	$.background.fillStyle('black');
 	$.root.add(pieces);
 	$.run();
 })

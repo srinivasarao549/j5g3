@@ -3,7 +3,7 @@
 {
 var
 	/** @const */ MAP_WIDTH = 11,
-	/** @const */ MAP_HEIGHT= 31,
+	/** @const */ MAP_HEIGHT= 33,
 
 	terrain = $.spritesheet('iso-terrain').grid(10, 10, 1),
 
@@ -55,21 +55,20 @@ var
 		]);
 	},
 
-	map = $.map({ x: -32, y: -16, sprites: terrain.sprites(), th: 32, tw:64, 'map': mapa})
+	map = $.map({ x: -32, y: -16, sprites: terrain.sprites(), th: 32, tw:64, 'map': mapa, offsetX: -1, offsetY: -1})
 ;
 	
-	$.canvas.onmousemove = function(evt)
+	/*$.canvas.onmousemove = function(evt)
 	{
 		var p = map.getIsometricCoords(evt.offsetX, evt.offsetY); 
 		if (prev)
-			map.__map[prev[1]][prev[0]] = prevv;
+			map.__map[prev.y][prev.x] = prevv;
 
 		prev = p;
-		prevv= map.__map[p[1]][p[0]];
+		prevv= map.__map[p.y][p.x];
 
-		map.__map[p[1]][p[0]] = 2;
-		//console.log(p[0] + ", " + p[1]);
-	}
+		map.__map[p.y][p.x] = 2;
+	}*/
 
 	map.paint = $.Paint.Isometric;
 	$.root.add([map]);

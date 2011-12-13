@@ -28,7 +28,7 @@
 		 .align_children('center middle')
 	;
 
-	$.background.fillStyle('white');
+	$.canvas.style.backgroundColor = 'white';
 	
 	$.fps(60).run();
 })
