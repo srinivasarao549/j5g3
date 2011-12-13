@@ -16,11 +16,17 @@
 		$.root = new Clip();
 		$.resolution($.width || ($.width = canvas.clientWidth), $.height || ($.height = canvas.clientHeight));
 
-		$.root.draw = Draw.Root;
 
 		screen  = canvas.getContext('2d');
-		context = $.context = render.getContext('2d'); //canvas.getContext('2d');
-		//context = $.context = screen;
+		if ($.prerender)
+		{
+			context = $.context = render.getContext('2d'); //canvas.getContext('2d');
+			$.root.draw = Draw.RootPreRender;
+		} else
+		{
+			$.root.draw = Draw.Root;
+			context = $.context = screen;
+		}
 
 		properties.startFn($, document);
 	},
@@ -35,6 +41,9 @@ $ = window.j5g3 = /** @namespace */ j5g3 =  {
 	width: null,
 	/** Height of the screen */
 	height: null,
+
+	/** If true, the engine will pre render the frame to another canvas object. */
+	prerender: true,
 
 	/**
 	 * Starts the execution.

@@ -38,6 +38,17 @@ j5g3.Draw =
 		this.begin();
 		this.paint();
 		this.end();
+	},
+
+	/**
+	 * Renders to render canvas then draws to main canvas. Set j5g3.prerender = true to use this method.
+	 */
+	RootPreRender: function()
+	{
+		context.clearRect(0, 0, canvas.width, canvas.height);
+		this.begin();
+		this.paint();
+		this.end();
 		screen.clearRect(0, 0, canvas.width, canvas.height);
 		screen.drawImage(render, 0, 0);
 	}
