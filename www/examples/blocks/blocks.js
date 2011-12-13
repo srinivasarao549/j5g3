@@ -155,7 +155,7 @@ var
 	go_next();
 	setInterval(gravity, speed);
 
-	$.background.fillStyle('#006');
+	$.canvas.style.backgroundColor = '#006';
 	$.root.add([background, next_box, board, keyboard]);
 	$.run();
 	$.Input.Keyboard.capture(true);

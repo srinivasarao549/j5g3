@@ -8,10 +8,9 @@
  */
 Sprite = $.Sprite = DisplayObject.extend({
 
-	/*init: function(properties)
-	{
-		_extend(this, properties);
-	},*/
-
+	/**
+	 * By Default Sprites have no transformation.
+	 */
+	draw: Paint.Sprite,
 	paint: Paint.Sprite
 }),

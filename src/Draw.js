@@ -19,6 +19,14 @@ j5g3.Draw =
 	},
 
 	/**
+	 * Draw with no transformations applied. Faster...
+	 */
+	NoTransform: function()
+	{
+		this.paint();		
+	},
+
+	/**
 	 * It will call the keyboard() function before drawing.
 	 */
 	Keyboard: function()

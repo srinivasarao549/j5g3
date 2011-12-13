@@ -55,6 +55,8 @@ j5g3.Map = DisplayObject.extend(/**@scope j5g3.Map.prototype */ {
 		me = this,
 		pc = context
 	;
+		w = w || me.__width;
+		h = h || me.__height;
 		// TODO This might be dangerous
 		cache.width = me.__x + w;
 		cache.height= me.__y + h;
@@ -70,6 +72,8 @@ j5g3.Map = DisplayObject.extend(/**@scope j5g3.Map.prototype */ {
 		me.paint = Paint.ImageData;
 
 		context = pc;
+
+		return this;
 	},
 
 	/**
