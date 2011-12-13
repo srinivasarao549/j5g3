@@ -176,7 +176,37 @@ j5g3.DisplayObject = Class.extend(/** @scope j5g3.DisplayObject.prototype */ {
 	to_clip: function()
 	{
 		return $.clip([[ this ]]);
-	}
+	},
+
+	/**
+	 * Caches content to ImageData
+	 */
+	cache: function(w, h)
+	{
+	var 
+		me = this,
+		pc = context
+	;
+		w = w || me.__width;
+		h = h || me.__height;
+		// TODO This might be dangerous
+		cache.width = me.__x + w;
+		cache.height= me.__y + h;
+
+		context = cache.getContext('2d');
+
+		if (me._oldPaint)
+			me.paint = me._oldPaint;
+
+		me.draw();
+		me.__source = context.getImageData(me.__x, me.__y, w, h);
+		me._oldPaint= me.paint;
+		me.paint = Paint.ImageData;
+
+		context = pc;
+
+		return this;
+	},
 	
 }).properties(/**@scope j5g3.DisplayObject.prototype */{
 	
