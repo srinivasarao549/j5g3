@@ -195,8 +195,7 @@ j5g3.DisplayObject = Class.extend(/** @scope j5g3.DisplayObject.prototype */ {
 
 		context = cache.getContext('2d');
 
-		if (me._oldPaint)
-			me.paint = me._oldPaint;
+		me.clear_cache();
 
 		me.draw();
 		me.__source = context.getImageData(me.__x, me.__y, w, h);
@@ -207,6 +206,15 @@ j5g3.DisplayObject = Class.extend(/** @scope j5g3.DisplayObject.prototype */ {
 
 		return this;
 	},
+
+	/**
+	 * Restores Paint Method
+	 */
+	clear_cache: function()
+	{
+		if (me._oldPaint)
+			me.paint = me._oldPaint;
+	}
 	
 }).properties(/**@scope j5g3.DisplayObject.prototype */{
 	
