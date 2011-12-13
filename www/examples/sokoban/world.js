@@ -6,30 +6,39 @@ Sokoban.World = j5g3.GDK.Element.extend({
 		
 	},
 
+	get_map: function(ss, fill)
+	{
+		return j5g3.map({
+			sprites: ss || j5g3.ary(80, 0, Sokoban.assets.spritesheet.__sprites[fill || Sokoban.EMPTY]),
+			tw: Sokoban.TW, th: Sokoban.TH,
+			offsetY: Sokoban.TO
+		}).set_iso();
+	},
+
 	setup: function()
 	{
 	var
 		me = this,
 		ss = j5g3.spritesheet({ sprites: j5g3.clone(Sokoban.assets.spritesheet.__sprites) }),
-		floor = me.floor = j5g3.map({ 
-			sprites: j5g3.ary(45, 0, ss.__sprites[Sokoban.FREE]),
-			tw: Sokoban.TW, 
-			th: Sokoban.TH, 
-			offsetY: Sokoban.TO 
-		}).set_iso(),
+		floor = me.floor = me.get_map(false, Sokoban.FREE),
 		player = me.player = new Sokoban.Player({ world: this }),
-		walls = me.walls = ss.map(Sokoban.TW, Sokoban.TH).offsetY(Sokoban.TO).set_iso(),
+		walls = me.walls = me.get_map(ss.__sprites),
+		decoration0 = me.decoration0 = j5g3.clip(),
+		decoration1 = me.decoration1 = j5g3.clip(),
 		boxes = me.boxes = j5g3.clip(),
 		i = 11
 	;
 		boxes.map = {}
 
-		this.add([ floor, boxes, walls ]);
+		this.add([ floor, decoration0, boxes, walls, decoration1 ]);
 
 		me.floor.__sprites[Sokoban.EMPTY]=ss.__sprites[Sokoban.EMPTY];
 		me.floor.__sprites[Sokoban.PLACED_BOX] = me.floor.__sprites[Sokoban.PLAYER_TARGET] = me.floor.__sprites[Sokoban.TARGET]=ss.__sprites[Sokoban.TARGET];
 		
-		ss.__sprites[Sokoban.PLACED_BOX] = ss.__sprites[Sokoban.TARGET]= ss.__sprites[Sokoban.FREE] = ss.__sprites[Sokoban.BOX] = ss.__sprites[71];
+		ss.__sprites[Sokoban.DOOR_EAST] = ss.__sprites[Sokoban.DOOR_WEST] =
+		ss.__sprites[Sokoban.PLACED_BOX] = ss.__sprites[Sokoban.TARGET] = 
+		ss.__sprites[Sokoban.FREE] = ss.__sprites[Sokoban.BOX] = ss.__sprites[71];
+
 		ss.__sprites[Sokoban.PLAYER]= ss.__sprites[Sokoban.PLAYER_TARGET] = player;
 
 	},
@@ -76,6 +85,8 @@ Sokoban.World = j5g3.GDK.Element.extend({
 		// Create Our Map object
 		out[0] = [];
 		this.boxes.__frames = [[]];
+		this.decoration0.__frames = [[]];
+		this.decoration1.__frames = [[]];
 		this.map = new Sokoban.Map(out);
 
 		for (; i<l; i++)
@@ -99,7 +110,7 @@ Sokoban.World = j5g3.GDK.Element.extend({
 					if ((e = map.indexOf("\n",i)+1) && map[e+x]=='#')
 						sprite += 'b';
 					if (sprite=='')
-						sprite = 't';
+						sprite = 'desk';
 
 					break;
 				case '+':
@@ -112,6 +123,9 @@ Sokoban.World = j5g3.GDK.Element.extend({
 					continue;
 				case '$':
 					this.addBox(x, y);
+					break;
+				case '!':
+					sprite = this.decorate(Sokoban.SPRITES[sprite], x, y);
 					break;
 				}
 
@@ -128,6 +142,20 @@ Sokoban.World = j5g3.GDK.Element.extend({
 		e = this.map.getIsoSize();
 		this.size(e.w * Sokoban.TW/2, e.h * Sokoban.TH / 2);
 		this.stretch(Sokoban.WIDTH, Sokoban.HEIGHT);
+	},
+
+	/** Adds decoration sprite to both layers! */
+	decorate: function(sprite, x, y)
+	{
+	var
+		pos = this.map.getXY(x, y),
+		sprites = Sokoban.assets.spritesheet.__sprites
+	;
+		pos = this.walls.getIsometricCoords(pos.x, pos.y);
+		this.decoration0.add(j5g3.clip([[sprites[sprite]]]).pos(pos.x, pos.y));
+		this.decoration1.add(j5g3.clip([[sprites[sprite+8]]]).pos(pos.x, pos.y));
+
+		return ' ';
 	}
 
 });

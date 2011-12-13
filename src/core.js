@@ -18,9 +18,9 @@
 
 		$.root.draw = Draw.Root;
 
-
 		screen  = canvas.getContext('2d');
 		context = $.context = render.getContext('2d'); //canvas.getContext('2d');
+		//context = $.context = screen;
 
 		properties.startFn($, document);
 	},

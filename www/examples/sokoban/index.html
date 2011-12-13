@@ -15,14 +15,15 @@
 	<script src="map.js"></script>
 
 	<style>
-		html, body { height: 100%; margin: 0; padding: 0; background: #000; }
+		html, body { height: 100%; margin: 0; padding: 0; background: #000; font-family: Arial, sans-serif; }
 		#screen { width: 100%; margin: auto; }
 		#assets { display: none; }
-		#toolbar { color: #eee; position: absolute; top: 10px; left: 10px; background: rgba(128,128,128,0.5); padding: 5px; }
-		a { color: #eee; text-decoration: none; }
+		#toolbar { display: none; color: #eee; position: absolute; top: 10px; left: 10px; background: rgba(128,128,128,0.5); padding: 5px; height: 20px; width: 300px; }
+		a { color: #eee; text-decoration: none; margin: 15px; }
 		a:hover { text-decoration: underline; }
 
-		#choose-level { position: absolute; top: 20px; left: 5px; width: 200px; height: 150px; display: none; }
+		#choose-level { position: absolute; top: 40px; left: 10px; width: 300px; height: 150px; display: none;background: rgba(128,128,128,0.5); padding: 5px; }
+		#choose-level > select { width: 100%; border: 1px solid #ccc; height: 100%; }
 	</style>
 
 </head>
@@ -31,11 +32,10 @@
 <div style="text-align: center">
 
 	<div id="toolbar">
-		<a href="javascript:Sokoban.restart()">Restart</a>
-		<a href="javascript:Sokoban.chooseLevel()">Level</a>
+		<a href="javascript:Sokoban.restart()">Restart Game</a>
+		<a href="javascript:Sokoban.chooseLevel()">Choose Level</a>
 	</div>
 	<div id="choose-level">
-		<h1>Choose Level</h1>
 		<select id="level-list" size=10>
 			
 		</select>
@@ -49,7 +49,8 @@
 		-->
 		<img j5g3-class="Spritesheet" id="spritesheet" src="spritesheet.png" />
 		<img j5g3-class="Spritesheet" id="spritesheet_player" src="spritesheet-player.png" />
-		<audio id="drag" src="drag.ogg" />
+		<audio id="drag" src="drag.ogg"></audio>
+		<audio id="coin" src="coin.ogg"></audio>
 	</div>
 </div>
 </body>

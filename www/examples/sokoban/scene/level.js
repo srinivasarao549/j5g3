@@ -13,6 +13,7 @@ Sokoban.scene.Level = new j5g3.GDK.Scene({
 
 		// TODO ...
 		Sokoban.restart();
+		j5g3.id('toolbar').style.display = 'block';
 	}
 
 });

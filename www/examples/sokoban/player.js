@@ -4,15 +4,7 @@ Sokoban.Player = j5g3.GDK.User.extend({
 
 	setPlayerPosition: function(x, y)
 	{
-//	var
-		//world = this.__world,
-		//l = world.map.data().length,
-		//startPos = world.map.getXY(x, y, l)
-//	;
 		this.mapPos = { x: x, y:y }
-		//startPos = world.walls.getIsometricCoords(startPos.x, startPos.y);
-
-		//this.pos(startPos.x+16, startPos.y+64);
 	},
 
 	on_remove: function()
@@ -53,7 +45,8 @@ Sokoban.Player = j5g3.GDK.User.extend({
 		nextPos = world.map.getXY(this.nextPos.x, this.nextPos.y)
 	;
 	
-		map[pos.y][pos.x] = Sokoban.FREE;
+		map[pos.y][pos.x] = this.previousTile || Sokoban.FREE;
+		this.previousTile = map[nextPos.y][nextPos.x];
 		map[nextPos.y][nextPos.x] = Sokoban.PLAYER;
 		this.mapPos = this.nextPos;
 	},
@@ -127,7 +120,7 @@ Sokoban.Player = j5g3.GDK.User.extend({
 			nb = this.get_direction(direction, n.x, n.y);
 			sprite = map.get(nb.x, nb.y);
 
-			if (sprite < 32)
+			if (sprite <= Sokoban.PLACED_BOX)
 				return false;
 
 			n.action = 'push';

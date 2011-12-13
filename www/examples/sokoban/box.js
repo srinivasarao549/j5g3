@@ -44,7 +44,10 @@ Sokoban.Box = j5g3.GDK.Element.extend({
 			duration: 10,
 			on_remove: function() { 
 				if (destination == Sokoban.TARGET)
+				{
 					me.go_state('placed');
+					Sokoban.assets.coin.play();
+				}
 			} 
 		}));
 		Sokoban.assets.drag.play();
@@ -52,6 +55,8 @@ Sokoban.Box = j5g3.GDK.Element.extend({
 		map.set(position.next.x, position.next.y, destination == Sokoban.TARGET ? Sokoban.PLACED_BOX : Sokoban.BOX)
 		   .set(position.x, position.y, position.current==Sokoban.PLACED_BOX ? Sokoban.TARGET : Sokoban.FREE)
 		;
+
+
 		this.__world.setBox(position.x, position.y, undefined);
 		this.__world.setBox(position.next.x, position.next.y, this);
 

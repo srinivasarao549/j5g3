@@ -55,7 +55,11 @@ var Sokoban = j5g3.GDK.game({
 
 });
 
-Sokoban.LEVELS = [
+
+/* CONSTANTS */
+j5g3.Util.extend(Sokoban, {
+
+LEVELS: [
 	
 "  #####  \n###   ###\n#  $..$ #\n# # ##  #\n# # ##@##\n#  $..$# \n### #$ # \n  # . .# \n  #$# .# \n  #  $ # \n  ###  # \n    #### \n",
 "###################\n#   ...  @  ...   #\n# $$$  #####  $$$ #\n##   ###   ###   ##\n ##  #       ##  #\n  ####        ####\n",
@@ -64,38 +68,49 @@ Sokoban.LEVELS = [
 "  #####\n  #   ###\n###.#   #\n# $.$ # #\n# #* $  #\n#@ . ####\n######",
 "  #####\n  #   ##\n###$   ##\n#  .$.$ #\n# #.#.# #\n#  *$*  #\n###   ###\n  # @ #\n  #####",
 "  #####  \n  #   #  \n### #$#  \n#  .$.###\n# #$+$  #\n#  .$ # #\n### #.  #\n  #   ###\n  #####  ",
-"###########\n#@$   ....##\n# $$$$#....#\n# $  $..***##\n##   # ##.. #\n# $$$#  ##  #\n#    ## #  ##\n#  $$ #    #\n#     ###  #\n####### ####",
-" ######\n##    ##\n#  ##  #\n# #  # #\n#.  .#$##\n# # * $ #\n# # * $@#\n#  .. $ #\n#########",
-"####\n#  ####\n#     ###\n#  #$ . #\n## #.#$ #\n#  # @* #\n#   *  ##\n####  ##\n   ####"
+"###########\n#@$   ....##\n# $$$$#....#\n# $  $..***##\n##   # ##.. #\n# $$$#  ##  #\n#    ## #  ##\n#  $$ #    #\n#     ###  #\n####### ####\n",
+" ######   \n##    ##\n#  ##  #\n# #  # #\n#.  .#$##\n# # * $ #\n# # * $@#\n#  .. $ #\n#########",
+"####   \n#  ####  \n#     ###\n#  #$ . #\n## #.#$ #\n#  # @* #\n#   *  ##\n####  ##\n   ####"
 
-];
+],
 
-Sokoban.WIDTH = 800;
-Sokoban.HEIGHT= 600;
+// Screen Width and Height
+WIDTH: 800,
+HEIGHT: 600,
 
-Sokoban.TH = 192;
-Sokoban.TW = 128;
-Sokoban.TO = -48;
+// Tile Height, Width and Offset
+TH: 192,
+TW: 128,
+TO: -48,
 
-Sokoban.BOX = 24;
-Sokoban.PLAYER = 40;
-Sokoban.PLAYER_TARGET = 34;
-Sokoban.PLACED_BOX = 25;
-Sokoban.TARGET = 32;
-Sokoban.FREE = 33;
-Sokoban.WALLS = [ 0, 23];
-Sokoban.EMPTY = 71;
+BOX : 24,
+PLAYER : 54,
+PLAYER_TARGET : 34,
+PLACED_BOX : 25,
+TARGET : 32,
+FREE : 33,
+WALLS : [ 0, 23],
+EMPTY : 71,
+/* Decorations */
+DOOR_WEST : 40,
+DOOR_EAST : 41
+
+});
 
 Sokoban.SPRITES = {
 	0   : 71,
-	" " : 33, '@': Sokoban.PLAYER,
+	" " : Sokoban.FREE,
+	'@' : Sokoban.PLAYER,
 	"+" : Sokoban.PLAYER_TARGET,
 	"$" : 24, "." : 32, '*': Sokoban.PLACED_BOX,
-	"l" : 10, "r": 10, "lr" : 10,
+	"l" : 11, "r": 10, "lr" : 10,
 	"lt": 7, "lrt": 3, "rt":6,
 	"lb": 8, "lrb": 1, "rb":5,
-	"tb": 9, "t" : 14, "b": 20,
-	"lrtb": 0, "rtb": 2, "ltb": 4
+	"tb": 9, "t" : 12, "b": 9,
+	"lrtb": 0, "rtb": 2, "ltb": 4,
+	"desk": 14,
+	"!": Sokoban.DOOR_WEST,
+	"~": Sokoban.DOOR_EAST
 }
 
 Sokoban.currentLevel = 0;
@@ -105,6 +120,7 @@ Sokoban.restart = function(l)
 		Sokoban.currentLevel = l;
 
 	Sokoban.scene.Level.world.loadMap(Sokoban.LEVELS[Sokoban.currentLevel]); //j5g3.id('map').value);
+	Sokoban.scene.Level.stats.reset();
 }
 
 Sokoban.chooseLevel = function()

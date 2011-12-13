@@ -14,7 +14,6 @@ Sokoban.scene.Splash = new j5g3.GDK.Scene({
 		]);
 		
 		j5g3.Input.Keyboard.waitForKey(function() { 
-			start_time = new Date;
 
 			transition.to({ alpha: 0 })
 				.restart()
