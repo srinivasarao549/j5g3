@@ -212,8 +212,8 @@ j5g3.DisplayObject = Class.extend(/** @scope j5g3.DisplayObject.prototype */ {
 	 */
 	clear_cache: function()
 	{
-		if (me._oldPaint)
-			me.paint = me._oldPaint;
+		if (this._oldPaint)
+			this.paint = this._oldPaint;
 	}
 	
 }).properties(/**@scope j5g3.DisplayObject.prototype */{
