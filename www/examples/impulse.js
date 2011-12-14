@@ -2,108 +2,101 @@
 (function ($, document, undefined) {
 
 var 
-	/* Functions */
-	rand = $.rand,
-	max_balls = 77,
-
 	/* Elements */
 	canvas = $.canvas,
 
+	/* Constants */
+	rand = $.rand,
+
+	MAX_BALLS = 77,
+	DIAMETER = $.id('ball').width,
+	MAX_SPEED = 5,
+	WIDTH = canvas.width,
+	HEIGHT= canvas.height,
+	MAX_X = WIDTH-DIAMETER,
+	MAX_Y = HEIGHT-DIAMETER,
+
 	Ball = $.Image.extend({
 	
-		init: function()
+		init: function(i)
+		{
+			this.source('ball')
+				.pos(rand(MAX_X), rand(MAX_Y))
+			;
+			this.velocity = { x: rand(MAX_SPEED), y: rand(MAX_SPEED) }
+			this.i = i;
+		},
+
+		collide: function(obj)
 		{
 		var 
-			me = this.source('ball'),
-			max_speed = 5,
-			diameter  = me.width(),
-			velocity  = { x: rand(max_speed), y: rand(max_speed) },
-			radius    = diameter / 2,
-			i=0,
+			velocity = this.velocity,
+			dx = this.__x - obj.__x,
+			dy = this.__y - obj.__y,
+			dvx = velocity.x - obj.velocity.x,
+			dvy = velocity.y - obj.velocity.y,
+			mag = dvx * dx + dvy * dy
+		;
 
-			checkCollision = function(coord, limit)
-			{
-			var v = me[coord]();
+			if (mag > 0)
+				return;
 
-				if (v<0)
-					me[coord](0);
-				else if (v > limit-diameter)
-					me[coord](limit - diameter);
-				else
-					return;
+			var d2 = dx*dx + dy*dy;
 
-				velocity[coord] = -velocity[coord]; 
-			}, 
+			mag /= d2;
 
-			collide = function(obj)
-			{
-			var dx = me.__x - obj.__x,
-			    dy = me.__y - obj.__y,
-			    dvx = velocity.x - obj.velocity.x,
-			    dvy = velocity.y - obj.velocity.y,
-			    mag = dvx * dx + dvy * dy;
-			;
+			dvx = dx * mag;
+			dvy = dy * mag;
 
-				if (mag > 0)
-					return;
+			velocity.x -= dvx;
+			velocity.y -= dvy;
 
-				var d2 = dx*dx + dy*dy;
+			obj.velocity.x += dvx;
+			obj.velocity.y += dvy;
+		},
 
-				mag /= d2;
+		draw: function()
+		{
+		var
+			j= MAX_BALLS-1
+		;
+			this.__x += this.velocity.x; 
+			this.__y += this.velocity.y;
 
-				dvx = dx * mag;
-				dvy = dy * mag;
-
-				velocity.x -= dvx;
-				velocity.y -= dvy;
-
-				obj.velocity.x += dvx;
-				obj.velocity.y += dvy;
+			// Check Wall Collision
+			if (this.__x<0) {
+				this.__x = 0;
+				this.velocity.x = -this.velocity.x;
 			}
-;
+			else if (this.__x>MAX_X) {
+				this.__x = MAX_X;
+				this.velocity.x = -this.velocity.x;
+			}
 
-			me.x(rand(canvas.width  -diameter));
-			me.y(rand(canvas.height -diameter));
-			me.velocity = velocity;
-			me.collide  = collide;
-					
-			me.paint = function()
-			{
-				me.__x = me.__x + velocity.x; 
-				me.__y = me.__y + velocity.y;
+			if (this.__y<0) { 
+				this.__y = 0;
+				this.velocity.y = -this.velocity.y;
+			} else if (this.__y>MAX_Y) {
+				this.__y = MAX_Y;
+				this.velocity.y = -this.velocity.y;
+			}
 
-				// wall collission
-				checkCollision('x', canvas.width);
-				checkCollision('y', canvas.height);
-				
-				$.Paint.Image.apply(me);
-			};
+			for (; j>this.i; j--)
+				if (this.collides(objs[j]))
+					this.collide(objs[j]);
+			
+			$.Draw.FastImage.apply(this);
 		}
 	}),
-	update = function()
-	{
-		var j, i=max_balls;
-
-		while (i--)
-		{
-			j=i;
-			while (j--)
-				if (objs[i].collides(objs[j]))
-					objs[i].collide(objs[j]);
-		}
-	},
 
 	objs
-
 ;
 	$.fps(1000);
 
-	for (i = 0; i < max_balls; i++)
-		$.root.add(new Ball());
+	for (i = 0; i < MAX_BALLS; i++)
+		$.root.add(new Ball(i));
 	objs = $.root.frame();
 
-	$.root.add(update);
 	$.run();
-
 })
 

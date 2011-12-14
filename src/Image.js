@@ -45,8 +45,7 @@ j5g3.Image = DisplayObject.extend(
 			if (this.__width === null)  this.width(this.__source.width);
 			if (this.__height === null) this.height(this.__source.height);
 
-			this.invalidate();
-			return this;
+			return this.invalidate();
 		}
 		return this.__source;
 	}

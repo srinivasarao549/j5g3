@@ -59,8 +59,13 @@ j5g3.Draw =
 		this.end();
 		screen.clearRect(0, 0, canvas.width, canvas.height);
 		screen.drawImage(render, 0, 0);
-	}
+	},
 
+	/** Draws Image with no transformations only translation */
+	FastImage: function()
+	{
+		context.drawImage(this.__source, this.__x, this.__y);
+	}
 },
 
 Paint = 
