@@ -215,7 +215,7 @@ var
 		{
 			this.KEYS = ks;
 			return this;
-		},
+		}
 
 
 	});
