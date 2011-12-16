@@ -65,6 +65,11 @@ j5g3.Draw =
 	FastImage: function()
 	{
 		context.drawImage(this.__source, this.__x, this.__y);
+	},
+
+	Cache: function()
+	{
+		context.putImageData(this.__source, this.__x, this.__y);
 	}
 },
 

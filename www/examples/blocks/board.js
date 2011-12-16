@@ -34,7 +34,7 @@ game.Board = $.Clip.extend({
 	/* Checks completed lines */
 	reduce: function()
 	{
-		var map=this.__map, y = map.length-1, x, row, bw = BOARD_WIDTH, rowc=0;
+		var map=this.__map, y = map.length-1, x, row, bw = BOARD_WIDTH, rowc=0, n=0;
 
 		while (y--)
 		{
@@ -48,8 +48,13 @@ game.Board = $.Clip.extend({
 				}
 
 			if (rowc)
+			{
 				this.reduceRow(y++);
+				n++;
+			}
 		}
+
+		n && game.addLines(n);
 	},
 
 	reduceRow: function(row)

@@ -189,18 +189,17 @@ j5g3.DisplayObject = Class.extend(/** @scope j5g3.DisplayObject.prototype */ {
 	;
 		w = w || me.__width;
 		h = h || me.__height;
-		// TODO This might be dangerous
+		// This will also clear the canvas.
 		cache.width = me.__x + w;
 		cache.height= me.__y + h;
 
 		context = cache.getContext('2d');
-
 		me.clear_cache();
 
 		me.draw();
 		me.__source = context.getImageData(me.__x, me.__y, w, h);
-		me._oldPaint= me.paint;
-		me.paint = Paint.ImageData;
+		me._oldPaint= me.draw;
+		me.draw = Draw.Cache;
 
 		context = pc;
 
@@ -213,7 +212,7 @@ j5g3.DisplayObject = Class.extend(/** @scope j5g3.DisplayObject.prototype */ {
 	clear_cache: function()
 	{
 		if (this._oldPaint)
-			this.paint = this._oldPaint;
+			this.draw = this._oldPaint;
 	}
 	
 }).properties(/**@scope j5g3.DisplayObject.prototype */{

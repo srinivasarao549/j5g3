@@ -6,8 +6,12 @@ var
 	BLOCK_PIECES= 7,
 	BLOCK_COLORS= 9,
 	PIECE_WIDTHS = [3,4,3,2,3,3,3],
+	BOARD_X = 200,
+	BOARD_Y = 24,
 	BOARD_WIDTH = 10,
 	BOARD_HEIGHT= 18,
+	WIDTH = 640,
+	HEIGHT= 480,
 
 	/* Elements */
 	_ss,
@@ -36,6 +40,8 @@ var
 		go_next();
 		$.resume();
 		$.id('screen').style.display = 'inline-block';
+		lines = 0; score = 0;
+		updateScore();
 	},
 
 	game_over = function()
@@ -71,14 +77,15 @@ var
 		if (current)
 			current.nail();
 		window.current = current = next.remove()
-		              .x(Math.floor(BOARD_WIDTH/2)*BLOCK_WIDTH + (mapX[next.__mapWidth]))
-			      .y(-BLOCK_HEIGHT*starty[next.__mapHeight])
+		              .x(BOARD_X + Math.floor(BOARD_WIDTH/2)*BLOCK_WIDTH + (mapX[next.__mapWidth]))
+			      .y(BOARD_Y + -BLOCK_HEIGHT*starty[next.__mapHeight])
 			      .mapY(mapY[next.__mapHeight])
 			      .mapX(4)
 		;
 
-		board.add(current);
+		$.root.add(current);
 		next_box.add(next = get_next());
+		updateScore();
 	},
 
 	gravity = function() {
@@ -146,17 +153,52 @@ var
 	speed = 15,
 
 	// Screen Element
-	board = new game.Board({ x: 200, y: 24 }),
-	background = $.image('background'),
-	next = get_next(),
 	current,
-	next_box = $.clip({x: 48, y: 100}).add(next)
+
+	score = 0, lines = 0,
+	scoreText, linesText,
+	
+	updateScore= function()
+	{
+		scoreText.text('Score: ' + score);
+		linesText.text('Lines: ' + lines);
+		background.cache();
+	}, 
+
+	board= new game.Board({ x: BOARD_X, y: BOARD_Y }),
+	next = get_next(),
+	
+	background = $.clip([[
+		$.rect().size($.canvas.width, $.canvas.height).fillStyle('#008'),
+		$.image('background'),
+
+		next_box = $.clip({x: 48, y: 100}).add(next),
+
+		board,
+
+		// Stats
+		$.clip([[
+			scoreText = $.text(),
+			linesText = $.text().y(30)
+		]]).pos(460, 80).fillStyle('#fff').font('20px Arial'),
+	]]).size(WIDTH, HEIGHT)
 ;
+	game.addLines = function(n)
+	{
+		lines += n;
+		score += { 1: 100, 2: 250, 3: 400, 4: 800, 0: 0 }[n];
+
+		updateScore();
+	};
+
+	updateScore();
+
+	$.root.add([background, keyboard]);
+
 	go_next();
 	setInterval(gravity, speed);
 
-	$.canvas.style.backgroundColor = '#006';
-	$.root.add([background, next_box, board, keyboard]);
+	//$.canvas.style.backgroundColor = 'none';
 	$.run();
 	$.Input.Keyboard.capture(true);
 }

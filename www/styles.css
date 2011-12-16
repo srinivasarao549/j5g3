@@ -47,7 +47,7 @@ footer { text-align: center; }
 footer > img { margin: 10px 0 4px 0; }
 footer > p { padding: 0; margin: 0; font-size: 10px; }
 
-canvas { width: 640px; height: 480px; margin: 30px auto; display: block; background: #000; }
+#screen { width: 640px; height: 480px; margin: 0 auto; display: block; background: #000; }
 
 #assets { display: none; }
 #loading { font-size: 30px; line-height: 480px; }

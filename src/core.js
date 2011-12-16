@@ -10,12 +10,11 @@
 			$.id(properties.canvas) : 
 			(properties.canvas || $.id('screen'))
 		;
-		cache = document.createElement('CANVAS');
+		$.cacheCanvas = cache = document.createElement('CANVAS');
 		render= document.createElement('CANVAS');
 
 		$.root = new Clip();
 		$.resolution($.width || ($.width = canvas.clientWidth), $.height || ($.height = canvas.clientHeight));
-
 
 		screen  = canvas.getContext('2d');
 		if ($.prerender)
