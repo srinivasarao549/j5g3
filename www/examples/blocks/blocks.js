@@ -39,7 +39,7 @@ var
 		current = 0;
 		go_next();
 		$.resume();
-		$.id('screen').style.display = 'inline-block';
+		$.id('screen').style.display = 'block';
 		lines = 0; score = 0;
 		updateScore();
 	},
@@ -99,7 +99,7 @@ var
 	{
 		window.removeEventListener('keypress', resume, true);
 		$.id('pause').style.display='none';
-		$.canvas.style.display = 'inline-block';
+		$.canvas.style.display = 'block';
 		$.resume();
 	},
 
