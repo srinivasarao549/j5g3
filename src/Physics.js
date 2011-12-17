@@ -59,6 +59,9 @@ j5g3.Physics = Class.extend(/**@scope j5g3.Physics.prototype */{
 	invalidate: function() { }
 }).properties(
 {
-	target: null, vx: 0, vy: 0, m: 1, parent: null
+	target: null, vx: 0, vy: 0, 
+	/** Mass */
+	m: 1, 
+	parent: null
 }),
 
