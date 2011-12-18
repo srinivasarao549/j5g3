@@ -213,6 +213,14 @@ j5g3.DisplayObject = Class.extend(/** @scope j5g3.DisplayObject.prototype */ {
 	{
 		if (this._oldPaint)
 			this.draw = this._oldPaint;
+	},
+
+	/**
+	 * Sets clipping area to the display object
+	 */
+	clip: function()
+	{
+		clip = { x: this.__x, y: this.__y, w: this.__width, h: this.__height }
 	}
 	
 }).properties(/**@scope j5g3.DisplayObject.prototype */{

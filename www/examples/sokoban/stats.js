@@ -19,6 +19,7 @@ Sokoban.Stats = j5g3.GDK.Element.extend({
 			})
 		]]
 
+		this.draw = j5g3.Draw.Void;
 		this.fillStyle('white').font('12px Arial');
 		this.reset();
 	},

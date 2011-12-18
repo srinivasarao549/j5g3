@@ -12,8 +12,8 @@ Sokoban.scene.Splash = new j5g3.GDK.Scene({
 			image,
 			transition
 		]);
-		
-		j5g3.Input.Keyboard.waitForKey(function() { 
+
+		j5g3.Input.wait(function() { 
 
 			transition.to({ alpha: 0 })
 				.restart()

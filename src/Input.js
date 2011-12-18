@@ -27,6 +27,37 @@ j5g3.Input =
 	/** Stores all Key status */
 	Key: {},
 
+	/** Waits for User Input and calls onInput. (Mouse or Keyboard) */
+	wait: function(onInput)
+	{
+		var
+			listener = function() {
+				onInput();
+				window.removeEventListener('keyup', listener, true);
+				canvas.removeEventListener('click', listener, true);
+			}
+		;
+			window.addEventListener('keyup', listener, true); 
+			canvas.addEventListener('click', listener, true);
+	},
+
+	/**
+	 * @namespace
+	 */
+	Mouse:
+	{
+		/** Waits for CLick Event */
+		wait: function(onClick)
+		{
+		var
+			listener = function() {
+				onClick();
+				canvas.removeEventListener('click', listener, true);
+			}
+		;
+			canvas.addEventListener('click', listener, true);
+		}
+	},
 
 	/**
 	 * @namespace
@@ -90,7 +121,7 @@ j5g3.Input =
 		/**
 		 * Waits for key press.
 		 */
-		waitForKey: function(onKeyPress)
+		wait: function(onKeyPress)
 		{
 		var
 			listener = function() {

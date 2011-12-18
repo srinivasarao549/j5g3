@@ -10,6 +10,7 @@ var Sokoban = j5g3.GDK.game({
 	{
 	var
 		canvas = j5g3.canvas,
+		stage  = j5g3.id('stage'),
 		height,
 		resize = function()
 		{
@@ -17,15 +18,19 @@ var Sokoban = j5g3.GDK.game({
 			if (height > window.innerHeight)
 			{
 				height = Math.round(window.innerHeight * 1.25);
+				//canvas.style.width = stage.style.width = height + 'px';
+				//canvas.style.height = stage.style.height = window.innerHeight + 'px';
 				canvas.style.width = height + 'px';
 				canvas.style.height = window.innerHeight + 'px';
-				canvas.style.marginTop = 0;
+				//stage.style.marginTop = 0;
 			} else
 			{
-				canvas.style.width  = window.innerWidth + 'px';
+				//canvas.style.width =stage.style.width  = window.innerWidth + 'px';
+				//canvas.style.height = stage.style.height = height + 'px';
+				canvas.style.width = window.innerWidth + 'px';
 				canvas.style.height = height + 'px';
 				// Center Vertically!
-				canvas.style.marginTop = (window.innerHeight - height)/2 + 'px';
+				//stage.style.marginTop = (window.innerHeight - height)/2 + 'px';
 			}
 		},
 		levelList = j5g3.id('level-list'),
@@ -50,7 +55,8 @@ var Sokoban = j5g3.GDK.game({
 			Sokoban.chooseLevel();
 		});
 
-		//j5g3.fps(100);
+		j5g3.fps(500);
+
 	}
 
 });
@@ -75,8 +81,8 @@ LEVELS: [
 ],
 
 // Screen Width and Height
-WIDTH: 800,
-HEIGHT: 600,
+WIDTH: 800,// screen.width > 800 ? 800 : screen.width,
+HEIGHT: 600, //screen.height > 600 ? 600 : screen.height,
 
 // Tile Height, Width and Offset
 TH: 192,

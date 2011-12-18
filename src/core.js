@@ -195,6 +195,12 @@ $ = window.j5g3 = /** @namespace */ j5g3 =  {
 		$.root.size(w, h);
 	},
 
+	/** Sets Clipping Area */
+	set_clip: function(x, y, w, h)
+	{
+		clip = { x: x, y: y, w: w, h: h }
+	},
+
 	/**
 	 * Defines a user Module. fn will be passed the j5g3 object and the window.document
 	 */

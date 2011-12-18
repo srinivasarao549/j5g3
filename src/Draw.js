@@ -42,6 +42,14 @@ j5g3.Draw =
 	 */
 	Root: function()
 	{
+		// Set Clipping region.. 
+		if (clip)
+		{
+			context.beginPath();
+			context.rect(clip.x, clip.y, clip.w, clip.h); 
+			context.clip();
+		}
+
 		context.clearRect(0, 0, canvas.width, canvas.height);
 		this.begin();
 		this.paint();

@@ -2,6 +2,11 @@
 <html>
 <head>
 	<title>JSGE - Sokoban</title>
+	<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+
 	<script src="../../j5g3-dbg.js"></script>
 	<script src="../../j5g3-gdk.js"></script>
 
@@ -15,33 +20,33 @@
 	<script src="scene/level.js"></script>
 	<script src="map.js"></script>
 
-	<style>
-		html, body { height: 100%; margin: 0; padding: 0; background: #000; font-family: Arial, sans-serif; }
-		#screen { width: 100%; margin: auto; }
-		#assets { display: none; }
-		#toolbar { display: none; color: #eee; position: absolute; top: 10px; right: 10px; background: rgba(128,128,128,0.5); padding: 5px; height: 20px; width: 300px; }
-		a { color: #eee; text-decoration: none; margin: 15px; }
-		a:hover { text-decoration: underline; }
-
-		#choose-level { position: absolute; top: 40px; right: 10px; width: 300px; height: 150px; display: none;background: rgba(128,128,128,0.5); padding: 5px; }
-		#choose-level > select { width: 100%; border: 1px solid #ccc; height: 100%; }
-	</style>
+	<link href="styles.css" rel="stylesheet" />
 
 </head>
 <body onload="j5g3.start(Sokoban);">
 
 <div style="text-align: center">
 
-	<div id="toolbar">
-		<a href="javascript:Sokoban.restart()">Restart Game</a>
-		<a href="javascript:Sokoban.chooseLevel()">Choose Level</a>
-	</div>
-	<div id="choose-level">
-		<select id="level-list" size=10>
-			
-		</select>
-	</div>
 	<canvas id="screen"></canvas>
+	<div id="stage">
+		<div id="level">
+			<div id="toolbar">
+				<a href="javascript:Sokoban.restart()">Restart</a>
+				<a href="javascript:Sokoban.chooseLevel()">Choose Level</a>
+			</div>
+			<div id="arrows">
+				<div id="arrow-nw"></div>
+				<div id="arrow-ne"></div>
+				<div id="arrow-sw"></div>
+				<div id="arrow-se"></div>
+			</div>
+		</div>
+		<div id="choose-level">
+			<select id="level-list" size=10>
+				
+			</select>
+		</div>
+	</div>
 
 	<div id="assets"> 
 		<img id="splash" src="splash.png" />

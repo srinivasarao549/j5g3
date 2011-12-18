@@ -46,6 +46,9 @@ var
 	screen,
 	render,
 
+	/* Clipping region */
+	clip,
+
 	j5g3,
 
 /* core.js defines $ */
