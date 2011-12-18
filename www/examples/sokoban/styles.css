@@ -1,0 +1,23 @@
+
+html, body { height: 100%; margin: 0; padding: 0; background: #000; font-family: Arial, sans-serif; }
+#assets { display: none; }
+#toolbar { color: #eee; margin: 0 auto; background: rgba(128,128,128,0.5); padding: 5px; height: 20px; width: 200px; }
+a { color: #eee; text-decoration: none; margin: 10px; }
+a:hover { text-decoration: underline; }
+
+#choose-level { position: fixed; top: 0; left: 0; right: 0px; bottom: 0; background: rgba(0, 0, 0, 0.5); display: none; padding: 5px; }
+#choose-level > select { 
+	margin: 50px auto; width: 400px; border: 1px solid #ccc; height: 400px; 
+	background: rgba(128, 128, 128, 0.5); color: #eee; font-size: 18px; 
+}
+
+#level { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; }
+#screen { min-width: 800px; min-height: 600px; }
+
+#arrows > div { background-image: url(spritesheet.png); width: 100px; height: 80px; position: absolute; }
+
+#arrow-nw { background-position: -404px -1066px; }
+#arrow-ne { background-position: -270px -1068px; right: 0; }
+#arrow-se { background-position: -404px -976px; bottom: 0; right: 0}
+#arrow-sw { background-position: -270px -976px; bottom: 0;  }
+
