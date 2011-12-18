@@ -144,8 +144,8 @@ Sokoban.World = j5g3.GDK.Element.extend({
 		this.stretch(Sokoban.WIDTH, Sokoban.HEIGHT);
 
 		this.floor.size(e.w * Sokoban.TW/2, e.h * Sokoban.TH / 2)
-			.stretch(Sokoban.WIDTH, Sokoban.HEIGHT)
-			.cache()
+			//.stretch(Sokoban.WIDTH, Sokoban.HEIGHT)
+			//.cache()
 		;
 	},
 
