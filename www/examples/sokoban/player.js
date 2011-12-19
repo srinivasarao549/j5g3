@@ -61,10 +61,10 @@ Sokoban.Player = j5g3.GDK.User.extend({
 
 	move: function(direction)
 	{
-		var pos, clip = this.getScreenXY();
+		var pos; //, clip = this.getScreenXY();
 
 		this.direction = direction;
-		j5g3.set_clip(clip.x, clip.y, 100, 100);
+		//j5g3.set_clip(clip.x, clip.y, 100, 100);
 		if (pos = this.check_direction(direction))
 		{
 			this.nextPos = pos;
