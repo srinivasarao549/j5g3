@@ -41,8 +41,8 @@ $ = window.j5g3 = /** @namespace */ j5g3 =  {
 	/** Height of the screen */
 	height: null,
 
-	/** If true, the engine will pre render the frame to another canvas object. */
-	prerender: false,
+	/** If true, the engine will pre render the frame to another canvas object. Generally Faster. */
+	prerender: true,
 
 	/**
 	 * Starts the execution.

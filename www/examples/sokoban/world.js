@@ -145,8 +145,9 @@ Sokoban.World = j5g3.GDK.Element.extend({
 
 		this.floor.size(e.w * Sokoban.TW/2, e.h * Sokoban.TH / 2)
 			//.stretch(Sokoban.WIDTH, Sokoban.HEIGHT)
-			//.cache()
+			.cache()
 		;
+
 	},
 
 	/** Adds decoration sprite to both layers! */

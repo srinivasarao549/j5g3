@@ -55,7 +55,7 @@ var Sokoban = j5g3.GDK.game({
 			Sokoban.chooseLevel();
 		});
 
-		j5g3.fps(500);
+		j5g3.fps(1000);
 
 	}
 

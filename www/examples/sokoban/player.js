@@ -51,11 +51,20 @@ Sokoban.Player = j5g3.GDK.User.extend({
 		this.mapPos = this.nextPos;
 	},
 
+	getScreenXY: function()
+	{
+	var
+		pos = this.__world.map.getXY(this.mapPos.x, this.mapPos.y)
+	;
+		return this.__world.walls.getIsometricCoords(pos.x, pos.y);
+	},
+
 	move: function(direction)
 	{
-		var pos;
+		var pos, clip = this.getScreenXY();
 
 		this.direction = direction;
+		j5g3.set_clip(clip.x, clip.y, 100, 100);
 		if (pos = this.check_direction(direction))
 		{
 			this.nextPos = pos;

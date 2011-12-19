@@ -42,7 +42,7 @@ j5g3.Draw =
 	 */
 	Root: function()
 	{
-		// Set Clipping region.. 
+		// Set Clipping region.. TODO SLOW..
 		if (clip)
 		{
 			context.beginPath();
@@ -62,11 +62,18 @@ j5g3.Draw =
 	RootPreRender: function()
 	{
 		context.clearRect(0, 0, canvas.width, canvas.height);
+
 		this.begin();
 		this.paint();
 		this.end();
-		screen.clearRect(0, 0, canvas.width, canvas.height);
-		screen.drawImage(render, 0, 0);
+
+		if (clip)
+			screen.drawImage(render, clip.x, clip.y, clip.w, clip.h, clip.x, clip.y, clip.w, clip.h);
+		else
+		{
+			screen.clearRect(0, 0, canvas.width, canvas.height);
+			screen.drawImage(render, 0, 0);
+		}
 	},
 
 	/** Draws Image with no transformations only translation */
@@ -77,7 +84,8 @@ j5g3.Draw =
 
 	Cache: function()
 	{
-		context.putImageData(this.__source, this.__x, this.__y);
+		//context.putImageData(this.__source, this.__x, this.__y);
+		context.drawImage(this.__source, this.__x, this.__y);
 	}
 },
 
