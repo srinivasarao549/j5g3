@@ -13,6 +13,8 @@
 		$.cacheCanvas = cache = document.createElement('CANVAS');
 		render= document.createElement('CANVAS');
 
+		$.set_clipping(false);
+
 		$.root = new Clip();
 		$.resolution($.width || ($.width = canvas.clientWidth), $.height || ($.height = canvas.clientHeight));
 
