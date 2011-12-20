@@ -68,8 +68,10 @@ j5g3.Draw =
 		this.end();
 
 		if (clip)
+		{
+			screen.clearRect(clip.x, clip.y, clip.w, clip.h); //canvas.width, canvas.height);
 			screen.drawImage(render, clip.x, clip.y, clip.w, clip.h, clip.x, clip.y, clip.w, clip.h);
-		else
+		} else
 		{
 			screen.clearRect(0, 0, canvas.width, canvas.height);
 			screen.drawImage(render, 0, 0);
@@ -84,7 +86,10 @@ j5g3.Draw =
 
 	Cache: function()
 	{
-		context.drawImage(this.__source, this.__x, this.__y);
+		if (clip)
+			context.drawImage(this.__source, clip.x, clip.y, clip.w, clip.h, clip.x, clip.y, clip.w, clip.h);
+		else
+			context.drawImage(this.__source, this.__x, this.__y, this.__width, this.__height, this.__x, this.__y, this.__width, this.__height);
 	}
 },
 

@@ -18,6 +18,7 @@ j5g3.Input =
 		numpad7: 103,
 		numpad8: 104,
 		numpad9: 105,
+		space: 32,
 		left: 37,
 		down: 40,
 		right: 39,

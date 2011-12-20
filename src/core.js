@@ -44,6 +44,9 @@ $ = window.j5g3 = /** @namespace */ j5g3 =  {
 	/** If true, the engine will pre render the frame to another canvas object. Generally Faster. */
 	prerender: true,
 
+	/** Clipping Region */
+	clipping: null,
+
 	/**
 	 * Starts the execution.
 	 */
@@ -195,11 +198,10 @@ $ = window.j5g3 = /** @namespace */ j5g3 =  {
 		$.root.size(w, h);
 	},
 
-	/** Sets Clipping Area */
-	set_clip: function(x, y, w, h)
+	/** Sets Clipping Area. Pass false as a parameter to disable it. */
+	set_clipping: function(x, y, w, h)
 	{
-		clip = { x: x, y: y, w: w, h: h }
+		$.clipping = clip = x!==false ? { x: x, y: y, w: w, h: h } : null;
 	}
-
 },
 

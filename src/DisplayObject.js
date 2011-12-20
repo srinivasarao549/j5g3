@@ -77,7 +77,7 @@ j5g3.DisplayObject = Class.extend(/** @scope j5g3.DisplayObject.prototype */ {
 	 */
 	align: function(alignment, container) 
 	{
-		container = container || this.__parent;
+		container = container || this.__parent || $.root;
 
 		switch (alignment) {
 		case 'center': 	this.x(container.width() / 2); 	break;
