@@ -32,9 +32,8 @@
 
 		if (piece)
 		{
-		    var x = piece.x(), y = piece.y(),
-		    tween;
-		// decide where to move
+			var x = piece.x(), y = piece.y(), tween;
+
 			if (x > 0 && !$.root.at(x-4,y+4))
 				tween = $.tween(piece).to({x: piece.x()-w});
 			else if (y > 0 && !$.root.at(x+4,y-4))
@@ -44,11 +43,15 @@
 			else if (x < w*(COLS-1) && !$.root.at(x+w, y+4))
 				tween = $.tween(piece).to({x: piece.x()+w});
 
-			tween.on_remove(function() { $.canvas.onclick = onclick; });
-			$.root.add(tween.auto_remove(true).duration(16));
+			if (tween)
+			{
+				tween.on_remove(function() { $.canvas.onclick = onclick; });
+				$.root.add(tween.auto_remove(true).duration(16));
+				return;
+			}
 		}
-		else return $.canvas.onclick = onclick;
-
+		
+		$.canvas.onclick = onclick;
 	}
 
 	$.root.add(pieces);

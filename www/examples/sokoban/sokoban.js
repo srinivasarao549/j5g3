@@ -4,8 +4,6 @@
 
 var Sokoban = j5g3.GDK.game({
 
-	//scenes: [ 'Splash' ] //, 'Level' ]
-
 	setup: function()
 	{
 	var
@@ -74,8 +72,8 @@ LEVELS: [
 ],
 
 // Screen Width and Height
-WIDTH: 800,// screen.width > 800 ? 800 : screen.width,
-HEIGHT: 600, //screen.height > 600 ? 600 : screen.height,
+WIDTH: 640, //800,// screen.width > 800 ? 800 : screen.width,
+HEIGHT: 480, //600, //screen.height > 600 ? 600 : screen.height,
 
 // Tile Height, Width and Offset
 TH: 192,
