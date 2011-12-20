@@ -84,7 +84,6 @@ j5g3.Draw =
 
 	Cache: function()
 	{
-		//context.putImageData(this.__source, this.__x, this.__y);
 		context.drawImage(this.__source, this.__x, this.__y);
 	}
 },
@@ -103,11 +102,6 @@ j5g3.Paint = {
 		context.drawImage(this.__source, 0, 0);	
 	},
 
-	ImageData: function()
-	{
-		context.putImageData(this.__source, 0, 0);
-	},
-	
 	/**
 	 * Drawing function for Sprites
 	 */
@@ -126,7 +120,11 @@ j5g3.Paint = {
 	 */
 	Container: function ()
 	{
-		var frame = this.frame(),i=0,l=frame.length;
+	var 
+		frame = this.frame(),
+		i = 0,
+		l = frame.length
+	;
 
 		for (i=0; i<l;i++)
 			frame[i].draw();
@@ -193,34 +191,7 @@ j5g3.Paint = {
 
 		}
 		
-	},
-
-	/* TODO Optimize This */
-	IsometricTest: function()
-	{
-		var map = this.__map, y = 0, x, l=map.length,
-		    sprites = this.__sprites, s, cm, 
-		    dx = Math.round(this.__tw/2) + this.__offsetX,
-		    dy = Math.round(this.__th/2) + this.__offsetY, 
-		    offset 
-		;
-
-		for (; y<l; y++)
-		{
-			x = map[y].length;
-			cm= map[y];
-			offset = (y%2)*dx;
-
-			while (x--)
-			{
-				context.moveTo(x*this.__tw-offset, y*dy);
-				sprites[cm[x]].draw();
-			}
-		}
-		
 	}
-
-
 
 },
 

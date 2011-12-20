@@ -179,23 +179,20 @@ j5g3.DisplayObject = Class.extend(/** @scope j5g3.DisplayObject.prototype */ {
 	},
 
 	/**
-	 * Caches content to ImageData. TODO Optimize
+	 * Caches content into a separate canvas. TODO Optimize
 	 */
 	cache: function(w, h)
 	{
 	var 
 		me = this,
 		pc = context,
-		image, cache_canvas=cache
+		cache_canvas=cache
 	;
-		// If canvas supports toDataURL use it if not use a new canvas
-		//if (cache.toDataURL)
-		//	image = new window.Image();
-		//else
-			cache_canvas = document.createElement('CANVAS');
+		cache_canvas = document.createElement('CANVAS');
 
 		w = w || me.__width;
 		h = h || me.__height;
+
 		// This will also clear the canvas.
 		cache_canvas.width = me.__x + w;
 		cache_canvas.height= me.__y + h;
@@ -205,12 +202,7 @@ j5g3.DisplayObject = Class.extend(/** @scope j5g3.DisplayObject.prototype */ {
 
 		me.draw();
 
-		//if (cache.toDataURL)
-	//		image.src = cache_canvas.toDataURL('image/png');
-//		else
-			image = cache_canvas;
-
-		me.__source = image;
+		me.__source = cache_canvas;
 
 		me._oldPaint= me.draw;
 		me.draw = Draw.Cache;
