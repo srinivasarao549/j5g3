@@ -55,7 +55,8 @@ j5g3.Spritesheet = Class.extend(/** @scope j5g3.Spritesheet.prototype */ {
 		;
 
 		for (i = 0; i < sprites.length; i++)
-			clip.add_frame([(typeof(sprite=sprites[i]) === 'number') ? s[sprite] : sprite ]);
+			clip.add_frame([(typeof(sprite=sprites[i]) === 'number') ? (sprite=s[sprite]) : sprite ])
+			    .size(sprite.__width, sprite.__height);
 
 		return clip;
 	},

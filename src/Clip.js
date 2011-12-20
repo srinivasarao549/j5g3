@@ -13,8 +13,6 @@ j5g3.Clip = DisplayObject.extend(
 
 		_extend(this, properties);
 
-		// TODO This might be dangerous if we decide to change the internal storage of
-		//      properties. Be careful.
 		if (!this.__frames)
 			this.__frames = [ [ ] ];
 

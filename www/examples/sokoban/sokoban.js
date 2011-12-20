@@ -18,19 +18,12 @@ var Sokoban = j5g3.GDK.game({
 			if (height > window.innerHeight)
 			{
 				height = Math.round(window.innerHeight * 1.25);
-				//canvas.style.width = stage.style.width = height + 'px';
-				//canvas.style.height = stage.style.height = window.innerHeight + 'px';
 				canvas.style.width = height + 'px';
 				canvas.style.height = window.innerHeight + 'px';
-				//stage.style.marginTop = 0;
 			} else
 			{
-				//canvas.style.width =stage.style.width  = window.innerWidth + 'px';
-				//canvas.style.height = stage.style.height = height + 'px';
 				canvas.style.width = window.innerWidth + 'px';
 				canvas.style.height = height + 'px';
-				// Center Vertically!
-				//stage.style.marginTop = (window.innerHeight - height)/2 + 'px';
 			}
 		},
 		levelList = j5g3.id('level-list'),

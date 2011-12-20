@@ -8,9 +8,6 @@
  */
 Sprite = $.Sprite = DisplayObject.extend({
 
-	/**
-	 * By Default Sprites have no transformation.
-	 */
-	draw: Paint.Sprite,
+	//draw: Paint.Sprite,
 	paint: Paint.Sprite
 }),
