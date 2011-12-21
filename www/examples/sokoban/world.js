@@ -1,11 +1,6 @@
 
 Sokoban.World = j5g3.GDK.Element.extend({
 
-	setup_floor: function()
-	{
-		
-	},
-
 	get_map: function(ss, fill)
 	{
 		return j5g3.map({
@@ -144,7 +139,7 @@ Sokoban.World = j5g3.GDK.Element.extend({
 		this.stretch(Sokoban.WIDTH, Sokoban.HEIGHT);
 
 		this.floor.size(e.w * Sokoban.TW/2, e.h * Sokoban.TH / 2)
-			//.stretch(Sokoban.WIDTH, Sokoban.HEIGHT)
+//			.stretch(Sokoban.WIDTH, Sokoban.HEIGHT)
 			.cache()
 		;
 

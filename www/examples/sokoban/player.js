@@ -54,9 +54,14 @@ Sokoban.Player = j5g3.GDK.User.extend({
 	getScreenXY: function()
 	{
 	var
-		pos = this.__world.map.getXY(this.mapPos.x, this.mapPos.y)
+		world = this.__world,
+		pos = world.map.getXY(this.mapPos.x, this.mapPos.y)
 	;
-		return this.__world.walls.getIsometricCoords(pos.x, pos.y);
+		pos = world.walls.getIsometricCoords(pos.x, pos.y);
+		pos.x *= world.__scaleX;
+		pos.y *= world.__scaleY;
+
+		return pos;
 	},
 
 	move: function(direction)
@@ -64,7 +69,7 @@ Sokoban.Player = j5g3.GDK.User.extend({
 		var pos; //, clip = this.getScreenXY();
 
 		this.direction = direction;
-		//j5g3.set_clip(clip.x, clip.y, 100, 100);
+		//j5g3.set_clipping(clip.x-50, clip.y, 150, 150);
 		if (pos = this.check_direction(direction))
 		{
 			this.nextPos = pos;

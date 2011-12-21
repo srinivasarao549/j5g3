@@ -47,6 +47,8 @@ var Sokoban = j5g3.GDK.game({
 		});
 
 		j5g3.fps(1000);
+		// Replace Sprite to FAST Draw
+		j5g3.Sprite.prototype.draw = j5g3.Paint.Sprite; //.FastSprite;
 
 	}
 

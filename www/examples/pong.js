@@ -86,8 +86,7 @@
 			}
 		} 
 
-		computer.v = 0;
-		computer.a = 0;
+		computer.v = computer.a = 0;
 	    },
 
 	    mouse = function(evt)
