@@ -1,4 +1,6 @@
-
+/*
+ * Based on Fabien Sanglard's post at http://fabiensanglard.net/Tunnel/index.php
+ */
 (function ($, document, undefined) {
 
 var
@@ -7,28 +9,23 @@ var
 	txtimg = $.id('tex99'),
 	TEXTUREHEIGHT = txtimg.height,
 	TEXTUREWIDTH  = txtimg.width,
-	x, y,
+	x, y, cursor,
 	texture = $.Util.imagedata('tex99'),
 	display = $.Util.imagedata(),
 	distances = $.ary(display.data.length),
 	angles = $.ary(distances.length),
 
-	movement = 0,
-	animation = 0,
-	shiftX, shiftY,
+	shiftX = TEXTUREWIDTH, shiftY = TEXTUREHEIGHT,
 
 	TW4 = TEXTUREWIDTH * 4,
 
 	draw = function()
 	{
 	var
-		c = 0, x, y, data=display.data, tdata=texture.data, cursor=data.length
+		c, data=display.data, tdata=texture.data, cursor=data.length
 	;
-		animation += 3;
-		movement  += 1;
-
-		shiftX = TEXTUREWIDTH + animation;
-		shiftY = TEXTUREHEIGHT+ movement;
+		shiftX ++; //= 3;
+		shiftY ++; 
 
 		while (cursor-=4)
 		{
