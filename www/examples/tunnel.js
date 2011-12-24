@@ -8,20 +8,21 @@ var
 	TEXTUREHEIGHT = txtimg.height,
 	TEXTUREWIDTH  = txtimg.width,
 	x, y,
-	distances = $.ary(WIDTH, HEIGHT),
-	angles = $.ary(WIDTH, HEIGHT),
 	texture = $.Util.imagedata('tex99'),
 	display = $.Util.imagedata(),
+	distances = $.ary(display.data.length),
+	angles = $.ary(distances.length),
 
 	movement = 0,
 	animation = 0,
 	shiftX, shiftY,
-	cursor,
+
+	TW4 = TEXTUREWIDTH * 4,
 
 	draw = function()
 	{
 	var
-		c = 0
+		c = 0, x, y, data=display.data, tdata=texture.data, cursor=data.length
 	;
 		animation += 3;
 		movement  += 1;
@@ -29,32 +30,33 @@ var
 		shiftX = TEXTUREWIDTH + animation;
 		shiftY = TEXTUREHEIGHT+ movement;
 
-		for (y=0, cursor=0; y<HEIGHT; y++)
-			for (x=0; x<WIDTH; x++, cursor+=4)
-			{
-				c =	(distances[y][x] + shiftX) % TEXTUREWIDTH * 4 + 
-					(((angles[y][x] + shiftY) % TEXTUREHEIGHT) * TEXTUREWIDTH * 4)
-				;
+		while (cursor-=4)
+		{
+			c =	(distances[cursor] + shiftX) % TEXTUREWIDTH * 4 + 
+				(((angles[cursor] + shiftY) % TEXTUREHEIGHT) * TW4)
+			;
 
-				display.data[cursor] = texture.data[c];
-				display.data[cursor+1] = texture.data[c+1];
-				display.data[cursor+2] = texture.data[c+2];
-				display.data[cursor+3] = 255;
-			}
-				;	
+			data[cursor] = tdata[c];
+			data[cursor+1] = tdata[c+1];
+			data[cursor+2] = tdata[c+2];
+		}
+
 		$.context.putImageData(display, 0, 0);
 	}
 
 ;
 
-	for (x=0; x< WIDTH; x++)
-		for (y=0; y< HEIGHT; y++)
+	for (y=0, cursor=0; y<HEIGHT; y++)
+		for (x=0; x<WIDTH; x++, cursor+=4)
 		{
-			distances[y][x] = (Math.round(30 * TEXTUREHEIGHT / Math.sqrt(
+			distances[cursor] = (Math.round(30 * TEXTUREHEIGHT / Math.sqrt(
 				(x - WIDTH/2) * (x - WIDTH / 2) + (y - HEIGHT / 2) * (y - HEIGHT / 2)
 			)) % TEXTUREHEIGHT) || 0;
+			
+			angles[cursor] = Math.round(TEXTUREWIDTH / 2 * Math.atan2(y - HEIGHT / 2, x - WIDTH / 2) / Math.PI);
 
-			angles[y][x] = Math.round(TEXTUREWIDTH / 2 * Math.atan2(y - HEIGHT / 2, x - WIDTH / 2) / Math.PI);
+			// Initialize alpha to 255!
+			display.data[x * 4 + y * WIDTH * 4 + 3] = 255;
 		}
 
 	$.root.add(draw);
