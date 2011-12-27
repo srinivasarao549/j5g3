@@ -163,13 +163,14 @@ var
 		 *
 		 * @param name Name of the state.
 		 */
-		go_state: function(name)
+		go_state: function(name, direction)
 		{
 			return this.go(this.STATES[this.__state = name] || 0);
 		}
 
 	}).properties({
 		spritesheet: null,
+		direction: null,
 		gravity: 0,
 		state: null
 	});

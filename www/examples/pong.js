@@ -13,8 +13,8 @@
 	    computer = ss.cut(8, 54, 8, 40 ).pos(MAXW-20, MAXH/2-10),
 	    ball     = ss.cut(24, 8, 8, 8).pos(MAXW/2, MAXH/2),
 
-	    score1 = $.text({ text: "0", x: MAXW/2 - 50, y: 10, font: '14px' }),
-	    score2 = $.text({ text: "0", x: MAXW/2 + 50, y: 10, font: '14px' }),
+	    score1 = $.text({ text: "0", x: MAXW/2 - 50, y: 10, font: '14px', fillStyle: 'white' }),
+	    score2 = $.text({ text: "0", x: MAXW/2 + 50, y: 10, font: '14px', fillStyle: 'white' }),
 
 	    p = $.physics({ target: ball, vx: -maxvx, vy: 0 }),
 	    restart = function(winner)

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>j5g3 - Platform Example</title>
+
+	<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+	<script src="../../j5g3-dbg.js"></script>
+	<script src="../../j5g3-gdk.js"></script>
+
+	<script src="../characters/gorilla.js"></script>
+
+	<script src="platform.js"></script>
+	<script src="scene/main.js"></script>
+
+	<link href="styles.css" rel="stylesheet" />
+
+</head>
+<body onload="j5g3.start(Game)">
+	<canvas id="screen"></canvas>
+
+	<div id="assets">
+		<img src="../characters/gorilla.png" id="gorilla" />
+		<img ph-class="Spritesheet" src="ss.png" id="terrain"  />
+	</div>
+</body>
+</html>
