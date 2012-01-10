@@ -54,7 +54,10 @@ footer > p { padding: 0; margin: 0; font-size: 10px; }
 #pause { font-size: 30px; line-height: 480px; }
 #game-over { font-size: 30px; line-height: 480px; }
 #start { font-size: 30px; text-align: center; line-height: 480px; }
-dl { width: 360px; margin: 0 auto; }
-dt { display: inline-block; width: 120; text-align: right; }
-dd { display: inline-block; width: 200; text-align: left; }
-		
+
+#games dl { width: 100%; margin: 0 auto; }
+
+#games dt { height: 34px; }
+#games dd { height: 200px; margin: 0; }
+#games dt img { float: right; width: 240px; height: 200px; clear: both; }
+#games dt a { font-size: 20px; display: block; }
